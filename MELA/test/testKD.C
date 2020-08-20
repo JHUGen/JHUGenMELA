@@ -13,7 +13,7 @@
 #if !defined(__CINT__) || defined(__MAKECINT__)
 #include <TSystem.h>
 #include <TROOT.h>
-#include "ZZMatrixElement/MELA/interface/Mela.h"
+#include "JHUGenMELA/MELA/interface/Mela.h"
 #endif
 
 #include <iostream>

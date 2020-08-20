@@ -22,8 +22,8 @@
 #include "TProfile.h"
 #include "TF1.h"
 #include "TGraphErrors.h"
-#include <ZZMatrixElement/MELA/interface/Mela.h>
-#include <ZZMatrixElement/MELA/src/computeAngles.h>
+#include <JHUGenMELA/MELA/interface/Mela.h>
+#include <JHUGenMELA/MELA/src/computeAngles.h>
 
 using namespace RooFit;
 

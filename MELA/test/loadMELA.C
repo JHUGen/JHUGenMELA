@@ -4,7 +4,7 @@
   TString LIBMCFMPATH = testdir+"/../data/$SCRAM_ARCH/";
   TString LIBMCFM="libmcfm_707.so";
   TString LIBJHUGENMELA="libjhugenmela.so";
-  TString LIBMELA="libMELA.so";
+  TString LIBMELA="libJHUGenMELAMELA.so";
   TString LIBCOLLIER="libcollier.so";
 
   gInterpreter->AddIncludePath("$ROOFITSYS/include/");

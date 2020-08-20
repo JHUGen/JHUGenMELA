@@ -15,7 +15,7 @@ void addProdProbtoTree(){
   int LHCsqrts=8;
   bool jhugen=false;
 
-  gSystem->Load("$CMSSW_BASE/src/ZZMatrixElement/MELA/data/$SCRAM_ARCH/libmcfm.so");
+  gSystem->Load("$CMSSW_BASE/src/JHUGenMELA/MELA/data/$SCRAM_ARCH/libmcfm.so");
   gSystem->Load("$CMSSW_BASE/lib/slc5_amd64_gcc462/libZZMatrixElementMELA.so");
 
   // set up path for local cmssw includes
@@ -32,7 +32,7 @@ void addProdProbtoTree(){
     includePathIsSet = true;
   }
 
-  gROOT->LoadMacro("$CMSSW_BASE/src/ZZMatrixElement/MELA/interface/Mela.h+");
+  gROOT->LoadMacro("$CMSSW_BASE/src/JHUGenMELA/MELA/interface/Mela.h+");
 
   Mela myMELA(LHCsqrts,flavor);
 

@@ -19,6 +19,7 @@ MELASRCDIR = $(MELADIR)/src
 MELADATADIR = $(MELADIR)/data
 # Modify MELALIBDIR for the gcc version as needed
 MELALIBDIR = $(MELADATADIR)/${SCRAM_ARCH}
+LIB = libJHUGenMELAMELA.so
 
 ROOTCFLAGS = $(shell root-config --cflags)
 ROOTGLIBS = $(shell root-config --libs --evelibs) -Lrootlib
@@ -43,7 +44,6 @@ LINKERFLAGS = -Wl,-rpath=$(MELALIBDIR),-soname,$(LIB) $(CPPLOAD)
 
 SOURCES = $(wildcard $(MELASRCDIR)/*.cc)
 OBJECTS = $(SOURCES:.cc=.o)
-LIB = libMELA.so
 
 .PHONY: all help compile clean
 
