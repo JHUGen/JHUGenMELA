@@ -1,11 +1,16 @@
 {
+  TString LIBCOLLIER = "libcollier.so";
+  TString LIBMCFM = "libmcfm_707.so";
+  TString LIBJHUGENMELA = "libjhugenmela.so";
+  TString LIBMELA = "libJHUGenMELAMELA.so";
+
   TString loadMELA = __FILE__;
   TString testdir = loadMELA(0, loadMELA.Last('/'));
-  TString LIBMCFMPATH = testdir+"/../data/$SCRAM_ARCH/";
-  TString LIBMCFM="libmcfm_707.so";
-  TString LIBJHUGENMELA="libjhugenmela.so";
-  TString LIBMELA="libJHUGenMELAMELA.so";
-  TString LIBCOLLIER="libcollier.so";
+  if (!testdir.BeginsWith(".") && testdir.EndsWith(".")) testdir = testdir(0, testdir.Last('/'));
+  TString LIBPATH = testdir+"/../data/$SCRAM_ARCH/";
+
+  TString LIBMELADIR = LIBPATH;
+  if (gSystem->FindDynamicLibrary(LIBMELA)) LIBMELADIR = "";
 
   gInterpreter->AddIncludePath("$ROOFITSYS/include/");
   gInterpreter->AddIncludePath(testdir+"/../interface/");
@@ -18,8 +23,7 @@
   gSystem->Load("libPhysics");
   gSystem->Load("libgfortran");
   //////////////////////////////////////
-  gSystem->Load(LIBMCFMPATH + LIBMCFM);
-  gSystem->Load(LIBMCFMPATH + LIBJHUGENMELA);
-  gSystem->Load(LIBMCFMPATH + LIBMELA);
-  gSystem->Load(LIBMCFMPATH + LIBCOLLIER);
+  gSystem->Load(LIBPATH + LIBCOLLIER);
+  gSystem->Load(LIBMELADIR + LIBMELA);
+  gSystem->Load(LIBPATH + LIBMCFM);
 }
