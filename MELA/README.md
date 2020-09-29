@@ -17,4 +17,5 @@ to one of the slc folders in MELA/data.
 ```
 
 * The script decides whether to use standalone computation or integration to experimental software.
+* Either the one in this folder, or in the main JHUGenMELA folder works; they do the same thing.
 * Feedback on how this script works in different environments is appreciated.
