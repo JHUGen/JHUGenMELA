@@ -1,6 +1,4 @@
-#============================================
-# Instruction for using the JHUGenMELA/MELA #
-#============================================
+# Instruction for using JHUGenMELA/MELA
 
 1. Define the environment variable 
 
