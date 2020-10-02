@@ -7,14 +7,11 @@ cd $(dirname ${BASH_SOURCE[0]})
 
 MELADIR="$(readlink -f .)"
 MCFMVERSION=mcfm_707
-declare -i forceStandalone
-declare -i usingCMSSW
-declare -i needSCRAM
-declare -a setupArgs
-
-forceStandalone=0
-usingCMSSW=0
-needSCRAM=0
+declare -i forceStandalone=0
+declare -i usingCMSSW=0
+declare -i needSCRAM=0
+declare -i needROOFITSYS_ROOTSYS=0
+declare -a setupArgs=( )
 
 for farg in "$@"; do
   fargl="$(echo $farg | awk '{print tolower($0)}')"
@@ -27,7 +24,7 @@ done
 declare -i nSetupArgs
 nSetupArgs=${#setupArgs[@]}
 
-if [[ ${forceStandalone} -eq 0 ]] && [[ ! -z "${CMSSW_BASE+x}" ]];then
+if [[ ${forceStandalone} -eq 0 ]] && [[ ! -z "${CMSSW_BASE+x}" ]]; then
 
   usingCMSSW=1
 
@@ -35,7 +32,7 @@ if [[ ${forceStandalone} -eq 0 ]] && [[ ! -z "${CMSSW_BASE+x}" ]];then
 
 else
 
-  if [[ -z "${SCRAM_ARCH+x}" ]];then
+  if [[ -z "${SCRAM_ARCH+x}" ]]; then
     needSCRAM=1
 
     GCCVERSION=$(gcc -dumpversion)
@@ -45,13 +42,24 @@ else
       export SCRAM_ARCH="slc6_amd64_gcc630"
     elif [[ "$GCCVERSION" == "7"* ]]; then # v3 of MCFM library
       export SCRAM_ARCH="slc7_amd64_gcc700"
-    elif [[ "$GCCVERSION" == "8"* ]]; then # v4 of MCFM library
+    elif [[ "$GCCVERSION" == "8.0"* ]] || [[ "$GCCVERSION" == "8.1"* ]] || [[ "$GCCVERSION" == "8.2"* ]]; then # v4 of MCFM library
       export SCRAM_ARCH="slc7_amd64_gcc820"
+    elif [[ "$GCCVERSION" == "8"* ]]; then # v4 of MCFM library
+      export SCRAM_ARCH="slc6_amd64_gcc830"
     else
       export SCRAM_ARCH="slc7_amd64_gcc920"
     fi
   fi
 
+fi
+
+if [[ -z "${ROOFITSYS+x}" ]]; then
+  if [[ $(ls ${ROOTSYS}/lib | grep -e libRooFitCore) != "" ]]; then
+    needROOFITSYS_ROOTSYS=1
+  else
+    echo "Cannot identify ROOFITSYS. Please set this environment variable properly."
+    exit 1
+  fi
 fi
 
 printenv () {
@@ -64,7 +72,7 @@ printenv () {
   if [[ ! -z "${LD_LIBRARY_PATH+x}" ]]; then
     end=":${LD_LIBRARY_PATH}"
   fi
-  if [[ "${end}" != *"$ldlibappend"* ]];then
+  if [[ "${end}" != *"$ldlibappend"* ]]; then
     echo "export LD_LIBRARY_PATH=${ldlibappend}${end}"
   fi
 
@@ -73,12 +81,16 @@ printenv () {
   if [[ ! -z "${PYTHONPATH+x}" ]]; then
     end=":${PYTHONPATH}"
   fi
-  if [[ "${end}" != *"$pythonappend"* ]];then
+  if [[ "${end}" != *"$pythonappend"* ]]; then
     echo "export PYTHONPATH=${pythonappend}${end}"
   fi
 
-  if [[ $needSCRAM -eq 1 ]];then
+  if [[ $needSCRAM -eq 1 ]]; then
     echo "export SCRAM_ARCH=${SCRAM_ARCH}"
+  fi
+
+  if [[ $needROOFITSYS_ROOTSYS -eq 1 ]]; then
+    echo "export ROOFITSYS=${ROOTSYS}"
   fi
 }
 doenv () {
@@ -91,7 +103,7 @@ doenv () {
   if [[ ! -z "${LD_LIBRARY_PATH+x}" ]]; then
     end=":${LD_LIBRARY_PATH}"
   fi
-  if [[ "${end}" != *"$ldlibappend"* ]];then
+  if [[ "${end}" != *"$ldlibappend"* ]]; then
     export LD_LIBRARY_PATH="${ldlibappend}${end}"
     echo "Temporarily using LD_LIBRARY_PATH as ${LD_LIBRARY_PATH}"
   fi
@@ -101,9 +113,14 @@ doenv () {
   if [[ ! -z "${PYTHONPATH+x}" ]]; then
     end=":${PYTHONPATH}"
   fi
-  if [[ "${end}" != *"$pythonappend"* ]];then
+  if [[ "${end}" != *"$pythonappend"* ]]; then
     export PYTHONPATH="${pythonappend}${end}"
     echo "Temporarily using PYTHONPATH as ${PYTHONPATH}"
+  fi
+
+  if [[ $needROOFITSYS_ROOTSYS -eq 1 ]]; then
+    export ROOFITSYS=${ROOTSYS}
+    echo "Temporarily using ROOFITSYS as ${ROOTSYS}"
   fi
 }
 dodeps () {
