@@ -22,8 +22,8 @@ MELALIBDIR = $(MELADATADIR)/${SCRAM_ARCH}
 LIB = libJHUGenMELAMELA.so
 
 ROOTCFLAGS = $(shell root-config --cflags)
-ROOTGLIBS = $(shell root-config --libs --evelibs) -Lrootlib
-NLIBS = $(ROOTGLIBS)
+ROOTLIBS = $(shell root-config --libs) -Lrootlib
+NLIBS = $(ROOTLIBS)
 NLIBS += -L$(ROOFITSYS)/lib -lMinuit -lRooFitCore -lRooFit -lgfortran
 LIBS = $(filter-out -lNew, $(NLIBS))
 
