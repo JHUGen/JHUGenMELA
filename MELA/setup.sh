@@ -45,9 +45,10 @@ else
       export SCRAM_ARCH="slc6_amd64_gcc630"
     elif [[ "$GCCVERSION" == "7"* ]]; then # v3 of MCFM library
       export SCRAM_ARCH="slc7_amd64_gcc700"
-    #elif [[ "$GCCVERSION" == "8"* ]]; then # v4 of MCFM library
-    else
+    elif [[ "$GCCVERSION" == "8"* ]]; then # v4 of MCFM library
       export SCRAM_ARCH="slc7_amd64_gcc820"
+    else
+      export SCRAM_ARCH="slc7_amd64_gcc920"
     fi
   fi
 

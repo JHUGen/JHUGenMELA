@@ -9,7 +9,7 @@ all:
 else
 ifndef ROOFITSYS
 all:
-	@echo "ROOTFITSYS is not set. Please set ROOT environment properly"; echo
+	@echo "ROOFITSYS is not set. Please set ROOT environment properly"; echo
 else
 
 RM  = /bin/rm

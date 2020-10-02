@@ -13,7 +13,7 @@ p = argparse.ArgumentParser()
 p.add_argument("seed_for_sort", type=int, default=random.randrange(sys.maxsize), nargs="?")
 args = p.parse_args()
 random.seed(args.seed_for_sort)
-print "Seed:", args.seed_for_sort
+print("Seed:", args.seed_for_sort)
 
 import ROOT
 
@@ -95,7 +95,7 @@ for j, ref in enumerate(referencefiles, start=1):
     function = getattr(ROOT, functionname)
     function(*arguments)
   except:
-    print "trying to call: {}(*{})".format(functionname, arguments)
+    print("trying to call: {}(*{})".format(functionname, arguments))
     raise
 
   newfile = ref.replace(".ref", ".out")
@@ -170,16 +170,16 @@ for j, ref in enumerate(referencefiles, start=1):
       match = re.match("(p.*)_selfD: ([0-9.e+-]*)", line)
       if match:
         if float(match.group(2)) != pendingselfD.get(match.group(1)):
-          print match.group(1), float(match.group(2)), pendingselfD.get(match.group(1))
+          print(match.group(1), float(match.group(2)), pendingselfD.get(match.group(1)))
         if float(match.group(2)) != pendingselfD.pop(match.group(1), None):
-          print "Bad selfD file due to line",line," [line=",iline,"]"
+          print("Bad selfD file due to line",line," [line=",iline,"]")
           badselfD.add(newfile)
       else:
         match = re.match("(p.*): ([0-9.e+-]*)", line)
         if match:
           pendingselfD[match.group(1)] = float(match.group(2))
 
-  print j, "/", len(referencefiles), ref
+  print(j, "/", len(referencefiles), ref)
 
 errors = []
 if different:
