@@ -16,7 +16,7 @@ tarweb="https://collier.hepforge.org/downloads/"$tarname
 libname="libcollier.so"
 tmpdir="colliertmp"
 
-if [[ $# > 0 ]] && [[ "$1" == *"clean"* ]];then
+if [[ $# > 0 ]] && [[ "$1" == *"clean"* ]]; then
 
   rm -f *.so
   rm -f *.o
@@ -25,7 +25,7 @@ if [[ $# > 0 ]] && [[ "$1" == *"clean"* ]];then
   rm -f *.F
   rm -f *.F90
   for f in $(ls ./);do
-    if [ -d $f ];then
+    if [[ -d $f ]]; then
       rm -rf $f
     fi
   done
@@ -34,11 +34,13 @@ if [[ $# > 0 ]] && [[ "$1" == *"clean"* ]];then
 
 else
 
-  if ! [ -f "../data/$SCRAM_ARCH/$libname" ]; then
+  if [[ ! -f "../data/$SCRAM_ARCH/$libname" ]]; then
+    rm -rf $tmpdir
+    rm -f $tarname
     wget --no-check-certificate $tarweb
     mkdir $tmpdir
     tar -xvzf $tarname -C $tmpdir
-    rm $tarname
+    rm -f $tarname
     mv $tmpdir"/"$pkgdir"/src/"* ./
     rm -rf $tmpdir
 
