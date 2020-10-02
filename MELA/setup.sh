@@ -9,10 +9,12 @@ MELADIR="$(readlink -f .)"
 MCFMVERSION=mcfm_707
 declare -i forceStandalone=0
 declare -i doDeps=0
+declare -i doPrintEnv=0
+declare -i doPrintEnvInstr=0
 declare -i usingCMSSW=0
 declare -i needSCRAM=0
 declare -i needROOFITSYS_ROOTSYS=0
-declare -a setupArgs=( )
+declare -a setupArgs=()
 
 for farg in "$@"; do
   fargl="$(echo $farg | awk '{print tolower($0)}')"
@@ -20,6 +22,10 @@ for farg in "$@"; do
     forceStandalone=1
   elif [[ "$fargl" == "deps" ]]; then
     doDeps=1
+  elif [[ "$fargl" == "env" ]]; then
+    doPrintEnv=1
+  elif [[ "$fargl" == "envinstr" ]]; then
+    doPrintEnvInstr=1
   else
     setupArgs+=( "$farg" ) 
   fi
@@ -151,13 +157,21 @@ printenvinstr () {
   echo
 }
 
-if [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == "env" ]]; then
+if [[ $doPrintEnv -eq 1 ]]; then
     printenv
     exit
-elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == "envinstr" ]]; then
+elif [[ $doPrintEnvInstr -eq 1 ]]; then
     printenvinstr
     exit
-elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == "deps" ]]; then
+fi
+
+if [[ $nSetupArgs -eq 0 ]]; then
+    setupArgs+=( -j 1 )
+    nSetupArgs=2
+fi
+
+
+if [[ $doDeps -eq 1 ]]; then
     doenv
     dodeps
     exit
@@ -179,11 +193,7 @@ elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == *"clean"* ]]; then
     ${MELADIR}/COLLIER/setup.sh "${setupArgs[@]}"
 
     exit
-elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == *"-j"* ]]; then
-    : ok
-elif [[ "$nSetupArgs" -eq 0 ]]; then
-    : ok
-elif [[ "$nSetupArgs" -eq 2 ]] && [[ "${setupArgs[0]}" == *"-j"* ]]; then
+elif [[ "$nSetupArgs" -ge 1 ]] && [[ "$nSetupArgs" -le 2 ]] && [[ "${setupArgs[0]}" == *"-j"* ]]; then
     : ok
 else
     echo "Unknown arguments:"
@@ -201,7 +211,7 @@ if mv libjhugenmela.so ../data/${SCRAM_ARCH}/; then
     echo "...and you are running setup.sh, so this was just done."
     echo
     popd
-    if [[ ${usingCMSSW} -eq 1 ]];then
+    if [[ ${usingCMSSW} -eq 1 ]]; then
       scramv1 b "${setupArgs[@]}"
     else
       make "${setupArgs[@]}"
