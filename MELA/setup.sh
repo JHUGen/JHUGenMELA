@@ -8,6 +8,7 @@ cd $(dirname ${BASH_SOURCE[0]})
 MELADIR="$(readlink -f .)"
 MCFMVERSION=mcfm_707
 declare -i forceStandalone=0
+declare -i doDeps=0
 declare -i usingCMSSW=0
 declare -i needSCRAM=0
 declare -i needROOFITSYS_ROOTSYS=0
@@ -17,6 +18,8 @@ for farg in "$@"; do
   fargl="$(echo $farg | awk '{print tolower($0)}')"
   if [[ "$fargl" == "standalone" ]]; then
     forceStandalone=1
+  elif [[ "$fargl" == "deps" ]]; then
+    doDeps=1
   else
     setupArgs+=( "$farg" ) 
   fi
@@ -53,7 +56,7 @@ else
 
 fi
 
-if [[ -z "${ROOFITSYS+x}" ]]; then
+if [[ -z "${ROOFITSYS+x}" ]] && [[ $doDeps -eq 0 ]]; then
   if [[ $(ls ${ROOTSYS}/lib | grep -e libRooFitCore) != "" ]]; then
     needROOFITSYS_ROOTSYS=1
   else
