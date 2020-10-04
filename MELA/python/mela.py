@@ -9,7 +9,7 @@ Then you can use m mostly like a C++ mela object.
 The main change is that computeP and similar functions return the ME instead of modifying a reference.
 (computeP_selfD* are not implemented here, but you can access the functionality through computeP)
 
->>> print m.computeP(False)
+>>> print(m.computeP(False))
 
 You can modify the couplings either by
 >>> m.selfDHzzcoupl[0][0][0] = 1

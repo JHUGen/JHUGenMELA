@@ -192,7 +192,7 @@ class LHEFileBase(object):
         except GeneratorExit:
           raise
         except:
-          print "On line", linenumber
+          print("On line", linenumber)
           raise
         finally:
           try:
@@ -243,7 +243,7 @@ if __name__ == '__main__':
           event.setProcess(TVar.SelfDefine_spin0, TVar.JHUGen, TVar.ZZINDEPENDENT)
           prob = event.computeP()
           self.assertNotEqual(prob, 0)
-          print prob, event.computeDecayAngles()
+          print(prob, event.computeDecayAngles())
 
     @unittest.skipUnless(args.lhefile_jhugenvbfvh, "needs --lhefile-jhugenvbfvh argument")
     def testJHUGenVBFVH(self):
@@ -262,7 +262,7 @@ if __name__ == '__main__':
             event.setProcess(TVar.SelfDefine_spin0, TVar.JHUGen, TVar.JJVBF)
           prob = event.computeProdP()
           self.assertNotEqual(prob, 0)
-          print prob, event.computeVBFAngles(), event.computeVHAngles(VHprocess)
+          print(prob, event.computeVBFAngles(), event.computeVHAngles(VHprocess))
 
     @unittest.skipUnless(args.lhefile_jhugentth, "needs --lhefile-jhugentth argument")
     def testJHUGenttH(self):
