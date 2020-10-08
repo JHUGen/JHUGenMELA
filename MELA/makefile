@@ -14,7 +14,7 @@ else
 
 RM  = /bin/rm
 
-MELADIR = .
+MELADIR = $(shell pwd)
 MELASRCDIR = $(MELADIR)/src
 MELADATADIR = $(MELADIR)/data
 # Modify MELALIBDIR for the gcc version as needed
