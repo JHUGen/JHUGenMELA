@@ -35,17 +35,24 @@ if [[ $# > 0 ]] && [[ "$1" == *"clean"* ]]; then
 else
 
   if [[ ! -f "../data/$SCRAM_ARCH/$libname" ]]; then
-    rm -rf $tmpdir
-    rm -f $tarname
-    wget --no-check-certificate $tarweb
-    mkdir $tmpdir
-    tar -xvzf $tarname -C $tmpdir
-    rm -f $tarname
-    mv $tmpdir"/"$pkgdir"/src/"* ./
-    rm -rf $tmpdir
+    if [[ -z "${COLLIER_ROOT_DIR+x}" ]]; then
+      # Build a copy of collier in place
+      rm -rf $tmpdir
+      rm -f $tarname
+      wget --no-check-certificate $tarweb
+      mkdir $tmpdir
+      tar -xvzf $tarname -C $tmpdir
+      rm -f $tarname
+      mv $tmpdir"/"$pkgdir"/src/"* ./
+      rm -rf $tmpdir
 
-    make $@
-    mv $libname "../data/$SCRAM_ARCH/$libname"
+      make $@
+      mv $libname "../data/$SCRAM_ARCH/$libname"
+    else
+      # Will use collier provided externally. Link the library at the location
+      # expected by test/loadMELA.C.
+      ln -s "$COLLIER_ROOT_DIR/lib/$libname" "../data/$SCRAM_ARCH/$libname"
+    fi
   fi
 
 fi
