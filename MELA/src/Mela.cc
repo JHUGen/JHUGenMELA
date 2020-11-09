@@ -113,6 +113,21 @@ Mela::~Mela(){
 
   if (myVerbosity_>=TVar::DEBUG) MELAout << "End Mela destructor" << endl;
 }
+
+
+void Mela::cleanLinkedFiles() {
+  remove("ffwarn.dat");
+  remove("br.sm1");
+  remove("br.sm2");
+  remove("input.DAT");
+  remove("process.DAT");
+  remove("Pdfdata/cteq6l1.tbl");
+  remove("Pdfdata/cteq6l.tbl");
+  remove("Pdfdata/NNPDF30_lo_as_0130.LHgrid");
+  rmdir("Pdfdata");
+}
+
+
 void Mela::build(double mh_){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Start Mela::build" << endl;
   //setRemoveLeptonMasses(false); // Use Run 1 scheme for not removing fermion masses
