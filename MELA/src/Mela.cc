@@ -18,6 +18,7 @@ Please adhere to the following coding conventions:
 #include <string>
 #include <cstdio>
 #include <cmath>
+#include <filesystem>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -40,7 +41,7 @@ Please adhere to the following coding conventions:
 #include "TSpline.h"
 #include "TString.h"
 
-
+namespace fs = std::filesystem;
 using namespace std;
 using namespace RooFit;
 using MELAStreamHelpers::MELAout;
@@ -112,6 +113,14 @@ Mela::~Mela(){
   deletePConstantHandles();
 
   if (myVerbosity_>=TVar::DEBUG) MELAout << "End Mela destructor" << endl;
+  
+  // Delete the created symbolic links
+  fs::remove("ffwarn.dat");   
+  fs::remove("br.sm1");       
+  fs::remove("br.sm2");       
+  fs::remove("input.DAT");    
+  fs::remove("process.DAT");  
+  fs::remove_all("Pdfdata");  
 }
 void Mela::build(double mh_){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Start Mela::build" << endl;
