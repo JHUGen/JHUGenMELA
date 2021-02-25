@@ -1,4 +1,6 @@
+#include <cassert>
 #include "TVar.hh"
+#include "TUtilHelpers.hh"
 
 
 TString TVar::ProcessName(TVar::Process temp){
@@ -112,3 +114,8 @@ TString TVar::MatrixElementName(TVar::MatrixElement temp){
   else return TString("Unknown");
 }
 
+std::string TVar::GetMELAPath(){
+  std::string res = _melapkgpathstr_;
+  TUtilHelpers::ExpandEnvironmentVariables(res);
+  return res;
+}

@@ -343,6 +343,8 @@ public:
   double selfDaTQGCcoupl[SIZE_ATQGC][2];
   // That is a lot of them!
 
+  static void cleanLinkedFiles();
+
 protected:
   /********************/
   /*** Data members ***/

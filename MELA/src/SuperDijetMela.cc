@@ -34,12 +34,7 @@ void SuperDijetMela::Build(){
 
 void SuperDijetMela::SetupResolutionModel(TVar::Production prod){
   // Setup file path
-#ifdef _melapkgpathstr_
-  const string MELAPKGPATH = _melapkgpathstr_;
-#else
-  MELAout << "SuperDijetMela::SetupResolutionModel: MELA package path is undefined! Please modify the makefle or the makefile-equivalent!" << endl;
-  assert(0);
-#endif
+  const string MELAPKGPATH = TVar::GetMELAPath();
   TString path = TString(MELAPKGPATH.c_str()) + "data/resolution_mJJ_recoVStrue_";
   TString prodName;
   switch (prod){

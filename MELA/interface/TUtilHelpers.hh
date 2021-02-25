@@ -1,6 +1,7 @@
 #ifndef TUTILHELPERS
 #define TUTILHELPERS
 
+#include <string>
 #include <vector>
 #include <iterator>
 #include <algorithm>
@@ -17,6 +18,7 @@ namespace TUtilHelpers{
   template<typename T, typename U=T> bool checkElementExists(T const& element, std::vector<U> const& elementlist);
   template<typename T> bool hasCommonElements(std::vector<T> const& v1, std::vector<T> const& v2);
 
+  void ExpandEnvironmentVariables(std::string& str);
 }
 
 template<typename T> void TUtilHelpers::copyVector(std::vector<T> const& input, std::vector<T>& target){

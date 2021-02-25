@@ -29,6 +29,7 @@ Please adhere to the following coding conventions:
 #include "RooqqZZ_JHU_ZgammaZZ_fast.h"
 #include "RooqqZZ_JHU.h"
 #include "SuperMELA.h"
+#include "TUtilHelpers.hh"
 #include "MELAStreamHelpers.hh"
 
 #include "RooMsgService.h"
@@ -113,6 +114,21 @@ Mela::~Mela(){
 
   if (myVerbosity_>=TVar::DEBUG) MELAout << "End Mela destructor" << endl;
 }
+
+
+void Mela::cleanLinkedFiles() {
+  remove("ffwarn.dat");
+  remove("br.sm1");
+  remove("br.sm2");
+  remove("input.DAT");
+  remove("process.DAT");
+  remove("Pdfdata/cteq6l1.tbl");
+  remove("Pdfdata/cteq6l.tbl");
+  remove("Pdfdata/NNPDF30_lo_as_0130.LHgrid");
+  rmdir("Pdfdata");
+}
+
+
 void Mela::build(double mh_){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Start Mela::build" << endl;
   //setRemoveLeptonMasses(false); // Use Run 1 scheme for not removing fermion masses
@@ -123,13 +139,8 @@ void Mela::build(double mh_){
   // Create symlinks to the required files, if these are not already present (do nothing otherwise)
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Create symlinks to the required files if these are not already present:" << endl;
 
-#ifdef _melapkgpathstr_
-  const string MELAPKGPATH = _melapkgpathstr_;
+  const string MELAPKGPATH = TVar::GetMELAPath();
   if (myVerbosity_>=TVar::DEBUG)  MELAout << "\t- MELA package path: " << MELAPKGPATH << endl;
-#else
-  MELAout << "MELA package path is undefined! Please modify the makefle or the makefile-equivalent!" << endl;
-  assert(0);
-#endif
 
   const string mcfmWarning = MELAPKGPATH + "data/ffwarn.dat"; symlink(mcfmWarning.c_str(), "ffwarn.dat");
   const string mcfm_brsm_o = MELAPKGPATH + "data/br.sm1"; symlink(mcfm_brsm_o.c_str(), "br.sm1");
@@ -2608,12 +2619,7 @@ MelaPConstant* Mela::getPConstantHandle(
 
   // Get data/ path
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Mela::getPConstantHandle: relpath and spline name: " << relpath << ", " << spname << endl;
-#ifdef _melapkgpathstr_
-  const string MELAPKGPATH = _melapkgpathstr_;
-#else
-  MELAout << "Mela::getPConstantHandle: MELA package path is undefined! Please modify the makefle or the makefile-equivalent!" << endl;
-  assert(0);
-#endif
+  const string MELAPKGPATH = TVar::GetMELAPath();
   const string path = MELAPKGPATH + "data/";
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Mela::getPConstantHandle: path and spline name: " << path << ", " << spname << endl;
 

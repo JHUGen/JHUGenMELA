@@ -2,7 +2,7 @@
 
 <flags FFLAGS="-O3 -ffree-form -ffree-line-length-none -Dcompiler=2 -Dmela -fno-automatic -fno-f2c  -fPIC -g"/>
 <flags CPPFLAGS="-I$(CMSSW_BASE)/src/JHUGenMELA/MELA/interface/" />
-<flags CPPDEFINES="_melapkgpathstr_='std::string(std::getenv(xstr_lit(CMSSW_BASE)))+std::string(xstr_lit(/src/JHUGenMELA/MELA/))'" />
+<flags CPPDEFINES="_melapkgpathstr_='std::string(xstr_lit(${CMSSW_BASE}/src/JHUGenMELA/MELA/))'" />
 <!--Some magic to retrieve the mcfm library over http, and link it hardcoding its path in the resulting library, so that LD_LIBRARY_PATH is not required. -->
 <flags LDFLAGS="-Wl,-rpath=$(CMSSW_BASE)/src/JHUGenMELA/MELA/data/$(SCRAM_ARCH) $(shell $(CMSSW_BASE)/src/JHUGenMELA/MELA/data/retrieve.csh $(SCRAM_ARCH) mcfm_707) -L$(CMSSW_BASE)/src/JHUGenMELA/MELA/data/$(SCRAM_ARCH) -lmcfm_707 -ljhugenmela -lcollier" />
 

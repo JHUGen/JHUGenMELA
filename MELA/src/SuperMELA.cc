@@ -156,7 +156,7 @@ double SuperMELA::GetSigShapeParameter(string parName){
 
 
 void SuperMELA::init(){
-  if (verbose_)MELAout << "Begin SuperMELA::init..." << endl;
+  if (verbose_) MELAout << "Begin SuperMELA::init..." << endl;
 
   // Calculate m4l ranges for the given mH, set range of rrv
   calc_mZZ_range(mHVal_, lowMH_, highMH_);
@@ -534,12 +534,7 @@ void SuperMELA::calc_mZZ_range(const double mHVal, double& low_M, double& high_M
   //low_M=0.;
   //high_M=sqrts_*1000.;
 
-#ifdef _melapkgpathstr_
-  const string MELAPKGPATH = _melapkgpathstr_;
-#else
-  MELAout << "SuperMELA::calc_mZZ_range: MELA package path is undefined! Please modify the makefle or the makefile-equivalent!" << endl;
-  assert(0);
-#endif
+  const string MELAPKGPATH = TVar::GetMELAPath();
   string path = MELAPKGPATH + "data/HiggsTotalWidth_YR3.txt";
 
   path.erase((find(path.rbegin(), path.rend(), '/').base()), path.end());
