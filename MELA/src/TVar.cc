@@ -1,3 +1,4 @@
+#include <cassert>
 #include "TVar.hh"
 #include "TUtilHelpers.hh"
 
