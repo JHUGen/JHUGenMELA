@@ -262,6 +262,7 @@ namespace TVar{
     double fac_scale_factor;
   };
 
+  std::string GetMELAPath();
 }
 
 
