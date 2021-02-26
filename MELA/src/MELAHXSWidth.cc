@@ -5,15 +5,19 @@
 #include "MELAHXSWidth.h"
 #include "TROOT.h"
 #include "TF1.h"
+#include "MELAStreamHelpers.hh"
+
 
 using namespace std;
+using namespace MELAStreamHelpers;
 
 
-MELAHXSWidth::MELAHXSWidth(std::string fileLoc, std::string strAppend) :
+MELAHXSWidth::MELAHXSWidth(std::string fileLoc, std::string strAppend, TVar::VerbosityLevel verbosity_) :
   xmhW(nullptr),
   sigW(nullptr),
   graphW(nullptr),
-  gsW(nullptr)
+  gsW(nullptr),
+  verbosity(verbosity_)
 {
   fileName = fileLoc + "/HiggsTotalWidth_" + strAppend + ".txt";
   build();
@@ -23,11 +27,13 @@ MELAHXSWidth::MELAHXSWidth(const MELAHXSWidth& other) :
   xmhW(nullptr),
   sigW(nullptr),
   graphW(nullptr),
-  gsW(nullptr)
+  gsW(nullptr),
+  verbosity(other.verbosity)
 {
   build();
 }
 void MELAHXSWidth::build(){
+  if (verbosity>=TVar::DEBUG) MELAout << "MELAHXSWidth::build: Cross section file path: " << fileName.data() << endl;
   ifstream file;
   file.open(fileName.c_str());
   while (!file.eof()){

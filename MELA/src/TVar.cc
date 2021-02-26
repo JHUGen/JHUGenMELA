@@ -114,6 +114,10 @@ TString TVar::MatrixElementName(TVar::MatrixElement temp){
   else return TString("Unknown");
 }
 
+std::string TVar::GetMELAPath_NoEnvExpansion(){
+  std::string res = _melapkgpathstr_;
+  return res;
+}
 std::string TVar::GetMELAPath(){
   std::string res = _melapkgpathstr_;
   TUtilHelpers::ExpandEnvironmentVariables(res);

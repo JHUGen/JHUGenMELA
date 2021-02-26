@@ -19,6 +19,11 @@ MELASRCDIR = $(MELADIR)/src
 MELADATADIR = $(MELADIR)/data
 # Modify MELALIBDIR for the gcc version as needed
 MELALIBDIR = $(MELADATADIR)/${SCRAM_ARCH}
+# _melapkgpath_ should refer to the root compilation path just like MELADIR with an extra '/'.
+# If environment variables need to be inserted without expansion for portability,
+# you can use '.oODOLLAROo..oOOPEN_BRACKETOo.[YOUR_ENV_VARIABLE].oOCLOSE_BRACKETOo.',
+# e.g. '.oODOLLAROo..oOOPEN_BRACKETOo.CMSSW_BASE.oOCLOSE_BRACKETOo.' in place of '${CMSSW_BASE}' as used in the CMS-specific compilation.
+MELAPKGPATH = $(MELADIR)/
 LIB = libJHUGenMELAMELA.so
 
 ROOTCFLAGS = $(shell root-config --cflags)
@@ -36,7 +41,7 @@ CPPLOAD = -L$(MELALIBDIR) -lmcfm_707 -ljhugenmela $(LIBS)
 CPPOPTS =  -fPIC -O2 -ftree-vectorize -fipa-pta -felide-constructors -fvisibility-inlines-hidden -fno-math-errno \
 	--param vect-max-version-for-alias-checks=50 -fmessage-length=0 -fdiagnostics-show-option \
 	-Werror=unused-value \
-	 $(shell root-config --cflags) -D_melapkgpath_=$(PWD)/
+	 $(shell root-config --cflags) -D_melapkgpath_=$(MELAPKGPATH)
 CPPFLAGS = $(CPPOPTS) $(CPPINC) $(CPPLOAD)
 
 LINKER = g++

@@ -4,6 +4,23 @@
 
 
 void TUtilHelpers::ExpandEnvironmentVariables(std::string& str){
+  // Take care of special characters
+  size_t ipos;
+  std::string strTakeOut, strPutIn;
+
+  strTakeOut = ".oODOLLAROo.";
+  strPutIn = "$";
+  ipos = str.find(strTakeOut);
+  while (ipos!=std::string::npos){ str.replace(ipos, strTakeOut.length(), strPutIn.c_str()); ipos = str.find(strTakeOut); }
+  strTakeOut = ".oOOPEN_BRACKETOo.";
+  strPutIn = "{";
+  ipos = str.find(strTakeOut);
+  while (ipos!=std::string::npos){ str.replace(ipos, strTakeOut.length(), strPutIn.c_str()); ipos = str.find(strTakeOut); }
+  strTakeOut = ".oOCLOSE_BRACKETOo.";
+  strPutIn = "}";
+  ipos = str.find(strTakeOut);
+  while (ipos!=std::string::npos){ str.replace(ipos, strTakeOut.length(), strPutIn.c_str()); ipos = str.find(strTakeOut); }
+
   static std::regex env("\\$\\{([^}]+)\\}");
   std::smatch match;
   while (std::regex_search(str, match, env)){

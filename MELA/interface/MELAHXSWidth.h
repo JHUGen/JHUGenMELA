@@ -4,11 +4,12 @@
 #include <string>
 #include "TGraph.h"
 #include "TSpline.h"
+#include "TVar.hh"
 
 
 class MELAHXSWidth{
 public:
-  MELAHXSWidth(std::string fileLoc = "../txtFiles", std::string strAppend="YR3");
+  MELAHXSWidth(std::string fileLoc = "../txtFiles", std::string strAppend="YR3", TVar::VerbosityLevel verbosity_=TVar::ERROR);
   MELAHXSWidth(const MELAHXSWidth& other);
   ~MELAHXSWidth();
   double HiggsWidth(double mH) const;
@@ -21,6 +22,8 @@ protected:
   double* sigW;
   TGraph* graphW;
   TSpline3* gsW;
+
+  TVar::VerbosityLevel verbosity;
 
   void build();
 
