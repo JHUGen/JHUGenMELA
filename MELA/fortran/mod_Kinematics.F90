@@ -813,7 +813,9 @@ real(8) :: DKRnd
       MY_IDUP(8) = -MY_IDUP(8)
       MY_IDUP(9) = -MY_IDUP(9)
    endif
-   CombWeight = CombWeight * tmp_CombWeight
+   if( Process.lt.110 .or. Process.gt.114) then ! for tHq processes only one V branching!
+     CombWeight = CombWeight * tmp_CombWeight
+   endif
 
 RETURN
 END SUBROUTINE
@@ -1206,7 +1208,7 @@ integer idx,ip
    polemass(7) = getMass(id(7)) ! Pole mass of the JJ system
 
    pJJHstar = pJJ + pHstar
-   if(polemass(5).lt.polemass(6)) then
+   if(polemass(5).gt.polemass(6)) then
       pJ(:,1)=p(:,5)
       pJ(:,2)=p(:,6)
    else
@@ -1601,3 +1603,4 @@ END SUBROUTINE
 
 
 END MODULE
+
