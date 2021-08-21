@@ -4,7 +4,7 @@ all:
 	false
 else
 
-MAINDIR = ./
+MAINDIR = $(shell pwd)/
 #MODULES=$(MAINDIR)modules/
 #OBJECTS=$(MAINDIR)objects/
 MODULES=$(MAINDIR)
@@ -31,8 +31,8 @@ endif
 # Linking the Collier library
 UseCOLLIER=Yes
 # directory which contains libLHAPDF.a, libLHAPDF.la, libLHAPDF.so
-MyCOLLIERDir=../data/${SCRAM_ARCH}/
-MyCOLLIERInc=../COLLIER/
+MyCOLLIERDir=$(MAINDIR)../data/${SCRAM_ARCH}/
+MyCOLLIERInc=$(MAINDIR)../COLLIER/
 # remember to export
 #          LD_LIBRARY_PATH=/.../LHAPDF-x.y.z/lib/:${LD_LIBRARY_PATH}
 #          LHAPDF_DATA_PATH=/.../LHAPDF-x.y.z/share/LHAPDF/:${LHAPDF_DATA_PATH}
