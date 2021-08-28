@@ -6,7 +6,7 @@
 #include "TEvtProb.hh"
 
 
-class  ZZMatrixElement{
+class ZZMatrixElement{
 public:
 
   ZZMatrixElement(

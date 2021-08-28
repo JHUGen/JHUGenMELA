@@ -205,7 +205,7 @@ fi
 doenv
 dodeps
 pushd ${MELADIR}/fortran
-make all
+make "${setupArgs[@]}"
 if mv libjhugenmela.so ../data/${SCRAM_ARCH}/; then
     echo
     echo "...and you are running setup.sh, so this was just done."

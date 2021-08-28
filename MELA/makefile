@@ -12,11 +12,13 @@ all:
 	@echo "ROOFITSYS is not set. Please set ROOT environment properly"; echo
 else
 
+
 RM  = /bin/rm
 
 MELADIR = $(shell pwd)
 MELASRCDIR = $(MELADIR)/src
 MELADATADIR = $(MELADIR)/data
+MELAOBJDIR = $(MELADIR)/obj
 # Modify MELALIBDIR for the gcc version as needed
 MELALIBDIR = $(MELADATADIR)/${SCRAM_ARCH}
 # _melapkgpath_ should refer to the root compilation path just like MELADIR with an extra '/'.
@@ -25,6 +27,7 @@ MELALIBDIR = $(MELADATADIR)/${SCRAM_ARCH}
 # e.g. '.oODOLLAROo..oOOPEN_BRACKETOo.CMSSW_BASE.oOCLOSE_BRACKETOo.' in place of '${CMSSW_BASE}' as used in the CMS-specific compilation.
 MELAPKGPATH = $(MELADIR)/
 LIB = libJHUGenMELAMELA.so
+LIBRULE = $(MELALIBDIR)/$(LIB)
 
 ROOTCFLAGS = $(shell root-config --cflags)
 ROOTLIBS = $(shell root-config --libs) -Lrootlib
@@ -47,43 +50,49 @@ CPPFLAGS = $(CPPOPTS) $(CPPINC) $(CPPLOAD)
 LINKER = g++
 LINKERFLAGS = -Wl,-rpath=$(MELALIBDIR),-soname,$(LIB) $(CPPLOAD)
 
-SOURCES = $(wildcard $(MELASRCDIR)/*.cc)
-OBJECTS = $(SOURCES:.cc=.o)
+SOURCESCC = $(wildcard $(MELASRCDIR)/*.cc)
+SOURCESCXX = $(wildcard $(MELASRCDIR)/*.cxx)
+OBJECTSPRIM = $(SOURCESCC:.cc=.o) $(SOURCESCXX:.cxx=.o)
+OBJECTS = $(subst $(MELASRCDIR),$(MELAOBJDIR),$(OBJECTSPRIM))
 
 .PHONY: all help compile clean
 
-all: $(LIB) python/__init__.py
+.SILENT: alldirs $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o $(LIBRULE) python/__init__.py clean
 
-$(MELASRCDIR)/LinkDef_out.o: $(MELASRCDIR)/LinkDef.h
-	$(QUIET) echo "Making CINT dictionaries"; \
-        rootcint -f $(MELASRCDIR)/LinkDef_out.cc -c -p $(CPPINC) $(MELASRCDIR)/LinkDef.h; \
-        cat $(MELASRCDIR)/LinkDef.h $(MELASRCDIR)/LinkDef_out.cc > $(MELASRCDIR)/LinkDef_out.cxx; \
-        rm $(MELASRCDIR)/LinkDef_out.cc; mv $(MELASRCDIR)/LinkDef_out_rdict.pcm $(MELALIBDIR)/LinkDef_out_rdict.pcm; \
-        $(CC) $(CPPOPTS) $(CPPINC) -c $(MELASRCDIR)/LinkDef_out.cxx -o $(MELASRCDIR)/LinkDef_out.o
+all: $(LIBRULE) python/__init__.py
 
-# General rule for making object files
-%.d:	$(MELASRCDIR)/%.cc $(MELASRCDIR)/%.cxx
-	$(QUIET) echo "Checking dependencies for $<"; \
+$(MELAOBJDIR)/%.d:	$(MELASRCDIR)/%.c* | alldirs
+	echo "Checking dependencies for $<"; \
 	$(CC) -MM -MT $@ -MT ${@:.d=.o} $(CPPFLAGS) $< > $@; \
                      [ -s $@ ] || rm -f $@
 
-%.o: 	$(MELASRCDIR)/%.cc
-	$(QUIET) echo "Compiling $<"; \
+$(MELAOBJDIR)/%.o: 	$(MELASRCDIR)/%.c* | alldirs
+	echo "Compiling $<"; \
 	$(CC) $(CPPFLAGS) $< -c -o $@
 
-$(LIB):	$(OBJECTS) $(MELASRCDIR)/LinkDef_out.o
-	$(QUIET) echo "Linking $(LIB)"; \
-	$(LINKER) $(LINKERFLAGS) -shared $(OBJECTS) $(MELASRCDIR)/LinkDef_out.o -o $@; \
-	mv $(LIB) $(MELALIBDIR)/$(LIB)
+$(MELAOBJDIR)/LinkDef_out.o: | alldirs
+	echo "Making CINT dictionaries"; \
+	rootcint -f $(MELASRCDIR)/LinkDef_out.cc -c -p $(CPPINC) $(MELASRCDIR)/LinkDef.h; \
+	cat $(MELASRCDIR)/LinkDef.h $(MELASRCDIR)/LinkDef_out.cc > $(MELASRCDIR)/LinkDef_out.cxx; \
+	rm $(MELASRCDIR)/LinkDef_out.cc; mv $(MELASRCDIR)/LinkDef_out_rdict.pcm $(MELALIBDIR)/LinkDef_out_rdict.pcm; \
+	$(CC) $(CPPOPTS) $(CPPINC) -c $(MELASRCDIR)/LinkDef_out.cxx -o $(MELAOBJDIR)/LinkDef_out.o; \
+	rm -f $(MELASRCDIR)/LinkDef_out.cxx
 
-clean:
-	$(QUIET) rm -v -f \
-	$(MELASRCDIR)/*.o $(MELASRCDIR)/*.d $(MELASRCDIR)/LinkDef_out* $(MELALIBDIR)/$(LIB) $(MELALIBDIR)/LinkDef_out_rdict.pcm; \
-	echo "Done cleaning"
+$(LIBRULE):	$(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | alldirs
+	echo "Linking $(LIB)"; \
+	$(LINKER) $(LINKERFLAGS) -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -o $@
+
+alldirs:
+	mkdir -p $(MELAOBJDIR)
 
 python/__init__.py:
 	touch python/__init__.py
 
-endif
-endif
+clean:
+	rm -v -r -f \
+	$(MELAOBJDIR) $(MELASRCDIR)/LinkDef_out* $(MELALIBDIR)/$(LIB) $(MELALIBDIR)/LinkDef_out_rdict.pcm; \
+	echo "Done cleaning MELA"
 
+
+endif
+endif

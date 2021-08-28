@@ -45,7 +45,7 @@
 //----------------------------------------
 // Class TEvtProb
 //----------------------------------------
-class TEvtProb : public TObject{
+class TEvtProb{
 public:
   //---------------------------------------------------------------------------
   // Constructors and Destructor
@@ -183,7 +183,6 @@ protected:
   // Constructor wrapper
   void Build();
 
-  ClassDef(TEvtProb, 0);
 };
 
 #endif

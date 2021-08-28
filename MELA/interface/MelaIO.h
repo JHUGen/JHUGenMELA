@@ -153,10 +153,7 @@ public:
     else if (iv==1){ left=VDau2coupl[0]; right=VDau2coupl[1]; }
   }
 
-
-  ClassDef(MelaIO, 0)
 };
 
-ClassImp(MelaIO)
 
 #endif

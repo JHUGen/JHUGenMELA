@@ -14,9 +14,6 @@
 #include "MELAStreamHelpers.hh"
 
 
-ClassImp(TEvtProb)
-
-
 using namespace std;
 using namespace TUtil;
 using MELAStreamHelpers::MELAout;

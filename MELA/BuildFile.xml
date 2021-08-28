@@ -1,6 +1,5 @@
 <flags ADD_SUBDIR="1" />
 
-<flags FFLAGS="-O3 -ffree-form -ffree-line-length-none -Dcompiler=2 -Dmela -fno-automatic -fno-f2c  -fPIC -g"/>
 <flags CPPFLAGS="-I$(CMSSW_BASE)/src/JHUGenMELA/MELA/interface/" />
 <!--Use magic strings to avoid environment expansion in some shells. Replacements are done in TUtilHelpers::ExpandEnvironmentVariables. -->
 <flags CPPDEFINES="_melapkgpath_='.oODOLLAROo..oOOPEN_BRACKETOo.CMSSW_BASE.oOCLOSE_BRACKETOo./src/JHUGenMELA/MELA/'"/>
@@ -12,7 +11,7 @@
 <use name="rootmath"/>
 <use name="roofit"/>
 <use name="roofitcore"/>
-<use name="CLHEP"/>
+#<use name="CLHEP"/>
 
 <export>
   <use name="mcfm_707"/>

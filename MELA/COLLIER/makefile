@@ -1,15 +1,14 @@
-MAINDIR = .
+MAINDIR = $(shell pwd)
 AUXDIR = $(MAINDIR)/Aux
 COLIDIR = $(MAINDIR)/COLI
 TENSORSDIR = $(MAINDIR)/tensors
 DDLIBDIR = $(MAINDIR)/DDlib
-#MODULES=$(MAINDIR)/modules
-#OBJECTS=$(MAINDIR)/objects
 MODULES=$(MAINDIR)
 OBJECTS=$(MAINDIR)
-ROOFITINCLUDE = 
+
 RM  = /bin/rm
-INCLUDE = -I$(MAINDIR) $(ROOFITINCLUDE)
+INCLUDE = -I$(MAINDIR)
+
 Comp = gfort
 
 ifeq ($(Comp),ifort)
@@ -112,7 +111,7 @@ ${Objs}: $(Deps)
 	g++ -Wl,-soname,$(LIB) -shared -o $(LIB) *.o
 
 clean:
-	@echo " deleting object files"
+	@echo " Deleting COLLIER object files and library"
 	rm -f *.so $(OBJECTS)/*.o $(MODULES)/*.mod
 
 

@@ -4,14 +4,13 @@ all:
 	false
 else
 
-MAINDIR = $(shell pwd)/
-#MODULES=$(MAINDIR)modules/
-#OBJECTS=$(MAINDIR)objects/
-MODULES=$(MAINDIR)
-OBJECTS=$(MAINDIR)
-ROOFITINCLUDE = 
 RM  = /bin/rm
-INCLUDE = -I$(MAINDIR) $(ROOFITINCLUDE)
+
+MAINDIR = $(shell pwd)/
+OBJECTSDIR=
+LIB = libjhugenmela.so
+
+INCLUDE = -I$(MAINDIR)
 Comp = gfort
 
 # Linking LHAPDF
@@ -65,9 +64,8 @@ ifeq ($(Comp),ifort)
 endif
 
 
-LIB = libjhugenmela.so
-
 all:    libs
+	@echo " Compiling $(LIB)"
 	g++ -Wl,-soname,$(LIB) -shared -o $(LIB) *.o
 	@echo " "
 	@echo " WARNING: if you updated the fortran code,"
@@ -76,129 +74,67 @@ all:    libs
 	@echo "          and then gmake/scram.  Otherwise your changes"
 	@echo "          will not apply to any code you run."
 	@echo "          If you are running setup.sh this is done automatically."
-#	mv *.o $(OBJECTS)
-#	mv *.mod $(MODULES)
 
-libs: CALLING_cpHTO.o \
-	Cteq61Pdf.o mstwpdf.o NNPDFDriver.o \
-	mod_Parameters.o mod_Misc.o mod_HashCollection.o mod_Kinematics.o \
-	mod_JHUGenMELA.o mod_JHUGen.o \
-	mod_Higgs.o mod_Graviton.o mod_Zprime.o \
-	mod_HiggsJJ.o mod_HiggsJ.o mod_VHiggs.o \
-	mod_TopDecay.o mod_TTBHiggs.o mod_THiggs.o
-
-CALLING_cpHTO.o: ./CPS/CALLING_cpHTO.f
-	@echo " "
-	@echo " compiling CALLING_cpHTO.f with "$(Comp)
-	$(fcomp) -c ./CPS/CALLING_cpHTO.f
+.SILENT:
 
 
-Cteq61Pdf.o: ./pdfs/Cteq61Pdf.f
-	@echo " "
-	@echo " compiling Cteq61Pdf.f with "$(Comp)
-	$(fcomp) -c ./pdfs/Cteq61Pdf.f
+SOURCESMAINF90 = $(wildcard $(MAINDIR)*.F90)
+SOURCESMAINFF = $(wildcard $(MAINDIR)*.f)
+SOURCESCPS = $(wildcard $(MAINDIR)CPS/*.f)
+SOURCESPDF = $(wildcard $(MAINDIR)pdfs/*.f)
+
+OBJECTSMAINF90PRIM = $(SOURCESMAINF90:.F90=.o)
+OBJECTSMAINFFPRIM = $(SOURCESMAINFF:.f=.o)
+OBJECTSCPSPRIM = $(SOURCESCPS:.f=.o)
+OBJECTSPDFPRIM = $(SOURCESPDF:.f=.o)
+
+OBJECTSMAINF90 = $(subst $(MAINDIR),$(OBJECTSDIR),$(OBJECTSMAINF90PRIM))
+OBJECTSMAINFF = $(subst $(MAINDIR),$(OBJECTSDIR),$(OBJECTSMAINFFPRIM))
+OBJECTSCPS = $(subst $(MAINDIR)CPS/,$(OBJECTSDIR),$(OBJECTSCPSPRIM))
+OBJECTSPDF = $(subst $(MAINDIR)pdfs/,$(OBJECTSDIR),$(OBJECTSPDFPRIM))
+
+OBJECTS = $(OBJECTSCPS) $(OBJECTSPDF) $(OBJECTSMAINFF) $(OBJECTSMAINF90)
 
 
-mstwpdf.o: ./pdfs/mstwpdf.f
-	@echo " "
-	@echo " compiling mstwpdf.f with "$(Comp)
-	$(fcomp) -c ./pdfs/mstwpdf.f
+# General rules for object files
+$(OBJECTSDIR)%.o: %.F90 | $(OBJECTSDIR)mod_Parameters.o $(OBJECTSDIR)mod_Misc.o
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
+$(OBJECTSDIR)%.o: %.f
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
+$(OBJECTSDIR)%.o: CPS/%.f
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
+$(OBJECTSDIR)%.o: pdfs/%.f
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
 
+# Special rules for modules with different dependencies
+$(OBJECTSDIR)mod_Parameters.o: mod_Parameters.F90
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
+$(OBJECTSDIR)mod_Misc.o: mod_Misc.F90 $(OBJECTSDIR)mod_Parameters.o
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
+$(OBJECTSDIR)mod_TTBHiggs.o: mod_TTBHiggs.F90 $(OBJECTSDIR)mod_Parameters.o $(OBJECTSDIR)mod_Misc.o $(OBJECTSDIR)mod_TopDecay.o
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
+$(OBJECTSDIR)mod_THiggs.o: mod_THiggs.F90 $(OBJECTSDIR)mod_Parameters.o $(OBJECTSDIR)mod_Misc.o $(OBJECTSDIR)mod_TopDecay.o
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
+$(OBJECTSDIR)mod_JHUGenMELA.o: mod_JHUGenMELA.F90 $(OBJECTSDIR)mod_Parameters.o $(OBJECTSDIR)mod_Misc.o $(OBJECTSDIR)mod_Kinematics.o
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
+$(OBJECTSDIR)mod_JHUGen.o: mod_JHUGen.F90 $(OBJECTSDIR)mod_HashCollection.o $(OBJECTSDIR)mod_JHUGenMELA.o
+	@echo " Compiling $< with $(Comp)"; \
+	$(fcomp) -c $<
 
-NNPDFDriver.o: ./pdfs/NNPDFDriver.f
-	@echo " "
-	@echo " compiling NNPDFDriver.f with "$(Comp)
-	$(fcomp) -c ./pdfs/NNPDFDriver.f
-
-
-vegas.o: ./vegas.f
-	@echo " "
-	@echo " compiling vegas.f with "$(Comp)
-	$(fcomp) -c ./vegas.f
-
-
-mod_Parameters.o: mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_Parameters.F90 with "$(Comp)
-	$(fcomp) -c mod_Parameters.F90
-
-mod_HashCollection.o: mod_HashCollection.F90
-	@echo " "
-	@echo " compiling mod_HashCollection.F90 with "$(Comp)
-	$(fcomp) -c mod_HashCollection.F90
-
-mod_JHUGenMELA.o: mod_JHUGenMELA.F90
-	@echo " "
-	@echo " compiling mod_JHUGenMELA.F90 with "$(Comp)
-	$(fcomp) -c mod_JHUGenMELA.F90
-
-mod_Misc.o: mod_Misc.F90
-	@echo " "
-	@echo " compiling mod_Misc.F90 with "$(Comp)
-	$(fcomp) -c mod_Misc.F90
-
-mod_Kinematics.o: mod_Kinematics.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_Kinematics.F90 with "$(Comp)
-	$(fcomp) -c mod_Kinematics.F90
-
-mod_JHUGen.o: mod_JHUGen.F90 mod_Kinematics.F90 mod_Parameters.F90 mod_Misc.F90
-	@echo " "
-	@echo " compiling mod_JHUGen.F90 with "$(Comp)
-	$(fcomp) -c mod_JHUGen.F90
-
-
-mod_Higgs.o: mod_Higgs.F90 mod_Misc.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_Higgs.F90 with "$(Comp)
-	$(fcomp) -c mod_Higgs.F90
-
-
-mod_Zprime.o: mod_Zprime.F90 mod_Misc.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_Zprime.F90 with "$(Comp)
-	$(fcomp) -c mod_Zprime.F90
-
-mod_Graviton.o: mod_Graviton.F90 mod_Misc.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_Graviton.F90 with "$(Comp)
-	$(fcomp) -c mod_Graviton.F90
-
-mod_HiggsJ.o: mod_HiggsJ.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_HiggsJ.F90 with "$(Comp)
-	$(fcomp) -c mod_HiggsJ.F90
-
-mod_HiggsJJ.o: mod_HiggsJJ.F90 mod_Misc.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_HiggsJJ.F90 with "$(Comp)
-	$(fcomp) -c mod_HiggsJJ.F90
-
-mod_VHiggs.o: mod_VHiggs.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_VHiggs.F90 with "$(Comp)
-	$(fcomp) -c mod_VHiggs.F90 
-
-mod_TopDecay.o: mod_TopDecay.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_TopDecay.F90 with "$(Comp)
-	$(fcomp) -c mod_TopDecay.F90  
-
-mod_TTBHiggs.o: mod_TTBHiggs.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_TTBHiggs.F90 with "$(Comp)
-	$(fcomp) -c mod_TTBHiggs.F90  
-
-mod_THiggs.o: mod_THiggs.F90 mod_Parameters.F90
-	@echo " "
-	@echo " compiling mod_THiggs.F90 with "$(Comp)
-	$(fcomp) -c mod_THiggs.F90  
+libs:   $(OBJECTS)
 
 clean:
-	@echo " deleting object files"
-	rm -f *.so $(OBJECTS)*.o $(MODULES)*.mod
+	@echo " Deleting MELA fortran object files and library"
+	rm -f *.so $(OBJECTSDIR)*.o $(OBJECTSDIR)*.mod
+
 
 endif
-
-# supresses command calls
-.SILENT:
