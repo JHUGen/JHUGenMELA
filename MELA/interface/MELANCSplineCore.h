@@ -8,6 +8,7 @@
 #include "RooAbsReal.h"
 #include "RooRealVar.h"
 #include "RooRealProxy.h"
+#include "RooListProxy.h"
 #include "RooConstVar.h"
 #include "RooArgList.h"
 #include "RooMsgService.h"
