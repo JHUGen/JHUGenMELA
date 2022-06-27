@@ -14,10 +14,12 @@ getSCRAMVERSION(){
     echo slc7_amd64_gcc700
   elif [[ "$GCCVERSION" == "8.0"* ]] || [[ "$GCCVERSION" == "8.1"* ]] || [[ "$GCCVERSION" == "8.2"* ]]; then # v4 of MCFM library
     echo slc7_amd64_gcc820
-  elif [[ "$GCCVERSION" == "8"* ]]; then # v4 of MCFM library
+  elif [[ "$GCCVERSION" == "8"* ]]; then
     echo slc6_amd64_gcc830
+  elif [[ "$GCCVERSION" == "9"* ]]; then
+    echo slc6_amd64_gcc920
   else
-    echo slc7_amd64_gcc920
+    echo slc7_amd64_gcc10 # Same as v7_920
   fi
 }
 
