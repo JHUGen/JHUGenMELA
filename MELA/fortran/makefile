@@ -7,8 +7,10 @@ else
 RM  = /bin/rm
 
 MAINDIR = $(shell pwd)/
+MELALIBDIR = ${MELA_LIB_PATH}
 OBJECTSDIR=
 LIB = libjhugenmela.so
+LIBRULE = $(MELALIBDIR)/$(LIB)
 
 INCLUDE = -I$(MAINDIR)
 Comp = gfort
@@ -64,16 +66,7 @@ ifeq ($(Comp),ifort)
 endif
 
 
-all:    libs
-	@echo " Compiling $(LIB)"
-	g++ -Wl,-soname,$(LIB) -shared -o $(LIB) *.o
-	@echo " "
-	@echo " WARNING: if you updated the fortran code,"
-	@echo "          you need to move libjhugenmela.so"
-	@echo '          to the appropriate folder in data/'
-	@echo "          and then gmake/scram.  Otherwise your changes"
-	@echo "          will not apply to any code you run."
-	@echo "          If you are running setup.sh this is done automatically."
+all:    $(LIBRULE)
 
 .SILENT:
 
@@ -130,10 +123,11 @@ $(OBJECTSDIR)mod_JHUGen.o: mod_JHUGen.F90 $(OBJECTSDIR)mod_HashCollection.o $(OB
 	@echo " Compiling $< with $(Comp)"; \
 	$(fcomp) -c $<
 
-libs:   $(OBJECTS)
+$(LIBRULE): $(OBJECTS)
+	@echo "Linking $(LIB)"; \
+        g++ -Wl,-rpath=$(MELALIBDIR),-soname,$(LIB) -L$(MELALIBDIR) -shared *.o -o $@
 
 clean:
-	@echo " Deleting MELA fortran object files and library"
 	rm -f *.so $(OBJECTSDIR)*.o $(OBJECTSDIR)*.mod
 
 

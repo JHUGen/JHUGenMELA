@@ -28,20 +28,17 @@ cd $(dirname ${BASH_SOURCE[0]})
 
 MELADIR="$(readlink -f .)"
 MCFMVERSION=mcfm_707
-declare -i forceStandalone=0
 declare -i doDeps=0
 declare -i doPrintEnv=0
 declare -i doPrintEnvInstr=0
-declare -i usingCMSSW=0
+declare -i hasCMSSW=0
 declare -i needSCRAM=0
 declare -i needROOFITSYS_ROOTSYS=0
 declare -a setupArgs=()
 
 for farg in "$@"; do
   fargl="$(echo $farg | awk '{print tolower($0)}')"
-  if [[ "$fargl" == "standalone" ]]; then
-    forceStandalone=1
-  elif [[ "$fargl" == "deps" ]]; then
+  if [[ "$fargl" == "deps" ]]; then
     doDeps=1
   elif [[ "$fargl" == "env" ]]; then
     doPrintEnv=1
@@ -56,9 +53,9 @@ nSetupArgs=${#setupArgs[@]}
 
 SARCH=$(getSCRAMVERSION)
 
-if [[ ${forceStandalone} -eq 0 ]] && [[ ! -z "${CMSSW_BASE+x}" ]]; then
+if [[ ! -z "${CMSSW_BASE+x}" ]]; then
 
-  usingCMSSW=1
+  hasCMSSW=1
 
   eval $(scram ru -sh)
 
@@ -81,12 +78,15 @@ if [[ -z "${ROOFITSYS+x}" ]] && [[ $doDeps -eq 0 ]]; then
   fi
 fi
 
+
+mela_lib_path="${MELADIR}/data/${SCRAM_ARCH}"
+
 printenv () {
-  if [[ ${usingCMSSW} -eq 1 ]]; then
-    return 0
+  if [[ -z "${MELA_LIB_PATH+x}" ]] || [[ "${MELA_LIB_PATH}" != "${mela_lib_path}" ]]; then
+    echo "export MELA_LIB_PATH=${mela_lib_path}"
   fi
 
-  ldlibappend="${MELADIR}/data/${SCRAM_ARCH}"
+  ldlibappend="${mela_lib_path}"
   end=""
   if [[ ! -z "${LD_LIBRARY_PATH+x}" ]]; then
     end=":${LD_LIBRARY_PATH}"
@@ -113,11 +113,12 @@ printenv () {
   fi
 }
 doenv () {
-  if [[ ${usingCMSSW} -eq 1 ]]; then
-    return 0
+  if [[ -z "${MELA_LIB_PATH+x}" ]] || [[ "${MELA_LIB_PATH}" != "${mela_lib_path}" ]]; then
+    export MELA_LIB_PATH="${mela_lib_path}"
+    echo "Temporarily using MELA_LIB_PATH as ${MELA_LIB_PATH}"
   fi
 
-  ldlibappend="${MELADIR}/data/${SCRAM_ARCH}"
+  ldlibappend="${mela_lib_path}"
   end=""
   if [[ ! -z "${LD_LIBRARY_PATH+x}" ]]; then
     end=":${LD_LIBRARY_PATH}"
@@ -148,20 +149,17 @@ dodeps () {
   ${MELADIR}/downloadNNPDF.sh
 }
 printenvinstr () {
-  if [[ ${usingCMSSW} -eq 1 ]]; then
-    return 0
-  fi
 
   echo
   echo "remember to do"
   echo
-  echo 'eval $(./setup.sh env standalone)'
+  echo 'eval $('${BASH_SOURCE[0]}' env)'
   echo "or"
-  echo 'eval `./setup.sh env standalone`'
+  echo 'eval `'${BASH_SOURCE[0]}' env`'
   echo
   echo "if you are using a bash-related shell, or you can do"
   echo
-  echo './setup.sh env standalone'
+  echo ${BASH_SOURCE[0]}' env'
   echo
   echo "and change the commands according to your shell in order to do something equivalent to set up the environment variables."
   echo
@@ -185,17 +183,13 @@ if [[ $doDeps -eq 1 ]]; then
     : ok
 elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == *"clean"* ]]; then
     #echo "Cleaning C++"
-    if [[ ${usingCMSSW} -eq 1 ]];then
-      scramv1 b "${setupArgs[@]}"
-    else
-      make clean
-    fi
+    make clean
 
     #echo "Cleaning FORTRAN"
-    pushd ${MELADIR}/fortran
+    pushd ${MELADIR}/fortran &> /dev/null
     make clean
     rm -f ../data/${SCRAM_ARCH}/libjhugenmela.so
-    popd
+    popd &> /dev/null
 
     #echo "Cleaning COLLIER"
     ${MELADIR}/COLLIER/setup.sh "${setupArgs[@]}"
@@ -225,24 +219,11 @@ if [[ $doDeps -eq 1 ]]; then
     exit
 fi
 
-pushd ${MELADIR}/fortran
+pushd ${MELADIR}/fortran &> /dev/null
 make "${setupArgs[@]}"
-if mv libjhugenmela.so ../data/${SCRAM_ARCH}/; then
-    echo
-    echo "...and you are running setup.sh, so this was just done."
-    echo
-    popd
-    if [[ ${usingCMSSW} -eq 1 ]]; then
-      scramv1 b "${setupArgs[@]}"
-    else
-      make "${setupArgs[@]}"
-    fi
-    printenvinstr
-else
-    echo
-    echo "ERROR: something went wrong in mv, see ^ error message"
-    echo
-    popd
-    exit 1
-fi
+popd &> /dev/null
+
+make "${setupArgs[@]}"
+printenvinstr
+
 )
