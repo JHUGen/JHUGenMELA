@@ -4,7 +4,7 @@
 set -euo pipefail
 
 
-getSCRAMVERSION(){
+getMELAARCH(){
   GCCVERSION=$(gcc -dumpversion)
   if [[ "$GCCVERSION" == "4.3"* ]] || [[ "$GCCVERSION" == "4.4"* ]] || [[ "$GCCVERSION" == "4.5"* ]]; then # v1 of MCFM library
     echo slc5_amd64_gcc434
@@ -31,8 +31,6 @@ MCFMVERSION=mcfm_707
 declare -i doDeps=0
 declare -i doPrintEnv=0
 declare -i doPrintEnvInstr=0
-declare -i hasCMSSW=0
-declare -i needSCRAM=0
 declare -i needROOFITSYS_ROOTSYS=0
 declare -a setupArgs=()
 
@@ -51,23 +49,14 @@ done
 declare -i nSetupArgs
 nSetupArgs=${#setupArgs[@]}
 
-SARCH=$(getSCRAMVERSION)
-
-if [[ ! -z "${CMSSW_BASE+x}" ]]; then
-
-  hasCMSSW=1
-
-  eval $(scram ru -sh)
-
-else
-
-  if [[ -z "${SCRAM_ARCH+x}" ]]; then
-    needSCRAM=1
-
-    export SCRAM_ARCH="${SARCH}"
-  fi
-
+# Determine the MELA_ARCH string
+# If CMS SCRAM_ARCH is set as an environment variable and it is present in data/,
+# use SCRAM_ARCH as MELA_ARCH.
+mela_arch=$(getMELAARCH)
+if [[ ! -z "${SCRAM_ARCH+x}" ]] && [[ -d ${MELADIR}/data/${SCRAM_ARCH} ]]; then
+  mela_arch=${SCRAM_ARCH}
 fi
+mela_lib_path="${MELADIR}/data/${mela_arch}"
 
 if [[ -z "${ROOFITSYS+x}" ]] && [[ $doDeps -eq 0 ]]; then
   if [[ $(ls ${ROOTSYS}/lib | grep -e libRooFitCore) != "" ]]; then
@@ -78,10 +67,11 @@ if [[ -z "${ROOFITSYS+x}" ]] && [[ $doDeps -eq 0 ]]; then
   fi
 fi
 
-
-mela_lib_path="${MELADIR}/data/${SCRAM_ARCH}"
-
 printenv () {
+  if [[ -z "${MELA_ARCH+x}" ]] || [[ "${MELA_ARCH}" != "${mela_arch}" ]]; then
+    echo "export MELA_ARCH=${mela_arch}"
+  fi
+
   if [[ -z "${MELA_LIB_PATH+x}" ]] || [[ "${MELA_LIB_PATH}" != "${mela_lib_path}" ]]; then
     echo "export MELA_LIB_PATH=${mela_lib_path}"
   fi
@@ -104,15 +94,16 @@ printenv () {
     echo "export PYTHONPATH=${pythonappend}${end}"
   fi
 
-  if [[ $needSCRAM -eq 1 ]]; then
-    echo "export SCRAM_ARCH=${SCRAM_ARCH}"
-  fi
-
   if [[ $needROOFITSYS_ROOTSYS -eq 1 ]]; then
     echo "export ROOFITSYS=${ROOTSYS}"
   fi
 }
 doenv () {
+  if [[ -z "${MELA_ARCH+x}" ]] || [[ "${MELA_ARCH}" != "${mela_arch}" ]]; then
+    export MELA_ARCH="${mela_arch}"
+    echo "Temporarily using MELA_ARCH as ${MELA_ARCH}"
+  fi
+
   if [[ -z "${MELA_LIB_PATH+x}" ]] || [[ "${MELA_LIB_PATH}" != "${mela_lib_path}" ]]; then
     export MELA_LIB_PATH="${mela_lib_path}"
     echo "Temporarily using MELA_LIB_PATH as ${MELA_LIB_PATH}"
@@ -145,11 +136,10 @@ doenv () {
 }
 dodeps () {
   ${MELADIR}/COLLIER/setup.sh "${setupArgs[@]}"
-  tcsh ${MELADIR}/data/retrieve.csh $SCRAM_ARCH $MCFMVERSION
+  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION
   ${MELADIR}/downloadNNPDF.sh
 }
 printenvinstr () {
-
   echo
   echo "remember to do"
   echo
@@ -179,6 +169,8 @@ if [[ $nSetupArgs -eq 0 ]]; then
 fi
 
 
+doenv
+
 if [[ $doDeps -eq 1 ]]; then
     : ok
 elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == *"clean"* ]]; then
@@ -188,15 +180,11 @@ elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == *"clean"* ]]; then
     #echo "Cleaning FORTRAN"
     pushd ${MELADIR}/fortran &> /dev/null
     make clean
-    rm -f ../data/${SCRAM_ARCH}/libjhugenmela.so
+    rm -f ../data/${MELA_ARCH}/libjhugenmela.so
     popd &> /dev/null
 
     #echo "Cleaning COLLIER"
     ${MELADIR}/COLLIER/setup.sh "${setupArgs[@]}"
-
-    if [[ -e data/${SCRAM_ARCH}/TEMP ]]; then
-      rm -rf data/${SCRAM_ARCH}
-    fi
 
     exit
 elif [[ "$nSetupArgs" -ge 1 ]] && [[ "$nSetupArgs" -le 2 ]] && [[ "${setupArgs[0]}" == *"-j"* ]]; then
@@ -209,11 +197,6 @@ else
 fi
 
 
-if [[ ! -d data/${SCRAM_ARCH} ]]; then
-  cp -r data/${SARCH} data/${SCRAM_ARCH}
-  touch data/${SCRAM_ARCH}/TEMP
-fi
-doenv
 dodeps
 if [[ $doDeps -eq 1 ]]; then
     exit

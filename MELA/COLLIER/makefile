@@ -3,6 +3,7 @@ AUXDIR = $(MAINDIR)/Aux
 COLIDIR = $(MAINDIR)/COLI
 TENSORSDIR = $(MAINDIR)/tensors
 DDLIBDIR = $(MAINDIR)/DDlib
+MELALIBDIR = ${MELA_LIB_PATH}
 MODULES=$(MAINDIR)
 OBJECTS=$(MAINDIR)
 
@@ -34,6 +35,7 @@ endif
 
 
 LIB = libcollier.so
+LIBRULE = $(MELALIBDIR)/$(LIB)
 
 Deps = $(MAINDIR)/collier_global.F90 \
 	$(AUXDIR)/Combinatorics.F90 \
@@ -102,17 +104,21 @@ Objs = collier_global.o \
 	DDlib_DD_to_COLLIER.o
 
 
-${Objs}: $(Deps)
+.PHONY: all help clean
+
+all: $(LIBRULE)
+
+$(LIBRULE): $(Deps)
 	@echo " "
 	@echo " Compiling COLLIER dependencies"
 	$(fcomp) -c $(Deps)
 	@echo " "
 	@echo " Compiling COLLIER library"
-	g++ -Wl,-soname,$(LIB) -shared -o $(LIB) *.o
+	g++ -Wl,-rpath=$(MELALIBDIR),-soname,$(LIB) -L$(MELALIBDIR) -shared *.o -o $@
 
 clean:
 	@echo " Deleting COLLIER object files and library"
-	rm -f *.so $(OBJECTS)/*.o $(MODULES)/*.mod
+	rm -f *.so $(LIBRULE) $(OBJECTS)/*.o $(MODULES)/*.mod
 
 
 # supresses command calls

@@ -19,12 +19,12 @@ Comp = gfort
 # link pdfs via LHA library ('Yes' or 'No')
 UseLHAPDF=No
 # directory which contains libLHAPDF.a, libLHAPDF.la, libLHAPDF.so
-MyLHADir=/./
+LHAPDFLIBDIR=/./
 # remember to export
 #          LD_LIBRARY_PATH=/.../LHAPDF-x.y.z/lib/:${LD_LIBRARY_PATH}
 #          LHAPDF_DATA_PATH=/.../LHAPDF-x.y.z/share/LHAPDF/:${LHAPDF_DATA_PATH}
 ifeq ($(UseLHAPDF),Yes)
-   LHAPDFflags = -L$(MyLHADir) -lLHAPDF -DuseLHAPDF=1
+   LHAPDFflags = -L$(LHAPDFLIBDIR) -lLHAPDF -DuseLHAPDF=1
 else
    LHAPDFflags = -DuseLHAPDF=0
 endif
@@ -32,13 +32,13 @@ endif
 # Linking the Collier library
 UseCOLLIER=Yes
 # directory which contains libLHAPDF.a, libLHAPDF.la, libLHAPDF.so
-MyCOLLIERDir=$(MAINDIR)../data/${SCRAM_ARCH}/
-MyCOLLIERInc=$(MAINDIR)../COLLIER/
+COLLIERLIBDIR=$(MAINDIR)../data/${MELA_ARCH}/
+COLLIERINCDIR=$(MAINDIR)../COLLIER/
 # remember to export
 #          LD_LIBRARY_PATH=/.../LHAPDF-x.y.z/lib/:${LD_LIBRARY_PATH}
 #          LHAPDF_DATA_PATH=/.../LHAPDF-x.y.z/share/LHAPDF/:${LHAPDF_DATA_PATH}
 ifeq ($(UseCOLLIER),Yes)
-   COLLIERflags = -L$(MyCOLLIERDir) -lcollier -DuseCollier=1 -I$(MyCOLLIERInc)
+   COLLIERflags = -L$(COLLIERLIBDIR) -lcollier -DuseCollier=1 -I$(COLLIERINCDIR)
 else
    COLLIERflags = -DuseCollier=0
 endif
@@ -128,7 +128,7 @@ $(LIBRULE): $(OBJECTS)
         g++ -Wl,-rpath=$(MELALIBDIR),-soname,$(LIB) -L$(MELALIBDIR) -shared *.o -o $@
 
 clean:
-	rm -f *.so $(OBJECTSDIR)*.o $(OBJECTSDIR)*.mod
+	rm -f *.so $(LIBRULE) $(OBJECTSDIR)*.o $(OBJECTSDIR)*.mod
 
 
 endif

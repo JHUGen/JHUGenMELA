@@ -30,11 +30,11 @@ if [[ $# > 0 ]] && [[ "$1" == *"clean"* ]]; then
     fi
   done
 
-  rm -f ../data/*/$libname
+  rm -f ${MELA_LIB_PATH}/../*/$libname
 
 else
 
-  if [[ ! -f "../data/$SCRAM_ARCH/$libname" ]]; then
+  if [[ ! -f "${MELA_LIB_PATH}/$libname" ]]; then
     rm -rf $tmpdir
     rm -f $tarname
     wget --no-check-certificate $tarweb
@@ -45,7 +45,6 @@ else
     rm -rf $tmpdir
 
     make $@
-    mv $libname "../data/$SCRAM_ARCH/$libname"
   fi
 
 fi
