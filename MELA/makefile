@@ -17,10 +17,9 @@ RM  = /bin/rm
 
 MELADIR = $(shell pwd)
 MELASRCDIR = $(MELADIR)/src
-MELADATADIR = $(MELADIR)/data
 MELAOBJDIR = $(MELADIR)/obj
 # Modify MELALIBDIR for the gcc version as needed
-MELALIBDIR = $(MELADATADIR)/${SCRAM_ARCH}
+MELALIBDIR = ${MELA_LIB_PATH}
 # _melapkgpath_ should refer to the root compilation path just like MELADIR with an extra '/'.
 # If environment variables need to be inserted without expansion for portability,
 # you can use '.oODOLLAROo..oOOPEN_BRACKETOo.[YOUR_ENV_VARIABLE].oOCLOSE_BRACKETOo.',
@@ -54,19 +53,20 @@ SOURCESCC = $(wildcard $(MELASRCDIR)/*.cc)
 SOURCESCXX = $(wildcard $(MELASRCDIR)/*.cxx)
 OBJECTSPRIM = $(SOURCESCC:.cc=.o) $(SOURCESCXX:.cxx=.o)
 OBJECTS = $(subst $(MELASRCDIR),$(MELAOBJDIR),$(OBJECTSPRIM))
+DEPS = $(OBJECTS:.o=.d)
 
 .PHONY: all help compile clean
 
-.SILENT: alldirs $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o $(LIBRULE) python/__init__.py clean
+.SILENT: alldirs $(OBJECTS) $(DEPS) $(MELAOBJDIR)/LinkDef_out.o $(LIBRULE) python/__init__.py clean
 
 all: $(LIBRULE) python/__init__.py
 
 $(MELAOBJDIR)/%.d:	$(MELASRCDIR)/%.c* | alldirs
 	echo "Checking dependencies for $<"; \
-	$(CC) -MM -MT $@ -MT ${@:.d=.o} $(CPPFLAGS) $< > $@; \
+	$(CC) -MM -MT $@ $(CPPFLAGS) $< > $@; \
                      [ -s $@ ] || rm -f $@
 
-$(MELAOBJDIR)/%.o: 	$(MELASRCDIR)/%.c* | alldirs
+$(MELAOBJDIR)/%.o: 	$(MELASRCDIR)/%.c* $(MELAOBJDIR)/%.d | alldirs
 	echo "Compiling $<"; \
 	$(CC) $(CPPFLAGS) $< -c -o $@
 
@@ -89,9 +89,10 @@ python/__init__.py:
 	touch python/__init__.py
 
 clean:
-	rm -v -r -f \
-	$(MELAOBJDIR) $(MELASRCDIR)/LinkDef_out* $(MELALIBDIR)/$(LIB) $(MELALIBDIR)/LinkDef_out_rdict.pcm; \
-	echo "Done cleaning MELA"
+	rm -rf $(MELAOBJDIR) $(MELASRCDIR)/LinkDef_out* $(MELALIBDIR)/$(LIB) $(MELALIBDIR)/LinkDef_out_rdict.pcm
+
+
+include $(DEPS)
 
 
 endif

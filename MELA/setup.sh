@@ -4,7 +4,7 @@
 set -euo pipefail
 
 
-getSCRAMVERSION(){
+getMELAARCH(){
   GCCVERSION=$(gcc -dumpversion)
   if [[ "$GCCVERSION" == "4.3"* ]] || [[ "$GCCVERSION" == "4.4"* ]] || [[ "$GCCVERSION" == "4.5"* ]]; then # v1 of MCFM library
     echo slc5_amd64_gcc434
@@ -15,11 +15,11 @@ getSCRAMVERSION(){
   elif [[ "$GCCVERSION" == "8.0"* ]] || [[ "$GCCVERSION" == "8.1"* ]] || [[ "$GCCVERSION" == "8.2"* ]]; then # v4 of MCFM library
     echo slc7_amd64_gcc820
   elif [[ "$GCCVERSION" == "8"* ]]; then
-    echo slc6_amd64_gcc830
-  elif [[ "$GCCVERSION" == "9"* ]]; then
-    echo slc6_amd64_gcc920
+    echo slc7_amd64_gcc830
   else
-    echo slc7_amd64_gcc10 # Same as v7_920
+  #elif [[ "$GCCVERSION" == "9"* ]]; then
+    echo slc7_amd64_gcc920
+  #else
   fi
 }
 
@@ -28,20 +28,15 @@ cd $(dirname ${BASH_SOURCE[0]})
 
 MELADIR="$(readlink -f .)"
 MCFMVERSION=mcfm_707
-declare -i forceStandalone=0
 declare -i doDeps=0
 declare -i doPrintEnv=0
 declare -i doPrintEnvInstr=0
-declare -i usingCMSSW=0
-declare -i needSCRAM=0
 declare -i needROOFITSYS_ROOTSYS=0
 declare -a setupArgs=()
 
 for farg in "$@"; do
   fargl="$(echo $farg | awk '{print tolower($0)}')"
-  if [[ "$fargl" == "standalone" ]]; then
-    forceStandalone=1
-  elif [[ "$fargl" == "deps" ]]; then
+  if [[ "$fargl" == "deps" ]]; then
     doDeps=1
   elif [[ "$fargl" == "env" ]]; then
     doPrintEnv=1
@@ -54,23 +49,14 @@ done
 declare -i nSetupArgs
 nSetupArgs=${#setupArgs[@]}
 
-SARCH=$(getSCRAMVERSION)
-
-if [[ ${forceStandalone} -eq 0 ]] && [[ ! -z "${CMSSW_BASE+x}" ]]; then
-
-  usingCMSSW=1
-
-  eval $(scram ru -sh)
-
-else
-
-  if [[ -z "${SCRAM_ARCH+x}" ]]; then
-    needSCRAM=1
-
-    export SCRAM_ARCH="${SARCH}"
-  fi
-
+# Determine the MELA_ARCH string
+# If CMS SCRAM_ARCH is set as an environment variable and it is present in data/,
+# use SCRAM_ARCH as MELA_ARCH.
+mela_arch=$(getMELAARCH)
+if [[ ! -z "${SCRAM_ARCH+x}" ]] && [[ -d ${MELADIR}/data/${SCRAM_ARCH} ]]; then
+  mela_arch=${SCRAM_ARCH}
 fi
+mela_lib_path="${MELADIR}/data/${mela_arch}"
 
 if [[ -z "${ROOFITSYS+x}" ]] && [[ $doDeps -eq 0 ]]; then
   if [[ $(ls ${ROOTSYS}/lib | grep -e libRooFitCore) != "" ]]; then
@@ -82,11 +68,15 @@ if [[ -z "${ROOFITSYS+x}" ]] && [[ $doDeps -eq 0 ]]; then
 fi
 
 printenv () {
-  if [[ ${usingCMSSW} -eq 1 ]]; then
-    return 0
+  if [[ -z "${MELA_ARCH+x}" ]] || [[ "${MELA_ARCH}" != "${mela_arch}" ]]; then
+    echo "export MELA_ARCH=${mela_arch}"
   fi
 
-  ldlibappend="${MELADIR}/data/${SCRAM_ARCH}"
+  if [[ -z "${MELA_LIB_PATH+x}" ]] || [[ "${MELA_LIB_PATH}" != "${mela_lib_path}" ]]; then
+    echo "export MELA_LIB_PATH=${mela_lib_path}"
+  fi
+
+  ldlibappend="${mela_lib_path}"
   end=""
   if [[ ! -z "${LD_LIBRARY_PATH+x}" ]]; then
     end=":${LD_LIBRARY_PATH}"
@@ -104,20 +94,22 @@ printenv () {
     echo "export PYTHONPATH=${pythonappend}${end}"
   fi
 
-  if [[ $needSCRAM -eq 1 ]]; then
-    echo "export SCRAM_ARCH=${SCRAM_ARCH}"
-  fi
-
   if [[ $needROOFITSYS_ROOTSYS -eq 1 ]]; then
     echo "export ROOFITSYS=${ROOTSYS}"
   fi
 }
 doenv () {
-  if [[ ${usingCMSSW} -eq 1 ]]; then
-    return 0
+  if [[ -z "${MELA_ARCH+x}" ]] || [[ "${MELA_ARCH}" != "${mela_arch}" ]]; then
+    export MELA_ARCH="${mela_arch}"
+    echo "Temporarily using MELA_ARCH as ${MELA_ARCH}"
   fi
 
-  ldlibappend="${MELADIR}/data/${SCRAM_ARCH}"
+  if [[ -z "${MELA_LIB_PATH+x}" ]] || [[ "${MELA_LIB_PATH}" != "${mela_lib_path}" ]]; then
+    export MELA_LIB_PATH="${mela_lib_path}"
+    echo "Temporarily using MELA_LIB_PATH as ${MELA_LIB_PATH}"
+  fi
+
+  ldlibappend="${mela_lib_path}"
   end=""
   if [[ ! -z "${LD_LIBRARY_PATH+x}" ]]; then
     end=":${LD_LIBRARY_PATH}"
@@ -144,24 +136,20 @@ doenv () {
 }
 dodeps () {
   ${MELADIR}/COLLIER/setup.sh "${setupArgs[@]}"
-  tcsh ${MELADIR}/data/retrieve.csh $SCRAM_ARCH $MCFMVERSION
+  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION
   ${MELADIR}/downloadNNPDF.sh
 }
 printenvinstr () {
-  if [[ ${usingCMSSW} -eq 1 ]]; then
-    return 0
-  fi
-
   echo
   echo "remember to do"
   echo
-  echo 'eval $(./setup.sh env standalone)'
+  echo 'eval $('${BASH_SOURCE[0]}' env)'
   echo "or"
-  echo 'eval `./setup.sh env standalone`'
+  echo 'eval `'${BASH_SOURCE[0]}' env`'
   echo
   echo "if you are using a bash-related shell, or you can do"
   echo
-  echo './setup.sh env standalone'
+  echo ${BASH_SOURCE[0]}' env'
   echo
   echo "and change the commands according to your shell in order to do something equivalent to set up the environment variables."
   echo
@@ -181,28 +169,22 @@ if [[ $nSetupArgs -eq 0 ]]; then
 fi
 
 
+doenv
+
 if [[ $doDeps -eq 1 ]]; then
     : ok
 elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == *"clean"* ]]; then
     #echo "Cleaning C++"
-    if [[ ${usingCMSSW} -eq 1 ]];then
-      scramv1 b "${setupArgs[@]}"
-    else
-      make clean
-    fi
+    make clean
 
     #echo "Cleaning FORTRAN"
-    pushd ${MELADIR}/fortran
+    pushd ${MELADIR}/fortran &> /dev/null
     make clean
-    rm -f ../data/${SCRAM_ARCH}/libjhugenmela.so
-    popd
+    rm -f ../data/${MELA_ARCH}/libjhugenmela.so
+    popd &> /dev/null
 
     #echo "Cleaning COLLIER"
     ${MELADIR}/COLLIER/setup.sh "${setupArgs[@]}"
-
-    if [[ -e data/${SCRAM_ARCH}/TEMP ]]; then
-      rm -rf data/${SCRAM_ARCH}
-    fi
 
     exit
 elif [[ "$nSetupArgs" -ge 1 ]] && [[ "$nSetupArgs" -le 2 ]] && [[ "${setupArgs[0]}" == *"-j"* ]]; then
@@ -215,34 +197,16 @@ else
 fi
 
 
-if [[ ! -d data/${SCRAM_ARCH} ]]; then
-  cp -r data/${SARCH} data/${SCRAM_ARCH}
-  touch data/${SCRAM_ARCH}/TEMP
-fi
-doenv
 dodeps
 if [[ $doDeps -eq 1 ]]; then
     exit
 fi
 
-pushd ${MELADIR}/fortran
+pushd ${MELADIR}/fortran &> /dev/null
 make "${setupArgs[@]}"
-if mv libjhugenmela.so ../data/${SCRAM_ARCH}/; then
-    echo
-    echo "...and you are running setup.sh, so this was just done."
-    echo
-    popd
-    if [[ ${usingCMSSW} -eq 1 ]]; then
-      scramv1 b "${setupArgs[@]}"
-    else
-      make "${setupArgs[@]}"
-    fi
-    printenvinstr
-else
-    echo
-    echo "ERROR: something went wrong in mv, see ^ error message"
-    echo
-    popd
-    exit 1
-fi
+popd &> /dev/null
+
+make "${setupArgs[@]}"
+printenvinstr
+
 )
