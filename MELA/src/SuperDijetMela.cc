@@ -36,8 +36,9 @@ void SuperDijetMela::SetupResolutionModel(TVar::Production prod){
   // Setup file path
   const string MELAPKGPATH = TVar::GetMELAPath();
   double intpart;
+  bool floatFloor = false; // In case production is not ready, set this to true
   TString path = TString(MELAPKGPATH.c_str()) + "data/resolution_mJJ_recoVStrue_";
-  TString prodName;
+  TString prodName, floatflag;
   switch (prod){
   case TVar::Had_ZH:
     prodName = "ZH";
@@ -49,6 +50,7 @@ void SuperDijetMela::SetupResolutionModel(TVar::Production prod){
     MELAout << "SuperDijetMela::SetupResolutionModel: Production " << TVar::ProductionName(prod) << " is unknown." << endl;
     return;
   }
+  if (floatFloor) sqrts = floor(sqrts);
   if (modf(sqrts, &intpart) == 0.0) floatflag = "%.0f"; else floatflag = "%.1f";
   
   path += prodName;
