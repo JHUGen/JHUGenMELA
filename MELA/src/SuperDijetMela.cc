@@ -48,6 +48,8 @@ void SuperDijetMela::SetupResolutionModel(TVar::Production prod){
     MELAout << "SuperDijetMela::SetupResolutionModel: Production " << TVar::ProductionName(prod) << " is unknown." << endl;
     return;
   }
+  sqrts = floor(sqrts); // interim solution until 13.6 TeV production is ready
+  
   path += prodName;
   path += Form("_%.0fTeV%s", sqrts, ".root");
 
