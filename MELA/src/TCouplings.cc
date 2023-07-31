@@ -459,3 +459,28 @@ void aTQGCCouplings::SetATQGCCouplings(unsigned int index, double c_real, double
     aTQGCcoupl[index][1] = c_imag;
   }
 }
+
+/********** AZff couplings **********/
+AZffCouplings::AZffCouplings(){ reset(); }
+AZffCouplings::AZffCouplings(AZffCouplings const& other){ this->copy(other); }
+AZffCouplings::~AZffCouplings(){}
+
+void AZffCouplings::reset(){
+  for (int im=0; im<2; im++){
+    for (int ic = 0; ic < SIZE_AZff; ic++) AZffcoupl[ic][im]=0;
+  }
+}
+void AZffCouplings::copy(AZffCouplings const& other){
+  for (int im=0; im<2; im++){
+    for (int ic=0; ic<SIZE_AZff; ic++) AZffcoupl[ic][im] = (other.AZffcoupl)[ic][im];
+  }
+}
+AZffCouplings* AZffCouplings::getRef(){ return this; }
+
+void AZffCouplings::SetAZffCouplings(unsigned int index, double c_real, double c_imag){
+  if (index>=SIZE_AZff){ MELAerr << "AZffCouplings::SetAZffCouplings: Cannot set index " << index << ", out of range for the type requested." << endl; }
+  else{
+    AZffcoupl[index][0] = c_real;
+    AZffcoupl[index][1] = c_imag;
+  }
+}

@@ -128,6 +128,9 @@ public:
   void set_aTQGCCouplings(
     double selfDaTQGCcoupl[SIZE_ATQGC][2]
   );
+  void set_AZffCouplings(
+    double selfDAZffcoupl[SIZE_AZff][2]
+  );
 
   // Compute four-momenta from angles - not cos(theta) - only 
   std::vector<TLorentzVector> Calculate4Momentum(double Mx, double M1, double M2, double theta, double theta1, double theta2, double Phi1, double Phi);
@@ -161,6 +164,7 @@ protected:
   SpinTwoCouplings* selfD_SpinTwoCouplings;
   VprimeCouplings* selfD_VprimeCouplings;
   aTQGCCouplings* selfD_aTQGCCouplings;
+  AZffCouplings* selfD_AZffCouplings;
 
   MELACandidate* melaCand; // Pointer to current candidate object of Xcal2
   std::vector<MELAParticle*> tmpPartList; // Vector of pointers to the owned, temporary MELAParticles

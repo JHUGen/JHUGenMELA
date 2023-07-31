@@ -331,6 +331,7 @@ void TEvtProb::ResetCouplings(){
   selfDSpinTwoCoupl.reset();
   selfDVprimeCoupl.reset();
   selfDaTQGCCoupl.reset();
+  selfDAZffCoupl.reset();
   AllowSeparateWWCouplings(false);
   ResetAmplitudeIncludes();
 }
@@ -357,6 +358,7 @@ SpinOneCouplings* TEvtProb::GetSelfDSpinOneCouplings(){ return selfDSpinOneCoupl
 SpinTwoCouplings* TEvtProb::GetSelfDSpinTwoCouplings(){ return selfDSpinTwoCoupl.getRef(); }
 VprimeCouplings* TEvtProb::GetSelfDVprimeCouplings(){ return selfDVprimeCoupl.getRef(); }
 aTQGCCouplings* TEvtProb::GetSelfDaTQGCCouplings(){ return selfDaTQGCCoupl.getRef(); }
+AZffCouplings* TEvtProb::GetSelfDAZffCouplings() { return selfDAZffCoupl.getRef(); }
 double TEvtProb::GetPrimaryHiggsMass(){ return PrimaryHMass; }
 double TEvtProb::GetPrimaryMass(int ipart){
   if (PDGHelpers::isAHiggs(ipart)) return GetPrimaryHiggsMass();
@@ -411,10 +413,12 @@ double TEvtProb::XsecCalc_XVV(){
   bool useMCFM = matrixElement == TVar::MCFM;
   bool calculateME=false;
   bool needBSMHiggs=false;
+  bool needAZff=false;
   if (useMCFM){
     if (verbosity>=TVar::DEBUG) MELAout << "TEvtProb::XsecCalc_XVV: Try MCFM" << endl;
     needBSMHiggs = CheckSelfDCouplings_Hgg() || CheckSelfDCouplings_Htt() || CheckSelfDCouplings_Hbb() || CheckSelfDCouplings_HVV();
-    if (needBSMHiggs) SetLeptonInterf(TVar::InterfOn); // All anomalous coupling computations have to use lepton interference
+    needAZff = CheckSelfDCouplings_AZff();
+    if (needBSMHiggs || needAZff) SetLeptonInterf(TVar::InterfOn); // All anomalous coupling computations have to use lepton interference
 
     calculateME = (
       production == TVar::ZZGG ||
@@ -427,6 +431,7 @@ double TEvtProb::XsecCalc_XVV(){
       );
     if (calculateME){
       SetMCFMSpinZeroCouplings(needBSMHiggs, &selfDSpinZeroCoupl, false);
+      SetMCFMAZffCouplings(needAZff, &selfDAZffCoupl);
       dXsec = SumMatrixElementPDF(process, production, matrixElement, leptonInterf, &event_scales, &RcdME, EBEAM, verbosity);
     }
     else if (verbosity>=TVar::INFO) MELAout << "TEvtProb::XsecCalc_XVV: MCFM_chooser failed to determine the process configuration." << endl;
@@ -459,6 +464,7 @@ double TEvtProb::XsecCalc_XVV(){
     double M_Wprime = -1;
     double Ga_Wprime = 0;
 
+    double AZffcoupl[SIZE_AZff][2] ={ { 0 } };
     //
     // set spin 0 default numbers
     //
@@ -684,6 +690,12 @@ double TEvtProb::XsecCalc_XVV(){
       SetJHUGenVprimeContactCouplings(Zpffcoupl, Wpffcoupl);
       SetZprimeMassWidth(M_Zprime, Ga_Zprime);
       SetWprimeMassWidth(M_Wprime, Ga_Wprime);
+      for (int j=0; j<2; j++){
+        for (int i=0; i<SIZE_AZff; i++){
+          AZffcoupl[i][j] = (selfDAZffCoupl.AZffcoupl)[i][j];
+        }
+      }
+      //SetJHUGenAZffCouplings(AZffcoupl); //This function is not defined
     }
     else if (isSpinOne) SetJHUGenSpinOneCouplings(Zqqcoupl, Zvvcoupl);
     else if (isSpinTwo){
@@ -1129,6 +1141,16 @@ bool TEvtProb::CheckSelfDCouplings_aTQGC(){
   for (int vv = 0; vv < SIZE_ATQGC; vv++){
     if (
       (selfDaTQGCCoupl.aTQGCcoupl)[vv][1] != 0 || (selfDaTQGCCoupl.aTQGCcoupl)[vv][0] != 0
+      ){
+      return true;
+    }
+  }
+  return false;
+}
+bool TEvtProb::CheckSelfDCouplings_AZff(){
+  for (int vv = 0; vv < SIZE_AZff; vv++){
+    if (
+      (selfDAZffCoupl.AZffcoupl)[vv][1] != 0 || (selfDAZffCoupl.AZffcoupl)[vv][0] != 0
       ){
       return true;
     }

@@ -372,6 +372,11 @@ void Mela::setATQGCCouplings(){
     selfDaTQGCcoupl
   );
 }
+void Mela::setAZffCouplings(){
+  ZZME->set_AZffCouplings(
+    selfDAZffcoupl
+  );
+}
 
 
 // Notice that this only sets the members of MELA, not TEvtProb. TEvtProb resets itself.
@@ -448,6 +453,11 @@ void Mela::reset_SelfDCouplings(){
   // aTQGC couplings
   for (int im=0; im<2; im++){
     for (int ic=0; ic<SIZE_ATQGC; ic++) selfDaTQGCcoupl[ic][im] = 0;
+  }
+
+  // AZff couplings
+  for (int im=0; im<2; im++){
+    for (int ic=0; ic<SIZE_AZff; ic++) selfDAZffcoupl[ic][im] = 0;
   }
 
   // Did I tell you that we have a lot of them?
@@ -1170,7 +1180,7 @@ void Mela::computeP(
     }
     else if (myME_ == TVar::JHUGen || myME_ == TVar::MCFM){
       if (!(myME_ == TVar::MCFM  && myProduction_ == TVar::ZZINDEPENDENT &&  (myModel_ == TVar::bkgZZ || myModel_ == TVar::bkgWW || myModel_ == TVar::bkgZGamma || myModel_ == TVar::bkgGammaGamma))){
-        if (myME_ == TVar::MCFM || myModel_ == TVar::SelfDefine_spin0) setSpinZeroCouplings();
+        if (myME_ == TVar::MCFM || myModel_ == TVar::SelfDefine_spin0) { setSpinZeroCouplings(); setAZffCouplings(); }
         else if (myModel_ == TVar::SelfDefine_spin1) setSpinOneCouplings();
         else if (myModel_ == TVar::SelfDefine_spin2) setSpinTwoCouplings();
         ZZME->computeXS(prob);
@@ -1377,6 +1387,7 @@ void Mela::computeProdDecP(
   double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
   double selfDHwwcoupl_input[nSupportedHiggses][SIZE_HVV][2],
   double selfDaTQGCcoupl_input[SIZE_ATQGC][2],
+  double selfDAZffcoupl_input[SIZE_AZff][2],
   float& prob,
   bool useConstant
   ){
@@ -1390,6 +1401,9 @@ void Mela::computeProdDecP(
   }
   for (int im=0; im<2; im++){
     for (int ic=0; ic<SIZE_ATQGC; ic++) selfDaTQGCcoupl[ic][im] = selfDaTQGCcoupl_input[ic][im];
+  }
+  for (int im=0; im<2; im++){
+    for (int ic=0; ic<SIZE_AZff; ic++) selfDAZffcoupl[ic][im] = selfDAZffcoupl_input[ic][im];
   }
   computeProdDecP(
     prob,
