@@ -49,7 +49,8 @@ void SuperDijetMela::SetupResolutionModel(TVar::Production prod){
     MELAout << "SuperDijetMela::SetupResolutionModel: Production " << TVar::ProductionName(prod) << " is unknown." << endl;
     return;
   }
-  if (modf(sqrts, &intpart) == 0.0) floatflag = "%.0f"; else floatflag = "%.1f";
+
+  sqrts = floor(sqrts); // interim solution until 13.6 TeV production is ready
 
   path += prodName;
   path += Form("_"+floatflag+"TeV%s", sqrts, ".root");
