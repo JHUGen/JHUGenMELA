@@ -4089,6 +4089,7 @@ void TUtil::SetJHUGenSpinTwoCouplings(double Gacoupl[SIZE_GGG][2], double Gvvcou
 void TUtil::SetJHUGenVprimeContactCouplings(double Zpffcoupl[SIZE_Vpff][2], double Wpffcoupl[SIZE_Vpff][2]){
   __modjhugenmela_MOD_setvprimecontactcouplings(Zpffcoupl, Wpffcoupl);
 }
+void TUtil::SetJHUGenAZffCouplings(bool needAZff, double AZffcoupl[SIZE_AZff][2]){ __modparameters_MOD_computeewvariables(); if (needAZff) __modjhugenmela_MOD_setazffcouplings(AZffcoupl); }
 
 //Make sure
 // 1. tot Energy Sum < 2EBEAM

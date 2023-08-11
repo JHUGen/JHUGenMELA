@@ -413,11 +413,10 @@ double TEvtProb::XsecCalc_XVV(){
   bool useMCFM = matrixElement == TVar::MCFM;
   bool calculateME=false;
   bool needBSMHiggs=false;
-  bool needAZff=false;
+  bool needAZff=CheckSelfDCouplings_AZff();
   if (useMCFM){
     if (verbosity>=TVar::DEBUG) MELAout << "TEvtProb::XsecCalc_XVV: Try MCFM" << endl;
     needBSMHiggs = CheckSelfDCouplings_Hgg() || CheckSelfDCouplings_Htt() || CheckSelfDCouplings_Hbb() || CheckSelfDCouplings_HVV();
-    needAZff = CheckSelfDCouplings_AZff();
     if (needBSMHiggs || needAZff) SetLeptonInterf(TVar::InterfOn); // All anomalous coupling computations have to use lepton interference
 
     calculateME = (
@@ -465,6 +464,13 @@ double TEvtProb::XsecCalc_XVV(){
     double Ga_Wprime = 0;
 
     double AZffcoupl[SIZE_AZff][2] ={ { 0 } };
+    for (int j=0; j<2; j++){
+      for (int i=0; i<SIZE_AZff; i++){
+        AZffcoupl[i][j] = (selfDAZffCoupl.AZffcoupl)[i][j];
+      }
+    }
+    SetJHUGenAZffCouplings(needAZff, AZffcoupl);
+
     //
     // set spin 0 default numbers
     //
@@ -690,12 +696,6 @@ double TEvtProb::XsecCalc_XVV(){
       SetJHUGenVprimeContactCouplings(Zpffcoupl, Wpffcoupl);
       SetZprimeMassWidth(M_Zprime, Ga_Zprime);
       SetWprimeMassWidth(M_Wprime, Ga_Wprime);
-      for (int j=0; j<2; j++){
-        for (int i=0; i<SIZE_AZff; i++){
-          AZffcoupl[i][j] = (selfDAZffCoupl.AZffcoupl)[i][j];
-        }
-      }
-      //SetJHUGenAZffCouplings(AZffcoupl); //This function is not defined
     }
     else if (isSpinOne) SetJHUGenSpinOneCouplings(Zqqcoupl, Zvvcoupl);
     else if (isSpinTwo){

@@ -23,6 +23,7 @@ extern "C" {
   void __modjhugenmela_MOD_setspinzeroqqcouplings(double qqcoupl[SIZE_HQQ][2]);
   void __modjhugenmela_MOD_setspinzerovvcouplings(double vvcoupl[SIZE_HVV][2], double vvpcoupl[SIZE_HVV][2], double vpvpcoupl[SIZE_HVV][2], int cqsq[SIZE_HVV_CQSQ], double Lambda_qsq[SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ], int* usewwcoupl); // YES, THE LAST ARGUMENT IS AN INT!
   void __modjhugenmela_MOD_setvprimecontactcouplings(double Zpffcoupl[SIZE_Vpff][2], double Wpffcoupl[SIZE_Vpff][2]);
+  void __modjhugenmela_MOD_setazffcouplings(double AZffcoupl[SIZE_AZff][2]);
   void __modjhugenmela_MOD_settopdecays(int* flag);
 
   void __modjhugenmela_MOD_getmvgv(double* mv, double* gv);
