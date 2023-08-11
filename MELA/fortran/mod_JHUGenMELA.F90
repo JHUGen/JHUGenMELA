@@ -22,6 +22,7 @@ public :: SetSpinZeroGGCouplings,SetSpinZeroQQCouplings,SetSpinZeroVVCouplings
 public :: SetSpinOneCouplings
 public :: SetSpinTwoCouplings
 public :: SetVprimeContactCouplings
+public :: SetAZffCouplings
 
 public :: GetMVGV,GetMVPrimeGVPrime
 public :: GetAlphaSAlphaSMZ
@@ -582,6 +583,21 @@ subroutine SetSpinTwoCouplings(acoupl,vvcoupl,vvpcoupl,vpvpcoupl,qLR)
 
    return
 end subroutine SetSpinTwoCouplings
+
+subroutine SetAZffCouplings(azffcoupl)
+   implicit none
+   complex(8), intent(in) :: azffcoupl(1:12)
+   aR_Lep = azffcoupl(1) ! rez
+   aL_Lep = azffcoupl(2) ! lez
+   aR_QUp = azffcoupl(3) ! rquz
+   aL_QUp = azffcoupl(4) ! lquz
+   aR_QDn = azffcoupl(5) ! rqdz
+   aL_QDn = azffcoupl(6) ! lqdz
+   aR_Neu = azffcoupl(7) ! rnz
+   aL_Neu = azffcoupl(8) ! lnz
+   return
+end subroutine SetAZffCouplings
+
 
 subroutine SetMVGV()
 implicit none
