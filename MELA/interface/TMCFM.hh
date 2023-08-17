@@ -248,16 +248,16 @@ extern "C" {
     int AllowAnomalousZffCouplings;
     double reZ;
     double leZ;
-    double rnZ;
     double lnZ;
-    double clanou;
-    double cranou;
-    double clanod;
-    double cranod;
+    double rnZ;
     double rquZ;
     double lquZ;
     double rqdZ;
     double lqdZ;
+    double clanou;
+    double cranou;
+    double clanod;
+    double cranod;
   } anomzffcouplings_;
 
   extern struct {
