@@ -335,9 +335,7 @@ void ZZMatrixElement::set_aTQGCCouplings(
 void ZZMatrixElement::set_AZffCouplings(
   double selfDAZffcoupl[SIZE_AZff][2]
 ){
-  for (int ic=0; ic<SIZE_AZff; ic++) {
-    selfD_AZffCouplings->SetAZffCouplings(ic, selfDAZffcoupl[ic][0], selfDAZffcoupl[ic][1]);
-  }
+  for (int ic=0; ic<SIZE_AZff; ic++) selfD_AZffCouplings->SetAZffCouplings(ic, selfDAZffcoupl[ic][0], selfDAZffcoupl[ic][1]);
 }
 
 
