@@ -136,7 +136,7 @@ void MELANCSplineCore::getBArray(const std::vector<MELANCSplineCore::T>& kappas,
       BArray.push_back(3.*(fcnList.at(npoints-1)-fcnList.at(npoints-2)) + ecval/2./pow(kappas.at(npoints-1), 2));
       break;
     case bcApproximatedSlope:
-      bcval=(fcnList.at(npoints-1)-fcnList.at(npoints-2))*kappas.at(npoints-2);
+      ecval=(fcnList.at(npoints-1)-fcnList.at(npoints-2))*kappas.at(npoints-2);
     case bcClamped:
       BArray.push_back(ecval/kappas.at(npoints-1));
       break;
