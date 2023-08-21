@@ -27,7 +27,7 @@ getMELAARCH(){
 cd $(dirname ${BASH_SOURCE[0]})
 
 MELADIR="$(readlink -f .)"
-MCFMVERSION=mcfm_707
+MCFMVERSION=mcfm_708
 declare -i doDeps=0
 declare -i doPrintEnv=0
 declare -i doPrintEnvInstr=0
