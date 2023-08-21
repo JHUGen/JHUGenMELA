@@ -212,6 +212,7 @@ public:
     double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
     double selfDHwwcoupl_input[nSupportedHiggses][SIZE_HVV][2],
     double selfDaTQGCcoupl_input[SIZE_ATQGC][2],
+    double selfDAZffcoupl_input[SIZE_AZff][2],
     float& prob,
     bool useConstant=true
     );
@@ -341,6 +342,8 @@ public:
   double selfDGvpvpcoupl[SIZE_GVV][2];
   //****aTQGC****//
   double selfDaTQGCcoupl[SIZE_ATQGC][2];
+  //****Anomnalous Zff**//
+  double selfDAZffcoupl[SIZE_AZff][2];
   // That is a lot of them!
 
   static void cleanLinkedFiles();
@@ -434,6 +437,7 @@ protected:
   void setSpinOneCouplings();
   void setSpinTwoCouplings();
   void setATQGCCouplings();
+  void setAZffCouplings();
 
   bool configureAnalyticalPDFs();
   void reset_SelfDCouplings();

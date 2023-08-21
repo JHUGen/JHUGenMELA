@@ -51,6 +51,7 @@ void ZZMatrixElement::build(){
   selfD_SpinTwoCouplings = Xcal2.GetSelfDSpinTwoCouplings();
   selfD_VprimeCouplings = Xcal2.GetSelfDVprimeCouplings();
   selfD_aTQGCCouplings = Xcal2.GetSelfDaTQGCCouplings();
+  selfD_AZffCouplings = Xcal2.GetSelfDAZffCouplings();
 
   if (processVerbosity>=TVar::DEBUG) MELAout << "End ZZMatrixElement::build" << endl;
 }
@@ -330,6 +331,13 @@ void ZZMatrixElement::set_aTQGCCouplings(
   double selfDaTQGCcoupl[SIZE_ATQGC][2]
 ){
   for (int ic=0; ic<SIZE_ATQGC; ic++) selfD_aTQGCCouplings->SetATQGCCouplings(ic, selfDaTQGCcoupl[ic][0], selfDaTQGCcoupl[ic][1]);
+}
+void ZZMatrixElement::set_AZffCouplings(
+  double selfDAZffcoupl[SIZE_AZff][2]
+){
+  for (int ic=0; ic<SIZE_AZff; ic++) {
+    selfD_AZffCouplings->SetAZffCouplings(ic, selfDAZffcoupl[ic][0], selfDAZffcoupl[ic][1]);
+  }
 }
 
 

@@ -2901,6 +2901,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
           strplabel[2]=TUtil::GetMCFMParticleLabel(pId[pZOrder[0]], false, useQQVVQQany);
           strplabel[3]=TUtil::GetMCFMParticleLabel(pId[pZOrder[1]], false, useQQVVQQany);
         }
+        else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+          strplabel[2]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+          strplabel[3]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+        }
         // End special Z1->ll cases
       }
       else if (PDGHelpers::isANeutrino(pId[pZOrder[0]]) && PDGHelpers::isANeutrino(pId[pZOrder[1]])){
@@ -2918,6 +2922,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
         else if (useQQVVQQany){
           strplabel[2]=TUtil::GetMCFMParticleLabel(pId[pZOrder[0]], false, useQQVVQQany);
           strplabel[3]=TUtil::GetMCFMParticleLabel(pId[pZOrder[1]], false, useQQVVQQany);
+        }
+        else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+          strplabel[2]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+          strplabel[3]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
         }
         // End special Z1->nn cases
       }
@@ -2940,6 +2948,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
           else if (useQQVVQQany){
             strplabel[2]=TUtil::GetMCFMParticleLabel(pId[pZOrder[0]], false, useQQVVQQany);
             strplabel[3]=TUtil::GetMCFMParticleLabel(pId[pZOrder[1]], false, useQQVVQQany);
+          }
+          else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+            strplabel[2]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+            strplabel[3]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
           }
         }
         else{
@@ -2971,6 +2983,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
             strplabel[2]="qj";
             strplabel[3]="qj";
           }
+          else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+            strplabel[2]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+            strplabel[3]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+          }
         }
         if (!useQQVVQQany){ // colfac34_56 handles all couplings instead of this simple scaling (Reason: WW final states)
           zcouple_.l1 *= sqrt(3.);
@@ -2982,6 +2998,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
     else if (useQQVVQQany){
       strplabel[2]=TUtil::GetMCFMParticleLabel(pId[pZOrder[0]], false, useQQVVQQany);
       strplabel[3]=TUtil::GetMCFMParticleLabel(pId[pZOrder[1]], false, useQQVVQQany);
+    }
+    else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+      strplabel[2]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+      strplabel[3]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
     }
 
     // Couplings for Z2
@@ -3002,6 +3022,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
           strplabel[4]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, useQQVVQQany);
           strplabel[5]=TUtil::GetMCFMParticleLabel(pId[pZOrder[3]], false, useQQVVQQany);
         }
+        else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+          strplabel[4]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+          strplabel[5]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+        }
         // End special Z2->ll cases
       }
       else if (PDGHelpers::isANeutrino(pId[pZOrder[2]]) && PDGHelpers::isANeutrino(pId[pZOrder[3]])){
@@ -3014,6 +3038,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
         if (useQQVVQQany){
           strplabel[4]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, useQQVVQQany);
           strplabel[5]=TUtil::GetMCFMParticleLabel(pId[pZOrder[3]], false, useQQVVQQany);
+        }
+        else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+          strplabel[4]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+          strplabel[5]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
         }
         // End special Z2->nn cases
       }
@@ -3032,6 +3060,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
           if (useQQVVQQany){
             strplabel[4]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, useQQVVQQany);
             strplabel[5]=TUtil::GetMCFMParticleLabel(pId[pZOrder[3]], false, useQQVVQQany);
+          }
+          else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+            strplabel[4]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+            strplabel[5]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
           }
         }
         else{
@@ -3059,6 +3091,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
             strplabel[4]="qj";
             strplabel[5]="qj";
           }
+          else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+            strplabel[4]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+            strplabel[5]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+          }
         }
         if (!useQQVVQQany){ // colfac34_56 handles all couplings instead of this simple scaling (Reason: WW Final states)
           zcouple_.l2 *= sqrt(3.);
@@ -3070,6 +3106,10 @@ bool TUtil::MCFM_SetupParticleCouplings(
     else if (useQQVVQQany){
       strplabel[4]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, useQQVVQQany);
       strplabel[5]=TUtil::GetMCFMParticleLabel(pId[pZOrder[3]], false, useQQVVQQany);
+    }
+    else if (anomzffcouplings_.AllowAnomalousZffCouplings == 1){
+      strplabel[4]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
+      strplabel[5]=TUtil::GetMCFMParticleLabel(pId[pZOrder[2]], false, false);
     }
 
   } // End check WW, ZZ, ZG etc.
@@ -4001,6 +4041,39 @@ void TUtil::SetMCFMaTQGCCouplings(bool useBSM, aTQGCCouplings const* couplings){
     }
   }
 }
+void TUtil::SetMCFMAZffCouplings(bool useBSM, AZffCouplings const* Zcouplings){
+  if (useBSM) {
+  // BSM (all imaginary parts = 0 => unset, only setting the real parts)
+    anomzffcouplings_.AllowAnomalousZffCouplings = 1;
+    anomzffcouplings_.reZ = (Zcouplings->AZffcoupl)[gZllRH][0];
+    anomzffcouplings_.leZ = (Zcouplings->AZffcoupl)[gZllLH][0];
+    anomzffcouplings_.rquZ = (Zcouplings->AZffcoupl)[gZuuRH][0];
+    anomzffcouplings_.lquZ = (Zcouplings->AZffcoupl)[gZuuLH][0];
+    anomzffcouplings_.rqdZ = (Zcouplings->AZffcoupl)[gZddRH][0];
+    anomzffcouplings_.lqdZ = (Zcouplings->AZffcoupl)[gZddLH][0];
+    anomzffcouplings_.rnZ = (Zcouplings->AZffcoupl)[gZnunuRH][0];
+    anomzffcouplings_.lnZ = (Zcouplings->AZffcoupl)[gZnunuLH][0];
+    anomzffcouplings_.clanou = (Zcouplings->AZffcoupl)[guZLH][0];
+    anomzffcouplings_.cranou = (Zcouplings->AZffcoupl)[guZRH][0];
+    anomzffcouplings_.clanod = (Zcouplings->AZffcoupl)[gdZLH][0];
+    anomzffcouplings_.cranod = (Zcouplings->AZffcoupl)[gdZRH][0];
+  } else {
+  // SM
+    anomzffcouplings_.AllowAnomalousZffCouplings = 0;
+    anomzffcouplings_.reZ = 0;
+    anomzffcouplings_.leZ = 0;
+    anomzffcouplings_.rquZ = 0;
+    anomzffcouplings_.lquZ = 0;
+    anomzffcouplings_.rqdZ = 0;
+    anomzffcouplings_.lqdZ = 0;
+    anomzffcouplings_.rnZ = 0;
+    anomzffcouplings_.lnZ = 0;
+    anomzffcouplings_.clanou = 0;
+    anomzffcouplings_.cranou = 0;
+    anomzffcouplings_.clanod = 0;
+    anomzffcouplings_.cranod = 0;
+  }
+}
 void TUtil::SetJHUGenSpinZeroVVCouplings(double Hvvcoupl[SIZE_HVV][2], double Hvvpcoupl[SIZE_HVV][2], double Hvpvpcoupl[SIZE_HVV][2], int Hvvcoupl_cqsq[SIZE_HVV_CQSQ], double HvvLambda_qsq[SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ], bool useWWcoupl){
   const double GeV = 1./100.;
   int iWWcoupl = (useWWcoupl ? 1 : 0);
@@ -4016,6 +4089,7 @@ void TUtil::SetJHUGenSpinTwoCouplings(double Gacoupl[SIZE_GGG][2], double Gvvcou
 void TUtil::SetJHUGenVprimeContactCouplings(double Zpffcoupl[SIZE_Vpff][2], double Wpffcoupl[SIZE_Vpff][2]){
   __modjhugenmela_MOD_setvprimecontactcouplings(Zpffcoupl, Wpffcoupl);
 }
+void TUtil::SetJHUGenAZffCouplings(bool needAZff, double AZffcoupl[SIZE_AZff][2]){ __modparameters_MOD_computeewvariables(); if (needAZff) __modjhugenmela_MOD_setazffcouplings(AZffcoupl); }
 
 //Make sure
 // 1. tot Energy Sum < 2EBEAM

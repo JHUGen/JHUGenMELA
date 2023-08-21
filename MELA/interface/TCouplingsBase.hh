@@ -180,6 +180,25 @@ namespace{
 
     SIZE_ATQGC
   };
+  enum{
+  // Decay
+    gZllRH, //reZ
+    gZllLH, //leZ
+    gZuuRH, //rquZ
+    gZuuLH, //lquZ
+    gZddRH, //rqdZ
+    gZddLH, //lqdZ
+    gZnunuRH, //rnZ
+    gZnunuLH, //lnZ
+
+  // Production
+    guZRH, //cranou
+    guZLH, //clanou
+    gdZRH, //cranod
+    gdZLH, //clanod
+
+    SIZE_AZff
+  };
 }
 
 

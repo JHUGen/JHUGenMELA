@@ -244,6 +244,9 @@ namespace TUtil{
   void SetJHUGenSpinTwoCouplings(double Gacoupl[SIZE_GGG][2], double Gvvcoupl[SIZE_GVV][2], double Gvvpcoupl[SIZE_GVV][2], double Gvpvpcoupl[SIZE_GVV][2], double qLeftRightcoupl[SIZE_GQQ][2]);
   // Vprime / contact couplings
   void SetJHUGenVprimeContactCouplings(double Zpffcoupl[SIZE_Vpff][2], double Wpffcoupl[SIZE_Vpff][2]);
+  // AZff
+  void SetMCFMAZffCouplings(bool useBSM, AZffCouplings const* Zcouplings);
+  void SetJHUGenAZffCouplings(bool needAZff, double AZffcoupl[SIZE_AZff][2]);
 
   // PS cuts, unused
   bool MCFM_masscuts(double s[][mxpart], const TVar::Process& process);

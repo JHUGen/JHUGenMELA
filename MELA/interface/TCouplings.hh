@@ -140,4 +140,19 @@ public:
   double aTQGCcoupl[SIZE_ATQGC][2];
 };
 
+class AZffCouplings{
+public:
+  AZffCouplings();
+  AZffCouplings(AZffCouplings const& other);
+  virtual ~AZffCouplings();
+
+  void reset();
+  void copy(AZffCouplings const& other);
+  AZffCouplings* getRef();
+
+  void SetAZffCouplings(unsigned int index, double c_real, double c_imag);
+
+  double AZffcoupl[SIZE_AZff][2];
+};
+
 #endif

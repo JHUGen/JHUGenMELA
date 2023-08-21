@@ -245,6 +245,22 @@ extern "C" {
   } spinzerohiggs_anomcoupl_;
 
   extern struct {
+    int AllowAnomalousZffCouplings;
+    double reZ;
+    double leZ;
+    double lnZ;
+    double rnZ;
+    double rquZ;
+    double lquZ;
+    double rqdZ;
+    double lqdZ;
+    double clanou;
+    double cranou;
+    double clanod;
+    double cranod;
+  } anomzffcouplings_;
+
+  extern struct {
     bool srdiags;
   } srdiags_;
 
