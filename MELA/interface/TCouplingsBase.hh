@@ -181,21 +181,19 @@ namespace{
     SIZE_ATQGC
   };
   enum{
-  // Decay
-    gZllRH, //reZ
-    gZllLH, //leZ
-    gZuuRH, //rquZ
-    gZuuLH, //lquZ
-    gZddRH, //rqdZ
-    gZddLH, //lqdZ
-    gZnunuRH, //rnZ
-    gZnunuLH, //lnZ
+    gAZff_ZllRH, //reZ
+    gAZff_ZllLH, //leZ
+    gAZff_ZuuRH, //rquZ
+    gAZff_ZuuLH, //lquZ
+    gAZff_ZddRH, //rqdZ
+    gAZff_ZddLH, //lqdZ
+    gAZff_ZnunuRH, //rnZ
+    gAZff_ZnunuLH, //lnZ
 
-  // Production
-    guZRH, //cranou
-    guZLH, //clanou
-    gdZRH, //cranod
-    gdZLH, //clanod
+    gAZff_uZRH, //cranou
+    gAZff_uZLH, //clanou
+    gAZff_dZRH, //cranod
+    gAZff_dZLH, //clanod
 
     SIZE_AZff
   };

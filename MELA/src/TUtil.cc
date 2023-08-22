@@ -4042,23 +4042,24 @@ void TUtil::SetMCFMaTQGCCouplings(bool useBSM, aTQGCCouplings const* couplings){
   }
 }
 void TUtil::SetMCFMAZffCouplings(bool useBSM, AZffCouplings const* Zcouplings){
-  if (useBSM) {
-  // BSM (all imaginary parts = 0 => unset, only setting the real parts)
+  if (useBSM){
+    // BSM (all imaginary parts = 0 => unset, only setting the real parts)
     anomzffcouplings_.AllowAnomalousZffCouplings = 1;
-    anomzffcouplings_.reZ = (Zcouplings->AZffcoupl)[gZllRH][0];
-    anomzffcouplings_.leZ = (Zcouplings->AZffcoupl)[gZllLH][0];
-    anomzffcouplings_.rquZ = (Zcouplings->AZffcoupl)[gZuuRH][0];
-    anomzffcouplings_.lquZ = (Zcouplings->AZffcoupl)[gZuuLH][0];
-    anomzffcouplings_.rqdZ = (Zcouplings->AZffcoupl)[gZddRH][0];
-    anomzffcouplings_.lqdZ = (Zcouplings->AZffcoupl)[gZddLH][0];
-    anomzffcouplings_.rnZ = (Zcouplings->AZffcoupl)[gZnunuRH][0];
-    anomzffcouplings_.lnZ = (Zcouplings->AZffcoupl)[gZnunuLH][0];
-    anomzffcouplings_.clanou = (Zcouplings->AZffcoupl)[guZLH][0];
-    anomzffcouplings_.cranou = (Zcouplings->AZffcoupl)[guZRH][0];
-    anomzffcouplings_.clanod = (Zcouplings->AZffcoupl)[gdZLH][0];
-    anomzffcouplings_.cranod = (Zcouplings->AZffcoupl)[gdZRH][0];
-  } else {
-  // SM
+    anomzffcouplings_.reZ = (Zcouplings->AZffcoupl)[gAZff_ZllRH][0];
+    anomzffcouplings_.leZ = (Zcouplings->AZffcoupl)[gAZff_ZllLH][0];
+    anomzffcouplings_.rquZ = (Zcouplings->AZffcoupl)[gAZff_ZuuRH][0];
+    anomzffcouplings_.lquZ = (Zcouplings->AZffcoupl)[gAZff_ZuuLH][0];
+    anomzffcouplings_.rqdZ = (Zcouplings->AZffcoupl)[gAZff_ZddRH][0];
+    anomzffcouplings_.lqdZ = (Zcouplings->AZffcoupl)[gAZff_ZddLH][0];
+    anomzffcouplings_.rnZ = (Zcouplings->AZffcoupl)[gAZff_ZnunuRH][0];
+    anomzffcouplings_.lnZ = (Zcouplings->AZffcoupl)[gAZff_ZnunuLH][0];
+    anomzffcouplings_.clanou = (Zcouplings->AZffcoupl)[gAZff_uZLH][0];
+    anomzffcouplings_.cranou = (Zcouplings->AZffcoupl)[gAZff_uZRH][0];
+    anomzffcouplings_.clanod = (Zcouplings->AZffcoupl)[gAZff_dZLH][0];
+    anomzffcouplings_.cranod = (Zcouplings->AZffcoupl)[gAZff_dZRH][0];
+  }
+  else{
+    // SM
     anomzffcouplings_.AllowAnomalousZffCouplings = 0;
     anomzffcouplings_.reZ = 0;
     anomzffcouplings_.leZ = 0;
@@ -4089,7 +4090,10 @@ void TUtil::SetJHUGenSpinTwoCouplings(double Gacoupl[SIZE_GGG][2], double Gvvcou
 void TUtil::SetJHUGenVprimeContactCouplings(double Zpffcoupl[SIZE_Vpff][2], double Wpffcoupl[SIZE_Vpff][2]){
   __modjhugenmela_MOD_setvprimecontactcouplings(Zpffcoupl, Wpffcoupl);
 }
-void TUtil::SetJHUGenAZffCouplings(bool needAZff, double AZffcoupl[SIZE_AZff][2]){ __modparameters_MOD_computeewvariables(); if (needAZff) __modjhugenmela_MOD_setazffcouplings(AZffcoupl); }
+void TUtil::SetJHUGenAZffCouplings(bool needAZff, double AZffcoupl[SIZE_AZff][2]){
+  __modparameters_MOD_computeewvariables();
+  if (needAZff) __modjhugenmela_MOD_setazffcouplings(AZffcoupl);
+}
 
 //Make sure
 // 1. tot Energy Sum < 2EBEAM
