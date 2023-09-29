@@ -180,7 +180,7 @@ class SelfDParameter(object):
     for index in self.indices[:-1]:
       array = array[index]
     array[self.indices[-1]] = val
-
+    
 class SelfDCoupling(object):
   def __init__(self, arrayname, *indices):
     self.arrayname = arrayname
