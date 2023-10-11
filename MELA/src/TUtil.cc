@@ -3350,6 +3350,12 @@ void TUtil::SetJHUGenHiggsMassWidth(double MReso, double GaReso){
   GaReso *= GeV; // GeV units in JHUGen
   __modjhugenmela_MOD_sethiggsmasswidth(&MReso, &GaReso);
 }
+void TUtil::SetJHUGenZMassWidth(double MZ, double GaZ){
+  const double GeV = 1./100.;
+  MZ *= GeV; // GeV units in JHUGen
+  GaZ *= GeV; // GeV units in JHUGen
+  __modjhugenmela_MOD_setzmasswidth(&MZ, &GaZ);
+}
 void TUtil::SetJHUGenDistinguishWWCouplings(bool doAllow){
   int iAllow = (doAllow ? 1 : 0);
   __modjhugenmela_MOD_setdistinguishwwcouplingsflag(&iAllow);

@@ -12,6 +12,7 @@ extern "C" {
   void __modjhugenmela_MOD_setdistinguishwwcouplingsflag(int* doallow); // YES, THE ARGUMENT IS AN INT, NOT A BOOL!
   void __modjhugenmela_MOD_sethdk(int* flag);
   void __modjhugenmela_MOD_sethiggsmasswidth(double *mass, double *width);
+  void __modjhugenmela_MOD_setzmasswidth(double *mass, double *width);
   void __modjhugenmela_MOD_setmurenfac(double* muren, double* mufac);
   void __modjhugenmela_MOD_resetmubarhgabarh();
   void __modjhugenmela_MOD_resetamplitudeincludes();

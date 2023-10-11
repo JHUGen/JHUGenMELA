@@ -229,6 +229,7 @@ namespace TUtil{
   // JHUGen-specific wrappers
   void InitJHUGenMELA(const char* pathtoPDFSet, int PDFMember, double collider_sqrts);
   void SetJHUGenHiggsMassWidth(double MReso, double GaReso);
+  void SetJHUGenZMassWidth(double MZ, double GaZ);
   void SetJHUGenDistinguishWWCouplings(bool doAllow);
   void ResetAmplitudeIncludes();
 

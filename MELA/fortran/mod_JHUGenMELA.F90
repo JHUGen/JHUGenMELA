@@ -11,6 +11,7 @@ MODULE ModJHUGenMELA
 
 public :: SetEWParameters
 public :: SetHiggsMassWidth
+public :: SetZMassWidth
 public :: SetDecayModes
 public :: SetTopDecays
 public :: SetHDK
@@ -56,6 +57,15 @@ subroutine SetHiggsMassWidth(mass,width)
    call SetDecayWidth(width,Hig_)
    return
 end subroutine SetHiggsMassWidth
+
+subroutine SetZMassWidth(mass,width)
+   implicit none
+   real(8), intent(in) :: mass, width
+   call SetMass(mass,Z0_)
+   call SetDecayWidth(width,Z0_)
+   PRINT *, M_Z
+   return
+end subroutine SetZMassWidth
 
 subroutine SetDecayModes(idfirst,idsecond)
    implicit none
