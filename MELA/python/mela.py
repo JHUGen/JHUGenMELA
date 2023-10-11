@@ -695,7 +695,7 @@ class Mela(object):
 	cranod = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_dZRH);
 	clanod = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_dZLH);
 
-
+	differentiate_HWW_HZZ = SelfDParameter("differentiate_HWW_HZZ")
 
 def SimpleParticleCollection_t(iterable=None):
 	if iterable is None: return ROOT.SimpleParticleCollection_t()
