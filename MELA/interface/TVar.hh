@@ -208,6 +208,7 @@ namespace TVar{
     Dynamic_HT,
     Dynamic_Leading_pTJ,
     Dynamic_Softest_pTJ,
+    Dynamic_RandomUniform_Constrained,
 
     nEventScaleSchemes
   };
