@@ -118,7 +118,8 @@ namespace TVar{
     NoPropagator=0,
     RunningWidth=1,
     FixedWidth=2,
-    CPS=3
+    CPS=3,
+    altRunningWidth=4
   };
 
   enum Process{
