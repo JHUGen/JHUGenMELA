@@ -53,9 +53,6 @@ nSetupArgs=${#setupArgs[@]}
 # If CMS SCRAM_ARCH is set as an environment variable and it is present in data/,
 # use SCRAM_ARCH as MELA_ARCH.
 mela_arch=$(getMELAARCH)
-if [[ ! -z "${SCRAM_ARCH+x}" ]] && [[ -d ${MELADIR}/data/${SCRAM_ARCH} ]]; then
-  mela_arch=${SCRAM_ARCH}
-fi
 mela_lib_path="${MELADIR}/data/${mela_arch}"
 
 if [[ -z "${ROOFITSYS+x}" ]] && [[ $doDeps -eq 0 ]]; then
