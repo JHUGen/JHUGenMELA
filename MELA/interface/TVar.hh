@@ -118,7 +118,8 @@ namespace TVar{
     NoPropagator=0,
     RunningWidth=1,
     FixedWidth=2,
-    CPS=3
+    CPS=3,
+    AltRunningWidth=4
   };
 
   enum Process{
@@ -208,6 +209,7 @@ namespace TVar{
     Dynamic_HT,
     Dynamic_Leading_pTJ,
     Dynamic_Softest_pTJ,
+    Dynamic_RandomUniform_Constrained,
 
     nEventScaleSchemes
   };

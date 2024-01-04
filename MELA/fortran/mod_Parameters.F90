@@ -3,7 +3,7 @@ implicit none
 save
 !
 !
-character(len=*),parameter :: JHUGen_Version="v7.5.3"
+character(len=*),parameter :: JHUGen_Version="v7.5.4"
 !
 !
 !=====================================================
@@ -18,7 +18,7 @@ integer, public :: Collider,PChannel,Process,DecayMode1,DecayMode2,TopDecays,Tau
 integer, public :: VegasIt1,VegasNc0,VegasNc1,VegasNc2,PMZZEvals
 real(8), public :: Collider_Energy
 integer, public :: FacScheme,RenScheme
-real(8), public :: MuFacMultiplier,MuRenMultiplier
+real(8), public :: MuFacMultiplier,MuRenMultiplier,CustomUpperScaleBound, CustomLowerScaleBound
 integer, public :: VegasIt1_default,VegasNc0_default,VegasNc1_default,VegasNc2_default
 integer, public :: NumHistograms
 integer, public :: RequestNLeptons(1:2) = -1
@@ -41,7 +41,8 @@ integer, public, parameter :: kRenFacScheme_mj_mhstar=8
 integer, public, parameter :: kRenFacScheme_mj=9
 integer, public, parameter :: kRenFacScheme_maxpTj=10
 integer, public, parameter :: kRenFacScheme_minpTj=11
-integer, public, parameter :: nRenFacSchemes=12
+integer, public, parameter :: kRenFacScheme_custom_scale=12
+integer, public, parameter :: nRenFacSchemes=13
 integer, public, parameter :: maxpart = 30
 integer, public, parameter :: NMAXCHANNELS=200 ! Maximum 250 from vegas_common xi dimensions
 integer(8), public :: EvalCounter=0
@@ -260,14 +261,15 @@ real(8), public            :: POL_A = 0d0                   ! e+ polarization. 0
 real(8), public            :: POL_B = 0d0                   ! e- polarization. 0: no polarization, 100: helicity = 1, -100: helicity = -1
 
 ! PDF and QCD scale variables, set in main::InitPDFNonConstVals if not a parameter
-integer, public, parameter :: nQflavors_pdf = 5    ! Number of flavors enforced to the PDF, used in ModParameters::EvalAlphaS()
-integer, public, parameter :: nloops_pdf = 1       ! alpha_s order
-real(8), public            :: zmass_pdf            ! Z mass used in pdf toward the QCD scale, reset later in main per PDF if needed
-real(8), public            :: Mu_Fact              ! pdf factorization scale (set to M_Reso in main.F90)
-real(8), public            :: Mu_Ren               ! QCD renormalization (alpha_s) scale (set to M_Reso in main.F90)
-real(dp), public           :: alphas               ! strong coupling per event, set to some reasonable value
-real(dp), public           :: alphas_mz            ! strong coupling at M_Z, reset later in main per PDF
-real(dp), public           :: gs                   ! = sqrt(alphas*4.0_dp*pi)
+integer, public, parameter :: nQflavors_pdf = 5          ! Number of flavors enforced to the PDF, used in ModParameters::EvalAlphaS()
+integer, public, parameter :: nloops_pdf = 1             ! alpha_s order
+real(8), public            :: zmass_pdf                  ! Z mass used in pdf toward the QCD scale, reset later in main per PDF if needed
+real(8), public            :: Mu_Fact                    ! pdf factorization scale (set to M_Reso in main.F90)
+real(8), public            :: Mu_Ren                     ! QCD renormalization (alpha_s) scale (set to M_Reso in main.F90)
+real(dp), public           :: alphas                     ! strong coupling per event, set to some reasonable value
+real(dp), public           :: alphas_mz                  ! strong coupling at M_Z, reset later in main per PDF
+real(dp), public           :: gs                         ! = sqrt(alphas*4.0_dp*pi)
+real(8), public            :: BreitWignerCutoff = 20d0   ! This is the cutoff to the phase space calculation in mod_CrossSection.F90
 
 
 ! CKM squared matrix entries
