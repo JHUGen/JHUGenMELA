@@ -724,10 +724,12 @@ def SimpleParticle_t(lineorid, pxortlv=None, py=None, pz=None, e=None):
 	else:
 		try:
 			if lineorid != int(lineorid):
-				raise ValueError("""\n
-												 Casting to an int changes the id value! 
-												 Revise your types or forever be doomed!
-												 \n""")
+				raise ValueError(
+				"""\n
+					Casting to an int changes the id value! 
+					Revise your types or forever be doomed!
+				\n"""
+				)
 			id = int(lineorid)
 		except:
 			raise TypeError("""\n
