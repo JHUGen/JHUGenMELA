@@ -39,7 +39,6 @@ from __future__ import print_function
 from collections import namedtuple
 import ROOT
 from pythonmelautils import MultiDimensionalCppArray, SelfDParameter, SelfDCoupling
-from ROOT import TUtil, TVar
 
 try:
 	basestring
@@ -215,50 +214,50 @@ class Mela(object):
 		type(self).counter += 1
 
 		arrays	= (
-							 ("selfDHggcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HGG, 2)),
-							 ("selfDHg4g4coupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HGG, 2)),
-							 ("selfDHqqcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
-							 ("selfDHbbcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
-							 ("selfDHttcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
-							 ("selfDHb4b4coupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
-							 ("selfDHt4t4coupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
-							 ("selfDHzzcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV, 2)),
-							 ("selfDHwwcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV, 2)),
-							 ("selfDHzzLambda_qsq", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV_LAMBDAQSQ, ROOT.pymela.SIZE_HVV_CQSQ)),
-							 ("selfDHwwLambda_qsq", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV_LAMBDAQSQ, ROOT.pymela.SIZE_HVV_CQSQ)),
-							 ("selfDHzzCLambda_qsq", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV_CQSQ)),
-							 ("selfDHwwCLambda_qsq", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV_CQSQ)),
-							 ("selfDHzzpcoupl", (ROOT.pymela.SIZE_HVV, 2)),
-							 ("selfDHzpzpcoupl", (ROOT.pymela.SIZE_HVV, 2)),
-							 ("selfDZpffcoupl", (ROOT.pymela.SIZE_Vpff, 2)),
-							 ("selfDHwwpcoupl", (ROOT.pymela.SIZE_HVV, 2)),
-							 ("selfDHwpwpcoupl", (ROOT.pymela.SIZE_HVV, 2)),
-							 ("selfDWpffcoupl", (ROOT.pymela.SIZE_Vpff, 2)),
-							 ("selfDZqqcoupl", (ROOT.pymela.SIZE_ZQQ, 2)),
-							 ("selfDZvvcoupl", (ROOT.pymela.SIZE_ZVV, 2)),
-							 ("selfDGqqcoupl", (ROOT.pymela.SIZE_GQQ, 2)),
-							 ("selfDGggcoupl", (ROOT.pymela.SIZE_GGG, 2)),
-							 ("selfDGvvcoupl", (ROOT.pymela.SIZE_GVV, 2)),
-							 ("selfDGvvpcoupl", (ROOT.pymela.SIZE_GVV, 2)),
-							 ("selfDGvpvpcoupl", (ROOT.pymela.SIZE_GVV, 2)),
-							 ("selfDaTQGCcoupl", (ROOT.pymela.SIZE_ATQGC, 2)),
-							 ("selfDAZffcoupl", (ROOT.pymela.SIZE_AZff, 2)),
-							)
+			("selfDHggcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HGG, 2)),
+			("selfDHg4g4coupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HGG, 2)),
+			("selfDHqqcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
+			("selfDHbbcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
+			("selfDHttcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
+			("selfDHb4b4coupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
+			("selfDHt4t4coupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HQQ, 2)),
+			("selfDHzzcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV, 2)),
+			("selfDHwwcoupl", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV, 2)),
+			("selfDHzzLambda_qsq", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV_LAMBDAQSQ, ROOT.pymela.SIZE_HVV_CQSQ)),
+			("selfDHwwLambda_qsq", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV_LAMBDAQSQ, ROOT.pymela.SIZE_HVV_CQSQ)),
+			("selfDHzzCLambda_qsq", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV_CQSQ)),
+			("selfDHwwCLambda_qsq", (ROOT.nSupportedHiggses, ROOT.pymela.SIZE_HVV_CQSQ)),
+			("selfDHzzpcoupl", (ROOT.pymela.SIZE_HVV, 2)),
+			("selfDHzpzpcoupl", (ROOT.pymela.SIZE_HVV, 2)),
+			("selfDZpffcoupl", (ROOT.pymela.SIZE_Vpff, 2)),
+			("selfDHwwpcoupl", (ROOT.pymela.SIZE_HVV, 2)),
+			("selfDHwpwpcoupl", (ROOT.pymela.SIZE_HVV, 2)),
+			("selfDWpffcoupl", (ROOT.pymela.SIZE_Vpff, 2)),
+			("selfDZqqcoupl", (ROOT.pymela.SIZE_ZQQ, 2)),
+			("selfDZvvcoupl", (ROOT.pymela.SIZE_ZVV, 2)),
+			("selfDGqqcoupl", (ROOT.pymela.SIZE_GQQ, 2)),
+			("selfDGggcoupl", (ROOT.pymela.SIZE_GGG, 2)),
+			("selfDGvvcoupl", (ROOT.pymela.SIZE_GVV, 2)),
+			("selfDGvvpcoupl", (ROOT.pymela.SIZE_GVV, 2)),
+			("selfDGvpvpcoupl", (ROOT.pymela.SIZE_GVV, 2)),
+			("selfDaTQGCcoupl", (ROOT.pymela.SIZE_ATQGC, 2)),
+			("selfDAZffcoupl", (ROOT.pymela.SIZE_AZff, 2)),
+		)
 
 		f = None
 		for name, dimensions in arrays:
-				setattr(
-								self,
-								name,
-								MultiDimensionalCppArray(
-																				 "mela{}{}".format(self.index, name),
-																				 "mela.{}".format(name),
-																				 ["Mela.h"],
-																				 {"Mela& mela": self.__mela},
-																				 *dimensions
-																				)
-							 )
-				f = getattr(self, name).writecpp(f)
+			setattr(
+				self,
+				name,
+				MultiDimensionalCppArray(
+					"mela{}{}".format(self.index, name),
+					"mela.{}".format(name),
+					["Mela.h"],
+					{"Mela& mela": self.__mela},
+					*dimensions
+				)
+			)
+			f = getattr(self, name).writecpp(f)
 		bkpgErrorIgnoreLevel, ROOT.gErrorIgnoreLevel = ROOT.gErrorIgnoreLevel, ROOT.kInfo+1
 		f.write(self.computeptemplate)
 		for name, dimensions in arrays:
@@ -479,6 +478,11 @@ class Mela(object):
 	kappa_top_tilde = SelfDCoupling("selfDHttcoupl", 0, ROOT.pymela.gHIGGS_KAPPA_TILDE)
 	kappa_bot = SelfDCoupling("selfDHbbcoupl", 0, ROOT.pymela.gHIGGS_KAPPA)
 	kappa_bot_tilde = SelfDCoupling("selfDHbbcoupl", 0, ROOT.pymela.gHIGGS_KAPPA_TILDE)
+	
+	kappa_4gen_top = SelfDCoupling("selfDHt4t4coupl", 0, ROOT.pymela.gHIGGS_KAPPA)
+	kappa_4gen_top_tilde = SelfDCoupling("selfDHt4t4coupl", 0, ROOT.pymela.gHIGGS_KAPPA_TILDE)
+	kappa_4gen_bot = SelfDCoupling("selfDHb4b4coupl", 0, ROOT.pymela.gHIGGS_KAPPA)
+	kappa_4gen_bot_tilde = SelfDCoupling("selfDHb4b4coupl", 0, ROOT.pymela.gHIGGS_KAPPA_TILDE)
 
 	ghzzp1 = SelfDCoupling("selfDHzzpcoupl", ROOT.pymela.gHIGGS_VV_1)
 	ghzzp2 = SelfDCoupling("selfDHzzpcoupl", ROOT.pymela.gHIGGS_VV_2)
@@ -668,32 +672,32 @@ class Mela(object):
 	bzpzp9 = SelfDCoupling("selfDGvpvpcoupl", ROOT.pymela.gGRAVITON_VV_9)
 	bzpzp10 = SelfDCoupling("selfDGvpvpcoupl", ROOT.pymela.gGRAVITON_VV_10)
 
-	dV_A = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dVA);
-	dP_A = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dPA);
-	dM_A = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dMA);
-	dFour_A = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dFourA);
+	dV_A = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dVA)
+	dP_A = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dPA)
+	dM_A = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dMA)
+	dFour_A = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dFourA)
 
-	dV_Z = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dVZ);
-	dP_Z = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dPZ);
-	dM_Z = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dMZ);
-	dFour_Z = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dFourZ);
+	dV_Z = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dVZ)
+	dP_Z = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dPZ)
+	dM_Z = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dMZ)
+	dFour_Z = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dFourZ)
 
-	dAAWpWm = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dAAWpWm);
-	dZAWpWm = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dZAWpWm);
-	dZZWpWm = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dZZWpWm);
+	dAAWpWm = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dAAWpWm)
+	dZAWpWm = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dZAWpWm)
+	dZZWpWm = SelfDCoupling("selfDaTQGCcoupl", ROOT.pymela.gATQGC_dZZWpWm)
 
-	reZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZllRH);
-	leZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZllLH);
-	rquZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZuuRH);
-	lquZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZuuLH);
-	rqdZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZddRH);
-	lqdZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZddLH);
-	rnZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZnunuRH);
-	lnZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZnunuLH);
-	cranou = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_uZRH);
-	clanou = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_uZLH);
-	cranod = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_dZRH);
-	clanod = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_dZLH);
+	reZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZllRH)
+	leZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZllLH)
+	rquZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZuuRH)
+	lquZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZuuLH)
+	rqdZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZddRH)
+	lqdZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZddLH)
+	rnZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZnunuRH)
+	lnZ = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_ZnunuLH)
+	cranou = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_uZRH)
+	clanou = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_uZLH)
+	cranod = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_dZRH)
+	clanod = SelfDCoupling("selfDAZffcoupl", ROOT.pymela.gAZff_dZLH)
 
 	differentiate_HWW_HZZ = SelfDParameter("differentiate_HWW_HZZ")
 
@@ -740,108 +744,108 @@ def SimpleParticle_t(lineorid, pxortlv=None, py=None, pz=None, e=None):
 	
 	return ROOT.SimpleParticle_t(id, tlv)
 
-if __name__ == "__main__":
-	m = Mela()
-	event1 = """
-<event>
-12	50	 1.0000000E+00	 1.2500000E+02	 7.8125000E-03	 1.2380607E-01
-				2	 -1		0		0	503		0	0.00000000000E+00	0.00000000000E+00	1.65430825479E+03	1.65430825479E+03	0.00000000000E+00 0.00000000000E+00	1.
-			 -1	 -1		0		0		0	503	0.00000000000E+00	0.00000000000E+00 -1.42857195999E+01	1.42857195999E+01	0.00000000000E+00 0.00000000000E+00	1.
-			 24		2		1		2		0		0 -2.29473352103E+00 -1.04804828491E+02	4.95291431378E+02	5.12296652853E+02	7.83896718395E+01 0.00000000000E+00	1.
-			 25		2		1		2		0		0	2.29473352103E+00	1.04804828491E+02	1.14473110382E+03	1.15629732154E+03	1.24999511524E+02 0.00000000000E+00	1.
-			 14		1		3		3		0		0	4.42035961901E+00 -5.60456350211E+01	4.09886160671E+02	4.13723721213E+02	8.42936970218E-06 0.00000000000E+00	1.
-			-13		1		3		3		0		0 -6.71509314004E+00 -4.87591934698E+01	8.54052707068E+01	9.85729316407E+01	1.05660000144E-01 0.00000000000E+00	1.
-			 23		2		4		4		0		0 -2.00748771644E+01	3.21702667586E+01	3.27018956548E+02	3.30034988785E+02	2.33188576920E+01 0.00000000000E+00	1.
-			 23		2		4		4		0		0	2.23696106855E+01	7.26345617324E+01	8.17712147272E+02	8.26262332755E+02	9.09950970840E+01 0.00000000000E+00	1.
-			-11		1		7		7		0		0 -1.74223737299E+01	9.11950220870E+00	1.06644211152E+02	1.08442114510E+02	5.11001208360E-04 0.00000000000E+00	1.
-			 11		1		7		7		0		0 -2.65250343458E+00	2.30507645499E+01	2.20374745396E+02	2.21592874275E+02	5.10994690391E-04 0.00000000000E+00	1.
-			-13		1		8		8		0		0	8.81223774828E+00	8.87930337607E+01	5.03683096793E+02	5.11525690007E+02	1.05660000328E-01 0.00000000000E+00	1.
-			 13		1		8		8		0		0	1.35573729372E+01 -1.61584720283E+01	3.14029050479E+02	3.14736642748E+02	1.05659999907E-01 0.00000000000E+00	1.
-</event>
-	"""
-	event2 = """
-<event>
-12	50	 1.0000000E+00	 1.2500000E+02	 7.8125000E-03	 1.2380607E-01
-				1	 -1		0		0	503		0	0.00000000000E+00	0.00000000000E+00	1.58591490197E+03	1.58591490197E+03	0.00000000000E+00 0.00000000000E+00	1.
-			 -1	 -1		0		0		0	503	0.00000000000E+00	0.00000000000E+00 -8.99084923758E+00	8.99084923758E+00	0.00000000000E+00 0.00000000000E+00	1.
-			 23		2		1		2		0		0	4.31808951699E+01	1.18843550193E+01	8.22005355890E+02	8.28398612649E+02	9.24425698805E+01 0.00000000000E+00	1.
-			 25		2		1		2		0		0 -4.31808951699E+01 -1.18843550193E+01	7.54918696840E+02	7.66507138556E+02	1.25000508063E+02 0.00000000000E+00	1.
-			 11		1		3		3		0		0 -1.35803884002E+01 -5.28931958672E+00	5.41360784563E+02	5.41556924907E+02	5.11072900539E-04 0.00000000000E+00	1.
-			-11		1		3		3		0		0	5.67612835701E+01	1.71736746060E+01	2.80644571326E+02	2.86841687743E+02	5.11012071458E-04 0.00000000000E+00	1.
-			 23		2		4		4		0		0 -2.43038338852E+01	5.06442605250E+00	2.48359236741E+02	2.53284239962E+02	4.30612469142E+01 0.00000000000E+00	1.
-			 23		2		4		4		0		0 -1.88770612847E+01 -1.69487810718E+01	5.06559460099E+02	5.13222898594E+02	7.84324703350E+01 0.00000000000E+00	1.
-			-13		1		7		7		0		0 -3.25370809281E+01 -6.79837669312E+00	2.02354268485E+02	2.05066186143E+02	1.05659999991E-01 0.00000000000E+00	1.
-			 13		1		7		7		0		0	8.23324704291E+00	1.18628027456E+01	4.60049682560E+01	4.82180538193E+01	1.05659999989E-01 0.00000000000E+00	1.
-			-13		1		8		8		0		0	4.59433181687E+00 -3.18015647781E+01	4.39027117172E+02	4.40201395027E+02	1.05659999655E-01 0.00000000000E+00	1.
-			 13		1		8		8		0		0 -2.34713931016E+01	1.48527837063E+01	6.75323429266E+01	7.30215035668E+01	1.05660000010E-01 0.00000000000E+00	1.
-</event>
-	"""
-	event3 = """
-<event>
-11	60	 1.0000000E+00	 1.2500000E+02	 7.8125000E-03	 1.2380607E-01
-				1	 -1		0		0	501		0	0.00000000000E+00	0.00000000000E+00	8.38349783822E+01	8.38349783822E+01	0.00000000000E+00 0.00000000000E+00	1.
-				2	 -1		0		0	502		0	0.00000000000E+00	0.00000000000E+00 -8.69647303563E+02	8.69647303563E+02	0.00000000000E+00 0.00000000000E+00	1.
-				4		1		1		2	501		0	4.93534233194E+01 -7.45486758049E+00	2.54822242213E+01	5.60417629563E+01	0.00000000000E+00 0.00000000000E+00	1.
-				1		1		1		2	502		0 -4.29482465415E+01	4.39907893858E+01 -7.51475061906E+02	7.53985749267E+02	0.00000000000E+00 0.00000000000E+00	1.
-			 25		2		1		2		0		0 -6.40517677787E+00 -3.65359218053E+01 -5.98194874970E+01	1.43454769722E+02	1.25000000000E+02 0.00000000000E+00	1.
-			 23		2		5		5		0		0 -1.61638014503E+01 -3.55963825472E+01 -2.51394501445E+01	1.03431837860E+02	9.24001201399E+01 0.00000000000E+00	1.
-			 23		2		5		5		0		0	9.75862467247E+00 -9.39539258134E-01 -3.46800373525E+01	4.00229318615E+01	1.74073718437E+01 0.00000000000E+00	1.
-			-11		1		6		6		0		0	3.37109433312E+01 -2.97615359833E+01	4.38251799494E+00	4.51816687231E+01	5.11000134768E-04 0.00000000000E+00	1.
-			 11		1		6		6		0		0 -4.98747447816E+01 -5.83484656388E+00 -2.95219681394E+01	5.82501691374E+01	5.11001208360E-04 0.00000000000E+00	1.
-			-13		1		7		7		0		0	1.46596263059E+01	5.33582780943E-01 -2.31337995488E+01	2.73929406894E+01	1.05660000000E-01 0.00000000000E+00	1.
-			 13		1		7		7		0		0 -4.90100163341E+00 -1.47312203908E+00 -1.15462378037E+01	1.26299911721E+01	1.05660000000E-01 0.00000000000E+00	1.
-</event>
-	"""
+# if __name__ == "__main__":
+# 	m = Mela()
+# 	event1 = """
+# <event>
+# 12	50	 1.0000000E+00	 1.2500000E+02	 7.8125000E-03	 1.2380607E-01
+# 				2	 -1		0		0	503		0	0.00000000000E+00	0.00000000000E+00	1.65430825479E+03	1.65430825479E+03	0.00000000000E+00 0.00000000000E+00	1.
+# 			 -1	 -1		0		0		0	503	0.00000000000E+00	0.00000000000E+00 -1.42857195999E+01	1.42857195999E+01	0.00000000000E+00 0.00000000000E+00	1.
+# 			 24		2		1		2		0		0 -2.29473352103E+00 -1.04804828491E+02	4.95291431378E+02	5.12296652853E+02	7.83896718395E+01 0.00000000000E+00	1.
+# 			 25		2		1		2		0		0	2.29473352103E+00	1.04804828491E+02	1.14473110382E+03	1.15629732154E+03	1.24999511524E+02 0.00000000000E+00	1.
+# 			 14		1		3		3		0		0	4.42035961901E+00 -5.60456350211E+01	4.09886160671E+02	4.13723721213E+02	8.42936970218E-06 0.00000000000E+00	1.
+# 			-13		1		3		3		0		0 -6.71509314004E+00 -4.87591934698E+01	8.54052707068E+01	9.85729316407E+01	1.05660000144E-01 0.00000000000E+00	1.
+# 			 23		2		4		4		0		0 -2.00748771644E+01	3.21702667586E+01	3.27018956548E+02	3.30034988785E+02	2.33188576920E+01 0.00000000000E+00	1.
+# 			 23		2		4		4		0		0	2.23696106855E+01	7.26345617324E+01	8.17712147272E+02	8.26262332755E+02	9.09950970840E+01 0.00000000000E+00	1.
+# 			-11		1		7		7		0		0 -1.74223737299E+01	9.11950220870E+00	1.06644211152E+02	1.08442114510E+02	5.11001208360E-04 0.00000000000E+00	1.
+# 			 11		1		7		7		0		0 -2.65250343458E+00	2.30507645499E+01	2.20374745396E+02	2.21592874275E+02	5.10994690391E-04 0.00000000000E+00	1.
+# 			-13		1		8		8		0		0	8.81223774828E+00	8.87930337607E+01	5.03683096793E+02	5.11525690007E+02	1.05660000328E-01 0.00000000000E+00	1.
+# 			 13		1		8		8		0		0	1.35573729372E+01 -1.61584720283E+01	3.14029050479E+02	3.14736642748E+02	1.05659999907E-01 0.00000000000E+00	1.
+# </event>
+# 	"""
+# 	event2 = """
+# <event>
+# 12	50	 1.0000000E+00	 1.2500000E+02	 7.8125000E-03	 1.2380607E-01
+# 				1	 -1		0		0	503		0	0.00000000000E+00	0.00000000000E+00	1.58591490197E+03	1.58591490197E+03	0.00000000000E+00 0.00000000000E+00	1.
+# 			 -1	 -1		0		0		0	503	0.00000000000E+00	0.00000000000E+00 -8.99084923758E+00	8.99084923758E+00	0.00000000000E+00 0.00000000000E+00	1.
+# 			 23		2		1		2		0		0	4.31808951699E+01	1.18843550193E+01	8.22005355890E+02	8.28398612649E+02	9.24425698805E+01 0.00000000000E+00	1.
+# 			 25		2		1		2		0		0 -4.31808951699E+01 -1.18843550193E+01	7.54918696840E+02	7.66507138556E+02	1.25000508063E+02 0.00000000000E+00	1.
+# 			 11		1		3		3		0		0 -1.35803884002E+01 -5.28931958672E+00	5.41360784563E+02	5.41556924907E+02	5.11072900539E-04 0.00000000000E+00	1.
+# 			-11		1		3		3		0		0	5.67612835701E+01	1.71736746060E+01	2.80644571326E+02	2.86841687743E+02	5.11012071458E-04 0.00000000000E+00	1.
+# 			 23		2		4		4		0		0 -2.43038338852E+01	5.06442605250E+00	2.48359236741E+02	2.53284239962E+02	4.30612469142E+01 0.00000000000E+00	1.
+# 			 23		2		4		4		0		0 -1.88770612847E+01 -1.69487810718E+01	5.06559460099E+02	5.13222898594E+02	7.84324703350E+01 0.00000000000E+00	1.
+# 			-13		1		7		7		0		0 -3.25370809281E+01 -6.79837669312E+00	2.02354268485E+02	2.05066186143E+02	1.05659999991E-01 0.00000000000E+00	1.
+# 			 13		1		7		7		0		0	8.23324704291E+00	1.18628027456E+01	4.60049682560E+01	4.82180538193E+01	1.05659999989E-01 0.00000000000E+00	1.
+# 			-13		1		8		8		0		0	4.59433181687E+00 -3.18015647781E+01	4.39027117172E+02	4.40201395027E+02	1.05659999655E-01 0.00000000000E+00	1.
+# 			 13		1		8		8		0		0 -2.34713931016E+01	1.48527837063E+01	6.75323429266E+01	7.30215035668E+01	1.05660000010E-01 0.00000000000E+00	1.
+# </event>
+# 	"""
+# 	event3 = """
+# <event>
+# 11	60	 1.0000000E+00	 1.2500000E+02	 7.8125000E-03	 1.2380607E-01
+# 				1	 -1		0		0	501		0	0.00000000000E+00	0.00000000000E+00	8.38349783822E+01	8.38349783822E+01	0.00000000000E+00 0.00000000000E+00	1.
+# 				2	 -1		0		0	502		0	0.00000000000E+00	0.00000000000E+00 -8.69647303563E+02	8.69647303563E+02	0.00000000000E+00 0.00000000000E+00	1.
+# 				4		1		1		2	501		0	4.93534233194E+01 -7.45486758049E+00	2.54822242213E+01	5.60417629563E+01	0.00000000000E+00 0.00000000000E+00	1.
+# 				1		1		1		2	502		0 -4.29482465415E+01	4.39907893858E+01 -7.51475061906E+02	7.53985749267E+02	0.00000000000E+00 0.00000000000E+00	1.
+# 			 25		2		1		2		0		0 -6.40517677787E+00 -3.65359218053E+01 -5.98194874970E+01	1.43454769722E+02	1.25000000000E+02 0.00000000000E+00	1.
+# 			 23		2		5		5		0		0 -1.61638014503E+01 -3.55963825472E+01 -2.51394501445E+01	1.03431837860E+02	9.24001201399E+01 0.00000000000E+00	1.
+# 			 23		2		5		5		0		0	9.75862467247E+00 -9.39539258134E-01 -3.46800373525E+01	4.00229318615E+01	1.74073718437E+01 0.00000000000E+00	1.
+# 			-11		1		6		6		0		0	3.37109433312E+01 -2.97615359833E+01	4.38251799494E+00	4.51816687231E+01	5.11000134768E-04 0.00000000000E+00	1.
+# 			 11		1		6		6		0		0 -4.98747447816E+01 -5.83484656388E+00 -2.95219681394E+01	5.82501691374E+01	5.11001208360E-04 0.00000000000E+00	1.
+# 			-13		1		7		7		0		0	1.46596263059E+01	5.33582780943E-01 -2.31337995488E+01	2.73929406894E+01	1.05660000000E-01 0.00000000000E+00	1.
+# 			 13		1		7		7		0		0 -4.90100163341E+00 -1.47312203908E+00 -1.15462378037E+01	1.26299911721E+01	1.05660000000E-01 0.00000000000E+00	1.
+# </event>
+# 	"""
 
-	daughters = """
-	11 -71.89077865749999319 30.50307494750000004 -47.20025487019999844 91.25012710839999386
-	-11 -25.13451734110000046 -18.85931656560000036 -81.42283896300000379 87.27597887359999618
-	11 -51.80274100940000181 1.64269040236999997 -41.79162596869999646 66.57899375339999892
-	-11 -93.72924763700000028 39.45060783929999815 -92.98363978320000456 137.79506373300000632
-	"""
-	associated = """
-	-1 211.33318543799998679 -14.90577872979999974 3.74371777679000006 211.89127619999999297
-	2 31.22409920730000010 -37.83127789369999761 1.23465418111000003 49.06805813689999951
-	"""
-	mothers = """
-	-1 0.00000000000000000 0.00000000000000000 192.71975508899998886 192.71975508899998886
-	2 0.00000000000000000 0.00000000000000000 -451.13974271600000066 451.13974271600000066
-	"""
+# 	daughters = """
+# 	11 -71.89077865749999319 30.50307494750000004 -47.20025487019999844 91.25012710839999386
+# 	-11 -25.13451734110000046 -18.85931656560000036 -81.42283896300000379 87.27597887359999618
+# 	11 -51.80274100940000181 1.64269040236999997 -41.79162596869999646 66.57899375339999892
+# 	-11 -93.72924763700000028 39.45060783929999815 -92.98363978320000456 137.79506373300000632
+# 	"""
+# 	associated = """
+# 	-1 211.33318543799998679 -14.90577872979999974 3.74371777679000006 211.89127619999999297
+# 	2 31.22409920730000010 -37.83127789369999761 1.23465418111000003 49.06805813689999951
+# 	"""
+# 	mothers = """
+# 	-1 0.00000000000000000 0.00000000000000000 192.71975508899998886 192.71975508899998886
+# 	2 0.00000000000000000 0.00000000000000000 -451.13974271600000066 451.13974271600000066
+# 	"""
 
-	m.setInputEvent(
-									SimpleParticleCollection_t(line.split() for line in daughters.split("\n") if line.split()),
-									SimpleParticleCollection_t(line.split() for line in associated.split("\n") if line.split()),
-									SimpleParticleCollection_t(line.split() for line in mothers.split("\n") if line.split()),
-									True,
-								 )
-	#or:
-	#m.setInputEvent_fromLHE_Hwithdecay(event1)
+# 	m.setInputEvent(
+# 									SimpleParticleCollection_t(line.split() for line in daughters.split("\n") if line.split()),
+# 									SimpleParticleCollection_t(line.split() for line in associated.split("\n") if line.split()),
+# 									SimpleParticleCollection_t(line.split() for line in mothers.split("\n") if line.split()),
+# 									True,
+# 								 )
+# 	#or:
+# 	#m.setInputEvent_fromLHE_Hwithdecay(event1)
 
-	couplings = (
-							 (1, 0, 0, 0),
-							 (0, 1, 0, 0),
-							 (0, 0, 1, 0),
-							 (0, 0, 0, 1),
-							 (1, 1.663195, 0, 0),
-							 (1, 0, 2.55502, 0),
-							 (1, 0, 0, -12110.20),
-							)
-	for _ in couplings:
-		m.ghz1, m.ghz2, m.ghz4, m.ghz1_prime2 = _
-		m.setProcess(TVar.SelfDefine_spin0, TVar.JHUGen, TVar.ZZINDEPENDENT)
-		dec = m.computeP(False)
-		m.ghz1, m.ghz2, m.ghz4, m.ghz1_prime2 = _
-		m.setProcess(TVar.SelfDefine_spin0, TVar.JHUGen, TVar.Had_WH)
-		prod = m.computeProdP(False)
-		print(prod, dec, prod*dec)
+# 	couplings = (
+# 							 (1, 0, 0, 0),
+# 							 (0, 1, 0, 0),
+# 							 (0, 0, 1, 0),
+# 							 (0, 0, 0, 1),
+# 							 (1, 1.663195, 0, 0),
+# 							 (1, 0, 2.55502, 0),
+# 							 (1, 0, 0, -12110.20),
+# 							)
+# 	for _ in couplings:
+# 		m.ghz1, m.ghz2, m.ghz4, m.ghz1_prime2 = _
+# 		m.setProcess(TVar.SelfDefine_spin0, TVar.JHUGen, TVar.ZZINDEPENDENT)
+# 		dec = m.computeP(False)
+# 		m.ghz1, m.ghz2, m.ghz4, m.ghz1_prime2 = _
+# 		m.setProcess(TVar.SelfDefine_spin0, TVar.JHUGen, TVar.Had_WH)
+# 		prod = m.computeProdP(False)
+# 		print(prod, dec, prod*dec)
 
-	print(m.computeDecayAngles())
-	print(m.computeVBFAngles())
-	print(m.computeVBFAngles_ComplexBoost())
-	print(m.computeVHAngles(TVar.Had_WH))
-	print("propagator:")
-	print("	 BW:", m.getXPropagator(TVar.FixedWidth))
-	print("	CPS:", m.getXPropagator(TVar.CPS))
-	print(m.getIORecord().getWeightedMEArray())
-	print(m.getIORecord().getUnweightedMEArray())
-	print(m.getIORecord().getPartonWeights())
+# 	print(m.computeDecayAngles())
+# 	print(m.computeVBFAngles())
+# 	print(m.computeVBFAngles_ComplexBoost())
+# 	print(m.computeVHAngles(TVar.Had_WH))
+# 	print("propagator:")
+# 	print("	 BW:", m.getXPropagator(TVar.FixedWidth))
+# 	print("	CPS:", m.getXPropagator(TVar.CPS))
+# 	print(m.getIORecord().getWeightedMEArray())
+# 	print(m.getIORecord().getUnweightedMEArray())
+# 	print(m.getIORecord().getPartonWeights())
