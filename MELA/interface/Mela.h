@@ -1,3 +1,13 @@
+/**
+ * @file Mela.h
+ * @brief This is the "MELA" object that interfaces with the Fortran code in both MCFM-JHUGen and pure JHUGen
+ * 
+ * @authors I. Anderson, S. Bolognesi, F. Caola, J. Davis, Y. Gao, A. V. Gritsan, 
+ * @authors L. S. Mandacaru Guerra, Z. Guo, L. Kang, S. Kyriacou, C. B. Martin, T. Martini, 
+ * @authors K. Melnikov, R. Pan, M. Panagiotou, R. Rontsch, J. Roskes, U. Sarica, 
+ * @authors M. Schulze, M. V. Srivastav, N. V. Tran, A. Whitbeck, M. Xiao, Y. Zhou
+*/
+
 /*
 ************* HEADER: CMS MELA interface to MCFM/JHUGen-MELA *************
 Please see the ../src/Mela.cc file for the instructions.
@@ -38,17 +48,61 @@ class SuperMELA;
 class Mela{
 
 public:
-
+  /**
+   * @brief the MELA constructor
+   * 
+   * @param[in] LHCsqrts_ The luminosity of your collider in TeV. Default is LHC at 13 TeV.
+   * @param[in] mh_ The mass of the Higgs in GeV. Default is 125 GeV
+   * @param[in] verbosity_ The verbosity of MELA that you desire, as defined in TVar::ERROR
+  */
   Mela(double LHCsqrts_=13., double mh_=125., TVar::VerbosityLevel verbosity_=TVar::ERROR); // Higgs mass for supermela
+
+  /**
+   * @brief Copy constructor for MELA
+   * 
+   * @param[in] other another MELA instance
+  */
   Mela(const Mela& other);
+
+  /**
+   * @brief MELA destructor
+  */
   ~Mela();
 
-  // Constructor wrapper
+  /**
+   * @brief This is the actual building of the tool that occurs in each instance of the Mela::Mela constructor
+   * 
+   * @param mh_ This is the mass of the Higgs in GeV
+  */
   void build(double mh_);
 
+  /**
+   * @brief Sets the process, matrix element, and production that MELA is to use for this event
+   * 
+   * @attention Remember to set the process for each event, otherwise the MELA event loop will throw a segmentation error.
+   * @param[in] myModel a TVar for the Process you would like, as defined in TVar::Process
+   * @param[in] myME a TVar for the matrix element you would like, as defined in TVar::MatrixElement
+   * @param[in] myProduction a TVar for the production mode you would like, as defined in TVar::Production
+  */
   void setProcess(TVar::Process myModel, TVar::MatrixElement myME, TVar::Production myProduction);
+
+  /**
+   * @brief Sets the verbosity for MELA outside of the initial constructor
+   * 
+   * @param[in] verbosity_ The verbosity of MELA that you desire, as defined in TVar::ERROR
+  */
   void setVerbosity(TVar::VerbosityLevel verbosity_=TVar::ERROR);
+
+  /**
+   * @brief Gets the current verbosity level for MELA
+   * 
+   * @return a TVar::VerbosityLevel describing the verbosity level for MELA. This is a number from 0 to 5, and corresponds to the values in TVar::VerbosityLevel
+  */
   TVar::VerbosityLevel getVerbosity();
+
+  /**
+   * @brief Sets the MELA Lepton Interference
+  */
   void setMelaLeptonInterference(TVar::LeptonInterference myLepInterf=TVar::DefaultLeptonInterf);
   void setRemoveLeptonMasses(bool MasslessLeptonSwitch=true);
   void setRemoveJetMasses(bool MasslessLeptonSwitch=true);
