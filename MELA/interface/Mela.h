@@ -103,7 +103,7 @@ public:
   /**
    * @brief Sets the MELA Lepton Interference
    * 
-   * @param myLepInterf sets the myLepInterf_ variable to one found in TVar::LeptonInterface through ZZMatrixElement::set_LeptonInterface. TVar::DefaultLeptonInterf by default.
+   * @param[in] myLepInterf sets the myLepInterf_ variable to one found in TVar::LeptonInterface through ZZMatrixElement::set_LeptonInterface. TVar::DefaultLeptonInterf by default.
   */
   void setMelaLeptonInterference(TVar::LeptonInterference myLepInterf=TVar::DefaultLeptonInterf);
 
@@ -111,7 +111,7 @@ public:
    * @brief either permits or forbids massive leptons.
    * @sa Wrapper for the function TUtil::applyLeptonMassCorrection
    * 
-   * @param MasslessLeptonSwtich Whether you would like your leptons to be massive, by default true.
+   * @param[in] MasslessLeptonSwtich Whether you would like your leptons to be massive, by default true.
   */
   void setRemoveLeptonMasses(bool MasslessLeptonSwitch=true);
 
@@ -119,7 +119,7 @@ public:
    * @brief either permits or forbids massive jets.
    * @sa Wrapper for the function TUtil::applyJetMassCorrection
    * 
-   * @param MasslessLeptonSwitch Whether you would like your jets to be massive, by default true.
+   * @param[in] MasslessLeptonSwitch Whether you would like your jets to be massive, by default true.
   */
   void setRemoveJetMasses(bool MasslessLeptonSwitch=true);
 
@@ -127,7 +127,7 @@ public:
    * @brief Sets the mass of the "primary" higgs.
    * @sa Wrapper for the function ZZMatrixElement::set_PrimaryHiggsMass, which is a wrapper for TEvtProb::SetPrimaryHiggsMass
    * 
-   * @param myHiggsMass This is the mass of the Higgs that you would like, in GeV
+   * @param[in] myHiggsMass This is the mass of the Higgs that you would like, in GeV
    * 
    * @attention The primary Higgs is the first resonance - nominally MELA can have 2 resonances when working through JHUGen-MCFM
    * @remark This function is effectively the same as setMelaHiggsMass(mass, 0)
@@ -138,8 +138,8 @@ public:
    * @brief Sets the mass of your chosen Higgs. 
    * @sa Wrapper for ZZMatrixElement::set_mHiggs.
    * 
-   * @param myHiggsMass This is the mass of the Higgs that you would like, in GeV
-   * @param index This is either 0 or 1, depending on if you want to change the first or second resonance. By default it is 0.
+   * @param[in] myHiggsMass This is the mass of the Higgs that you would like, in GeV
+   * @param[in] index This is either 0 or 1, depending on if you want to change the first or second resonance. By default it is 0.
   */
   void setMelaHiggsMass(double myHiggsMass, int index=0);
 
@@ -147,8 +147,8 @@ public:
    * @brief Sets the width of your chosen Higgs. 
    * @sa Wrapper for ZZMatrixElement::set_wHiggs
    * 
-   * @param myHiggsWidth This is the mass of the Higgs that you would like, in GeV
-   * @param index This is either 0 or 1, depending on if you want to change the first or second resonance. By default it is 0.
+   * @param[in] myHiggsWidth This is the mass of the Higgs that you would like, in GeV
+   * @param[in] index This is either 0 or 1, depending on if you want to change the first or second resonance. By default it is 0.
   */
   void setMelaHiggsWidth(double myHiggsWidth=-1, int index=0);
 
@@ -156,20 +156,20 @@ public:
    * @brief a combination of setMelaHiggsMass and setMelaHiggsWidth. 
    * @sa Wrapper for ZZMatrixElement::set_mHiggs_wHiggs.
    * 
-   * @param myHiggsMass This is the mass of the Higgs that you would like, in GeV
-   * @param myHiggsWidth This is the mass of the Higgs that you would like, in GeV
-   * @param index This is either 0 or 1, depending on if you want to change the first or second resonance. By default it is 0.
+   * @param[in] myHiggsMass This is the mass of the Higgs that you would like, in GeV
+   * @param[in] myHiggsWidth This is the mass of the Higgs that you would like, in GeV
+   * @param[in] index This is either 0 or 1, depending on if you want to change the first or second resonance. By default it is 0.
   */
   void setMelaHiggsMassWidth(double myHiggsMass, double myHiggsWidth, int index);
 
   /**
    * @brief Sets the renormalization and the factorization schemes. 
-   * @sa Wrapper for ZZMatrixElement::set_RenFacScaleMode, which is a wrapper for TEvtProb::SetRenFacScaleMode, which edits TEvtProb.event_scales
+   * @sa Wrapper for ZZMatrixElement::set_RenFacScaleMode, which is a wrapper for TEvtProb::SetRenFacScaleMode, which edits the TVar::event_scales_type struct in TEvtProb.event_scales
    * 
-   * @param renormalizationSch This is the renormalization scheme that you are picking from TVar::EventScaleScheme
-   * @param factorizationSch This is the factorization scheme that you are picking from TVar::EventScaleScheme
-   * @param ren_sf This is the renormalization scale factor that you would like
-   * @param  fac_sf This is the scale factor for the factorization scale that you would like
+   * @param[in] renormalizationSch This is the renormalization scheme that you are picking from TVar::EventScaleScheme
+   * @param[in] factorizationSch This is the factorization scheme that you are picking from TVar::EventScaleScheme
+   * @param[in] ren_sf This is the renormalization scale factor that you would like
+   * @param[in]  fac_sf This is the scale factor for the factorization scale that you would like
   */
   void setRenFacScaleMode(TVar::EventScaleScheme renormalizationSch, TVar::EventScaleScheme factorizationSch, double ren_sf, double fac_sf);
 
@@ -177,7 +177,7 @@ public:
    * @brief Sets the decay mode for your event. 
    * @sa Wrapper for ZZMatrixElement::set_CandidateDecayMode, which is a wrapper for TEvtProb::SetCandidateDecayMode
    * 
-   * @param mode The decay mode you would like picked from TVar::CandidateDecayMode
+   * @param[in] mode The decay mode you would like picked from TVar::CandidateDecayMode
   */
   void setCandidateDecayMode(TVar::CandidateDecayMode mode);
 
@@ -185,7 +185,7 @@ public:
    * @brief Switches the candidate that you are working on to another candidate based off of an index. 
    * @sa Wrapper for ZZMatrixElement::set_CurrentCandidateFromIndex, which is a wrapper for TEvtProb::SetCurrentCandidateFromIndex.
    * 
-   * @param icand The index of the candidate that you would like to switch to
+   * @param[in] icand The index of the candidate that you would like to switch to
    * 
   */
   void setCurrentCandidateFromIndex(unsigned int icand); // Switches to another candidate
@@ -194,7 +194,7 @@ public:
    * @brief Switches the candidate that you are working on to another candidate object specified
    * @sa Wrapper for ZZMatrixElement::set_CurrentCandidate, which is a wrapper for TEvtProb::SetCurrentCandidate.
    * 
-   * @param cand The MELACandidate object you would like to switch to
+   * @param[in] cand The MELACandidate object you would like to switch to
   */
   void setCurrentCandidate(MELACandidate* cand); // Switches to another candidate
 
@@ -203,10 +203,10 @@ public:
    * @sa Wrapper for ZZMatrixElement::set_InputEvent, which is a wrapper for TEvtProb::SetInputEvent, which calls TUtil::ConvertVectorFormat
    * @attention An input event must be set for each event in an event loop, otherwise MELA will throw a segmentation error
    * 
-   * @param pDaughters A SimpleParticleCollection_t of particle daughters (decay products)
-   * @param pAssociated A SimpleParticleCollection_t of associated particles (i.e. jets), by default 0 (no jets)
-   * @param pMothers A SimpleParticleCollection_t of particle mothers (i.e. gluons), by default 0 (reco data contains no mother information)
-   * @param isGen A boolean signifying whether the event in question is a Gen event or a reco event, by default false (reco)
+   * @param[in] pDaughters A SimpleParticleCollection_t of particle daughters (decay products)
+   * @param[in] pAssociated A SimpleParticleCollection_t of associated particles (i.e. jets), by default 0 (no jets)
+   * @param[in] pMothers A SimpleParticleCollection_t of particle mothers (i.e. gluons), by default 0 (reco data contains no mother information)
+   * @param[in] isGen A boolean signifying whether the event in question is a Gen event or a reco event, by default false (reco)
   */
   void setInputEvent(
     SimpleParticleCollection_t* pDaughters,
@@ -227,10 +227,10 @@ public:
    * @brief Sets a temporary MELA candidate, by setting melaCand in Xcal2 to a temporary candidate without pushing this candidate to the candList of Xcal2
    * @sa Wrapper for ZZMatrixElement::set_TempCandidate 
    * 
-   * @param pDaughters A SimpleParticleCollection_t of particle daughters (decay products)
-   * @param pAssociated A SimpleParticleCollection_t of associated particles (i.e. jets), by default 0 (no jets)
-   * @param pMothers A SimpleParticleCollection_t of particle mothers (i.e. gluons), by default 0 (reco data contains no mother information)
-   * @param isGen A boolean signifying whether the event in question is a Gen event or a reco event, by default false (reco)
+   * @param[in] pDaughters A SimpleParticleCollection_t of particle daughters (decay products)
+   * @param[in] pAssociated A SimpleParticleCollection_t of associated particles (i.e. jets), by default 0 (no jets)
+   * @param[in] pMothers A SimpleParticleCollection_t of particle mothers (i.e. gluons), by default 0 (reco data contains no mother information)
+   * @param[in] isGen A boolean signifying whether the event in question is a Gen event or a reco event, by default false (reco)
   */
   void setTempCandidate(
     SimpleParticleCollection_t* pDaughters,
@@ -243,7 +243,7 @@ public:
    * @brief Adds a top quark as a MELA candidate
    * @sa Wrapper for ZZMatrixElement::append_TopCandidate, which is a wrapper for TEvtProb::AppendTopCandidate
    * 
-   * @param TopDaughters A SimpleParticleCollection_t of the top's daughters, or decay products
+   * @param[in] TopDaughters A SimpleParticleCollection_t of the top's daughters, or decay products
   */
   void appendTopCandidate(SimpleParticleCollection_t* TopDaughters); // Adds a top
 
@@ -256,11 +256,11 @@ public:
    * @sa or the masses in the JHUGen-MCFM library at /src/Inc/masses.F or at TMCFM::spinzerohiggs_anomcoupl (for tPrime and bPrime)
    * 
    * @warning
-   * It is not recommended to use this function to edit the mass of the Higgs in MCFM.
+   * It is not recommended to use this function to edit the mass of the Higgs in MCFM. Please use either setMelaHiggsMass or setMelaHiggsMassWidth for that.
    * 
    * @attention You can input negative ids to edit antiparticles (i.e. 24 -> W+, -24 -> W-)
-   * In MCFM both the particle and its antiparticle's mass are changed at the same time. In JHUGen this is not the case - they are separate entries.
-   * The particles that you can change when using the MCFM matrix element are as as follow:
+   * @attention In MCFM both the particle and its antiparticle's mass are changed at the same time. In JHUGen this is not the case - they are separate entries.
+   * @attention The particles that you can change when using the MCFM matrix element are as as follow:
    * absolute value of ipart | Particle Name
    * :---------: | :-----------:
    * 8 | t Prime quark (4th generation)
@@ -302,8 +302,8 @@ public:
    * 33 | Z Prime 2 | No
    * 34 | W Prime | Yes
    * 
-   * @param inmass the mass that you want in GeV
-   * @param ipart the particle whose mass you wish to change
+   * @param[in] inmass the mass that you want in GeV
+   * @param[in] ipart the particle whose mass you wish to change
    * 
   */
   void resetMass(double inmass, int ipart);
@@ -316,11 +316,11 @@ public:
    * @sa or the masses in the JHUGen-MCFM library at /src/Inc/masses.F or at TMCFM::spinzerohiggs_anomcoupl (for tPrime and bPrime)
    * 
    * @warning
-   * It is not recommended to use this function to edit the mass of the Higgs in MCFM.
+   * It is not recommended to use this function to edit the mass of the Higgs in MCFM. Please use either setMelaHiggsWidth or setMelaHiggsMassWidth for that.
    * 
    * @attention You can input negative ids to edit antiparticles (i.e. 24 -> W+, -24 -> W-)
-   * In MCFM both the particle and its antiparticle's mass are changed at the same time. In JHUGen this is not the case - they are separate entries.
-   * The particles that you can change when using the MCFM matrix element are as as follow:
+   * @attention In MCFM both the particle and its antiparticle's mass are changed at the same time. In JHUGen this is not the case - they are separate entries.
+   * @attention The particles that you can change when using the MCFM matrix element are as as follow:
    * absolute value of ipart | Particle Name
    * :---------: | :-----------:
    * 15 | Tau
@@ -352,8 +352,8 @@ public:
    * 33 | Z Prime 2 | No
    * 34 | W Prime | Yes
    * 
-   * @param inmass the mass that you want in GeV
-   * @param ipart the particle whose mass you wish to change
+   * @param[in] inmass the mass that you want in GeV
+   * @param[in] ipart the particle whose mass you wish to change
    * 
   */
   void resetWidth(double inwidth, int ipart);
@@ -361,9 +361,10 @@ public:
   /**
    * @brief Resets the masses of each quark to their original values.
    * @sa Wrapper for ZZMatrixElement::reset_QuarkMasses, which is a wrapper for TEvtProb::ResetQuarkMasses, which calls TEvtProb::ResetMass
-   * The quarks that are reset are as follow, with their default masses in GeV listed as well:
-   * 
+   * @warning You should run this command each time you would like to reset the mass of a quark to mitigate unexpected behavior
+   * @attention The quarks that are reset are as follow, with their default masses in GeV listed as well:
    * Quark | Mass 
+   * :---------: | :-----------: |
    * Down | 0.001
    * Up | 0.005
    * Strange | 0.1
@@ -372,30 +373,216 @@ public:
    * Top | 173.2
    * B Prime | 1e5
    * T Prime | 1e5
+   * 
   */
   void resetQuarkMasses();
+
+  /**
+   * @brief Resets the electroweak parameters back to their defaults
+   * @sa Wrapper for ZZMatrixElement::reset_MCFM_EWKParameters, which is a wrapper for TEvtProb::ResetMCFM_EWKParameters, which calls TUtil::SetEwkCouplingParameters
+  */
   void resetMCFM_EWKParameters(double ext_Gf, double ext_aemmz, double ext_mW, double ext_mZ, double ext_xW, int ext_ewscheme=3);
+
   // Function to get current primary EW/QCD parameters from MCFM/JHUGen (notice Higgs mass/width used in the ME could be different)
+  /**
+   * @brief A function to get the current primary EW/QCD parameters from MELA
+   * @sa Wrapper for ZZMatrixElement::get_PrimaryMass, which is a Wrapper for TEvtProb::GetPrimaryMass, which calls TUtil::GetMass.
+   * @warning (Higgs mass/width used in the Matrix Element could be different). Refer to setMelaHiggsMassWidth or setMELAHiggsMass for explicit references to those.
+   * 
+   * @attention You can input negative ids to edit antiparticles (i.e. 24 -> W+, -24 -> W-)
+   * @attention In MCFM both the particle and its antiparticle's mass are changed at the same time. In JHUGen this is not the case - they are separate entries.
+   * @attention The particles that you can change when using the MCFM matrix element are as as follow:
+   * absolute value of ipart | Particle Name
+   * :---------: | :-----------:
+   * 8 | t Prime quark (4th generation)
+   * 7 | b Prime quark (4th generation)
+   * 6 | Top Quark
+   * 5 | Bottom Quark
+   * 4 | Charm Quark
+   * 3 | Strange Quark
+   * 2 | Up Quark
+   * 1 | Down Quark
+   * 11 | Electron
+   * 13 | Muon
+   * 15 | Tau
+   * 23 | Z Boson
+   * 24 | W Boson
+   * 25 | Higgs Boson
+   * 
+   * @attention The particles that you can change when using the JHUGen matrix element are as follow:
+   * ipart | Particle Name | Sign Sensitive
+   * :---------: | :-----------: | :-----------:
+   * 0 OR 21 | Gluon | No
+   * 1 | Down Quark | Yes
+   * 2 | Up Quark | Yes
+   * 3 | Strange Quark | Yes
+   * 4 | Charm Quark | Yes
+   * 5 | Bottom Quark | Yes
+   * 6 | Top Quark | Yes
+   * 11 | Electron | Yes
+   * 22 | Photon | No
+   * 23 | Z Boson | No
+   * 24 | W Boson | Yes
+   * 13 | Muon | Yes
+   * 15 | Tau | Yes
+   * 12 | Electron Neutrino | Yes
+   * 14 | Muon Neutrino | Yes
+   * 16 | Tau Neutrino | Yes
+   * 25 | Higgs Boson | No
+   * 32 | Z Prime | No
+   * 33 | Z Prime 2 | No
+   * 34 | W Prime | Yes
+   * 
+   * @param[in] ipart the particle you would like to get the mass of.
+  */
   double getPrimaryMass(int ipart);
+
+  /**
+   * @brief A function to get the current primary EW/QCD parameters from MELA
+   * @sa Wrapper for ZZMatrixElement::get_PrimaryMass, which is a Wrapper for TEvtProb::GetPrimaryMass, which calls TUtil::GetMass.
+   * @warning (Higgs mass/width used in the Matrix Element could be different). Refer to setMelaHiggsMassWidth or setMELAHiggsMass for explicit references to those.
+   * 
+   * 
+   * @attention You can input negative ids to edit antiparticles (i.e. 24 -> W+, -24 -> W-)
+   * @attention In MCFM both the particle and its antiparticle's mass are changed at the same time. In JHUGen this is not the case - they are separate entries.
+   * @attention The particles that you can change when using the MCFM matrix element are as as follow:
+   * absolute value of ipart | Particle Name
+   * :---------: | :-----------:
+   * 15 | Tau
+   * 23 | Z Boson
+   * 24 | W Boson
+   * 25 | Higgs Boson
+   * 
+   * @attention The particles that you can change when using the JHUGen matrix element are as follow:
+   * ipart | Particle Name | Sign Sensitive
+   * :---------: | :-----------: | :-----------:
+   * 0 OR 21 | Gluon | No
+   * 1 | Down Quark | Yes
+   * 2 | Up Quark | Yes
+   * 3 | Strange Quark | Yes
+   * 4 | Charm Quark | Yes
+   * 5 | Bottom Quark | Yes
+   * 6 | Top Quark | Yes
+   * 11 | Electron | Yes
+   * 22 | Photon | No
+   * 23 | Z Boson | No
+   * 24 | W Boson | Yes
+   * 13 | Muon | Yes
+   * 15 | Tau | Yes
+   * 12 | Electron Neutrino | Yes
+   * 14 | Muon Neutrino | Yes
+   * 16 | Tau Neutrino | Yes
+   * 25 | Higgs Boson | No
+   * 32 | Z Prime | No
+   * 33 | Z Prime 2 | No
+   * 34 | W Prime | Yes
+   * 
+   * @param[in] ipart the particle you would like to get the width of.
+  */
   double getPrimaryWidth(int ipart);
+
+  /**
+   * @brief Returns the width of the Higgs at a given pole mass as a calculation
+   * @sa Wrapper for ZZMatrixElement::get_HiggsWidthAtPoleMass, which is a wrapper for TEvtProb::GetHiggsWidthAtPoleMass, which is a wrapper for MELAHXSWidth::HiggsWidth
+   * 
+   * @attention This function does an independent calculation for the mass of the Higgs at a certain mass, and does not rely on any other set MELA values
+   * 
+   * @param[in] mass The value of the Higgs pole mass you want in GeV
+  */
   double getHiggsWidthAtPoleMass(double mass);
 
-
+  /**
+   * @brief Returns the MELAIO object, and by consequence, the entire parton-by-parton matrix element record
+   * @sa wrapper for ZZMatrixElement::get_IORecord, which is a wrapper for TEvtProb::GetIORecord, which is a wrapper for MelaIO::getRef
+  */
   MelaIO* getIORecord(); // Full parton-by-parton ME record
+
+  /**
+   * @brief Gets the current MELA top-level (input) candList object
+   * @sa Wrapper for ZZMatrixElement::get_CurrentCandidate, which is a wrapper for TEvtProb::GetCurrentCandidate, which returns the protected element TEvtProb::melaCand
+   *  
+  */
   MELACandidate* getCurrentCandidate();
+
+  /**
+   * @brief Returns the index of the current MELA candidate - returns -1 if there is no candidate to be found
+   * @sa Wrapper for ZZMatrixElement::get_CurrentCandidateIndex, which is a wrapper for TEvtProb::GetCurrentCandidateIndex
+  */
   int getCurrentCandidateIndex();
+
+  /**
+   * @brief Returns the size of the candidate list TEvtProb::candList.
+   * @sa Wrapper for ZZMatrixElement::get_NCandidates, which is a wrapper for TEvtProb::GetNCandidates, which returns the size of TEvtProb::candList
+  */
   int getNCandidates();
+
+  /**
+   * @brief Same as getNCandidates but specifically for Top Quark Candidates
+   * @sa Wrapper for ZZMatrixElement::get_TopCandidateCollection, which is a wrapper for TEvtProb::GetTopCandidates, which returns TEvtProb::topCandList
+  */
   std::vector<MELATopCandidate_t*>* getTopCandidateCollection();
 
-
+  /**
+   * @brief This function returns a multiplicative constant to the matrix element calculation 
+   * @attention if useConstant=True in the following functions the constant will be applied to the matrix element:
+   * - computeP_selfDspin0
+   * - computeP_selfDspin1
+   * - computeP_selfDspin1
+   * - computeP_selfDspin2
+   * - computeP_selfDspin2
+   * - computeP
+   * - computeProdDecP
+   * - computeProdDecP
+   * - computeProdP
+   * - computeProdP
+   * - computeProdP_VH
+   * - computeProdP_VH
+   * - computeProdP_ttH
+   * - computePM4l
+   * 
+   * @param[out] prob This is the number that will be multiplied _inplace_ by the constant.
+  */
   void getConstant(float& prob); // <ME> constants
+
+
   void getPAux(float& prob); // SuperProb
 
-  const TVar::event_scales_type& getRenFacScaleMode() const;
+  /**
+   * @brief Returns a RooSpin::modelMeasureables object containing many observable quantities
+   * 
+   * @attention The parameters in question are:
+   * - $\cos(\theta_1)$
+   * - $\cos(\theta_2)$
+   * - $\phi$
+   * - mass of the first Z boson ($M_{Z1}$)
+   * - mass of the second Z boson ($M_{Z2}$)
+   * - mass of the full particle ($M_{ZZ}$)
+   * - $\cos(\theta*)$
+   * - $\phi_1$
+   * - Y
+   * 
+   * @remark these angles are defined in Figure 1 of [arXiv:1001.3396](https://arxiv.org/abs/1001.3396) as well as (described more generally) in Figure 1 of [arXiv:1208.4018](https://arxiv.org/abs/1208.4018)
+  */  const TVar::event_scales_type& getRenFacScaleMode() const;
 
   RooSpin::modelMeasurables getMeasurablesRRV();
 
-
+  /**
+   * @brief computes the decay angles for gg -> H -> ZZ as defined in Figure 1 of [arXiv:1001.3396](https://arxiv.org/abs/1001.3396)
+   * @sa Calls TUtil::computeAngles to fully calculate angles
+   * @sa Use TUtil::computeAngles if you would like to calculate the angles through inputting your own 4-vectors and quantities rather than through the MELA event loop
+   * @attention This function requires there to be an input event already defined
+   * @warning This function will edit all values *inplace*. Every value is technically an output.
+   * @warning The selection for m1 and m2 are based upon which of the leptons is closer to the z mass. $m_1 \leq m_2$.
+   * 
+   * @param[out] qH The mass of the "Higgs" as reconstructed by the constituent 4 leptons
+   * @param[out] m1 The mass of the first decay particle as reconstructed by 2 of the leptons
+   * @param[out] m2 The mass of the first decay particle as reconstructed by 2 of the leptons
+   * @param[out] costheta1 $\cos(\theta_1)$
+   * @param[out] costheta2 $\cos(\theta_2)$
+   * @param[out] Phi $\phi$
+   * @param[out] costhetastar $\cos(\theta*)$
+   * @param[out] Phi1 $\phi_1$
+  */
   void computeDecayAngles(
     float& qH,
     float& m1,
@@ -406,6 +593,23 @@ public:
     float& costhetastar,
     float& Phi1
     );
+  
+  /**
+   * @brief computes the decay angles for Vector Boson Fusion (VBF) -> H -> ZZ as defined in Figure 1 of [arXiv:1208.4018](https://arxiv.org/abs/1208.4018)
+   * @sa Calls TUtil::computeVBFAngles to fully calculate angles
+   * @sa Use TUtil::computeVBFAngles if you would like to calculate the angles through inputting your own 4-vectors and quantities rather than through the MELA event loop
+   * @attention This function requires there to be an input event already defined
+   * @warning This function will edit all values *inplace*. Every value is technically an output.
+   * @warning The selection for m1 and m2 are based upon which of the leptons is closer to the z mass. $m_1 \leq m_2$.
+   * 
+   * @param[out] Q2V1 The mass of the first decay particle as reconstructed by 2 of the leptons
+   * @param[out] m2V2 The mass of the first decay particle as reconstructed by 2 of the leptons
+   * @param[out] costheta1 $\cos(\theta_1)$
+   * @param[out] costheta2 $\cos(\theta_2)$
+   * @param[out] Phi $\phi$
+   * @param[out] costhetastar $\cos(\theta*)$
+   * @param[out] Phi1 $\phi_1$
+  */
   void computeVBFAngles(
     float& Q2V1,
     float& Q2V2,
@@ -424,6 +628,23 @@ public:
     float& costhetastar,
     float& Phi1
   );
+
+  /**
+   * @brief computes the decay angles for Vector Boson Fusion (VBF) -> H -> ZZ as defined in Figure 1 of [arXiv:1208.4018](https://arxiv.org/abs/1208.4018)
+   * @sa Calls TUtil::computeVHAngles to fully calculate angles
+   * @sa Use TUtil::computeVHAngles if you would like to calculate the angles through inputting your own 4-vectors and quantities rather than through the MELA event loop
+   * @attention This function requires there to be an input event already defined
+   * @warning This function will edit all values *inplace*. Every value is technically an output.
+   * @warning The selection for m1 and m2 are based upon which of the leptons is closer to the z mass. $m_1 \leq m_2$.
+   * 
+   * @param[out] mVstar The mass of the virtual Z boson in ZH production
+   * @param[out] mV The mass of the Z in decay
+   * @param[out] costheta1 $\cos(\theta_1)$
+   * @param[out] costheta2 $\cos(\theta_2)$
+   * @param[out] Phi $\phi$
+   * @param[out] costhetastar $\cos(\theta*)$
+   * @param[out] Phi1 $\phi_1$
+  */
   void computeVHAngles(
     float& mVstar,
     float& mV,
@@ -463,6 +684,13 @@ public:
     float& PhiWminusf
   );
 
+  /**
+   * @brief This is a function that calls Mela::computeP with preset quark, gluon, and vector boson couplings
+   * @sa Mela::computeP, Mela::selfDHqqcoupl, Mela::selfDHggcoupl, Mela::selfDHttcoupl, Mela::selfDHbbcoupl, Mela::selfDHzzcoupl, Mela::selfDHwwcoupl
+   * @warning I (Mohit Srivastav) would personally avoid using this function, as it obfuscates the couplings you are <em> really using </em>.
+   * @warning It is always a good idea to set couplings yourself so that you know what you're really doing.
+   * @param[in] selfDHvvcoupl_input an array corresponding to the couplings of Mela::selfDHzzcoupl, Mela::selfDHwwcoupl using the indices in TCouplingsBase.hh
+  */
   void computeP_selfDspin0(
     double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
     float& prob,
@@ -603,8 +831,17 @@ public:
   // There are a lot of them!
   //****Spin-0****//
   // The first dimension (of size [nSupportedHiggses=2]) supports a second resonance present in MCFM
-  double selfDHggcoupl[nSupportedHiggses][SIZE_HGG][2];
+
+  /**
+   * @defgroup coupl Coupling arrays
+   * @brief Self-define arrays for MELA
+   * @attention The first dimension (of size [TMCFM::nSupportedHiggses=2]) supports a second resonance present in MCFM
+   * @{*/
+  /** Couplings between the higgs and gluons. */
+  double selfDHggcoupl[nSupportedHiggses][SIZE_HGG][2]; 
+  /** Couplings between the Higgs and **PLACEHOLDER** */
   double selfDHg4g4coupl[nSupportedHiggses][SIZE_HGG][2];
+  /** Couplings between the Higgs and quarks */
   double selfDHqqcoupl[nSupportedHiggses][SIZE_HQQ][2];
   double selfDHbbcoupl[nSupportedHiggses][SIZE_HQQ][2];
   double selfDHttcoupl[nSupportedHiggses][SIZE_HQQ][2];
