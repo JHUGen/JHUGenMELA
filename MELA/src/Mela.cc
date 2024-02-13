@@ -478,6 +478,9 @@ void Mela::setRemoveJetMasses(bool MasslessLeptonSwitch){ TUtil::applyJetMassCor
 void Mela::setRenFacScaleMode(TVar::EventScaleScheme renormalizationSch, TVar::EventScaleScheme factorizationSch, double ren_sf, double fac_sf){
   ZZME->set_RenFacScaleMode(renormalizationSch, factorizationSch, ren_sf, fac_sf);
 }
+TVar::event_scales_type Mela::get_RenFacScaleMode(){
+  return ZZME->get_RenFacScaleMode();
+}
 std::vector<TLorentzVector> Mela::calculate4Momentum(double Mx, double M1, double M2, double theta, double theta1, double theta2, double Phi1, double Phi){
 	return ZZME->Calculate4Momentum(Mx, M1, M2, theta, theta1, theta2, Phi1, Phi);
 }

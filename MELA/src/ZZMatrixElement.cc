@@ -138,6 +138,9 @@ void ZZMatrixElement::set_LHAgrid(const char* path, int pdfmember){ Xcal2.Set_LH
 void ZZMatrixElement::set_RenFacScaleMode(TVar::EventScaleScheme renormalizationSch, TVar::EventScaleScheme factorizationSch, double ren_sf, double fac_sf){
   Xcal2.SetRenFacScaleMode(renormalizationSch, factorizationSch, ren_sf, fac_sf);
 }
+TVar::event_scales_type ZZMatrixElement::get_RenFacScaleMode(){
+  return Xcal2.GetRenFacScaleMode();
+}
 void ZZMatrixElement::set_CandidateDecayMode(TVar::CandidateDecayMode mode){ Xcal2.SetCandidateDecayMode(mode); }
 void ZZMatrixElement::set_PrimaryHiggsMass(double mh){ Xcal2.SetPrimaryHiggsMass(mh); }
 void ZZMatrixElement::set_CurrentCandidateFromIndex(unsigned int icand){ Xcal2.SetCurrentCandidateFromIndex(icand); }
