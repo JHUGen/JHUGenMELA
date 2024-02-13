@@ -2,74 +2,111 @@
 #define TCOUPLINGSBASE_HH
 
 
+
+/**
+ * @file TCouplingsBase.hh
+ * This file defines the indices for different couplings in MELA
+ * 
+*/
+
 //---------------------------------
 // Coupling array sizes
 //---------------------------------
 namespace{
+  /**
+   * @brief This is the enumeration for couplings between the Higgs and the kappa formulation of quarks
+   * @sa Mela::selfDHqqcoupl
+   * @remark Table listed as enumeration name on the left
+   * @remark the corresponding pyMela/colloquial coupling name, as well as the value of the enum, on the right
+  */
   enum{
-    gHIGGS_KAPPA,
-    gHIGGS_KAPPA_TILDE,
+    gHIGGS_KAPPA, /*!< `kappa` (Value=0) */
+    gHIGGS_KAPPA_TILDE, /*!< `kappa` (Value=1) */
 
-    SIZE_HQQ
+    SIZE_HQQ /*!< The size of the array **(Value=2)** */
   };
+
+  /**
+   * @brief This is the enumerator for the couplings between the Higgs and gluons
+   * @sa Mela::selfDHggcoupl
+   * @remark Table listed as enumeration name on the left
+   * @remark the corresponding pyMela/colloquial coupling name, as well as the value of the enum, on the right
+  */
   enum{
-    gHIGGS_GG_2,
-    gHIGGS_GG_3,
-    gHIGGS_GG_4,
+    gHIGGS_GG_2, /*!< `ghg2` (Value=0) */
+    gHIGGS_GG_3, /*!< `ghg3` (Value=1) */
+    gHIGGS_GG_4, /*!< `ghg4` (Value=2) */
 
-    SIZE_HGG
+    SIZE_HGG /*!<  The size of the array **(Value=3) */
   };
+
+  /**
+   * @brief This is the enumerator for the couplings between the Higgs and the vector bosons (Z/Z' & W/W')
+   * @sa Mela::selfDHzzcoupl, Mela::selfDHzzpcoupl, Mela::selfDHzpzpcoupl
+   * @sa Mela::selfDHwwcoupl, Mela::selfDHwwpcoupl, Mela::selfDHwpwpcoupl
+   * @attention Coupling names are given as though they are couplings between the z and H
+   * @attention See the full coupling array list in Mela.h for a thorough definition of what couplings use these values
+   * @remark Table listed as enumeration name on the left
+   * @remark the corresponding pyMela/colloquial coupling name, as well as the value of the enum, on the right
+  */
   enum{
-    gHIGGS_VV_1,
-    gHIGGS_VV_2,
-    gHIGGS_VV_3,
-    gHIGGS_VV_4,
+    gHIGGS_VV_1, /*!< `ghz1` (Value=0) */
+    gHIGGS_VV_2, /*!< `ghz2` (Value=1) */
+    gHIGGS_VV_3, /*!< `ghz3` (Value=2) */
+    gHIGGS_VV_4, /*!< `ghz4` (Value=3) */
 
-    gHIGGS_ZA_2,
-    gHIGGS_ZA_3,
-    gHIGGS_ZA_4,
+    gHIGGS_ZA_2, /*!< `ghzgs2` (Value=4) */
+    gHIGGS_ZA_3, /*!< `ghzgs3` (Value=5) */
+    gHIGGS_ZA_4, /*!< `ghzgs4` (Value=6) */
 
-    gHIGGS_AA_2,
-    gHIGGS_AA_3,
-    gHIGGS_AA_4,
+    gHIGGS_AA_2, /*!< `ghgsgs2` !> (Value=7) */
+    gHIGGS_AA_3, /*!< `ghgsgs3` !> (Value=8) */
+    gHIGGS_AA_4, /*!< `ghgsgs4` !> (Value=9) */
 
-    gHIGGS_VV_1_PRIME,
-    gHIGGS_VV_1_PRIME2,
-    gHIGGS_VV_1_PRIME3,
-    gHIGGS_VV_1_PRIME4,
-    gHIGGS_VV_1_PRIME5,
+    gHIGGS_VV_1_PRIME,  /*!< `ghz1_prime` (Value=10) */
+    gHIGGS_VV_1_PRIME2, /*!< `ghz1_prime2` (Value=11) */
+    gHIGGS_VV_1_PRIME3, /*!< `ghz1_prime3` (Value=12) */
+    gHIGGS_VV_1_PRIME4, /*!< `ghz1_prime4` (Value=13) */
+    gHIGGS_VV_1_PRIME5, /*!< `ghz1_prime5` (Value=14) */
 
-    gHIGGS_VV_2_PRIME,
-    gHIGGS_VV_2_PRIME2,
-    gHIGGS_VV_2_PRIME3,
-    gHIGGS_VV_2_PRIME4,
-    gHIGGS_VV_2_PRIME5,
+    gHIGGS_VV_2_PRIME,  /*!< `ghz2_prime` (Value=15) */
+    gHIGGS_VV_2_PRIME2, /*!< `ghz2_prime2` (Value=16) */
+    gHIGGS_VV_2_PRIME3, /*!< `ghz2_prime3` (Value=17) */
+    gHIGGS_VV_2_PRIME4, /*!< `ghz2_prime4` (Value=18) */
+    gHIGGS_VV_2_PRIME5, /*!< `ghz2_prime5` (Value=19) */
 
-    gHIGGS_VV_3_PRIME,
-    gHIGGS_VV_3_PRIME2,
-    gHIGGS_VV_3_PRIME3,
-    gHIGGS_VV_3_PRIME4,
-    gHIGGS_VV_3_PRIME5,
+    gHIGGS_VV_3_PRIME,  /*!< `ghz3_prime` (Value=20) */
+    gHIGGS_VV_3_PRIME2, /*!< `ghz3_prime2` (Value=21) */
+    gHIGGS_VV_3_PRIME3, /*!< `ghz3_prime3` (Value=22) */
+    gHIGGS_VV_3_PRIME4, /*!< `ghz3_prime4` (Value=23) */
+    gHIGGS_VV_3_PRIME5, /*!< `ghz3_prime5` (Value=24) */
 
-    gHIGGS_VV_4_PRIME,
-    gHIGGS_VV_4_PRIME2,
-    gHIGGS_VV_4_PRIME3,
-    gHIGGS_VV_4_PRIME4,
-    gHIGGS_VV_4_PRIME5,
+    gHIGGS_VV_4_PRIME,  /*!< `ghz4_prime` **(Value=25)** */
+    gHIGGS_VV_4_PRIME2, /*!< `ghz4_prime2` (Value=26) */
+    gHIGGS_VV_4_PRIME3, /*!< `ghz4_prime3` (Value=27) */
+    gHIGGS_VV_4_PRIME4, /*!< `ghz4_prime4` (Value=28) */
+    gHIGGS_VV_4_PRIME5, /*!< `ghz4_prime5` (Value=29) */
 
-    gHIGGS_ZA_1_PRIME2,
+    gHIGGS_ZA_1_PRIME2, /*!< `ghzgs1_prime2` (Value=30) */
 
-    gHIGGS_VV_1_PRIME6,
-    gHIGGS_VV_1_PRIME7,
-    gHIGGS_VV_2_PRIME6,
-    gHIGGS_VV_2_PRIME7,
-    gHIGGS_VV_3_PRIME6,
-    gHIGGS_VV_3_PRIME7,
-    gHIGGS_VV_4_PRIME6,
-    gHIGGS_VV_4_PRIME7,
+    gHIGGS_VV_1_PRIME6, /*!< `ghz1_prime6` (Value=31) */
+    gHIGGS_VV_1_PRIME7, /*!< `ghz1_prime6` (Value=32) */
+    gHIGGS_VV_2_PRIME6, /*!< `ghz2_prime6` (Value=33) */
+    gHIGGS_VV_2_PRIME7, /*!< `ghz2_prime6` (Value=34) */
+    gHIGGS_VV_3_PRIME6, /*!< `ghz3_prime6` (Value=35) */
+    gHIGGS_VV_3_PRIME7, /*!< `ghz3_prime6` (Value=36) */
+    gHIGGS_VV_4_PRIME6, /*!< `ghz4_prime6` (Value=37) */
+    gHIGGS_VV_4_PRIME7, /*!< `ghz4_prime6` (Value=38) */
 
-    SIZE_HVV
+    SIZE_HVV /*!<  The size of the array **(Value=39) */
   };
+
+  /**
+   * @brief This is the enumeration for couplings between the Higgs and the lambda Z/W couplings
+   * @sa Mela::selfDHzzLambda_qsq, selfDHwwLambda_qsq
+   * @remark Table listed as enumeration name on the left
+   * @remark the corresponding pyMela/colloquial coupling name, as well as the value of the enum, on the right
+  */
   enum{
     LambdaHIGGS_QSQ_VV_1 = 0,
     LambdaHIGGS_QSQ_VV_2 = 1,

@@ -9,6 +9,8 @@
  * \section intro Introduction
  *
  * This is the documentation for JHUGenMELA, a package that produces Matrix Element Calculations as used in JHUGen and MCFM-JHUGen.
+ * 
+ * Documentation written by Mohit Srivastav in 2024.
  *
  * \section install_sec Installation
  *Compile using
