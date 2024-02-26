@@ -30,6 +30,7 @@ LIBRULE = $(MELALIBDIR)/$(LIB)
 
 pyLIB = Mela$(shell python3-config --extension-suffix)
 pyLIBRULE = $(MELALIBDIR)/$(pyLIB)
+pyLINKFILE = $(MELADIR)/python/mela_binding.cpp
 
 ROOTCFLAGS = $(shell root-config --cflags)
 ROOTLIBS = $(shell root-config --libs) -Lrootlib
@@ -85,9 +86,9 @@ $(LIBRULE):	$(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | alldirs
 	echo "Linking $(LIB)"; \
 	$(LINKER) $(LINKERFLAGS) -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -o $@
 
-$(pyLIBRULE): $@ | alldirs
+$(pyLIBRULE): $(pyLINKFILE) | alldirs
 	@echo "Making python"; \
-	$(LINKER) python/mela_binding.cpp $(CPPFLAGS) $(LINKERFLAGS) \
+	$(LINKER) $(pyLINKFILE) $(CPPFLAGS) $(LINKERFLAGS) \
 	-O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
 	$(shell python3 -m pybind11 --includes) -o $@
 

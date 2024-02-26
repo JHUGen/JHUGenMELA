@@ -17,6 +17,14 @@ namespace pymela{
         SIZE_HQQ
     };
 
+    enum HGG_indices{
+        gHIGGS_GG_2,
+        gHIGGS_GG_3,
+        gHIGGS_GG_4,
+    
+        SIZE_HGG
+    };
+
     enum HVV_indices{
         gHIGGS_VV_1,
         gHIGGS_VV_2,
@@ -725,6 +733,62 @@ PYBIND11_MODULE(Mela, m) {
         .value("GammaH",TVar::GammaH) // gammaH, stable A (could implement S and TU in the future
         .value("nProductions",TVar::nProductions);
     
+    py::enum_<TVar::Process>(m, "Process")
+        .value("HSMHiggs",TVar::HSMHiggs) 
+        .value("H0_g1prime2",TVar::H0_g1prime2)
+        .value("H0hplus",TVar::H0hplus)
+        .value("H0minus",TVar::H0minus)
+        .value("H0_Zgsg1prime2",TVar::H0_Zgsg1prime2)
+        .value("H0_Zgs",TVar::H0_Zgs)
+        .value("H0_Zgs_PS",TVar::H0_Zgs_PS)
+        .value("H0_gsgs",TVar::H0_gsgs)
+        .value("H0_gsgs_PS",TVar::H0_gsgs_PS)
+        .value("D_g1g1prime2",TVar::D_g1g1prime2)
+        .value("D_g1g2",TVar::D_g1g2)
+        .value("D_g1g2_pi_2",TVar::D_g1g2_pi_2)
+        .value("D_g1g4",TVar::D_g1g4)
+        .value("D_g1g4_pi_2",TVar::D_g1g4_pi_2)
+        .value("D_zzzg",TVar::D_zzzg)
+        .value("D_zzgg",TVar::D_zzgg)
+        .value("D_zzzg_PS",TVar::D_zzzg_PS)
+        .value("D_zzgg_PS",TVar::D_zzgg_PS)
+        .value("D_zzzg_g1prime2",TVar::D_zzzg_g1prime2)
+        .value("D_zzzg_g1prime2_pi_2",TVar::D_zzzg_g1prime2_pi_2)
+        .value("H1minus",TVar::H1minus) 
+        .value("H1plus",TVar::H1plus) 
+        .value("H2_g1",TVar::H2_g1) 
+        .value("H2_g2",TVar::H2_g2) 
+        .value("H2_g3",TVar::H2_g3) 
+        .value("H2_g4",TVar::H2_g4) 
+        .value("H2_g5",TVar::H2_g5) 
+        .value("H2_g1g5",TVar::H2_g1g5) 
+        .value("H2_g6",TVar::H2_g6) 
+        .value("H2_g7",TVar::H2_g7) 
+        .value("H2_g8",TVar::H2_g8) 
+        .value("H2_g9",TVar::H2_g9) 
+        .value("H2_g10",TVar::H2_g10) 
+        .value("bkgGammaGamma",TVar::bkgGammaGamma) 
+        .value("bkgZGamma",TVar::bkgZGamma) 
+        .value("bkgZJets",TVar::bkgZJets) 
+        .value("bkgZZ",TVar::bkgZZ) 
+        .value("bkgWW",TVar::bkgWW) 
+        .value("bkgWWZZ",TVar::bkgWWZZ) 
+        .value("bkgZZ_SMHiggs",TVar::bkgZZ_SMHiggs) 
+        .value("bkgWW_SMHiggs",TVar::bkgWW_SMHiggs) 
+        .value("bkgWWZZ_SMHiggs",TVar::bkgWWZZ_SMHiggs) 
+        .value("HSMHiggs_WWZZ",TVar::HSMHiggs_WWZZ) 
+        .value("D_gg10",TVar::D_gg10)
+        .value("SelfDefine_spin0",TVar::SelfDefine_spin0)
+        .value("SelfDefine_spin1",TVar::SelfDefine_spin1)
+        .value("SelfDefine_spin2",TVar::SelfDefine_spin2)
+        .value("nProcesses",TVar::nProcesses);
+    
+    py::enum_<pymela::HGG_indices>(m, "HGG_indices")
+        .value("gHIGGS_GG_2", pymela::gHIGGS_GG_2)
+        .value("gHIGGS_GG_3", pymela::gHIGGS_GG_3)
+        .value("gHIGGS_GG_4", pymela::gHIGGS_GG_4)
+        .value("SIZE_HGG", pymela::SIZE_HGG);
+
     py::enum_<pymela::HQQ_indices>(m, "HQQ_indices")
         .value("gHIGGS_KAPPA", pymela::gHIGGS_KAPPA)
         .value("gHIGGS_KAPPA_TILDE", pymela::gHIGGS_KAPPA_TILDE)
