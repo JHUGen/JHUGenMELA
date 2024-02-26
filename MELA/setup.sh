@@ -18,7 +18,7 @@ getMELAARCH(){
     echo slc7_amd64_gcc830
   else
   #elif [[ "$GCCVERSION" == "9"* ]]; then
-    echo slc7_amd64_gcc920
+    echo slc7_amd64_gcc900
   #else
   fi
 }
@@ -82,7 +82,7 @@ printenv () {
     echo "export LD_LIBRARY_PATH=${ldlibappend}${end}"
   fi
 
-  pythonappend="${MELADIR}/python"
+  pythonappend="${MELADIR}/python:${mela_lib_path}"
   end=""
   if [[ ! -z "${PYTHONPATH+x}" ]]; then
     end=":${PYTHONPATH}"
@@ -116,7 +116,7 @@ doenv () {
     echo "Temporarily using LD_LIBRARY_PATH as ${LD_LIBRARY_PATH}"
   fi
 
-  pythonappend="${MELADIR}/python"
+  pythonappend="${MELADIR}/python:${mela_lib_path}"
   end=""
   if [[ ! -z "${PYTHONPATH+x}" ]]; then
     end=":${PYTHONPATH}"

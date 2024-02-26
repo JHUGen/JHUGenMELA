@@ -28,6 +28,9 @@ MELAPKGPATH = $(MELADIR)/
 LIB = libJHUGenMELAMELA.so
 LIBRULE = $(MELALIBDIR)/$(LIB)
 
+pyLIB = Mela$(shell python3-config --extension-suffix)
+pyLIBRULE = $(MELALIBDIR)/$(pyLIB)
+
 ROOTCFLAGS = $(shell root-config --cflags)
 ROOTLIBS = $(shell root-config --libs) -Lrootlib
 NLIBS = $(ROOTLIBS)
@@ -57,9 +60,9 @@ DEPS = $(OBJECTS:.o=.d)
 
 .PHONY: all help compile clean
 
-.SILENT: alldirs $(OBJECTS) $(DEPS) $(MELAOBJDIR)/LinkDef_out.o $(LIBRULE) python/__init__.py clean
+.SILENT: alldirs $(OBJECTS) $(DEPS) $(MELAOBJDIR)/LinkDef_out.o $(LIBRULE) python/__init__.py $(pyLIBRULE) clean
 
-all: $(LIBRULE) python/__init__.py
+all: $(LIBRULE) python/__init__.py $(pyLIBRULE)
 
 $(MELAOBJDIR)/%.d:	$(MELASRCDIR)/%.c* | alldirs
 	echo "Checking dependencies for $<"; \
@@ -81,6 +84,12 @@ $(MELAOBJDIR)/LinkDef_out.o: | alldirs
 $(LIBRULE):	$(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | alldirs
 	echo "Linking $(LIB)"; \
 	$(LINKER) $(LINKERFLAGS) -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -o $@
+
+$(pyLIBRULE): $@ | alldirs
+	@echo "Making python"; \
+	$(LINKER) python/mela_binding.cpp $(CPPFLAGS) $(LINKERFLAGS) \
+	-O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
+	$(shell python3 -m pybind11 --includes) -o $@
 
 alldirs:
 	mkdir -p $(MELAOBJDIR)
