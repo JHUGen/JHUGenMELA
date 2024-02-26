@@ -549,7 +549,7 @@ PYBIND11_MODULE(Mela, m) {
 
         .def("selfDHzzCLambda_qsq", [](py::object &obj){
             Mela &D = obj.cast<Mela&>();
-            return py::array_t<double>(std::vector<int>{nSupportedHiggses, SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzCLambda_qsq, obj);
+            return py::array_t<int>(std::vector<int>{nSupportedHiggses, SIZE_HVV_CQSQ}, (const int*) &D.selfDHzzCLambda_qsq, obj);
         })
 
 
@@ -652,7 +652,4201 @@ PYBIND11_MODULE(Mela, m) {
         .def_readwrite("selfDM_Zprime", &Mela::selfDM_Zprime)
         .def_readwrite("selfDGa_Zprime", &Mela::selfDGa_Zprime)
         .def_readwrite("selfDM_Wprime", &Mela::selfDM_Wprime)
-        .def_readwrite("selfDGa_Wprime", &Mela::selfDGa_Wprime);
+        .def_readwrite("selfDGa_Wprime", &Mela::selfDGa_Wprime)
+
+
+        //Here be couplings
+        .def_property(
+            "ghg2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHggcoupl[0][gHIGGS_GG_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHggcoupl[0][gHIGGS_GG_2][0] = coupl[0];
+                    D.selfDHggcoupl[0][gHIGGS_GG_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghg3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHggcoupl[0][gHIGGS_GG_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHggcoupl[0][gHIGGS_GG_3][0] = coupl[0];
+                    D.selfDHggcoupl[0][gHIGGS_GG_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghg4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHggcoupl[0][gHIGGS_GG_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHggcoupl[0][gHIGGS_GG_4][0] = coupl[0];
+                    D.selfDHggcoupl[0][gHIGGS_GG_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzgs2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_ZA_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_ZA_2][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_ZA_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzgs3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_ZA_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_ZA_3][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_ZA_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzgs4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_ZA_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_ZA_4][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_ZA_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghgsgs2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_AA_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_AA_2][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_AA_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghgsgs3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_AA_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_AA_3][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_AA_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghgsgs4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_AA_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_AA_4][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_AA_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz1_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz1_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME2][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz1_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME3][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz1_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME4][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz1_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME5][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz2_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz2_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME2][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz2_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME3][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz2_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME4][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz2_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME5][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz3_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz3_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME2][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz3_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME3][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz3_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME4][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz3_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME5][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz4_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz4_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME2][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz4_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME3][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz4_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME4][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz4_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME5][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_4_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzgs1_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_ZA_1_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_ZA_1_PRIME2][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_ZA_1_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz1_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME6][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz1_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME7][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_1_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz2_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME6][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz2_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME7][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_2_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz3_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME6][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz3_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME7][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz4_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME6][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghz4_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME7][0] = coupl[0];
+                    D.selfDHzzcoupl[0][gHIGGS_VV_3_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "cz_q1sq", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const int*) &D.selfDHzzCLambda_qsq, obj);
+                    return array_val.at(0,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const int*) &D.selfDHzzCLambda_qsq, obj);
+                    array_val.mutable_at(0,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z11", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z12", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z13", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z14", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "cz_q2sq", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const int*) &D.selfDHzzCLambda_qsq, obj);
+                    return array_val.at(0,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const int*) &D.selfDHzzCLambda_qsq, obj);
+                    array_val.mutable_at(0,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z21", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z22", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z23", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z24", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "cz_q12sq", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const int*) &D.selfDHzzCLambda_qsq, obj);
+                    return array_val.at(0,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const int*) &D.selfDHzzCLambda_qsq, obj);
+                    array_val.mutable_at(0,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z01", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z02", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z03", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_z04", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw1_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw1_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME2][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw1_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME3][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw1_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME4][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw1_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME5][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw2_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw2_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME2][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw2_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME3][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw2_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME4][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw2_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME5][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw3_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw3_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME2][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw3_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME3][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw3_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME4][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw3_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME5][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw4_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw4_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME2][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw4_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME3][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw4_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME4][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw4_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME5][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_4_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw1_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME6][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw1_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME7][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_1_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw2_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME6][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw2_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME7][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_2_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw3_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME6][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw3_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME7][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw4_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME6][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghw4_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME7][0] = coupl[0];
+                    D.selfDHwwcoupl[0][gHIGGS_VV_3_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "cw_q1sq", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwCLambda_qsq, obj);
+                    return array_val.at(0,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwCLambda_qsq, obj);
+                    array_val.mutable_at(0,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w11", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w12", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w13", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w14", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ1);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ1) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "cw_q2sq", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwCLambda_qsq, obj);
+                    return array_val.at(0,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwCLambda_qsq, obj);
+                    array_val.mutable_at(0,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w21", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w22", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w23", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w24", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ2);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ2) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "cw_q12sq", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwCLambda_qsq, obj);
+                    return array_val.at(0,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwCLambda_qsq, obj);
+                    array_val.mutable_at(0,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w01", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_1,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w02", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_2,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w03", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_3,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "Lambda_w04", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela& D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    return array_val.at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ12);
+                }),
+            py::cpp_function(
+                [](py::object &obj, double coupl){
+                    Mela &D = obj.cast<Mela&>();
+                    py::array_t array_val = py::array_t<double>(std::vector<int>{0,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj);
+                    array_val.mutable_at(0,LambdaHIGGS_QSQ_VV_4,cLambdaHIGGS_VV_QSQ12) = coupl;
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHqqcoupl[0][gHIGGS_KAPPA], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHqqcoupl[0][gHIGGS_KAPPA][0] = coupl[0];
+                    D.selfDHqqcoupl[0][gHIGGS_KAPPA][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa_tilde", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHqqcoupl[0][gHIGGS_KAPPA_TILDE], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHqqcoupl[0][gHIGGS_KAPPA_TILDE][0] = coupl[0];
+                    D.selfDHqqcoupl[0][gHIGGS_KAPPA_TILDE][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa_top", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHttcoupl[0][gHIGGS_KAPPA], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHttcoupl[0][gHIGGS_KAPPA][0] = coupl[0];
+                    D.selfDHttcoupl[0][gHIGGS_KAPPA][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa_top_tilde", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHttcoupl[0][gHIGGS_KAPPA_TILDE], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHttcoupl[0][gHIGGS_KAPPA_TILDE][0] = coupl[0];
+                    D.selfDHttcoupl[0][gHIGGS_KAPPA_TILDE][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa_bot", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHbbcoupl[0][gHIGGS_KAPPA], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHbbcoupl[0][gHIGGS_KAPPA][0] = coupl[0];
+                    D.selfDHbbcoupl[0][gHIGGS_KAPPA][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa_bot_tilde", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHbbcoupl[0][gHIGGS_KAPPA_TILDE], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHbbcoupl[0][gHIGGS_KAPPA_TILDE][0] = coupl[0];
+                    D.selfDHbbcoupl[0][gHIGGS_KAPPA_TILDE][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa_4gen_top", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHt4t4coupl[0][gHIGGS_KAPPA], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHt4t4coupl[0][gHIGGS_KAPPA][0] = coupl[0];
+                    D.selfDHt4t4coupl[0][gHIGGS_KAPPA][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa_4gen_top_tilde", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHt4t4coupl[0][gHIGGS_KAPPA_TILDE], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHt4t4coupl[0][gHIGGS_KAPPA_TILDE][0] = coupl[0];
+                    D.selfDHt4t4coupl[0][gHIGGS_KAPPA_TILDE][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa_4gen_bot", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHb4b4coupl[0][gHIGGS_KAPPA], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHb4b4coupl[0][gHIGGS_KAPPA][0] = coupl[0];
+                    D.selfDHb4b4coupl[0][gHIGGS_KAPPA][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "kappa_4gen_bot_tilde", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHb4b4coupl[0][gHIGGS_KAPPA_TILDE], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHb4b4coupl[0][gHIGGS_KAPPA_TILDE][0] = coupl[0];
+                    D.selfDHb4b4coupl[0][gHIGGS_KAPPA_TILDE][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_1][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_2][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_4][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpgs2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_ZA_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_ZA_2][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_ZA_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpgs3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_ZA_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_ZA_3][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_ZA_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpgs4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_ZA_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_ZA_4][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_ZA_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp1_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp1_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME2][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp1_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME3][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp1_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME4][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp1_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME5][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp2_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp2_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME2][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp2_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME3][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp2_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME4][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp2_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME5][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp3_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp3_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME2][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp3_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME3][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp3_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME4][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp3_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME5][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp4_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp4_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME2][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp4_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME3][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp4_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME4][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp4_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME5][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_4_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpgs1_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_ZA_1_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_ZA_1_PRIME2][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_ZA_1_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp1_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME6][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp1_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME7][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_1_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp2_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME6][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp2_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME7][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_2_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp3_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME6][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp3_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME7][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp4_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME6][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzzp4_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME7][0] = coupl[0];
+                    D.selfDHzzpcoupl[gHIGGS_VV_3_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp1_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp1_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME2][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp1_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME3][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp1_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME4][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp1_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME5][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp2_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp2_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME2][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp2_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME3][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp2_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME4][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp2_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME5][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp3_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp3_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME2][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp3_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME3][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp3_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME4][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp3_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME5][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp4_prime", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp4_prime2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME2][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp4_prime3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME3][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp4_prime4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME4][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp4_prime5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME5][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_4_PRIME5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp1_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME6][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp1_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME7][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_1_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp2_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME6][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp2_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME7][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_2_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp3_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME6][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp3_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME7][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp4_prime6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME6][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghzpzp4_prime7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME7][0] = coupl[0];
+                    D.selfDHzpzpcoupl[gHIGGS_VV_3_PRIME7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_El_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_El_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_El_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_El_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_El_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_El_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_El_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_El_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Mu_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Mu_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Mu_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Mu_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Mu_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Mu_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Mu_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Mu_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Ta_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Ta_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Ta_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Ta_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Ta_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Ta_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Ta_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Ta_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_NuE_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_NuE_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_NuE_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_NuE_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_NuE_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_NuE_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_NuE_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_NuE_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Dn_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Dn_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Dn_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Dn_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Dn_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Dn_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Dn_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Dn_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Up_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Up_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Up_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Up_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Up_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Up_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Up_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Up_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Str_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Str_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Str_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Str_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Str_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Str_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Str_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Str_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Chm_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Chm_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Chm_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Chm_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Chm_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Chm_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Chm_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Chm_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Bot_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Bot_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Bot_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Bot_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Bot_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Bot_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Bot_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Bot_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Top_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Top_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Top_left][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Top_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ezp_Top_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZpffcoupl[gHIGGS_Vp_Top_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZpffcoupl[gHIGGS_Vp_Top_right][0] = coupl[0];
+                    D.selfDZpffcoupl[gHIGGS_Vp_Top_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghwwp1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwwpcoupl[gHIGGS_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwwpcoupl[gHIGGS_VV_1][0] = coupl[0];
+                    D.selfDHwwpcoupl[gHIGGS_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ghwpwp1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDHwpwpcoupl[gHIGGS_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDHwpwpcoupl[gHIGGS_VV_1][0] = coupl[0];
+                    D.selfDHwpwpcoupl[gHIGGS_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_El_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_El_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_El_left][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_El_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_El_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_El_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_El_right][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_El_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Mu_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Mu_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Mu_left][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Mu_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Mu_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Mu_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Mu_right][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Mu_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Ta_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Ta_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Ta_left][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Ta_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Ta_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Ta_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Ta_right][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Ta_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Up_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Up_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Up_left][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Up_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Up_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Up_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Up_right][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Up_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Chm_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Chm_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Chm_left][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Chm_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Chm_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Chm_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Chm_right][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Chm_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Top_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Top_left], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Top_left][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Top_left][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "ewp_Top_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDWpffcoupl[gHIGGS_Vp_Top_right], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDWpffcoupl[gHIGGS_Vp_Top_right][0] = coupl[0];
+                    D.selfDWpffcoupl[gHIGGS_Vp_Top_right][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "zprime_qq_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZqqcoupl[gZPRIME_QQ_LEFT], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZqqcoupl[gZPRIME_QQ_LEFT][0] = coupl[0];
+                    D.selfDZqqcoupl[gZPRIME_QQ_LEFT][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "zprime_qq_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZqqcoupl[gZPRIME_QQ_RIGHT], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZqqcoupl[gZPRIME_QQ_RIGHT][0] = coupl[0];
+                    D.selfDZqqcoupl[gZPRIME_QQ_RIGHT][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "zprime_zz_1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZvvcoupl[gZPRIME_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZvvcoupl[gZPRIME_VV_1][0] = coupl[0];
+                    D.selfDZvvcoupl[gZPRIME_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "zprime_zz_2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDZvvcoupl[gZPRIME_VV_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDZvvcoupl[gZPRIME_VV_2][0] = coupl[0];
+                    D.selfDZvvcoupl[gZPRIME_VV_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "graviton_qq_left", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGqqcoupl[gGRAVITON_QQ_LEFT], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGqqcoupl[gGRAVITON_QQ_LEFT][0] = coupl[0];
+                    D.selfDGqqcoupl[gGRAVITON_QQ_LEFT][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "graviton_qq_right", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGqqcoupl[gGRAVITON_QQ_RIGHT], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGqqcoupl[gGRAVITON_QQ_RIGHT][0] = coupl[0];
+                    D.selfDGqqcoupl[gGRAVITON_QQ_RIGHT][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "a1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGggcoupl[gGRAVITON_GG_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGggcoupl[gGRAVITON_GG_1][0] = coupl[0];
+                    D.selfDGggcoupl[gGRAVITON_GG_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "a2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGggcoupl[gGRAVITON_GG_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGggcoupl[gGRAVITON_GG_2][0] = coupl[0];
+                    D.selfDGggcoupl[gGRAVITON_GG_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "a3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGggcoupl[gGRAVITON_GG_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGggcoupl[gGRAVITON_GG_3][0] = coupl[0];
+                    D.selfDGggcoupl[gGRAVITON_GG_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "a4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGggcoupl[gGRAVITON_GG_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGggcoupl[gGRAVITON_GG_4][0] = coupl[0];
+                    D.selfDGggcoupl[gGRAVITON_GG_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "a5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGggcoupl[gGRAVITON_GG_5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGggcoupl[gGRAVITON_GG_5][0] = coupl[0];
+                    D.selfDGggcoupl[gGRAVITON_GG_5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_1][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_2][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_3][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_4][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_5][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_6][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_7][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b8", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_8], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_8][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_8][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b9", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_9], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_9][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_9][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "b10", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_VV_10], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_VV_10][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_VV_10][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzgs1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_ZA_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_ZA_1][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_ZA_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzgs2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_ZA_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_ZA_2][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_ZA_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzgs3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_ZA_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_ZA_3][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_ZA_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzgs4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_ZA_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_ZA_4][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_ZA_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzgs8", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_ZA_8], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_ZA_8][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_ZA_8][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bgsgs1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_AA_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_AA_1][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_AA_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bgsgs2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_AA_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_AA_2][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_AA_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bgsgs3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_AA_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_AA_3][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_AA_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bgsgs4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_AA_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_AA_4][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_AA_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bgsgs8", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvcoupl[gGRAVITON_AA_8], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvcoupl[gGRAVITON_AA_8][0] = coupl[0];
+                    D.selfDGvvcoupl[gGRAVITON_AA_8][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_1][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_2][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_3][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_4][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_5][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_6][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_7][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp8", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_8], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_8][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_8][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp9", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_9], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_9][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_9][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzzp10", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_VV_10], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_VV_10][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_VV_10][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpgs1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_ZA_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_1][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpgs2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_ZA_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_2][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpgs3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_ZA_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_3][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpgs4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_ZA_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_4][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpgs8", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvvpcoupl[gGRAVITON_ZA_8], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_8][0] = coupl[0];
+                    D.selfDGvvpcoupl[gGRAVITON_ZA_8][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp1", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_1], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_1][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_1][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp2", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_2], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_2][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_2][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp3", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_3], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_3][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_3][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp4", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_4], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_4][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_4][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp5", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_5], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_5][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_5][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp6", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_6], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_6][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_6][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp7", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_7], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_7][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_7][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp8", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_8], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_8][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_8][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp9", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_9], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_9][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_9][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "bzpzp10", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDGvpvpcoupl[gGRAVITON_VV_10], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_10][0] = coupl[0];
+                    D.selfDGvpvpcoupl[gGRAVITON_VV_10][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dV_A", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dVA], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dVA][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dVA][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dP_A", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dPA], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dPA][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dPA][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dM_A", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dMA], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dMA][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dMA][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dFour_A", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dFourA], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dFourA][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dFourA][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dV_Z", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dVZ], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dVZ][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dVZ][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dP_Z", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dPZ], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dPZ][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dPZ][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dM_Z", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dMZ], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dMZ][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dMZ][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dFour_Z", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dFourZ], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dFourZ][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dFourZ][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dAAWpWm", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dAAWpWm], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dAAWpWm][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dAAWpWm][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dZAWpWm", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dZAWpWm], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dZAWpWm][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dZAWpWm][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "dZZWpWm", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDaTQGCcoupl[gATQGC_dZZWpWm], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDaTQGCcoupl[gATQGC_dZZWpWm][0] = coupl[0];
+                    D.selfDaTQGCcoupl[gATQGC_dZZWpWm][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "reZ", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_ZllRH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_ZllRH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_ZllRH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "leZ", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_ZllLH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_ZllLH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_ZllLH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "rquZ", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_ZuuRH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_ZuuRH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_ZuuRH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "lquZ", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_ZuuLH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_ZuuLH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_ZuuLH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "rqdZ", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_ZddRH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_ZddRH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_ZddRH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "lqdZ", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_ZddLH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_ZddLH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_ZddLH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "rnZ", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_ZnunuRH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_ZnunuRH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_ZnunuRH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "lnZ", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_ZnunuLH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_ZnunuLH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_ZnunuLH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "cranou", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_uZRH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_uZRH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_uZRH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "clanou", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_uZLH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_uZLH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_uZLH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "cranod", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_dZRH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_dZRH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_dZRH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        )
+
+        .def_property(
+            "clanod", 
+            py::cpp_function(
+                [](py::object &obj){
+                    Mela &D = obj.cast<Mela&>();
+                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.selfDAZffcoupl[gAZff_dZLH], obj);
+                }, py::keep_alive<0, 1>()),
+            py::cpp_function(
+                [](Mela &D, std::array<double, 2> coupl){
+                    D.selfDAZffcoupl[gAZff_dZLH][0] = coupl[0];
+                    D.selfDAZffcoupl[gAZff_dZLH][1] = coupl[1];
+                }, py::keep_alive<0, 1>())
+        );
+
+
 
     py::class_<SimpleParticle_t>(m, "SimpleParticle_t")
         .def(py::init(&particle_initializer), py::arg("id"), py::arg("x"), py::arg("y"), py::arg("z"), py::arg("e"), py::arg("ptEtaPhi") = false)
