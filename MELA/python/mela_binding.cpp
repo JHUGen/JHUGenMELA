@@ -417,6 +417,9 @@ PYBIND11_MAKE_OPAQUE(SimpleParticleCollection_t)
 PYBIND11_MODULE(Mela, m) {
     py::class_<Mela>(m, "Mela")
         .def(py::init<double, double, TVar::VerbosityLevel>())
+        .def(py::init<double, double>())
+        .def(py::init<double>())
+        .def(py::init<>())
         .def("setProcess", &Mela::setProcess)
         .def("setVerbosity", &Mela::setVerbosity)
         .def("setInputEvent", [](Mela &D, SimpleParticleCollection_t* pDaughters, SimpleParticleCollection_t* pAssociated, SimpleParticleCollection_t* pMothers, bool isGen){
@@ -475,7 +478,6 @@ PYBIND11_MODULE(Mela, m) {
             Mela &D = obj.cast<Mela&>();
             return py::array_t<double>(std::vector<int>{nSupportedHiggses, SIZE_HGG, 2}, (const double*) &D.selfDHggcoupl, obj);
         })
-
 
         .def("selfDHg4g4coupl", [](py::object &obj){
             Mela &D = obj.cast<Mela&>();
