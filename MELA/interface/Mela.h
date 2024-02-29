@@ -685,28 +685,63 @@ public:
   );
 
   /**
-   * @brief This is a function that calls Mela::computeP with preset quark, gluon, and vector boson couplings
+   * @brief This is a function that calls Mela::computeP with preset quark, gluon, and vector boson couplings for spin 0
    * @sa Mela::computeP, Mela::selfDHqqcoupl, Mela::selfDHggcoupl, Mela::selfDHttcoupl, Mela::selfDHbbcoupl, Mela::selfDHzzcoupl, Mela::selfDHwwcoupl
    * @warning I (Mohit Srivastav) would personally avoid using this function, as it obfuscates the couplings you are <em> really using </em>.
    * @warning It is always a good idea to set couplings yourself so that you know what you're really doing.
-   * @param[in] selfDHvvcoupl_input an array corresponding to the couplings of Mela::selfDHzzcoupl, Mela::selfDHwwcoupl using the indices in TCouplingsBase.hh
+   * @param[in] selfDHvvcoupl_input an array corresponding to the couplings of Mela::selfDHzzcoupl (between the Higgs and the Z Boson), Mela::selfDHwwcoupl using the indices in TCouplingsBase.hh
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
   */
   void computeP_selfDspin0(
     double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
     float& prob,
     bool useConstant=true
     );
+  
+  /**
+   * @brief This is a function that calls Mela::computeP with preset quark, gluon, and vector boson couplings for spin 1
+   * @sa Mela::computeP, Mela::selfDHqqcoupl, Mela::selfDHggcoupl, Mela::selfDHttcoupl, Mela::selfDHbbcoupl, Mela::selfDHzzcoupl, Mela::selfDHwwcoupl
+   * @warning I (Mohit Srivastav) would personally avoid using this function, as it obfuscates the couplings you are <em> really using </em>.
+   * @warning It is always a good idea to set couplings yourself so that you know what you're really doing.
+   * @param[in] selfDZqqcoupl_input an array corresponding to the couplings of Mela::selfDZqqcoupl (between the Higgs and quarks) using the indices in TCouplingsBase.hh
+   * @param[in] selfDZvvcoupl_input an array corresponding to the couplings of Mela::selfDZvvcoupl (between the Higgs and the Z/W Bosons) using the indices in TCouplingsBase.hh
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
+  */
   void computeP_selfDspin1(
     double selfDZqqcoupl_input[SIZE_ZQQ][2],
     double selfDZvvcoupl_input[SIZE_ZVV][2],
     float& prob,
     bool useConstant=true
     );
+  
+  /**
+   * @brief This is a function that calls Mela::computeP with preset quark, gluon, and vector boson couplings for spin 1, but sets default values for Zqq couplings
+   * @sa Mela::computeP, Mela::selfDHqqcoupl, Mela::selfDHggcoupl, Mela::selfDHttcoupl, Mela::selfDHbbcoupl, Mela::selfDHzzcoupl, Mela::selfDHwwcoupl
+   * @warning I (Mohit Srivastav) would personally avoid using this function, as it obfuscates the couplings you are <em> really using </em>.
+   * @warning It is always a good idea to set couplings yourself so that you know what you're really doing.
+   * @param[in] selfDZvvcoupl_input an array corresponding to the couplings of Mela::selfDZvvcoupl (between the Higgs and the Z/W Bosons) using the indices in TCouplingsBase.hh
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
+  */
   void computeP_selfDspin1(
     double selfDZvvcoupl_input[SIZE_ZVV][2],
     float& prob,
     bool useConstant=true
     );
+
+  /**
+   * @brief This is a function that calls Mela::computeP with preset quark, gluon, and vector boson couplings for spin 2
+   * @sa Mela::computeP, Mela::selfDGggcoupl, Mela::selfDGqqcoupl, Mela::selfDGvvcoupl
+   * @warning I (Mohit Srivastav) would personally avoid using this function, as it obfuscates the couplings you are <em> really using </em>.
+   * @warning It is always a good idea to set couplings yourself so that you know what you're really doing.
+   * @param[in] selfDGggcoupl_input an array corresponding to the couplings of Mela::selfDGggcoupl (between the "graviton" and gluons) using the indices in TCouplingsBase.hh
+   * @param[in] selfDGqqcoupl_input an array corresponding to the couplings of Mela::selfDGqqcoupl (between the "graviton" and quarks) using the indices in TCouplingsBase.hh
+   * @param[in] selfDGvvcoupl_input an array corresponding to the couplings of Mela::selfDGvvcoupl (between the "graviton" and the W/Z bosons) using the indices in TCouplingsBase.hh
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
+  */
   void computeP_selfDspin2(
     double selfDGggcoupl_input[SIZE_GGG][2],
     double selfDGqqcoupl_input[SIZE_GQQ][2],
@@ -714,17 +749,44 @@ public:
     float& prob,
     bool useConstant=true
     );
+
+  /**
+   * @brief This is a function that calls Mela::computeP with preset quark, gluon, and vector boson couplings for spin 1, but sets default values for Zqq couplings
+   * @sa Mela::computeP, Mela::selfDGggcoupl, Mela::selfDGqqcoupl, Mela::selfDGvvcoupl
+   * @warning I (Mohit Srivastav) would personally avoid using this function, as it obfuscates the couplings you are <em> really using </em>.
+   * @warning It is always a good idea to set couplings yourself so that you know what you're really doing.
+   * @param[in] selfDGggcoupl_input an array corresponding to the couplings of Mela::selfDGggcoupl (between the "graviton" and gluons) using the indices in TCouplingsBase.hh
+   * @param[in] selfDGvvcoupl_input an array corresponding to the couplings of Mela::selfDGvvcoupl (between the "graviton" and the W/Z bosons) using the indices in TCouplingsBase.hh
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
+  */
   void computeP_selfDspin2(
     double selfDGggcoupl_input[SIZE_GGG][2],
     double selfDGvvcoupl_input[SIZE_GVV][2],
     float& prob,
     bool useConstant=true
     );
+  
+  /**
+   * @brief Computes the probability for the probabilities on the decay side of things using the constituent daughter 4 vectors along with any jets that could exist
+   * @sa Mela::computeDecayAngles
+   * @attention All matrix elements (JHUGen, MCFM, or analytic), productions, and processes can be used here
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
+   * 
+  */
   void computeP(
     float& prob,
     bool useConstant=true
     );
 
+  /**
+   * @brief computes the value of D_CP
+   * @sa calls Mela::computeP_selfDspin0
+   * @param[in] myME the matrix element you want to use, set as a TVar::MatrixElement
+   * @param[in] myType the process you want to use, set as a TVar::Process
+   * @param[out] prob This is the value of the output probability - edited by reference
+  */
   void computeD_CP(
     TVar::MatrixElement myME,
     TVar::Process myType,
@@ -732,6 +794,19 @@ public:
     );
 
   //****VVH Spin-0****//
+  /**
+   * @brief computes the combined production and decay probability while taking in coupling arrays
+   * @attention The JHUGen Matrix element is not supported
+   * @sa Calls Mela::computeProdDecP(prob, useConstant)
+   * @sa Mela::selfDHvvcoupl, Mela::selfDHwwcoupl, Mela::selfDaTQGCcoupl, Mela::selfDAZffcoupl
+   * @param[in] selfDHvvcoupl_input input for the couplings set in Mela::selfDHvvcoupl
+   * @param[in] selfDHwwcoupl_input input for the couplings set in Mela::selfDHwwcoupl
+   * @param[in] selfDaTQGCcoupl_input input for the couplings set in Mela::selfDaTQGCcoupl
+   * @param[in] selfDAZffcoupl_input input for the couplings set in Mela::selfDAZffcoupl
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
+   * 
+  */
   void computeProdDecP(
     double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
     double selfDHwwcoupl_input[nSupportedHiggses][SIZE_HVV][2],
@@ -740,12 +815,55 @@ public:
     float& prob,
     bool useConstant=true
     );
+
+  /**
+   * @brief computes the combined production and decay probability, with couplings set beforehand
+   * @attention The JHUGen Matrix element is not supported
+   * @attention The following production modes are supported using the MCFM Matrix Element (as named in TVar::Production)
+   * TVar::Had_WH
+   * TVar::Had_ZH
+   * TVar::Had_WH_S
+   * TVar::Had_ZH_S
+   * TVar::Had_WH_TU
+   * TVar::Had_ZH_TU
+   * TVar::Lep_ZH
+   * TVar::Lep_WH
+   * TVar::Lep_ZH_S
+   * TVar::Lep_WH_S
+   * TVar::Lep_ZH_TU
+   * TVar::Lep_WH_TU
+   * TVar::JJVBF
+   * TVar::JJEW
+   * TVar::JJEWQCD
+   * TVar::JJQCD
+   * TVar::JJVBF_S
+   * TVar::JJEW_S
+   * TVar::JJEWQCD_S
+   * TVar::JJQCD_S
+   * TVar::JJVBF_TU
+   * TVar::JJEW_TU
+   * TVar::JJEWQCD_TU
+   * TVar::JJQCD_TU
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
+  */
   void computeProdDecP(
     float& prob,
     bool useConstant=true
     );
 
   //****HJ/HJJ/VBF Spin-0****//
+  /**
+   * @brief computes Production side probabilities while taking in coupling arrays
+   * @attention The MCFM Matrix element is not supported
+   * @sa Calls Mela::computeProdP(prob, useConstant)
+   * @sa Mela:selfDHggcoupl, Mela::selfDHvvcoupl, Mela::selfDHwwcoupl
+   * @param[in] selfDHggcoupl_input input for the couplings set in Mela::setlfDHggcoupl
+   * @param[in] selfDHvvcoupl_input input for the couplings set in Mela::selfDHvvcoupl
+   * @param[in] selfDHwwcoupl_input input for the couplings set in Mela::selfDHwwcoupl
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
+  */
   void computeProdP(
     double selfDHggcoupl_input[SIZE_HGG][2],
     double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
@@ -753,6 +871,13 @@ public:
     float& prob,
     bool useConstant=true
     );
+
+    /**
+   * @brief computes Production side probabilities using couplings set beforehand
+   * @attention The MCFM Matrix element is not  supported
+   * @param[out] prob This is the value of the output probability - edited by reference
+   * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
+  */
   void computeProdP(
     float& prob,
     bool useConstant=true
