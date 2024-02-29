@@ -207,10 +207,6 @@ void TEvtProb::SetVerbosity(TVar::VerbosityLevel tmp){ verbosity = tmp; }
 void TEvtProb::SetLeptonInterf(TVar::LeptonInterference tmp){ leptonInterf = tmp; }
 void TEvtProb::SetCandidateDecayMode(TVar::CandidateDecayMode mode){ PDGHelpers::setCandidateDecayMode(mode); }
 void TEvtProb::SetRenFacScaleMode(TVar::EventScaleScheme renormalizationSch, TVar::EventScaleScheme factorizationSch, double ren_sf, double fac_sf){
-  if(verbosity>=TVar::DEBUG_VERBOSE){
-    MELAout << "Renormalization Scheme/Scale Factor set to " << renormalizationSch << "/" << ren_sf << endl;
-    MELAout << "Factorization Scheme/Scale Factor set to " << factorizationSch << "/" << fac_sf << endl;
-  } 
   event_scales.renomalizationScheme = renormalizationSch;
   event_scales.factorizationScheme = factorizationSch;
   event_scales.ren_scale_factor = ren_sf;
