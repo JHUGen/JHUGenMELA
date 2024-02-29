@@ -80,7 +80,7 @@ public:
   void SetHiggsMass(double mass, double wHiggs=-1., int whichResonance=-1);
 
   void SetRenFacScaleMode(TVar::EventScaleScheme renormalizationSch, TVar::EventScaleScheme factorizationSch, double ren_sf, double fac_sf);
-  TVar::event_scales_type GetRenFacScaleMode();
+  const TVar::event_scales_type& GetRenFacScaleMode();
   void ResetRenFacScaleMode();
 
   // Convert std::vectors to MELAPArticle* and MELACandidate* objects, stored in particleList and candList, respectively.
