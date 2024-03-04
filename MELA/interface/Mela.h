@@ -96,7 +96,6 @@ public:
   void getConstant(float& prob); // <ME> constants
   void getPAux(float& prob); // SuperProb
 
-  const TVar::event_scales_type& getRenFacScaleMode() const;
 
   RooSpin::modelMeasurables getMeasurablesRRV();
 
