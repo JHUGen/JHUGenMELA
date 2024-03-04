@@ -89,9 +89,6 @@ $(LIBRULE):	$(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | alldirs
 $(pyLIBRULE): $(pyLINKFILE) | alldirs
 	@echo "Making python"; \
 	$(LINKER) $(pyLINKFILE) $(CPPFLAGS) $(LINKERFLAGS) \
-	-E -O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
-	$(shell python3 -m pybind11 --includes) -o preprocess_test.cpp; \
-	$(LINKER) $(pyLINKFILE) $(CPPFLAGS) $(LINKERFLAGS) \
 	-O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
 	$(shell python3 -m pybind11 --includes) -o $@
 
