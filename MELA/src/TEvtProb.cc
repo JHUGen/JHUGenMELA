@@ -212,8 +212,8 @@ void TEvtProb::SetRenFacScaleMode(TVar::EventScaleScheme renormalizationSch, TVa
   event_scales.ren_scale_factor = ren_sf;
   event_scales.fac_scale_factor = fac_sf;
 }
-const TVar::event_scales_type& TEvtProb::GetRenFacScaleMode(){
-  return event_scales;
+const TVar::event_scales_type& TEvtProb::GetRenFacScaleMode() const{
+  return this->event_scales;
 }
 void TEvtProb::AllowSeparateWWCouplings(bool doAllow){ SetJHUGenDistinguishWWCouplings(doAllow); selfDSpinZeroCoupl.allow_WWZZSeparation(doAllow); }
 void TEvtProb::SetPrimaryHiggsMass(double mass){ PrimaryHMass=mass; SetHiggsMass(PrimaryHMass, -1., -1); }
