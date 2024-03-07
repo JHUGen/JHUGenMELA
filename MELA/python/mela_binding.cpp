@@ -400,10 +400,10 @@ PYBIND11_MODULE(Mela, m) {
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDaTQGCcoupl,SIZE_ATQGC)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDAZffcoupl,SIZE_AZff)
 
-        .def_readwrite("selfDM_Zprime", &Mela::selfDM_Zprime)
-        .def_readwrite("selfDGa_Zprime", &Mela::selfDGa_Zprime)
-        .def_readwrite("selfDM_Wprime", &Mela::selfDM_Wprime)
-        .def_readwrite("selfDGa_Wprime", &Mela::selfDGa_Wprime)
+        .def_readwrite("M_Zprime", &Mela::selfDM_Zprime)
+        .def_readwrite("Ga_Zprime", &Mela::selfDGa_Zprime)
+        .def_readwrite("M_Wprime", &Mela::selfDM_Wprime)
+        .def_readwrite("Ga_Wprime", &Mela::selfDGa_Wprime)
 
 
         //Here be couplings
