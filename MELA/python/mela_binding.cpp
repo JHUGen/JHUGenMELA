@@ -1305,7 +1305,14 @@ PYBIND11_MODULE(Mela, m) {
         .value("gZPRIME_QQ_RIGHT", gZPRIME_QQ_RIGHT)
         .value("SIZE_ZQQ", SIZE_ZQQ);
 
-    py::enum_<CouplingIndex_ZVV>(m, "CouplingIndex_ZVV")
+    py::enum_<TVar::ResonancePropagatorScheme>(m, "ResonancePropagatorScheme")
+        .value("NoPropagator", TVar::NoPropagator)
+        .value("RunningWidth", TVar::RunningWidth)
+        .value("FixedWidth", TVar::FixedWidth)
+        .value("CPS", TVar::CPS)
+        .value("AltRunningWidth", TVar::AltRunningWidth);
+ 
+     py::enum_<CouplingIndex_ZVV>(m, "CouplingIndex_ZVV")
         .value("gZPRIME_VV_1", gZPRIME_VV_1)
         .value("gZPRIME_VV_2", gZPRIME_VV_2)
         .value("SIZE_ZVV", SIZE_ZVV);
