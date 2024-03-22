@@ -23,6 +23,14 @@ getMELAARCH(){
   fi
 }
 
+checkPYBIND11_INSTALL(){
+  python3 -c "import pybind11" > /dev/null 2>&1 
+  local status=$?
+  echo $status
+}
+
+pyBIND11_STATUS=$(checkPYBIND11_INSTALL)
+
 
 cd $(dirname ${BASH_SOURCE[0]})
 
@@ -55,6 +63,11 @@ nSetupArgs=${#setupArgs[@]}
 mela_arch=$(getMELAARCH)
 mela_lib_path="${MELADIR}/data/${mela_arch}"
 
+if [ "$pyBIND11_STATUS" != 0 ]; then
+  echo "Cannot identify the python3 package PYBIND11. Please install the package or enter an area where it is installed."
+  exit 1
+fi
+
 if [[ -z "${ROOFITSYS+x}" ]] && [[ $doDeps -eq 0 ]]; then
   if [[ $(ls ${ROOTSYS}/lib | grep -e libRooFitCore) != "" ]]; then
     needROOFITSYS_ROOTSYS=1
@@ -82,7 +95,7 @@ printenv () {
     echo "export LD_LIBRARY_PATH=${ldlibappend}${end}"
   fi
 
-  pythonappend="${MELADIR}/python"
+  pythonappend="${MELADIR}/python:${mela_lib_path}"
   end=""
   if [[ ! -z "${PYTHONPATH+x}" ]]; then
     end=":${PYTHONPATH}"
@@ -116,7 +129,7 @@ doenv () {
     echo "Temporarily using LD_LIBRARY_PATH as ${LD_LIBRARY_PATH}"
   fi
 
-  pythonappend="${MELADIR}/python"
+  pythonappend="${MELADIR}/python:${mela_lib_path}"
   end=""
   if [[ ! -z "${PYTHONPATH+x}" ]]; then
     end=":${PYTHONPATH}"

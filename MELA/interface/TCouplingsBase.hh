@@ -19,7 +19,7 @@ namespace{
    * @remark Table listed as enumeration name on the left
    * @remark the corresponding pyMela/colloquial coupling name, as well as the value of the enum, on the right
   */
-  enum{
+  enum CouplingIndex_HQQ{
     gHIGGS_KAPPA, /*!< `kappa` (Value=0) */
     gHIGGS_KAPPA_TILDE, /*!< `kappa` (Value=1) */
 
@@ -32,7 +32,7 @@ namespace{
    * @remark Table listed as enumeration name on the left
    * @remark the corresponding pyMela/colloquial coupling name, as well as the value of the enum, on the right
   */
-  enum{
+  enum CouplingIndex_HGG{
     gHIGGS_GG_2, /*!< `ghg2` (Value=0) */
     gHIGGS_GG_3, /*!< `ghg3` (Value=1) */
     gHIGGS_GG_4, /*!< `ghg4` (Value=2) */
@@ -49,7 +49,7 @@ namespace{
    * @remark Table listed as enumeration name on the left
    * @remark the corresponding pyMela/colloquial coupling name, as well as the value of the enum, on the right
   */
-  enum{
+  enum CouplingIndex_HVV{
     gHIGGS_VV_1, /*!< `ghz1` (Value=0) */
     gHIGGS_VV_2, /*!< `ghz2` (Value=1) */
     gHIGGS_VV_3, /*!< `ghz3` (Value=2) */
@@ -107,7 +107,7 @@ namespace{
    * @remark Table listed as enumeration name on the left
    * @remark the corresponding pyMela/colloquial coupling name, as well as the value of the enum, on the right
   */
-  enum{
+  enum CouplingIndex_LAMBDAQSQ{
     LambdaHIGGS_QSQ_VV_1 = 0,
     LambdaHIGGS_QSQ_VV_2 = 1,
     LambdaHIGGS_QSQ_VV_3 = 2,
@@ -115,14 +115,14 @@ namespace{
 
     SIZE_HVV_LAMBDAQSQ = 4
   };
-  enum{
+  enum CouplingIndex_HVV_CQSQ{
     cLambdaHIGGS_VV_QSQ1 = 0,
     cLambdaHIGGS_VV_QSQ2 = 1,
     cLambdaHIGGS_VV_QSQ12 = 2,
 
     SIZE_HVV_CQSQ = 3
   };
-  enum{
+  enum CouplingIndex_Vpff{
     gHIGGS_Vp_El_left,
     gHIGGS_Vp_El_right,
     gHIGGS_Vp_Mu_left,
@@ -147,25 +147,25 @@ namespace{
 
     SIZE_Vpff
   };
-  enum{
+  enum CouplingIndex_ZQQ{
     gZPRIME_QQ_LEFT,
     gZPRIME_QQ_RIGHT,
 
     SIZE_ZQQ
   };
-  enum{
+  enum CouplingIndex_ZVV{
     gZPRIME_VV_1,
     gZPRIME_VV_2,
 
     SIZE_ZVV
   };
-  enum{
+  enum CouplingIndex_GQQ{
     gGRAVITON_QQ_LEFT,
     gGRAVITON_QQ_RIGHT,
 
     SIZE_GQQ
   };
-  enum{
+  enum CouplingIndex_GGG{
     gGRAVITON_GG_1,
     gGRAVITON_GG_2,
     gGRAVITON_GG_3,
@@ -174,7 +174,7 @@ namespace{
 
     SIZE_GGG
   };
-  enum{
+  enum CouplingIndex_GVV{
     gGRAVITON_VV_1,
     gGRAVITON_VV_2,
     gGRAVITON_VV_3,
@@ -200,7 +200,7 @@ namespace{
 
     SIZE_GVV
   };
-  enum{
+  enum CouplingIndex_ATQGC{
     gATQGC_dVA,
     gATQGC_dPA,
     gATQGC_dMA,
@@ -217,7 +217,7 @@ namespace{
 
     SIZE_ATQGC
   };
-  enum{
+  enum CouplingIndex_AZff{
     gAZff_ZllRH,
     gAZff_ZllLH,
     gAZff_ZuuRH,

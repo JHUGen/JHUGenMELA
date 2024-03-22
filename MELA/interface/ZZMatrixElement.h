@@ -56,6 +56,7 @@ public:
     ); // Sets melaCand in Xcal2 to a temporary candidate, without pushing this candidate to candList of Xcal2 for storage and deletion at a later stage
   //
   void set_RenFacScaleMode(TVar::EventScaleScheme renormalizationSch, TVar::EventScaleScheme factorizationSch, double ren_sf, double fac_sf); // Sets variables exclusive to Xcal2
+  const TVar::event_scales_type& get_RenFacScaleMode() const;
   void set_LHAgrid(const char* path, int pdfmember=0); // Sets variable exclusive to Xcal2
   void set_PrimaryHiggsMass(double mh);
   void set_CandidateDecayMode(TVar::CandidateDecayMode mode); // Sets variables exclusive to Xcal2
