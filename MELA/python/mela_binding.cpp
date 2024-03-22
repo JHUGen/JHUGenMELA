@@ -323,6 +323,12 @@ PYBIND11_MODULE(Mela, m) {
             return list_type;
         });
 
+    py::class_<TVar::event_scales_type>(m, "event_scales_type")
+        .def(py::init<TVar::EventScaleScheme, TVar::EventScaleScheme, double, double>())
+        .def_readwrite("renomalizationScheme", &TVar::event_scales_type::renomalizationScheme)
+        .def_readwrite("factorizationScheme", &TVar::event_scales_type::factorizationScheme)
+        .def_readwrite("ren_scale_factor", &TVar::event_scales_type::ren_scale_factor)
+        .def_readwrite("fac_scale_factor", &TVar::event_scales_type::fac_scale_factor);
     
     py::class_<Mela>(m, "Mela")
         .def(py::init<double, double, TVar::VerbosityLevel>())
@@ -332,6 +338,11 @@ PYBIND11_MODULE(Mela, m) {
         .def("setProcess", &Mela::setProcess)
         .def("setVerbosity", &Mela::setVerbosity)
         .def("setInputEvent", &Mela::setInputEvent)
+        .def("setCandidateDecayMode", &Mela::setCandidateDecayMode)
+        .def("setMelaHiggsMass", &Mela::setMelaHiggsMass)
+        .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth)
+        .def("setMelaHiggsMassWidth", &Mela::setMelaHiggsMassWidth)
+        .def("setRenFacScaleMode", &Mela::setRenFacScaleMode)
     
         .def("resetInputEvent", &Mela::resetInputEvent)
         .def("resetMass", &Mela::resetMass)
@@ -348,6 +359,8 @@ PYBIND11_MODULE(Mela, m) {
         .def("getUnweightedMEArray", &getUnweightedMEArray)
         .def("getPartonWeights", &getPartonWeights)
         .def("getPAux", &getPAux)
+        .def("getRenFacScaleMode", &Mela::getRenFacScaleMode)
+
         
         .def("computeP", &computeP)
         .def("computeProdP", &computeProdP)
@@ -367,7 +380,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("computeVBFAngles", &computeVBFAngles)
         .def("computeVBFAngles_ComplexBoost", &computeVBFAngles_ComplexBoost)
         .def("computeVHAngles", &computeVHAngles)
-       
+
         .def_readwrite("differentiate_HWW_HZZ", &Mela::differentiate_HWW_HZZ)
 
         //Raw coupling arrays
@@ -1210,7 +1223,7 @@ PYBIND11_MODULE(Mela, m) {
         .value("SelfDefine_spin1",TVar::SelfDefine_spin1)
         .value("SelfDefine_spin2",TVar::SelfDefine_spin2)
         .value("nProcesses",TVar::nProcesses);
- 
+
     py::enum_<TVar::ResonancePropagatorScheme>(m, "ResonancePropagatorScheme")
         .value("NoPropagator", TVar::NoPropagator)
         .value("RunningWidth", TVar::RunningWidth)
@@ -1218,7 +1231,7 @@ PYBIND11_MODULE(Mela, m) {
         .value("CPS", TVar::CPS)
         .value("AltRunningWidth", TVar::AltRunningWidth);
 
-     py::enum_<TVar::EventScaleScheme>(m, "EventScaleScheme")
+    py::enum_<TVar::EventScaleScheme>(m, "EventScaleScheme")
         .value("DefaultScaleScheme", TVar::DefaultScaleScheme)
         .value("Fixed_mH", TVar::Fixed_mH)
         .value("Fixed_mW", TVar::Fixed_mW)
@@ -1246,7 +1259,7 @@ PYBIND11_MODULE(Mela, m) {
         .value("CandidateDecay_ZG", TVar::CandidateDecay_ZG)
         .value("CandidateDecay_WG", TVar::CandidateDecay_WG)
         .value("CandidateDecay_GG", TVar::CandidateDecay_GG);
- 
+
     py::enum_<CouplingIndex_HQQ>(m, "CouplingIndex_HQQ")
         .value("gHIGGS_KAPPA", gHIGGS_KAPPA)
         .value("gHIGGS_KAPPA_TILDE", gHIGGS_KAPPA_TILDE)
