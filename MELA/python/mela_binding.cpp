@@ -1210,7 +1210,43 @@ PYBIND11_MODULE(Mela, m) {
         .value("SelfDefine_spin1",TVar::SelfDefine_spin1)
         .value("SelfDefine_spin2",TVar::SelfDefine_spin2)
         .value("nProcesses",TVar::nProcesses);
+ 
+    py::enum_<TVar::ResonancePropagatorScheme>(m, "ResonancePropagatorScheme")
+        .value("NoPropagator", TVar::NoPropagator)
+        .value("RunningWidth", TVar::RunningWidth)
+        .value("FixedWidth", TVar::FixedWidth)
+        .value("CPS", TVar::CPS)
+        .value("AltRunningWidth", TVar::AltRunningWidth);
+
+     py::enum_<TVar::EventScaleScheme>(m, "EventScaleScheme")
+        .value("DefaultScaleScheme", TVar::DefaultScaleScheme)
+        .value("Fixed_mH", TVar::Fixed_mH)
+        .value("Fixed_mW", TVar::Fixed_mW)
+        .value("Fixed_mZ", TVar::Fixed_mZ)
+        .value("Fixed_mWPlusmH", TVar::Fixed_mWPlusmH)
+        .value("Fixed_mZPlusmH", TVar::Fixed_mZPlusmH)
+        .value("Fixed_TwomtPlusmH", TVar::Fixed_TwomtPlusmH)
+        .value("Fixed_mtPlusmH", TVar::Fixed_mtPlusmH)
+        .value("Dynamic_qH", TVar::Dynamic_qH)
+        .value("Dynamic_qJJH", TVar::Dynamic_qJJH)
+        .value("Dynamic_qJJ_qH", TVar::Dynamic_qJJ_qH)
+        .value("Dynamic_qJ_qJ_qH", TVar::Dynamic_qJ_qJ_qH)
+        .value("Dynamic_HT", TVar::Dynamic_HT)
+        .value("Dynamic_Leading_pTJ", TVar::Dynamic_Leading_pTJ)
+        .value("Dynamic_Softest_pTJ", TVar::Dynamic_Softest_pTJ)
+        .value("Dynamic_RandomUniform_Constrained", TVar::Dynamic_RandomUniform_Constrained)
+        .value("nEventScaleSchemes", TVar::nEventScaleSchemes);
     
+    py::enum_<TVar::CandidateDecayMode>(m, "CandidateDecayMode")
+        .value("CandidateDecay_Stable", TVar::CandidateDecay_Stable)
+        .value("CandidateDecay_ff", TVar::CandidateDecay_ff)
+        .value("CandidateDecay_WW", TVar::CandidateDecay_WW)
+        .value("CandidateDecay_ZZ", TVar::CandidateDecay_ZZ)
+        .value("CandidateDecay_ZW", TVar::CandidateDecay_ZW)
+        .value("CandidateDecay_ZG", TVar::CandidateDecay_ZG)
+        .value("CandidateDecay_WG", TVar::CandidateDecay_WG)
+        .value("CandidateDecay_GG", TVar::CandidateDecay_GG);
+ 
     py::enum_<CouplingIndex_HQQ>(m, "CouplingIndex_HQQ")
         .value("gHIGGS_KAPPA", gHIGGS_KAPPA)
         .value("gHIGGS_KAPPA_TILDE", gHIGGS_KAPPA_TILDE)
@@ -1304,13 +1340,6 @@ PYBIND11_MODULE(Mela, m) {
         .value("gZPRIME_QQ_LEFT", gZPRIME_QQ_LEFT)
         .value("gZPRIME_QQ_RIGHT", gZPRIME_QQ_RIGHT)
         .value("SIZE_ZQQ", SIZE_ZQQ);
-
-    py::enum_<TVar::ResonancePropagatorScheme>(m, "ResonancePropagatorScheme")
-        .value("NoPropagator", TVar::NoPropagator)
-        .value("RunningWidth", TVar::RunningWidth)
-        .value("FixedWidth", TVar::FixedWidth)
-        .value("CPS", TVar::CPS)
-        .value("AltRunningWidth", TVar::AltRunningWidth);
  
      py::enum_<CouplingIndex_ZVV>(m, "CouplingIndex_ZVV")
         .value("gZPRIME_VV_1", gZPRIME_VV_1)
