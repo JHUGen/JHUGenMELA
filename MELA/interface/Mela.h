@@ -770,7 +770,15 @@ public:
   /**
    * @brief Computes the probability for the probabilities on the decay side of things using the constituent daughter 4 vectors along with any jets that could exist
    * @sa Mela::computeDecayAngles
-   * @attention All matrix elements (JHUGen, MCFM, or analytic), productions, and processes can be used here
+   * @attention All JHUGen matrix elements, productions, and processes can be used here
+   * @attention The following production modes are supported using the MCFM Matrix Element (as named in TVar::Production)
+   * TVar::ZZGG
+   * TVar::ZZQQB
+   * TVar::ZZQQB_STU
+   * TVar::ZZQQB_S
+   * TVar::ZZQQB_TU
+   * TVar::ZZINDEPENDENT
+   * TVar::JJQCD && process == TVar::bkgZJets
    * @param[out] prob This is the value of the output probability - edited by reference
    * @param[in] useConstant This turns on the calculation of a corrective constant to different probabilities through Mela::getConstant. If you would like the "pure" MELA calculation to be run, set useConstant to false. By default true.
    * 
