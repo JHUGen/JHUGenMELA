@@ -31,6 +31,7 @@ Please adhere to the following coding conventions:
 #include "SuperMELA.h"
 #include "TUtilHelpers.hh"
 #include "MELAStreamHelpers.hh"
+#include "MadMela.h"
 
 #include "RooMsgService.h"
 #include "TFile.h"
@@ -78,6 +79,14 @@ melaCand(0)
 }
 Mela::~Mela(){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Begin Mela destructor" << endl;
+
+  if(myVerbosity_>=TVar::DEBUG) MELAout << "Mela destructor: Destroying madMELA variables" << endl;
+  madMela::CKM_map.clear();
+  madMela::mass_map.clear();
+  madMela::width_map.clear(); 
+  delete madMela::madMelaCandidate;
+  madMela::madMelaCandidate = nullptr;
+  madMela::setDefaultMadgraphValues();
 
   //setRemoveLeptonMasses(false); // Use Run 1 scheme for not removing lepton masses. Notice the switch itself is defined as an extern, so it has to be set to default value at the destructor!
   setRemoveLeptonMasses(true); // Use Run 2 scheme for removing lepton masses. Notice the switch itself is defined as an extern, so it has to be set to default value at the destructor!
@@ -131,6 +140,9 @@ void Mela::cleanLinkedFiles() {
 
 void Mela::build(double mh_){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Start Mela::build" << endl;
+  if(myVerbosity_>=TVar::DEBUG) MELAout << "Running madMela::initialize_madMELA" << endl;
+  madMela::initialize_madMELA();
+  madMela::myVerbosity_=myVerbosity_;
   //setRemoveLeptonMasses(false); // Use Run 1 scheme for not removing fermion masses
   setRemoveLeptonMasses(true); // Use Run 2 scheme for removing fermion masses to compute MEs that expect massless fermions properly
 
@@ -220,8 +232,6 @@ void Mela::build(double mh_){
   super->SetPathToCards(cardfile.substr(0, cardfile.length()-14).c_str());
   super->SetVerbosity((myVerbosity_>=TVar::DEBUG));
   super->init();
-
-
   /***** SuperDijetMela *****/
   float superDijetSqrts = LHCsqrts;
   if (superDijetSqrts<13.) superDijetSqrts=13.; // Dijet resolution does not exist for 7 or 8 TeV
@@ -247,6 +257,9 @@ void Mela::printLogo() const{
   logolines.push_back("Signal, background, and interference calculations, modified based on JHUGen matrix elements");
   logolines.push_back("(See MCFM credits below)");
   logolines.push_back("");
+  logolines.push_back("* MADGRAPH *");
+  logolines.push_back("SMEFTsim calculations for specified processes");
+  logolines.push_back("(See MADGRAPH credits below)");
   logolines.push_back("For more details: http://spin.pha.jhu.edu");
   logolines.push_back("");
   size_t maxlinesize = 0;
@@ -277,10 +290,17 @@ void Mela::setProcess(TVar::Process myModel, TVar::MatrixElement myME, TVar::Pro
     else if (myProduction_==TVar::JJQCD_S) myProduction_=TVar::JJQCD;
   }
   myModel_ = myModel;
-  if (ZZME!=0) ZZME->set_Process(myModel_, myME_, myProduction_);
+  if(myME_==TVar::MADGRAPH){
+    if( (myProduction_ != TVar::ZZGG) && (myProduction_ != TVar::ZZINDEPENDENT) ){
+      MELAout << "Production mode " << myProduction_ << " is not currently supported by MADMELA!" << endl;
+    }
+  } else{
+    if (ZZME!=0) ZZME->set_Process(myModel_, myME_, myProduction_);
+  }
 }
 void Mela::setVerbosity(TVar::VerbosityLevel verbosity_){
   myVerbosity_=verbosity_;
+  madMela::myVerbosity_=verbosity_;
   if (ZZME) ZZME->set_Verbosity(myVerbosity_);
   if (super) super->SetVerbosity((myVerbosity_>=TVar::DEBUG));
   if (superDijet) superDijet->SetVerbosity(myVerbosity_);
@@ -290,9 +310,19 @@ void Mela::setVerbosity(TVar::VerbosityLevel verbosity_){
 TVar::VerbosityLevel Mela::getVerbosity(){ return myVerbosity_; }
 // Should be called per-event
 void Mela::setMelaPrimaryHiggsMass(double myHiggsMass){ ZZME->set_PrimaryHiggsMass(myHiggsMass); }
-void Mela::setMelaHiggsMass(double myHiggsMass, int index){ ZZME->set_mHiggs(myHiggsMass, index); }
-void Mela::setMelaHiggsWidth(double myHiggsWidth, int index){ ZZME->set_wHiggs(myHiggsWidth, index); }
-void Mela::setMelaHiggsMassWidth(double myHiggsMass, double myHiggsWidth, int index){ ZZME->set_mHiggs_wHiggs(myHiggsMass, myHiggsWidth, index); }
+void Mela::setMelaHiggsMass(double myHiggsMass, int index){
+  madMela::set_mHiggs(myHiggsMass, index);
+  ZZME->set_mHiggs(myHiggsMass, index); 
+}
+void Mela::setMelaHiggsWidth(double myHiggsWidth, int index){
+  madMela::set_wHiggs(myHiggsWidth, index);
+  ZZME->set_wHiggs(myHiggsWidth, index); 
+}
+void Mela::setMelaHiggsMassWidth(double myHiggsMass, double myHiggsWidth, int index){
+  madMela::set_mHiggs(myHiggsMass, index);
+  madMela::set_wHiggs(myHiggsWidth, index);
+  ZZME->set_mHiggs_wHiggs(myHiggsMass, myHiggsWidth, index); 
+}
 void Mela::setMelaLeptonInterference(TVar::LeptonInterference myLepInterf){ myLepInterf_=myLepInterf; ZZME->set_LeptonInterference(myLepInterf); }
 void Mela::setCandidateDecayMode(TVar::CandidateDecayMode mode){ ZZME->set_CandidateDecayMode(mode); }
 void Mela::setCurrentCandidateFromIndex(unsigned int icand){ ZZME->set_CurrentCandidateFromIndex(icand); }
@@ -303,14 +333,23 @@ void Mela::setInputEvent(
   SimpleParticleCollection_t* pMothers,
   bool isGen
   ){
+  madMela::setInputEvent(
+  pDaughters,
+  pAssociated,
+  pMothers,
+  isGen
+  );
   ZZME->set_InputEvent(
-    pDaughters,
-    pAssociated,
-    pMothers,
-    isGen
-    );
+  pDaughters,
+  pAssociated,
+  pMothers,
+  isGen
+  );
 }
-void Mela::resetInputEvent(){ ZZME->reset_InputEvent(); }
+void Mela::resetInputEvent(){
+  madMela::setDefaultMadgraphValues();
+  ZZME->reset_InputEvent();
+  }
 void Mela::setTempCandidate(
   SimpleParticleCollection_t* pDaughters,
   SimpleParticleCollection_t* pAssociated,
@@ -1181,6 +1220,11 @@ void Mela::computeP(
 
       Y_rrv->setConstant(false);
     }
+    else if (myME_ == TVar::MADGRAPH){
+      double prob_madgraph = (double) prob;
+      madMela::computeP(prob_madgraph, -1); //madgraph takes in doubles
+      prob = (float) prob_madgraph;
+    }
     else if (myME_ == TVar::JHUGen || myME_ == TVar::MCFM){
       setAZffCouplings();
       if (!(myME_ == TVar::MCFM  && myProduction_ == TVar::ZZINDEPENDENT &&  (myModel_ == TVar::bkgZZ || myModel_ == TVar::bkgWW || myModel_ == TVar::bkgZGamma || myModel_ == TVar::bkgGammaGamma))){
@@ -1294,7 +1338,6 @@ void Mela::computeP(
   reset_CandRef();
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Mela: End computeP" << endl;
 }
-
 
 void Mela::computeD_CP(
   TVar::MatrixElement myME,

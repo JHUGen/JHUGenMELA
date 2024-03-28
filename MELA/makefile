@@ -43,7 +43,7 @@ ROOTINC = $(ROOFITINC)
 
 CC = g++
 CPPINC = -I$(MELADIR)/interface $(ROOTINC)
-CPPLOAD = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier $(LIBS)
+CPPLOAD = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier -lggF_SMEFTsim $(LIBS)
 CPPOPTS =  -fPIC -O2 -ftree-vectorize -fipa-pta -felide-constructors -fvisibility-inlines-hidden -fno-math-errno \
 	--param vect-max-version-for-alias-checks=50 -fmessage-length=0 -fdiagnostics-show-option \
 	-Werror=unused-value \
@@ -64,6 +64,8 @@ DEPS = $(OBJECTS:.o=.d)
 .SILENT: alldirs $(OBJECTS) $(DEPS) $(MELAOBJDIR)/LinkDef_out.o $(LIBRULE) python/__init__.py $(pyLIBRULE) clean
 
 all: $(LIBRULE) python/__init__.py $(pyLIBRULE)
+
+nopython: $(LIBRULE) mad_test
 
 $(MELAOBJDIR)/%.d:	$(MELASRCDIR)/%.c* | alldirs
 	echo "Checking dependencies for $<"; \
@@ -86,11 +88,14 @@ $(LIBRULE):	$(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | alldirs
 	echo "Linking $(LIB)"; \
 	$(LINKER) $(LINKERFLAGS) -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -o $@
 
-$(pyLIBRULE): $(pyLINKFILE) | alldirs
+$(pyLIBRULE): $(pyLINKFILE) $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | alldirs
 	@echo "Making python"; \
 	$(LINKER) $(pyLINKFILE) $(CPPFLAGS) $(LINKERFLAGS) \
 	-O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
 	$(shell python3 -m pybind11 --includes) -o $@
+
+mad_test: test/testME_madgraph.cpp | alldirs
+	@$(LINKER) $(CPPFLAGS) -L$(MELALIBDIR) -lJHUGenMELAMELA test/testME_madgraph.cpp -o testME_madgraph
 
 alldirs:
 	mkdir -p $(MELAOBJDIR)

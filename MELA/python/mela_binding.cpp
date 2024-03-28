@@ -1135,7 +1135,8 @@ PYBIND11_MODULE(Mela, m) {
     py::enum_<TVar::MatrixElement>(m, "MatrixElement")
         .value("MCFM",TVar::MCFM)
         .value("JHUGen",TVar::JHUGen)
-        .value("ANALYTICAL",TVar::ANALYTICAL);
+        .value("ANALYTICAL",TVar::ANALYTICAL)
+        .value("MADGRAPH",TVar::MADGRAPH);
     
     py::enum_<TVar::Production>(m, "Production")
         .value("ZZGG",TVar::ZZGG)
