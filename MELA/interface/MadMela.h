@@ -47,7 +47,7 @@ namespace madMela{
             gc_817, gc_818, gc_819, gc_820, gc_821, gc_822;
         }couplings_; //you shouldn't have to edit these, but they are here for safekeeping!
 
-        void smatrixhel_(int pdgs[], const int& npdg, double p[][4], double& alphas, double& scale2, int& nhel, double& ans);
+        void smatrixhel_(int pdgs[], int& procid, const int& npdg, double p[][4], double& alphas, double& scale2, int& nhel, double& ans);
         void coup_();
     }
     void setDefaultMadgraphValues();

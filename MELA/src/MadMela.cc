@@ -37,8 +37,8 @@ void madMela::setDefaultMadgraphValues(){
     madMela::params_c_.mdl_ckm3x3 =  complex<double>(  1.0000000000000000     ,  0.0000000000000000     );
 
     madMela::params_r_.mdl_ckmlambda =   0.22650000000000001;
-    madMela::params_r_.mdl_ckmlambda__exp__2 =    5.1302250000000001E-002;
-    madMela::params_r_.mdl_ckmlambda__exp__3 =    1.1619959625000001E-002;
+    // madMela::params_r_.mdl_ckmlambda__exp__2 =    5.1302250000000001E-002;
+    // madMela::params_r_.mdl_ckmlambda__exp__3 =    1.1619959625000001E-002;
     madMela::params_r_.mdl_ckma =   0.79000000000000004;
     madMela::params_r_.mdl_ckmrho =   0.14099999999999999;
     madMela::params_r_.mdl_ckmeta =   0.35699999999999998;
@@ -49,9 +49,9 @@ void madMela::setDefaultMadgraphValues(){
     madMela::mad_masses_.mdl_mt = madMela::mad_masses_.mdl_mt1 = 172.9;
 
     madMela::mad_masses_.mdl_mw = madMela::mad_masses_.mdl_mw1 = madMela::params_r_.mdl_mwsm =    79.831336335943078;
-    madMela::params_r_.mdl_mwsm__exp__2 =    6373.0422611824652;
-    madMela::params_r_.mdl_mwsm__exp__4 =    40615667.662817709;
-    madMela::params_r_.mdl_mwsm__exp__6 =    258845366481.27933;
+    // madMela::params_r_.mdl_mwsm__exp__2 =    6373.0422611824652;
+    // madMela::params_r_.mdl_mwsm__exp__4 =    40615667.662817709;
+    // madMela::params_r_.mdl_mwsm__exp__6 =    258845366481.27933;
 
 
     madMela::mad_masses_.mdl_mh = madMela::mad_masses_.mdl_mh1 = 125;
@@ -334,11 +334,11 @@ void madMela::initialize_madMELA(){
 
 void madMela::setInputEvent(SimpleParticleCollection_t* pDaughters, SimpleParticleCollection_t* pAssociated, SimpleParticleCollection_t* pMothers, bool isGen){
     if (!(pDaughters) || (pDaughters->size() == 0)){ throw invalid_argument("madMela::setInputEvent: No daughters!");}
-    else if (pDaughters->size()>4){
+    else if (pDaughters->size() != 4){
         MELAerr << "madMela::setInputEvent: Daughter size " << pDaughters->size() << endl;
-        throw invalid_argument("madMela::setInputEvent: Daughter size >4 is not supported!");
+        throw invalid_argument("madMela::setInputEvent: only daughter size 4 is supported!");
     }
-    else if (!(pMothers) || pMothers->size()!=2){
+    else if (!(pMothers) || pMothers->size() != 2){
         MELAerr << "TUtil::ConvertVectorFormat: Mothers momentum size (" << pMothers->size() << ") has to have had been 2!" << endl;
         throw invalid_argument("madMela::setInputEvent: Mother size != 4 is not supported!");
     } else if(!(pAssociated)){
@@ -389,6 +389,13 @@ void madMela::setInputEvent(SimpleParticleCollection_t* pDaughters, SimplePartic
         }
     }
 
+    if(abs(pdgs[2]) > abs(pdgs[4])){
+        swap(pdgs[2], pdgs[4]);
+        swap(p[2], p[4]);
+        swap(pdgs[3], pdgs[5]);
+        swap(p[3], p[5]);
+    }
+
     for(SimpleParticle_t particle : *pAssociated){
         pdgs[i] = particle.first;
         TLorentzVector motherVec = particle.second;
@@ -425,7 +432,8 @@ void madMela::computeP(double& prob, int nhel){
             MELAout << "id of " << pdgs[i] << " & vector of " << p[i][1] << ", " << p[i][2] << ", " << p[i][3] << ", " << p[i][0] << endl;
         }
     }
-    smatrixhel_(pdgs_for_fortran, nPDG, p_for_fortran, madMela::params_r_.as, scale2, nhel, prob);
+    int procid = -1;
+    smatrixhel_(pdgs_for_fortran, procid, nPDG, p_for_fortran, madMela::params_r_.as, scale2, nhel, prob);
     if(madMela::myVerbosity_ >= TVar::DEBUG) MELAout << " smatrixhel returns prob of " << prob << endl;
     madMela::setDefaultMadgraphValues();//reset couplings
 }

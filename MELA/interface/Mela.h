@@ -65,7 +65,8 @@ public:
     SimpleParticleCollection_t* pDaughters,
     SimpleParticleCollection_t* pAssociated=0,
     SimpleParticleCollection_t* pMothers=0,
-    bool isGen=false
+    bool isGen=false,
+    bool madMela=false
     ); // Adds another candidate
   void resetInputEvent(); // Reset the input candidates. Important to call in order to clean up TEvtProb!
   void setTempCandidate(

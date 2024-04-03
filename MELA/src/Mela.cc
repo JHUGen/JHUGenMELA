@@ -331,14 +331,17 @@ void Mela::setInputEvent(
   SimpleParticleCollection_t* pDaughters,
   SimpleParticleCollection_t* pAssociated,
   SimpleParticleCollection_t* pMothers,
-  bool isGen
+  bool isGen,
+  bool madMela
   ){
-  madMela::setInputEvent(
-  pDaughters,
-  pAssociated,
-  pMothers,
-  isGen
-  );
+    if(madMela){
+      madMela::setInputEvent(
+      pDaughters,
+      pAssociated,
+      pMothers,
+      isGen
+      );
+    }
   ZZME->set_InputEvent(
   pDaughters,
   pAssociated,
