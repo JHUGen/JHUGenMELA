@@ -21,7 +21,7 @@ import tqdm
 
 # ids = [21, 21, -11, 11, -11, 11]
 
-m = Mela.Mela(13, 125, Mela.VerbosityLevel.DEBUG_VERBOSE)
+m = Mela.Mela(13, 125, Mela.VerbosityLevel.SILENT)
 m.setProcess(Mela.Process.SelfDefine_spin0, Mela.MatrixElement.MADGRAPH, Mela.Production.ZZGG)
 
 dataFile = uproot.open("SM_HIGGS_JHUGEN.root")
@@ -116,12 +116,12 @@ for n, (jhucoupl, madcoupl) in enumerate(zip(jhugen_couplings, madgraph_coupling
                 raise ValueError("ERROR!")
             m.resetInputEvent()
 
-f.write("jhugenprob_g1, jhugenprob_g4, madprob_g1, madprob_g4, m4l, phi, costheta1, costheta2, phi1\n")
+f.write("jhugenprob_g1, jhugenprob_g4, madprob_g1, madprob_g4, m4l\n")
 
 # for n, (j,m) in enumerate(zip(probs[0], probs[1])):
 #     f.write(f"{j[0]}, {j[1]}, {m[0]}, {j[1]}, {data['M4L'][n]} \n")
 
 for i in range(NEVENT):
-    f.write(f"{probs[0][0][i]}, {probs[0][1][i]}, {probs[1][0][i]}, {probs[1][1][i]}, {data['M4L'][i]}, {data['Phid'][i]}, {data['costheta1d'][i]}, {data['costheta2d'][i]}, {data['Phi1d'][i]} \n")
+    f.write(f"{probs[0][0][i]}, {probs[0][1][i]}, {probs[1][0][i]}, {probs[1][1][i]}, {data['M4L'][i]} \n")
 
 f.close()
