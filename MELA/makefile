@@ -88,14 +88,14 @@ $(LIBRULE):	$(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | alldirs
 	echo "Linking $(LIB)"; \
 	$(LINKER) $(LINKERFLAGS) -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -o $@
 
-$(pyLIBRULE): $(pyLINKFILE) $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | alldirs
+$(pyLIBRULE): $(pyLINKFILE) $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | $(LIBRULE)
 	@echo "Making python"; \
 	$(LINKER) $(pyLINKFILE) $(CPPFLAGS) $(LINKERFLAGS) \
 	-O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
 	$(shell python3 -m pybind11 --includes) -o $@
 
 mad_test: test/testME_madgraph.cpp | alldirs
-	@$(LINKER) $(CPPFLAGS) -L$(MELALIBDIR) -lJHUGenMELAMELA test/testME_madgraph.cpp -o testME_madgraph
+	@$(LINKER) $(CPPFLAGS) -L$(MELALIBDIR) -lJHUGenMELAMELA test/testME_madgraph.cpp -g -o testME_madgraph
 
 alldirs:
 	mkdir -p $(MELAOBJDIR)
