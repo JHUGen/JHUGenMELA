@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cassert>
 #include "MELAStreamHelpers.hh"
+#include "MadMela.h"
 #include "TJHUGenUtils.hh"
 #include "TUtilHelpers.hh"
 #include "TUtil.hh"
@@ -1451,18 +1452,18 @@ void TUtil::SetMass(double inmass, int ipart){
   // Tprime and bprime masses are not defined in masses.f
   if (ipartabs==8) spinzerohiggs_anomcoupl_.mt_4gen = inmass;
   else if (ipartabs==7) spinzerohiggs_anomcoupl_.mb_4gen = inmass;
-  else if (ipartabs==6){ masses_mcfm_.mt=inmass; runcoupling_mcfm=true; }
-  else if (ipartabs==5){ masses_mcfm_.mb=inmass; masses_mcfm_.mbsq = pow(masses_mcfm_.mb, 2); runcoupling_mcfm=true; }
-  else if (ipartabs==4){ masses_mcfm_.mc=inmass; masses_mcfm_.mcsq = pow(masses_mcfm_.mc, 2); runcoupling_mcfm=true; }
-  else if (ipartabs==3) masses_mcfm_.ms=inmass;
-  else if (ipartabs==2) masses_mcfm_.mu=inmass;
-  else if (ipartabs==1) masses_mcfm_.md=inmass;
-  else if (ipartabs==11) masses_mcfm_.mel=inmass;
-  else if (ipartabs==13) masses_mcfm_.mmu=inmass;
-  else if (ipartabs==15){ masses_mcfm_.mtau=inmass; masses_mcfm_.mtausq = pow(masses_mcfm_.mtau, 2); }
-  else if (ipartabs==23){ masses_mcfm_.zmass=inmass; ewinput_.zmass_inp = inmass; runcoupling_mcfm=true; }
-  else if (ipartabs==24){ masses_mcfm_.wmass=inmass; ewinput_.wmass_inp = inmass; runcoupling_mcfm=true; }
-  else if (ipartabs==25) masses_mcfm_.hmass=inmass;
+  else if (ipartabs==6){ masses_mcfm_.mt=inmass; runcoupling_mcfm=true; madMela::mad_masses_.mdl_mt=inmass; madMela::params_r_.mdl_ymt=inmass; }
+  else if (ipartabs==5){ masses_mcfm_.mb=inmass; masses_mcfm_.mbsq = pow(masses_mcfm_.mb, 2); runcoupling_mcfm=true; madMela::mad_masses_.mdl_mb=inmass; madMela::params_r_.mdl_ymb=inmass; }
+  else if (ipartabs==4){ masses_mcfm_.mc=inmass; masses_mcfm_.mcsq = pow(masses_mcfm_.mc, 2); runcoupling_mcfm=true; madMela::mad_masses_.mdl_mc=inmass; madMela::params_r_.mdl_ymc=inmass; }
+  else if (ipartabs==3){ masses_mcfm_.ms=inmass; madMela::mad_masses_.mdl_ms=inmass; madMela::params_r_.mdl_yms=inmass; }
+  else if (ipartabs==2){ masses_mcfm_.mu=inmass; madMela::mad_masses_.mdl_mu=inmass; madMela::params_r_.mdl_ymup=inmass; }
+  else if (ipartabs==1){ masses_mcfm_.md=inmass; madMela::mad_masses_.mdl_md=inmass; madMela::params_r_.mdl_ymdo=inmass; }
+  else if (ipartabs==11){ masses_mcfm_.mel=inmass; madMela::mad_masses_.mdl_me=inmass; madMela::params_r_.mdl_yme=inmass; }
+  else if (ipartabs==13){ masses_mcfm_.mmu=inmass; madMela::mad_masses_.mdl_mmu=inmass; madMela::params_r_.mdl_ymm=inmass; }
+  else if (ipartabs==15){ masses_mcfm_.mtau=inmass; masses_mcfm_.mtausq = pow(masses_mcfm_.mtau, 2); madMela::mad_masses_.mdl_mta=inmass; madMela::params_r_.mdl_ymtau=inmass; }
+  else if (ipartabs==23){ masses_mcfm_.zmass=inmass; ewinput_.zmass_inp = inmass; runcoupling_mcfm=true; madMela::mad_masses_.mdl_mz=inmass; }
+  else if (ipartabs==24){ masses_mcfm_.wmass=inmass; ewinput_.wmass_inp = inmass; runcoupling_mcfm=true; madMela::mad_masses_.mdl_mw=inmass; }
+  else if (ipartabs==25){ masses_mcfm_.hmass=inmass; madMela::mad_masses_.mdl_mh=inmass; }
 
   // JHUGen masses
   if (
@@ -1486,7 +1487,11 @@ void TUtil::SetMass(double inmass, int ipart){
   }
 
   // Recalculate couplings
-  if (runcoupling_mcfm || runcoupling_jhugen) SetEwkCouplingParameters(ewcouple_.Gf, em_.aemmz, masses_mcfm_.wmass, masses_mcfm_.zmass, ewcouple_.xw, ewscheme_.ewscheme);
+  if (runcoupling_mcfm || runcoupling_jhugen){
+    SetEwkCouplingParameters(ewcouple_.Gf, em_.aemmz, masses_mcfm_.wmass, masses_mcfm_.zmass, ewcouple_.xw, ewscheme_.ewscheme);
+    madMela::params_r_.mdl_gf = ewcouple_.Gf;
+    madMela::params_r_.as = qcdcouple_.as;
+  }
 }
 void TUtil::SetDecayWidth(double inwidth, int ipart){
   const int ipartabs = abs(ipart);
@@ -4840,6 +4845,7 @@ double TUtil::JHUGenMatEl(
     // From Markus:
     // Note that the momentum no.2, p(1:4, 2), is a dummy which is not used in case production == TVar::ZZINDEPENDENT.
     if (ipar==1 && production == TVar::ZZINDEPENDENT){ for (int ix=0; ix<4; ix++){ p4[0][ix] += p4[ipar][ix]; p4[ipar][ix]=0.; } }
+    MELAout << "Mother" << ipar << " = " << p4[ipar][1] << " " << p4[ipar][2] << " " << p4[ipar][3] << " " << p4[ipar][4] << " " << endl;
   }
   //initialize decayed particles
   if (mela_event.pDaughters.size()==2){
@@ -4857,6 +4863,7 @@ double TUtil::JHUGenMatEl(
       p4[arrindex+2][3] = momTmp->Z()*GeV;
       MomStore[arrindex+2] = *momTmp;
       if (verbosity >= TVar::DEBUG) MELAout << "MYIDUP_tmp[" << arrindex << "(" << ipar << ")" << "]=" << MYIDUP_tmp[arrindex] << endl;
+      MELAout << "Mother" << ipar << " = " << p4[ipar][1] << " " << p4[ipar][2] << " " << p4[ipar][3] << " " << p4[ipar][4] << " " << endl;
     }
   }
   else{
@@ -8428,14 +8435,18 @@ MELACandidate* TUtil::ConvertVectorFormat(
   std::vector<MELAParticle*> daughters;
   std::vector<MELAParticle*> aparticles;
   std::vector<MELAParticle*> mothers;
+  // MELAout << "daughters" << endl;
   for (auto& spart:(*pDaughters)){
+    // MELAout << spart.second.Px() << " " << spart.second.Py() << " " << spart.second.Pz() << " " << spart.second.E() << endl;
     MELAParticle* onePart = new MELAParticle(spart.first, spart.second);
     onePart->setGenStatus(1); // Final state status
     if (particleList) particleList->push_back(onePart);
     daughters.push_back(onePart);
   }
   if (pAssociated){
+    // MELAout << "associated" << endl;
     for (auto& spart:(*pAssociated)){
+      // MELAout << spart.second.Px() << " " << spart.second.Py() << " " << spart.second.Pz() << " " << spart.second.E() << endl;
       MELAParticle* onePart = new MELAParticle(spart.first, spart.second);
       onePart->setGenStatus(1); // Final state status
       if (particleList) particleList->push_back(onePart);
@@ -8443,7 +8454,9 @@ MELACandidate* TUtil::ConvertVectorFormat(
     }
   }
   if (pMothers && pMothers->size()==2){
+    // MELAout << "mothers" << endl;
     for (auto& spart:(*pMothers)){
+      // MELAout << spart.second.Px() << " " << spart.second.Py() << " " << spart.second.Pz() << " " << spart.second.E() << endl;
       MELAParticle* onePart = new MELAParticle(spart.first, spart.second);
       onePart->setGenStatus(-1); // Mother status
       if (particleList) particleList->push_back(onePart);

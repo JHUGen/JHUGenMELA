@@ -13,11 +13,11 @@ namespace madMela{
 
     extern "C"{
         extern struct{
-            double mdl_ms,mdl_mh1,mdl_mu,mdl_mt,mdl_mw,mdl_mz,mdl_mta,mdl_mz1,mdl_mc,mdl_mb,mdl_me,mdl_md,mdl_mw1,mdl_mh,mdl_mmu,mdl_mt1;
+            double mdl_mz,mdl_mw,mdl_mt,mdl_mb,mdl_mh,mdl_mw1,mdl_mz1,mdl_me,mdl_mmu,mdl_mta,mdl_mh1,mdl_ms,mdl_md,mdl_mu,mdl_mc,mdl_mt1;
         }mad_masses_;
 
         extern struct{
-            double mdl_wh1,mdl_wh,mdl_ww,mdl_wt,mdl_wz,mdl_ww1,mdl_wt1,mdl_wz1;
+            double mdl_wz1,mdl_wz,mdl_wh1,mdl_wt,mdl_wh,mdl_wt1,mdl_ww,mdl_ww1;
         }widths_;
 
         extern struct{
@@ -40,40 +40,23 @@ namespace madMela{
         }params_c_;
 
         extern struct{
-            complex<double> gc_225, gc_229, gc_234, gc_238, gc_4, gc_13, gc_25, gc_26, gc_27, gc_136, gc_183, gc_197, gc_214, gc_261, gc_263, gc_264, gc_269, gc_270, gc_271, gc_272, gc_281, gc_282, gc_285, gc_290, gc_292, gc_306, 
-            gc_307, gc_309, gc_319, gc_320, gc_321, gc_322, gc_323, gc_324, gc_325, gc_326, gc_327, gc_328, gc_329, gc_330, gc_352, gc_353, gc_364, gc_384, gc_387, gc_392, gc_395, gc_398, gc_429, gc_430, gc_431, gc_432, gc_433, 
-            gc_435, gc_436, gc_437, gc_438, gc_464, gc_465, gc_466, gc_467, gc_678, gc_684, gc_685, gc_686, gc_687, gc_691, gc_697, gc_698, gc_699, gc_700, gc_701, gc_702, gc_706, gc_707, gc_708, gc_709, gc_718, gc_719, gc_720, 
-            gc_721, gc_722, gc_723, gc_724, gc_725, gc_726, gc_727, gc_773, gc_779, gc_780, gc_781, gc_782, gc_786, gc_792, gc_793, gc_794, gc_795, gc_796, gc_797, gc_801, gc_802, gc_803, gc_804, gc_813, gc_814, gc_815, gc_816, 
-            gc_817, gc_818, gc_819, gc_820, gc_821, gc_822;
+            complex<double> gc_225, gc_229, gc_234, gc_238, gc_4, gc_136,
+            gc_197, gc_269, gc_270, gc_271, gc_272, gc_285, gc_319, gc_320,
+            gc_321, gc_322, gc_323, gc_324, gc_325, gc_326, gc_327,
+            gc_328, gc_329, gc_330, gc_352, gc_353, gc_364, gc_384, gc_387,
+            gc_392, gc_395, gc_398, gc_435, gc_436, gc_437, gc_438,
+            gc_464, gc_465, gc_466, gc_467, gc_708, gc_709, gc_718, gc_719,
+            gc_803, gc_804, gc_813, gc_814;
         }couplings_; //you shouldn't have to edit these, but they are here for safekeeping!
 
-        void smatrixhel_(int pdgs[], int& procid, const int& npdg, double p[][4], double& alphas, double& scale2, int& nhel, double& ans);
-        void coup_();
+        void smatrixhel_(int pdgs[], int& procid, const int& npdg, double* p, double& alphas, double& scale2, int& nhel, double& ans);
+        void update_all_coup_();
     }
     void setDefaultMadgraphValues();
     void initialize_madMELA();
 
     extern TVar::VerbosityLevel myVerbosity_;
-    extern map<pair<int, int>, pair<complex<double>*, complex<double>*> > CKM_map;
-    extern map<int, double*> mass_map;
-    extern map<int, double*> width_map;
-    // {
-    //     {pair<int, int>(1,1), pair<complex<double>*, complex<double>*>(&params_c_.mdl_ckm1x1, &params_c_.mdl_conjg__ckm1x1)},
-    //     {pair<int, int>(1,2), pair<complex<double>*, complex<double>*>(&params_c_.mdl_ckm1x2, &params_c_.mdl_conjg__ckm1x2)},
-    //     {pair<int, int>(1,3), pair<complex<double>*, complex<double>*>(&params_c_.mdl_ckm1x3, &params_c_.mdl_conjg__ckm1x3)},
-    //     {pair<int, int>(2,1), pair<complex<double>*, complex<double>*>(&params_c_.mdl_ckm2x1, &params_c_.mdl_conjg__ckm2x1)},
-    //     {pair<int, int>(2,2), pair<complex<double>*, complex<double>*>(&params_c_.mdl_ckm2x2, &params_c_.mdl_conjg__ckm2x2)},
-    //     {pair<int, int>(2,3), pair<complex<double>*, complex<double>*>(&params_c_.mdl_ckm2x3, &params_c_.mdl_conjg__ckm2x3)},
-    //     {pair<int, int>(3,1), pair<complex<double>*, complex<double>*>(&params_c_.mdl_ckm3x1, &params_c_.mdl_conjg__ckm3x1)},
-    //     {pair<int, int>(3,2), pair<complex<double>*, complex<double>*>(&params_c_.mdl_ckm3x2, &params_c_.mdl_conjg__ckm3x2)},
-    //     {pair<int, int>(3,3), pair<complex<double>*, complex<double>*>(&params_c_.mdl_ckm3x3, &params_c_.mdl_conjg__ckm3x3)},
-    // }
-    void setCKMMatEl(int i, int j, complex<double> matEl);
     const pair<const complex<double>&, const complex<double>&> getCKMMatEl(int i, int j);
-    void setMass(int ipart);
-    void setWidth(int ipart);
-
-    double* SimpleParticleToMadgraph(SimpleParticle_t vec);
 
     extern madMelaInput* madMelaCandidate;
     void setInputEvent(SimpleParticleCollection_t* pDaughters, SimpleParticleCollection_t* pAssociated, SimpleParticleCollection_t* pMothers, bool isGen);

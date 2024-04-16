@@ -215,6 +215,19 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
     return collection;
 }
 
+void setInputEvent(Mela& mela, SimpleParticleCollection_t* daughters, SimpleParticleCollection_t* associated, SimpleParticleCollection_t* mothers, bool isgen, bool madMela){
+    if(daughters->size() == 0){
+        daughters = 0;
+    }
+    if (associated->size() == 0){
+        associated = 0;
+    }
+    if (mothers->size() == 0){
+        mothers = 0;
+    }
+    mela.setInputEvent(daughters, associated, mothers, isgen, madMela);
+}
+
 #define MAKE_COUPLING_ARR_SPIN_ZERO(arrayName, size, arrType)\
         .def(#arrayName, [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
@@ -291,6 +304,19 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+#define MAKE_COUPLING_MADMELA(couplingName)\
+        .def_property(\
+            #couplingName, \
+            py::cpp_function(\
+                [](Mela& m){\
+                    return m.couplingName;\
+                }),\
+            py::cpp_function(\
+                [](Mela& m, double val){\
+                    m.couplingName = val;\
+                })\
+        )
+
 PYBIND11_MAKE_OPAQUE(SimpleParticle_t)
 PYBIND11_MAKE_OPAQUE(SimpleParticleCollection_t)
 PYBIND11_MODULE(Mela, m) {
@@ -299,12 +325,14 @@ PYBIND11_MODULE(Mela, m) {
         .def_property_readonly("id", [](SimpleParticle_t& P){
             return P.first;
         })
-        .def_property_readonly("vector", [](SimpleParticle_t& P){
-            P.second.Print();
+        .def_property_readonly("PxPyPzE_vector", [](SimpleParticle_t& P){
             return py::make_tuple(P.second.Px(), P.second.Py(), P.second.Pz(), P.second.E());
         })
+        .def_property_readonly("PtEtaPhiM_vector", [](SimpleParticle_t& P){
+            return py::make_tuple(P.second.Pt(), P.second.Eta(), P.second.Phi(), P.second.M());
+        })
         .def("__repr__",[](SimpleParticle_t& P){
-            return "Particle with id " + std::to_string(P.first);
+            return "Particle with id " + std::to_string(P.first) + " and vec of " + std::to_string(P.second.Px()) + ", " + std::to_string(P.second.Py()) + ", " + std::to_string(P.second.Pz()) + ", " + std::to_string(P.second.E());
         });
 
 
@@ -321,7 +349,33 @@ PYBIND11_MODULE(Mela, m) {
         .def("toList", [](SimpleParticleCollection_t &C){
             py::list list_type = py::cast(C);
             return list_type;
-        });
+        })
+        .def(py::pickle(
+            [](const SimpleParticleCollection_t& C){
+                py::list pickleable;
+                for(int i = 0; i < (int)C.size(); i++){
+                    pickleable.append(py::make_tuple(C[i].first, C[i].second.Px(), C[i].second.Py(), C[i].second.Pz(), C[i].second.E()));
+                }
+                return py::cast<py::tuple>(pickleable);
+            },
+            [](py::tuple t){
+                std::vector<int> ids;
+                std::vector<double> x;
+                std::vector<double> y;
+                std::vector<double> z;
+                std::vector<double> e;
+                // for(auto it = t.begin(); it != t.end(); it++){
+                for(int i = 0; i < (int)t.size(); i++){
+                    py::tuple o = t[i];
+                    ids.push_back(o[0].cast<int>());
+                    x.push_back(o[1].cast<double>());
+                    y.push_back(o[2].cast<double>());
+                    z.push_back(o[3].cast<double>());
+                    e.push_back(o[4].cast<double>());
+                }
+                return collection_initializer_from_column(ids, x, y, z, e);
+            }
+        ));
 
     py::class_<TVar::event_scales_type>(m, "event_scales_type")
         .def(py::init<TVar::EventScaleScheme, TVar::EventScaleScheme, double, double>())
@@ -337,7 +391,7 @@ PYBIND11_MODULE(Mela, m) {
         .def(py::init<>())
         .def("setProcess", &Mela::setProcess)
         .def("setVerbosity", &Mela::setVerbosity)
-        .def("setInputEvent", &Mela::setInputEvent)
+        .def("setInputEvent", setInputEvent)
         .def("setCandidateDecayMode", &Mela::setCandidateDecayMode)
         .def("setMelaHiggsMass", &Mela::setMelaHiggsMass)
         .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth)
@@ -1122,7 +1176,96 @@ PYBIND11_MODULE(Mela, m) {
 
         MAKE_COUPLING_REAL_IMAGINARY_SPIN_ONETWO(selfDAZffcoupl, cranod, gAZff_dZRH)
 
-        MAKE_COUPLING_REAL_IMAGINARY_SPIN_ONETWO(selfDAZffcoupl, clanod, gAZff_dZLH);
+        MAKE_COUPLING_REAL_IMAGINARY_SPIN_ONETWO(selfDAZffcoupl, clanod, gAZff_dZLH)
+
+        MAKE_COUPLING_MADMELA(mdl_ch)
+        MAKE_COUPLING_MADMELA(mdl_chbox)
+        MAKE_COUPLING_MADMELA(mdl_chdd)
+        MAKE_COUPLING_MADMELA(mdl_chg)
+        MAKE_COUPLING_MADMELA(mdl_chw)
+        MAKE_COUPLING_MADMELA(mdl_chb)
+        MAKE_COUPLING_MADMELA(mdl_chwb)
+        MAKE_COUPLING_MADMELA(mdl_cehre)
+        MAKE_COUPLING_MADMELA(mdl_cuhre)
+        MAKE_COUPLING_MADMELA(mdl_cdhre)
+        MAKE_COUPLING_MADMELA(mdl_cewre)
+        MAKE_COUPLING_MADMELA(mdl_cebre)
+        MAKE_COUPLING_MADMELA(mdl_cugre)
+        MAKE_COUPLING_MADMELA(mdl_cuwre)
+        MAKE_COUPLING_MADMELA(mdl_cubre)
+        MAKE_COUPLING_MADMELA(mdl_cdgre)
+        MAKE_COUPLING_MADMELA(mdl_cdwre)
+        MAKE_COUPLING_MADMELA(mdl_cdbre)
+        MAKE_COUPLING_MADMELA(mdl_chl1)
+        MAKE_COUPLING_MADMELA(mdl_chl3)
+        MAKE_COUPLING_MADMELA(mdl_che)
+        MAKE_COUPLING_MADMELA(mdl_chq1)
+        MAKE_COUPLING_MADMELA(mdl_chq3)
+        MAKE_COUPLING_MADMELA(mdl_chu)
+        MAKE_COUPLING_MADMELA(mdl_chd)
+        MAKE_COUPLING_MADMELA(mdl_chudre)
+        MAKE_COUPLING_MADMELA(mdl_cll)
+        MAKE_COUPLING_MADMELA(mdl_cll1)
+        MAKE_COUPLING_MADMELA(mdl_cqq1)
+        MAKE_COUPLING_MADMELA(mdl_cqq11)
+        MAKE_COUPLING_MADMELA(mdl_cqq3)
+        MAKE_COUPLING_MADMELA(mdl_cqq31)
+        MAKE_COUPLING_MADMELA(mdl_clq1)
+        MAKE_COUPLING_MADMELA(mdl_clq3)
+        MAKE_COUPLING_MADMELA(mdl_cee)
+        MAKE_COUPLING_MADMELA(mdl_cuu)
+        MAKE_COUPLING_MADMELA(mdl_cuu1)
+        MAKE_COUPLING_MADMELA(mdl_cdd)
+        MAKE_COUPLING_MADMELA(mdl_cdd1)
+        MAKE_COUPLING_MADMELA(mdl_ceu)
+        MAKE_COUPLING_MADMELA(mdl_ced)
+        MAKE_COUPLING_MADMELA(mdl_cud1)
+        MAKE_COUPLING_MADMELA(mdl_cud8)
+        MAKE_COUPLING_MADMELA(mdl_cle)
+        MAKE_COUPLING_MADMELA(mdl_clu)
+        MAKE_COUPLING_MADMELA(mdl_cld)
+        MAKE_COUPLING_MADMELA(mdl_cqe)
+        MAKE_COUPLING_MADMELA(mdl_cqu1)
+        MAKE_COUPLING_MADMELA(mdl_cqu8)
+        MAKE_COUPLING_MADMELA(mdl_cqd1)
+        MAKE_COUPLING_MADMELA(mdl_cqd8)
+        MAKE_COUPLING_MADMELA(mdl_cledqre)
+        MAKE_COUPLING_MADMELA(mdl_cquqd1re)
+        MAKE_COUPLING_MADMELA(mdl_cquqd11re)
+        MAKE_COUPLING_MADMELA(mdl_cquqd8re)
+        MAKE_COUPLING_MADMELA(mdl_cquqd81re)
+        MAKE_COUPLING_MADMELA(mdl_clequ1re)
+        MAKE_COUPLING_MADMELA(mdl_clequ3re)
+        MAKE_COUPLING_MADMELA(mdl_cgtil)
+        MAKE_COUPLING_MADMELA(mdl_cwtil)
+        MAKE_COUPLING_MADMELA(mdl_chgtil)
+        MAKE_COUPLING_MADMELA(mdl_chwtil)
+        MAKE_COUPLING_MADMELA(mdl_chbtil)
+        MAKE_COUPLING_MADMELA(mdl_chwbtil)
+        MAKE_COUPLING_MADMELA(mdl_cewim)
+        MAKE_COUPLING_MADMELA(mdl_cebim)
+        MAKE_COUPLING_MADMELA(mdl_cugim)
+        MAKE_COUPLING_MADMELA(mdl_cuwim)
+        MAKE_COUPLING_MADMELA(mdl_cubim)
+        MAKE_COUPLING_MADMELA(mdl_cdgim)
+        MAKE_COUPLING_MADMELA(mdl_cdwim)
+        MAKE_COUPLING_MADMELA(mdl_cdbim)
+        MAKE_COUPLING_MADMELA(mdl_chudim)
+        MAKE_COUPLING_MADMELA(mdl_cehim)
+        MAKE_COUPLING_MADMELA(mdl_cuhim)
+        MAKE_COUPLING_MADMELA(mdl_cdhim)
+        MAKE_COUPLING_MADMELA(mdl_cledqim)
+        MAKE_COUPLING_MADMELA(mdl_cquqd1im)
+        MAKE_COUPLING_MADMELA(mdl_cquqd8im)
+        MAKE_COUPLING_MADMELA(mdl_cquqd11im)
+        MAKE_COUPLING_MADMELA(mdl_cquqd81im)
+        MAKE_COUPLING_MADMELA(mdl_clequ1im)
+        MAKE_COUPLING_MADMELA(mdl_clequ3im)
+
+        MAKE_COUPLING_MADMELA(mdl_ckmlambda)
+        MAKE_COUPLING_MADMELA(mdl_ckma)
+        MAKE_COUPLING_MADMELA(mdl_ckmrho)
+        MAKE_COUPLING_MADMELA(mdl_ckmeta);
 
     py::enum_<TVar::VerbosityLevel>(m, "VerbosityLevel", py::arithmetic())
         .value("SILENT",TVar::SILENT)

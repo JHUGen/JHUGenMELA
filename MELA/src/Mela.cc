@@ -81,9 +81,6 @@ Mela::~Mela(){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Begin Mela destructor" << endl;
 
   if(myVerbosity_>=TVar::DEBUG) MELAout << "Mela destructor: Destroying madMELA variables" << endl;
-  madMela::CKM_map.clear();
-  madMela::mass_map.clear();
-  madMela::width_map.clear(); 
   delete madMela::madMelaCandidate;
   madMela::madMelaCandidate = nullptr;
   madMela::setDefaultMadgraphValues();
@@ -506,6 +503,22 @@ void Mela::reset_SelfDCouplings(){
 }
 void Mela::resetMass(double inmass, int ipart){ ZZME->reset_Mass(inmass, ipart); }
 void Mela::resetWidth(double inwidth, int ipart){ ZZME->reset_Width(inwidth, ipart); }
+void Mela::resetYukawaMass(double inmass, int ipart){
+  const int ipartabs = abs(ipart);
+  if (ipartabs==6){ madMela::params_r_.mdl_ymt=inmass; }
+  else if (ipartabs==5){ madMela::params_r_.mdl_ymb=inmass; }
+  else if (ipartabs==4){ madMela::params_r_.mdl_ymc=inmass; }
+  else if (ipartabs==3){ madMela::params_r_.mdl_yms=inmass; }
+  else if (ipartabs==2){ madMela::params_r_.mdl_ymup=inmass; }
+  else if (ipartabs==1){ madMela::params_r_.mdl_ymdo=inmass; }
+  else if (ipartabs==11){ madMela::params_r_.mdl_yme=inmass; }
+  else if (ipartabs==13){ madMela::params_r_.mdl_ymm=inmass; }
+  else if (ipartabs==15){ madMela::params_r_.mdl_ymtau=inmass; }
+  else{
+    MELAerr << "Particle with id " << ipart << " does not have supported Yukawa Couplings!" << endl;
+    exit(1);
+  }
+}
 void Mela::resetQuarkMasses(){ ZZME->reset_QuarkMasses(); }
 void Mela::resetMCFM_EWKParameters(double ext_Gf, double ext_aemmz, double ext_mW, double ext_mZ, double ext_xW, int ext_ewscheme){
   ZZME->reset_MCFM_EWKParameters(ext_Gf, ext_aemmz, ext_mW, ext_mZ, ext_xW, ext_ewscheme);
