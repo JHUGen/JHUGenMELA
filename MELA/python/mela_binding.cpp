@@ -331,7 +331,7 @@ PYBIND11_MODULE(Mela, m) {
             return py::make_tuple(P.second.Pt(), P.second.Eta(), P.second.Phi(), P.second.M());
         })
         .def("__repr__",[](SimpleParticle_t& P){
-            return std::to_string(P.first) + ": " + std::to_string(P.second.Px()) + ", " + std::to_string(P.second.Py()) + ", " + std::to_string(P.second.Pz()) + ", " + std::to_string(P.second.E());
+            return std::to_string(P.first) + ": <" + std::to_string(P.second.Px()) + ", " + std::to_string(P.second.Py()) + ", " + std::to_string(P.second.Pz()) + ", " + std::to_string(P.second.E()) + ">";
         });
 
 
