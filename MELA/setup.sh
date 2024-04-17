@@ -16,6 +16,8 @@ getMELAARCH(){
     echo slc7_amd64_gcc820
   elif [[ "$GCCVERSION" == "8"* ]]; then
     echo slc7_amd64_gcc830
+  elif [[ "$GCCVERSION" == "12"* ]]; then
+    echo el9_amd64_gcc12
   else
   #elif [[ "$GCCVERSION" == "9"* ]]; then
     echo slc7_amd64_gcc920

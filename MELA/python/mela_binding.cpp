@@ -2,6 +2,8 @@
 #include "TVar.hh"
 #include "TCouplingsBase.hh"
 #include "TMCFM.hh"
+#include "TUtil.hh"
+#include "MELACandidate.h"
 #include "TLorentzVector.h"
 #include "pybind11/pybind11.h"
 #include "pybind11/stl.h"
@@ -201,7 +203,7 @@ SimpleParticleCollection_t collection_initializer_from_column(std::vector<int> i
             particle_initializer(ids[i], x[i], y[i], z[i], e[i], ptEtaPhi)
         );
     }
-    
+
     return collection;
 }
 
@@ -213,6 +215,29 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
         collection.push_back(particle);
     }
     return collection;
+}
+
+void setInputEvent(Mela& mela, SimpleParticleCollection_t* daughters, SimpleParticleCollection_t* associated, SimpleParticleCollection_t* mothers, bool isgen){
+    if(daughters->size() == 0){
+        daughters = 0;
+    }
+    if (associated->size() == 0){
+        associated = 0;
+    }
+    if (mothers->size() == 0){
+        mothers = 0;
+    }
+    mela.setInputEvent(daughters, associated, mothers, isgen);
+}
+
+void PrintCurrentCandidateSummary(Mela& mela){
+    MELACandidate* curCand = mela.getCurrentCandidate();
+    TUtil::PrintCandidateSummary(curCand);
+}
+
+void PrintCandidateSummary(Mela& mela, TVar::simple_event_record curCand){
+    TVar::simple_event_record* curRecord = &curCand;
+    TUtil::PrintCandidateSummary(curRecord);
 }
 
 #define MAKE_COUPLING_ARR_SPIN_ZERO(arrayName, size, arrType)\
@@ -299,12 +324,14 @@ PYBIND11_MODULE(Mela, m) {
         .def_property_readonly("id", [](SimpleParticle_t& P){
             return P.first;
         })
-        .def_property_readonly("vector", [](SimpleParticle_t& P){
-            P.second.Print();
+        .def_property_readonly("PxPyPzE_vector", [](SimpleParticle_t& P){
             return py::make_tuple(P.second.Px(), P.second.Py(), P.second.Pz(), P.second.E());
         })
+        .def_property_readonly("PtEtaPhiM_vector", [](SimpleParticle_t& P){
+            return py::make_tuple(P.second.Pt(), P.second.Eta(), P.second.Phi(), P.second.M());
+        })
         .def("__repr__",[](SimpleParticle_t& P){
-            return "Particle with id " + std::to_string(P.first);
+            return std::to_string(P.first) + ": " + std::to_string(P.second.Px()) + ", " + std::to_string(P.second.Py()) + ", " + std::to_string(P.second.Pz()) + ", " + std::to_string(P.second.E());
         });
 
 
@@ -321,7 +348,33 @@ PYBIND11_MODULE(Mela, m) {
         .def("toList", [](SimpleParticleCollection_t &C){
             py::list list_type = py::cast(C);
             return list_type;
-        });
+        })
+        .def(py::pickle(
+            [](const SimpleParticleCollection_t& C){
+                py::list pickleable;
+                for(int i = 0; i < (int)C.size(); i++){
+                    pickleable.append(py::make_tuple(C[i].first, C[i].second.Px(), C[i].second.Py(), C[i].second.Pz(), C[i].second.E()));
+                }
+                return py::cast<py::tuple>(pickleable);
+            },
+            [](py::tuple t){
+                std::vector<int> ids;
+                std::vector<double> x;
+                std::vector<double> y;
+                std::vector<double> z;
+                std::vector<double> e;
+                // for(auto it = t.begin(); it != t.end(); it++){
+                for(int i = 0; i < (int)t.size(); i++){
+                    py::tuple o = t[i];
+                    ids.push_back(o[0].cast<int>());
+                    x.push_back(o[1].cast<double>());
+                    y.push_back(o[2].cast<double>());
+                    z.push_back(o[3].cast<double>());
+                    e.push_back(o[4].cast<double>());
+                }
+                return collection_initializer_from_column(ids, x, y, z, e);
+            }
+        ));
 
     py::class_<TVar::event_scales_type>(m, "event_scales_type")
         .def(py::init<TVar::EventScaleScheme, TVar::EventScaleScheme, double, double>())
@@ -329,7 +382,26 @@ PYBIND11_MODULE(Mela, m) {
         .def_readwrite("factorizationScheme", &TVar::event_scales_type::factorizationScheme)
         .def_readwrite("ren_scale_factor", &TVar::event_scales_type::ren_scale_factor)
         .def_readwrite("fac_scale_factor", &TVar::event_scales_type::fac_scale_factor);
-    
+
+    py::class_<TVar::simple_event_record>(m, "simple_event_record")
+        .def(py::init<>())
+        .def_readwrite("AssociationCode", &TVar::simple_event_record::AssociationCode)
+        .def_readwrite("AssociationVCompatibility", &TVar::simple_event_record::AssociationVCompatibility)
+        .def_readwrite("nRequested_AssociatedJets", &TVar::simple_event_record::nRequested_AssociatedJets)
+        .def_readwrite("nRequested_AssociatedLeptons", &TVar::simple_event_record::nRequested_AssociatedLeptons)
+        .def_readwrite("nRequested_AssociatedPhotons", &TVar::simple_event_record::nRequested_AssociatedPhotons)
+        .def_readwrite("nRequested_Tops", &TVar::simple_event_record::nRequested_Tops)
+        .def_readwrite("nRequested_Antitops", &TVar::simple_event_record::nRequested_Antitops)
+
+        .def_readwrite("intermediateVid", &TVar::simple_event_record::intermediateVid)
+        .def_readwrite("pDaughters", &TVar::simple_event_record::pDaughters)
+        .def_readwrite("pAssociated", &TVar::simple_event_record::pAssociated)
+        .def_readwrite("pMothers", &TVar::simple_event_record::pMothers)
+        .def_readwrite("pTopDaughters", &TVar::simple_event_record::pTopDaughters)
+        .def_readwrite("pAntitopDaughters", &TVar::simple_event_record::pAntitopDaughters)
+        .def_readwrite("pStableTops", &TVar::simple_event_record::pStableTops)
+        .def_readwrite("pStableAntitops", &TVar::simple_event_record::pStableAntitops);
+
     py::class_<Mela>(m, "Mela")
         .def(py::init<double, double, TVar::VerbosityLevel>())
         .def(py::init<double, double>())
@@ -337,13 +409,13 @@ PYBIND11_MODULE(Mela, m) {
         .def(py::init<>())
         .def("setProcess", &Mela::setProcess)
         .def("setVerbosity", &Mela::setVerbosity)
-        .def("setInputEvent", &Mela::setInputEvent)
+        .def("setInputEvent", setInputEvent)
         .def("setCandidateDecayMode", &Mela::setCandidateDecayMode)
         .def("setMelaHiggsMass", &Mela::setMelaHiggsMass)
         .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth)
         .def("setMelaHiggsMassWidth", &Mela::setMelaHiggsMassWidth)
         .def("setRenFacScaleMode", &Mela::setRenFacScaleMode)
-    
+
         .def("resetInputEvent", &Mela::resetInputEvent)
         .def("resetMass", &Mela::resetMass)
         .def("resetWidth", &Mela::resetWidth)
@@ -361,7 +433,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("getPAux", &getPAux)
         .def("getRenFacScaleMode", &Mela::getRenFacScaleMode)
 
-        
+
         .def("computeP", &computeP)
         .def("computeProdP", &computeProdP)
         .def("computeProdDecP", &computeProdDecP)
@@ -373,8 +445,12 @@ PYBIND11_MODULE(Mela, m) {
         .def("computeProdP_ttH", &computeProdP_ttH)
         .def("computeDijetConvBW", &computeDijetConvBW)
         .def("computeD_CP", &computeD_CP)
-    
+
         .def("getConstant", &getConstant)
+        .def("PrintCurrentCandidateSummary", &PrintCurrentCandidateSummary)
+        .def("PrintCandidateSummary", &PrintCandidateSummary)
+        .def("cleanLinkedFiles", &Mela::cleanLinkedFiles)
+        .def("calculate4Momentum", &Mela::calculate4Momentum)
 
         .def("computeDecayAngles", &computeDecayAngles)
         .def("computeVBFAngles", &computeVBFAngles)
@@ -1136,7 +1212,7 @@ PYBIND11_MODULE(Mela, m) {
         .value("MCFM",TVar::MCFM)
         .value("JHUGen",TVar::JHUGen)
         .value("ANALYTICAL",TVar::ANALYTICAL);
-    
+
     py::enum_<TVar::Production>(m, "Production")
         .value("ZZGG",TVar::ZZGG)
         .value("ZZQQB",TVar::ZZQQB)
@@ -1173,7 +1249,7 @@ PYBIND11_MODULE(Mela, m) {
         .value("Lep_WH_TU",TVar::Lep_WH_TU)
         .value("GammaH",TVar::GammaH) // gammaH, stable A (could implement S and TU in the future
         .value("nProductions",TVar::nProductions);
-    
+
     py::enum_<TVar::Process>(m, "Process")
         .value("HSMHiggs",TVar::HSMHiggs)
         .value("H0_g1prime2",TVar::H0_g1prime2)
@@ -1195,29 +1271,29 @@ PYBIND11_MODULE(Mela, m) {
         .value("D_zzgg_PS",TVar::D_zzgg_PS)
         .value("D_zzzg_g1prime2",TVar::D_zzzg_g1prime2)
         .value("D_zzzg_g1prime2_pi_2",TVar::D_zzzg_g1prime2_pi_2)
-        .value("H1minus",TVar::H1minus) 
-        .value("H1plus",TVar::H1plus) 
-        .value("H2_g1",TVar::H2_g1) 
-        .value("H2_g2",TVar::H2_g2) 
-        .value("H2_g3",TVar::H2_g3) 
-        .value("H2_g4",TVar::H2_g4) 
-        .value("H2_g5",TVar::H2_g5) 
-        .value("H2_g1g5",TVar::H2_g1g5) 
-        .value("H2_g6",TVar::H2_g6) 
-        .value("H2_g7",TVar::H2_g7) 
-        .value("H2_g8",TVar::H2_g8) 
-        .value("H2_g9",TVar::H2_g9) 
-        .value("H2_g10",TVar::H2_g10) 
-        .value("bkgGammaGamma",TVar::bkgGammaGamma) 
-        .value("bkgZGamma",TVar::bkgZGamma) 
-        .value("bkgZJets",TVar::bkgZJets) 
-        .value("bkgZZ",TVar::bkgZZ) 
-        .value("bkgWW",TVar::bkgWW) 
-        .value("bkgWWZZ",TVar::bkgWWZZ) 
+        .value("H1minus",TVar::H1minus)
+        .value("H1plus",TVar::H1plus)
+        .value("H2_g1",TVar::H2_g1)
+        .value("H2_g2",TVar::H2_g2)
+        .value("H2_g3",TVar::H2_g3)
+        .value("H2_g4",TVar::H2_g4)
+        .value("H2_g5",TVar::H2_g5)
+        .value("H2_g1g5",TVar::H2_g1g5)
+        .value("H2_g6",TVar::H2_g6)
+        .value("H2_g7",TVar::H2_g7)
+        .value("H2_g8",TVar::H2_g8)
+        .value("H2_g9",TVar::H2_g9)
+        .value("H2_g10",TVar::H2_g10)
+        .value("bkgGammaGamma",TVar::bkgGammaGamma)
+        .value("bkgZGamma",TVar::bkgZGamma)
+        .value("bkgZJets",TVar::bkgZJets)
+        .value("bkgZZ",TVar::bkgZZ)
+        .value("bkgWW",TVar::bkgWW)
+        .value("bkgWWZZ",TVar::bkgWWZZ)
         .value("bkgZZ_SMHiggs",TVar::bkgZZ_SMHiggs)
         .value("bkgWW_SMHiggs",TVar::bkgWW_SMHiggs)
         .value("bkgWWZZ_SMHiggs",TVar::bkgWWZZ_SMHiggs)
-        .value("HSMHiggs_WWZZ",TVar::HSMHiggs_WWZZ) 
+        .value("HSMHiggs_WWZZ",TVar::HSMHiggs_WWZZ)
         .value("D_gg10",TVar::D_gg10)
         .value("SelfDefine_spin0",TVar::SelfDefine_spin0)
         .value("SelfDefine_spin1",TVar::SelfDefine_spin1)
@@ -1249,7 +1325,7 @@ PYBIND11_MODULE(Mela, m) {
         .value("Dynamic_Softest_pTJ", TVar::Dynamic_Softest_pTJ)
         .value("Dynamic_RandomUniform_Constrained", TVar::Dynamic_RandomUniform_Constrained)
         .value("nEventScaleSchemes", TVar::nEventScaleSchemes);
-    
+
     py::enum_<TVar::CandidateDecayMode>(m, "CandidateDecayMode")
         .value("CandidateDecay_Stable", TVar::CandidateDecay_Stable)
         .value("CandidateDecay_ff", TVar::CandidateDecay_ff)
@@ -1259,6 +1335,21 @@ PYBIND11_MODULE(Mela, m) {
         .value("CandidateDecay_ZG", TVar::CandidateDecay_ZG)
         .value("CandidateDecay_WG", TVar::CandidateDecay_WG)
         .value("CandidateDecay_GG", TVar::CandidateDecay_GG);
+    
+    py::enum_<TVar::SuperMelaSyst>(m, "SuperMelaSyst")
+        .value("SMSyst_None", TVar::SMSyst_None)
+        .value("SMSyst_ScaleUp", TVar::SMSyst_ScaleUp)
+        .value("SMSyst_ScaleDown", TVar::SMSyst_ScaleDown)
+        .value("SMSyst_ResUp", TVar::SMSyst_ResUp)
+        .value("SMSyst_ResDown", TVar::SMSyst_ResDown);
+    
+    py::enum_<TVar::KAssociated>(m, "KAssociated")
+        .value("kNoAssociated", TVar::kNoAssociated)
+        .value("kUseAssociated_Leptons", TVar::kUseAssociated_Leptons)
+        .value("kUseAssociated_Photons", TVar::kUseAssociated_Photons)
+        .value("kUseAssociated_Jets", TVar::kUseAssociated_Jets)
+        .value("kUseAssociated_UnstableTops", TVar::kUseAssociated_UnstableTops)
+        .value("kUseAssociated_StableTops", TVar::kUseAssociated_StableTops);
 
     py::enum_<CouplingIndex_HQQ>(m, "CouplingIndex_HQQ")
         .value("gHIGGS_KAPPA", gHIGGS_KAPPA)
