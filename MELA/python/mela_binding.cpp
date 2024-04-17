@@ -218,13 +218,13 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
 }
 
 void setInputEvent(Mela& mela, SimpleParticleCollection_t* daughters, SimpleParticleCollection_t* associated, SimpleParticleCollection_t* mothers, bool isgen){
-    if(daughters->size() == 0){
+    if((daughters) && (daughters->size() == 0)){
         daughters = 0;
     }
-    if (associated->size() == 0){
+    if ((associated) && (associated->size() == 0)){
         associated = 0;
     }
-    if (mothers->size() == 0){
+    if ((mothers) && (mothers->size() == 0)){
         mothers = 0;
     }
     mela.setInputEvent(daughters, associated, mothers, isgen);
