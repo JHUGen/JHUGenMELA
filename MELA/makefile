@@ -86,7 +86,7 @@ $(LIBRULE):	$(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | alldirs
 	echo "Linking $(LIB)"; \
 	$(LINKER) $(LINKERFLAGS) -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -o $@
 
-$(pyLIBRULE): $(pyLINKFILE) | alldirs
+$(pyLIBRULE): $(pyLINKFILE) $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | $(LIBRULE)
 	@echo "Making python"; \
 	$(LINKER) $(pyLINKFILE) $(CPPFLAGS) $(LINKERFLAGS) \
 	-O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
