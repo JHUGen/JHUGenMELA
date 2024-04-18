@@ -8,6 +8,7 @@
 #include "pybind11/pybind11.h"
 #include "pybind11/stl.h"
 #include "pybind11/numpy.h"
+#include "pybind11/operators.h"
 namespace py = pybind11;
 using namespace std;
 
@@ -217,29 +218,6 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
     return collection;
 }
 
-void setInputEvent(Mela& mela, SimpleParticleCollection_t* daughters, SimpleParticleCollection_t* associated, SimpleParticleCollection_t* mothers, bool isgen){
-    if((daughters) && (daughters->size() == 0)){
-        daughters = 0;
-    }
-    if ((associated) && (associated->size() == 0)){
-        associated = 0;
-    }
-    if ((mothers) && (mothers->size() == 0)){
-        mothers = 0;
-    }
-    mela.setInputEvent(daughters, associated, mothers, isgen);
-}
-
-void PrintCurrentCandidateSummary(Mela& mela){
-    MELACandidate* curCand = mela.getCurrentCandidate();
-    TUtil::PrintCandidateSummary(curCand);
-}
-
-void PrintCandidateSummary(Mela& mela, TVar::simple_event_record curCand){
-    TVar::simple_event_record* curRecord = &curCand;
-    TUtil::PrintCandidateSummary(curRecord);
-}
-
 #define MAKE_COUPLING_ARR_SPIN_ZERO(arrayName, size, arrType)\
         .def(#arrayName, [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
@@ -331,7 +309,7 @@ PYBIND11_MODULE(Mela, m) {
             return py::make_tuple(P.second.Pt(), P.second.Eta(), P.second.Phi(), P.second.M());
         })
         .def("__repr__",[](SimpleParticle_t& P){
-            return std::to_string(P.first) + ": <" + std::to_string(P.second.Px()) + ", " + std::to_string(P.second.Py()) + ", " + std::to_string(P.second.Pz()) + ", " + std::to_string(P.second.E()) + ">";
+            return "SimpleParticle(id=" + std::to_string(P.first) + ",P4=<" + std::to_string(P.second.Px()) + ", " + std::to_string(P.second.Py()) + ", " + std::to_string(P.second.Pz()) + ", " + std::to_string(P.second.E()) + ">)";
         });
 
 
@@ -374,7 +352,217 @@ PYBIND11_MODULE(Mela, m) {
                 }
                 return collection_initializer_from_column(ids, x, y, z, e);
             }
-        ));
+        ))
+        .def("__repr__", [](SimpleParticleCollection_t& C){
+            return "SimpleParticleCollection_t(length=" + to_string(C.size()) + ")";
+        });
+    
+    py::class_<MELAParticle>(m, "MELAParticle")
+        .def(py::init<>())
+        .def(py::init<int>())
+        .def(py::init([](int id_, double Px, double Py, double Pz, double E){
+            TLorentzVector vec = TLorentzVector();
+            vec.SetPxPyPzE(Px, Py, Pz, E);
+            return MELAParticle(id_, vec);
+        }))
+        .def(py::init<MELAParticle const &>())
+        .def("assign", &MELAParticle::operator=)
+        .def("__iadd__", [](MELAParticle& mp, MELAParticle* part){
+            mp += part;
+        })
+        .def("addVec", [](MELAParticle& mp, double Px, double Py, double Pz, double E){
+            TLorentzVector vec = TLorentzVector();
+            vec.SetPxPyPzE(Px, Py, Pz, E);
+            mp += vec;
+        })
+        .def_readwrite("id", &MELAParticle::id)
+        .def_property_readonly("p4", 
+        [](MELAParticle& mp){
+            TLorentzVector p4 = mp.p4;
+            return py::make_tuple(p4.Px(), p4.Py(), p4.Pz(), p4.E());
+        })
+        .def("setP4", [](MELAParticle& mp, double Px, double Py, double Pz, double E){
+            TLorentzVector vec = TLorentzVector();
+            vec.SetPxPyPzE(Px, Py, Pz, E);
+            mp.p4 = vec;
+        })
+        .def_readwrite("passSelection", &MELAParticle::passSelection)
+        .def_readwrite("genStatus", &MELAParticle::genStatus)
+        .def_readwrite("lifetime", &MELAParticle::lifetime)
+
+        .def("swap", &MELAParticle::swap)
+        .def("setSelected", &MELAParticle::setSelected)
+        .def("setGenStatus", &MELAParticle::setGenStatus)
+        .def("setLifetime", &MELAParticle::setLifetime)
+        .def("addMother", &MELAParticle::addMother)
+        .def("addDaughter", &MELAParticle::addDaughter)
+        .def("getNMothers", &MELAParticle::getNMothers)
+        .def("getNDaughters", &MELAParticle::getNDaughters)
+        .def("getDaughterIds", &MELAParticle::getDaughterIds)
+        .def("getMother", &MELAParticle::getMother)
+        .def("getDaughter", &MELAParticle::getDaughter)
+        .def("getRelatedParticles", &MELAParticle::getRelatedParticles)
+        .def("getDaughterParticles", &MELAParticle::getDaughterParticles)
+
+        .def("charge", &MELAParticle::charge)
+        .def("m", &MELAParticle::m)
+        .def("x", &MELAParticle::x)
+        .def("y", &MELAParticle::y)
+        .def("z", &MELAParticle::z)
+        .def("t", &MELAParticle::t)
+        .def("p", &MELAParticle::p)
+        .def("pt", &MELAParticle::pt)
+        .def("eta", &MELAParticle::eta)
+        .def("phi", &MELAParticle::phi)
+        .def("rapidity", &MELAParticle::rapidity)
+        .def("dot", [](MELAParticle& m, double Px, double Py, double Pz, double E){
+            TLorentzVector vec = TLorentzVector();
+            vec.SetPxPyPzE(Px, Py, Pz, E);
+            return m.dot(vec);
+        })
+        .def("dot", [](MELAParticle& m, MELAParticle& other){
+            return m.dot(other);
+        })
+        .def("euclidean_dot", [](MELAParticle& m, double Px, double Py, double Pz, double E){
+            TLorentzVector vec = TLorentzVector();
+            vec.SetPxPyPzE(Px, Py, Pz, E);
+            return m.euclidean_dot(vec);
+        })
+        .def("euclidean_dot", [](MELAParticle& m, MELAParticle& other){
+            return m.dot(other);
+        })
+        .def("deltaR", [](MELAParticle& m, double Px, double Py, double Pz, double E){
+            TLorentzVector vec = TLorentzVector();
+            vec.SetPxPyPzE(Px, Py, Pz, E);
+            return m.deltaR(vec);
+        })
+        .def("deltaR", [](MELAParticle& m, MELAParticle& other){
+            return m.deltaR(other);
+        })
+        .def("boost", [](MELAParticle& m, double Px, double Py, double Pz, bool boostAll){
+            TVector3 v = TVector3(Px, Py, Pz);
+            m.boost(v, boostAll);
+            return m;
+        })
+        .def("vect", [](MELAParticle& m){
+            TVector3 v = m.vect();
+            return py::make_tuple(v.X(), v.Y(), v.Z());
+        })
+        .def("calculateTotalDisplacement", [](MELAParticle& m){
+            TVector3 v = m.calculateTotalDisplacement();
+            return py::make_tuple(v.X(), v.Y(), v.Z());
+        })
+
+        .def("__repr__", [](MELAParticle &mp){
+            return "MELAParticle(id=" + to_string(mp.id) + ",passSelection=" + to_string(mp.passSelection) + ",genStatus=" + to_string(mp.genStatus) + ",lifetime=" + to_string(mp.lifetime) + ")";
+        });
+
+    py::class_<MELAThreeBodyDecayCandidate, MELAParticle>(m, "MELAThreeBodyDecayCandidate")
+        .def(py::init<>())
+        .def(py::init([](int id_, double Px, double Py, double Pz, double E){
+            TLorentzVector vec = TLorentzVector();
+            vec.SetPxPyPzE(Px, Py, Pz, E);
+            return MELAThreeBodyDecayCandidate(id_, vec);
+        }))
+        .def(py::init<MELAParticle*, MELAParticle*, MELAParticle*>())
+        .def(py::init<MELAThreeBodyDecayCandidate const &>())
+        .def("assign", &MELAThreeBodyDecayCandidate::operator=)
+        .def("swap", &MELAThreeBodyDecayCandidate::swap)
+        .def("setPartnerParticle", &MELAThreeBodyDecayCandidate::setPartnerParticle)
+        .def("setWFermion", &MELAThreeBodyDecayCandidate::setWFermion)
+        .def("setWAntifermion", &MELAThreeBodyDecayCandidate::setWAntifermion)
+        .def("getPartnerParticle", [](const MELAThreeBodyDecayCandidate& mt){
+            return mt.getPartnerParticle();
+            })
+        .def("getWFermion", [](const MELAThreeBodyDecayCandidate& mt){
+            return mt.getWFermion();
+            })
+        .def("getWAntifermion", [](const MELAThreeBodyDecayCandidate& mt){
+            return mt.getWAntifermion();
+            })
+        .def("testPreSelectedDaughters", &MELAThreeBodyDecayCandidate::testPreSelectedDaughters)
+        .def("getWmass", &MELAThreeBodyDecayCandidate::getWmass)
+        .def("checkCandidateExists", &MELAThreeBodyDecayCandidate::checkCandidateExists);
+
+    py::class_<MELACandidate, MELAParticle>(m, "MELACandidate")
+        .def(py::init<>())
+        .def(py::init<int, bool>(), py::arg("id_"), py::arg("associatedByHighestPt_")=false)
+        .def(py::init([](int id_, double Px, double Py, double Pz, double E, bool associatedByHighestPt_){
+            TLorentzVector vec = TLorentzVector();
+            vec.SetPxPyPzE(Px, Py, Pz, E);
+            return MELACandidate(id_, vec, associatedByHighestPt_);
+        }), py::arg("id_"), py::arg("Px"), py::arg("Py"), py::arg("Pz"), py::arg("E"), py::arg("associatedByHighestPt_")=false)
+        .def(py::init<MELACandidate const &>())
+        .def("assign", &MELACandidate::operator=)
+        .def("shallowCopy", &MELACandidate::shallowCopy)
+        .def("swap", &MELACandidate::swap)
+        .def("getSortedDaughter", &MELACandidate::getSortedDaughter)
+        .def("getSortedV", &MELACandidate::getSortedV)
+        .def("getAssociatedLepton", &MELACandidate::getAssociatedLepton)
+        .def("getAssociatedNeutrino", &MELACandidate::getAssociatedNeutrino)
+        .def("getAssociatedPhoton", &MELACandidate::getAssociatedPhoton)
+        .def("getAssociatedJet", &MELACandidate::getAssociatedJet)
+        .def("getAssociatedTop", &MELACandidate::getAssociatedTop)
+        .def("getSortedDaughters", [](const MELACandidate& mc){
+            return mc.getSortedDaughters();
+            })
+        .def("getSortedVs", [](const MELACandidate& mc){
+            return mc.getSortedVs();
+            })
+        .def("getAssociatedLeptons", [](const MELACandidate& mc){
+            return mc.getAssociatedLeptons();
+            })
+        .def("getAssociatedNeutrinos", [](const MELACandidate& mc){
+            return mc.getAssociatedNeutrinos();
+            })
+        .def("getAssociatedPhotons", [](const MELACandidate& mc){
+            return mc.getAssociatedPhotons();
+            })
+        .def("getAssociatedJets", [](const MELACandidate& mc){
+            return mc.getAssociatedJets();
+            })
+        .def("getAssociatedTops", [](const MELACandidate& mc){
+            return mc.getAssociatedTops();
+            })
+        .def("getAssociatedSortedVs", [](const MELACandidate& mc){
+            return mc.getAssociatedSortedVs();
+            })
+        .def("getRelatedParticles", &MELACandidate::getRelatedParticles)
+        .def("getDaughterParticles", &MELACandidate::getDaughterParticles)
+        .def("getNAssociatedLeptons", &MELACandidate::getNAssociatedLeptons)
+        .def("getNAssociatedNeutrinos", &MELACandidate::getNAssociatedNeutrinos)
+        .def("getNAssociatedPhotons", &MELACandidate::getNAssociatedPhotons)
+        .def("getNAssociatedJets", &MELACandidate::getNAssociatedJets)
+        .def("getNAssociatedTops", &MELACandidate::getNAssociatedTops)
+        .def("getNSortedVs", &MELACandidate::getNSortedVs)
+        .def("addAssociatedLepton", &MELACandidate::addAssociatedLepton)
+        .def("addAssociatedNeutrino", &MELACandidate::addAssociatedNeutrino)
+        .def("addAssociatedPhoton", &MELACandidate::addAssociatedPhoton)
+        .def("addAssociatedJet", &MELACandidate::addAssociatedJet)
+        .def("addAssociatedTop", &MELACandidate::addAssociatedTop)
+        .def("addSortedV", &MELACandidate::addSortedV)
+        .def("addAssociatedVs", &MELACandidate::addAssociatedVs)
+        .def("resetVs", &MELACandidate::resetVs)
+        .def("recreateVs", &MELACandidate::recreateVs)
+        .def("sortDaughters", &MELACandidate::sortDaughters)
+        .def("testPreSelectedDaughters", &MELACandidate::testPreSelectedDaughters)
+        .def("testShallowCopy", &MELACandidate::testShallowCopy)
+        .def("daughtersInterfere", &MELACandidate::daughtersInterfere)
+        .def("setDecayMode", &MELACandidate::setDecayMode)
+        .def("setAddAssociatedByHighestPt", &MELACandidate::setAddAssociatedByHighestPt)
+        .def("setShallowCopy", &MELACandidate::setShallowCopy)
+        .def("addUnordered", [](MELACandidate& mc, MELAParticle* myParticle, std::vector<MELAParticle*>& particleArray){
+            mc.addUnordered(myParticle, particleArray);
+            })
+        .def("addUnordered", [](MELACandidate& mc, MELAThreeBodyDecayCandidate* myParticle, std::vector<MELAThreeBodyDecayCandidate*>& particleArray){
+            mc.addUnordered(myParticle, particleArray);
+            })
+        .def("addByHighestPt", [](MELACandidate& mc, MELAParticle* myParticle, std::vector<MELAParticle*>& particleArray){
+            mc.addByHighestPt(myParticle, particleArray);
+            })
+        .def("addByHighestPt", [](MELACandidate& mc, MELAThreeBodyDecayCandidate* myParticle, std::vector<MELAThreeBodyDecayCandidate*>& particleArray){
+            mc.addByHighestPt(myParticle, particleArray);
+            });
 
     py::class_<TVar::event_scales_type>(m, "event_scales_type")
         .def(py::init<TVar::EventScaleScheme, TVar::EventScaleScheme, double, double>())
@@ -402,18 +590,30 @@ PYBIND11_MODULE(Mela, m) {
         .def_readwrite("pStableTops", &TVar::simple_event_record::pStableTops)
         .def_readwrite("pStableAntitops", &TVar::simple_event_record::pStableAntitops);
 
+    m.def("PrintCandidateSummary", [](TVar::simple_event_record curCand){
+        TVar::simple_event_record* curRecord = &curCand;
+        TUtil::PrintCandidateSummary(curRecord);
+    });
+    m.def("PrintCandidateSummary", [](MELACandidate curCand){
+        MELACandidate* curRecord = &curCand;
+        TUtil::PrintCandidateSummary(curRecord);
+    });
     py::class_<Mela>(m, "Mela")
         .def(py::init<double, double, TVar::VerbosityLevel>())
         .def(py::init<double, double>())
         .def(py::init<double>())
         .def(py::init<>())
+        .def(py::init<Mela const &>())
+        .def("__repr__", [](Mela& me){
+            return "Mela";
+        })
         .def("setProcess", &Mela::setProcess)
         .def("setVerbosity", &Mela::setVerbosity)
-        .def("setInputEvent", setInputEvent)
+        .def("setInputEvent", &Mela::setInputEvent, py::arg("pDaughters"), py::arg("pAssociated")=nullptr, py::arg("pMothers")=nullptr, py::arg("isGen")=false)
         .def("setCandidateDecayMode", &Mela::setCandidateDecayMode)
-        .def("setMelaHiggsMass", &Mela::setMelaHiggsMass)
-        .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth)
-        .def("setMelaHiggsMassWidth", &Mela::setMelaHiggsMassWidth)
+        .def("setMelaHiggsMass", &Mela::setMelaHiggsMass, py::arg("myHiggsMass"), py::arg("index")=0)
+        .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth, py::arg("myHiggsWidth")=-1, py::arg("index")=0)
+        .def("setMelaHiggsMassWidth", &Mela::setMelaHiggsMassWidth, py::arg("myHiggsMass"), py::arg("myHiggsWidth"), py::arg("index"))
         .def("setRenFacScaleMode", &Mela::setRenFacScaleMode)
 
         .def("resetInputEvent", &Mela::resetInputEvent)
@@ -447,8 +647,10 @@ PYBIND11_MODULE(Mela, m) {
         .def("computeD_CP", &computeD_CP)
 
         .def("getConstant", &getConstant)
-        .def("PrintCurrentCandidateSummary", &PrintCurrentCandidateSummary)
-        .def("PrintCandidateSummary", &PrintCandidateSummary)
+        .def("PrintCurrentCandidateSummary", [](Mela& mela){
+            MELACandidate* curCand = mela.getCurrentCandidate();
+            TUtil::PrintCandidateSummary(curCand);
+        })
         .def("cleanLinkedFiles", &Mela::cleanLinkedFiles)
         .def("calculate4Momentum", &Mela::calculate4Momentum)
 
@@ -1342,14 +1544,6 @@ PYBIND11_MODULE(Mela, m) {
         .value("SMSyst_ScaleDown", TVar::SMSyst_ScaleDown)
         .value("SMSyst_ResUp", TVar::SMSyst_ResUp)
         .value("SMSyst_ResDown", TVar::SMSyst_ResDown);
-    
-    py::enum_<TVar::KAssociated>(m, "KAssociated")
-        .value("kNoAssociated", TVar::kNoAssociated)
-        .value("kUseAssociated_Leptons", TVar::kUseAssociated_Leptons)
-        .value("kUseAssociated_Photons", TVar::kUseAssociated_Photons)
-        .value("kUseAssociated_Jets", TVar::kUseAssociated_Jets)
-        .value("kUseAssociated_UnstableTops", TVar::kUseAssociated_UnstableTops)
-        .value("kUseAssociated_StableTops", TVar::kUseAssociated_StableTops);
 
     py::enum_<CouplingIndex_HQQ>(m, "CouplingIndex_HQQ")
         .value("gHIGGS_KAPPA", gHIGGS_KAPPA)
