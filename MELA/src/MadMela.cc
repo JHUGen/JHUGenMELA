@@ -349,6 +349,7 @@ void madMela::initialize_madMELA(){
 
     madMela::params_r_.mdl_lambdasmeft = 1.000000e+03;
 
+    //Trying to set all the masses the same as the rest of MELA!
     madMela::mad_masses_.mdl_md =  TUtil::GetMass(1); //4.670000e-03;
     madMela::mad_masses_.mdl_mu =  TUtil::GetMass(2); //2.160000e-03;
     madMela::mad_masses_.mdl_ms =  TUtil::GetMass(3); //9.300000e-02;
@@ -406,7 +407,7 @@ void madMela::setInputEvent(SimpleParticleCollection_t* pDaughters, SimplePartic
     vector<vector<double>> p(nPDG, vector<double>(4));
 
     int i = 0;
-    TVector3 boostVec = -1*((*pMothers)[0].second + (*pMothers)[1].second).BoostVector();
+    TVector3 boostVec = -1*((*pMothers)[0].second + (*pMothers)[1].second).BoostVector(); //boost into center of momentum of gluons (what MADGRAPH does!)
     if(myVerbosity_>=TVar::DEBUG) MELAout << "Boost vector of " << boostVec.Px() << " " << boostVec.Py() << " " << boostVec.Pz() << endl;
     for(SimpleParticle_t particle : *pMothers){
         pdgs[i] = particle.first;
@@ -448,7 +449,7 @@ void madMela::setInputEvent(SimpleParticleCollection_t* pDaughters, SimplePartic
         }
     }
 
-    if(abs(pdgs[2]) > abs(pdgs[4])){
+    if(abs(pdgs[2]) > abs(pdgs[4])){ // absolute values of id are sorted
         swap(pdgs[2], pdgs[4]);
         swap(p[2], p[4]);
         swap(pdgs[3], pdgs[5]);
@@ -474,7 +475,6 @@ void madMela::setInputEvent(SimpleParticleCollection_t* pDaughters, SimplePartic
 
 void madMela::computeP(double& prob, int nhel){
     //Calculate the effects of the set couplings
-    // madMela::coup_();
     madMela::update_all_coup_();
     if(!madMela::madMelaCandidate){
         throw invalid_argument("Need to set an input event!");
@@ -489,19 +489,13 @@ void madMela::computeP(double& prob, int nhel){
     double* p_for_fortran = new double[4*nPDG];
 
     copy(pdgs.begin(), pdgs.end(), pdgs_for_fortran);
-    // for(int n = 0; n < nPDG; n++){
-    //     copy(p[n].begin(), p[n].end(), p_for_fortran[n]);
-    // }
     int counter = 0;
     for(int i = 0; i < nPDG; i++){
         for(int j = 0; j < 4; j++){
-            // MELAout << i << ", " << j << ": "  << p[i][j] << endl;
             p_for_fortran[counter] = p[i][j];
             counter ++;
         }
     }
-    // MELAout << endl;
-
     double scale2 = 15647.433046089998;
 
     if(madMela::myVerbosity_ >= TVar::DEBUG_VERBOSE){
@@ -510,8 +504,8 @@ void madMela::computeP(double& prob, int nhel){
             MELAout << "id of " << pdgs[i] << " & vector of " << p[i][1] << ", " << p[i][2] << ", " << p[i][3] << ", " << p[i][0] << endl;
         }
         MELAout << "Raw Input to FORTRAN:" << endl;
-        for(int j = 0; j < 4; j++){
-            for(int i = 0; i < nPDG; i++){
+        for(int i = 0; i < nPDG; i++){
+            for(int j = 0; j < 4; j++){
                 MELAout << p_for_fortran[i*4+j] << " ";
             }
             MELAout << endl;

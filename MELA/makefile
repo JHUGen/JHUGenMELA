@@ -20,6 +20,7 @@ MELASRCDIR = $(MELADIR)/src
 MELAOBJDIR = $(MELADIR)/obj
 # Modify MELALIBDIR for the gcc version as needed
 MELALIBDIR = ${MELA_LIB_PATH}
+MADGRAPHLIBDIR = $(MELADIR)/data/MADGRAPH_PROCESSES
 # _melapkgpath_ should refer to the root compilation path just like MELADIR with an extra '/'.
 # If environment variables need to be inserted without expansion for portability,
 # you can use '.oODOLLAROo..oOOPEN_BRACKETOo.[YOUR_ENV_VARIABLE].oOCLOSE_BRACKETOo.',
@@ -43,7 +44,7 @@ ROOTINC = $(ROOFITINC)
 
 CC = g++
 CPPINC = -I$(MELADIR)/interface $(ROOTINC)
-CPPLOAD = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier -lggF_SMEFTsim $(LIBS)
+CPPLOAD = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier -L$(MADGRAPHLIBDIR) -lggF_SMEFTsim $(LIBS)
 CPPOPTS =  -fPIC -O2 -ftree-vectorize -fipa-pta -felide-constructors -fvisibility-inlines-hidden -fno-math-errno \
 	--param vect-max-version-for-alias-checks=50 -fmessage-length=0 -fdiagnostics-show-option \
 	-Werror=unused-value \
