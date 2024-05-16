@@ -18,6 +18,7 @@ Please adhere to the following coding conventions:
 #include <string>
 #include <cstdio>
 #include <cmath>
+#include <complex>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -81,8 +82,8 @@ Mela::~Mela(){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Begin Mela destructor" << endl;
 
   if(myVerbosity_>=TVar::DEBUG) MELAout << "Mela destructor: Destroying madMELA variables" << endl;
-  delete madMela::madMelaCandidate;
-  madMela::madMelaCandidate = nullptr;
+  // delete madMela::madMelaCandidate;
+  // madMela::madMelaCandidate = nullptr;
   madMela::setDefaultMadgraphValues();
 
   //setRemoveLeptonMasses(false); // Use Run 1 scheme for not removing lepton masses. Notice the switch itself is defined as an extern, so it has to be set to default value at the destructor!
@@ -136,10 +137,7 @@ void Mela::cleanLinkedFiles() {
 
 
 void Mela::build(double mh_){
-  if (myVerbosity_>=TVar::DEBUG) MELAout << "Start Mela::build" << endl;
-  if(myVerbosity_>=TVar::DEBUG) MELAout << "Running madMela::initialize_madMELA" << endl;
-  madMela::initialize_madMELA();
-  madMela::myVerbosity_=myVerbosity_;
+  // madMela::myVerbosity_=myVerbosity_;
   //setRemoveLeptonMasses(false); // Use Run 1 scheme for not removing fermion masses
   setRemoveLeptonMasses(true); // Use Run 2 scheme for removing fermion masses to compute MEs that expect massless fermions properly
 
@@ -236,6 +234,9 @@ void Mela::build(double mh_){
 
   // Initialize the couplings to 0 and end Mela constructor
   reset_SelfDCouplings();
+  if (myVerbosity_>=TVar::DEBUG) MELAout << "Start Mela::build" << endl;
+  if(myVerbosity_>=TVar::DEBUG) MELAout << "Running madMela::initialize_madMELA" << endl;
+  madMela::initialize_madMELA();
   if (myVerbosity_>=TVar::DEBUG) MELAout << "End Mela::build" << endl;
 }
 
@@ -287,17 +288,14 @@ void Mela::setProcess(TVar::Process myModel, TVar::MatrixElement myME, TVar::Pro
     else if (myProduction_==TVar::JJQCD_S) myProduction_=TVar::JJQCD;
   }
   myModel_ = myModel;
-  if(myME_==TVar::MADGRAPH){
-    if( (myProduction_ != TVar::ZZGG) && (myProduction_ != TVar::ZZINDEPENDENT) ){
-      MELAout << "Production mode " << myProduction_ << " is not currently supported by MADMELA!" << endl;
-    }
-  } else{
-    if (ZZME!=0) ZZME->set_Process(myModel_, myME_, myProduction_);
+  if(myME_==TVar::MADGRAPH && myProduction_ != TVar::ZZGG && myProduction_ != TVar::ZZINDEPENDENT){
+    MELAout << "Production mode " << myProduction_ << " is not currently supported by MADMELA!" << endl;
   }
+  if (ZZME!=0) ZZME->set_Process(myModel_, myME_, myProduction_);
 }
 void Mela::setVerbosity(TVar::VerbosityLevel verbosity_){
   myVerbosity_=verbosity_;
-  madMela::myVerbosity_=verbosity_;
+  // madMela::myVerbosity_=verbosity_;
   if (ZZME) ZZME->set_Verbosity(myVerbosity_);
   if (super) super->SetVerbosity((myVerbosity_>=TVar::DEBUG));
   if (superDijet) superDijet->SetVerbosity(myVerbosity_);
@@ -308,16 +306,12 @@ TVar::VerbosityLevel Mela::getVerbosity(){ return myVerbosity_; }
 // Should be called per-event
 void Mela::setMelaPrimaryHiggsMass(double myHiggsMass){ ZZME->set_PrimaryHiggsMass(myHiggsMass); }
 void Mela::setMelaHiggsMass(double myHiggsMass, int index){
-  madMela::set_mHiggs(myHiggsMass, index);
   ZZME->set_mHiggs(myHiggsMass, index); 
 }
 void Mela::setMelaHiggsWidth(double myHiggsWidth, int index){
-  madMela::set_wHiggs(myHiggsWidth, index);
   ZZME->set_wHiggs(myHiggsWidth, index); 
 }
 void Mela::setMelaHiggsMassWidth(double myHiggsMass, double myHiggsWidth, int index){
-  madMela::set_mHiggs(myHiggsMass, index);
-  madMela::set_wHiggs(myHiggsWidth, index);
   ZZME->set_mHiggs_wHiggs(myHiggsMass, myHiggsWidth, index); 
 }
 void Mela::setMelaLeptonInterference(TVar::LeptonInterference myLepInterf){ myLepInterf_=myLepInterf; ZZME->set_LeptonInterference(myLepInterf); }
@@ -331,14 +325,14 @@ void Mela::setInputEvent(
   bool isGen,
   bool madMela
   ){
-    if(madMela){
-      madMela::setInputEvent(
-      pDaughters,
-      pAssociated,
-      pMothers,
-      isGen
-      );
-    }
+    // if(madMela){
+    //   madMela::setInputEvent(
+    //   pDaughters,
+    //   pAssociated,
+    //   pMothers,
+    //   isGen
+    //   );
+    // }
   ZZME->set_InputEvent(
   pDaughters,
   pAssociated,
@@ -374,6 +368,7 @@ void Mela::setSpinZeroCouplings(){
     selfDHwwLambda_qsq,
     selfDHzzCLambda_qsq,
     selfDHwwCLambda_qsq,
+    selfDSmeftSimcoupl,
     differentiate_HWW_HZZ
   );
   ZZME->set_SpinZeroContact(
@@ -516,7 +511,6 @@ void Mela::resetYukawaMass(double inmass, int ipart){
   else if (ipartabs==15){ madMela::params_r_.mdl_ymtau=inmass; }
   else{
     MELAerr << "Particle with id " << ipart << " does not have supported Yukawa Couplings!" << endl;
-    exit(1);
   }
 }
 void Mela::resetQuarkMasses(){ ZZME->reset_QuarkMasses(); }
@@ -527,6 +521,13 @@ void Mela::resetMCFM_EWKParameters(double ext_Gf, double ext_aemmz, double ext_m
 double Mela::getPrimaryMass(int ipart){ return ZZME->get_PrimaryMass(ipart); }
 double Mela::getPrimaryWidth(int ipart){ return ZZME->get_PrimaryWidth(ipart); }
 double Mela::getHiggsWidthAtPoleMass(double mass){ return ZZME->get_HiggsWidthAtPoleMass(mass); }
+
+void Mela::SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta){
+  TUtil::SetMadgraphCKMElements(ckmlambda, ckma, ckmrho, ckmeta);
+}
+complex<double> Mela::GetMadgraphCKMElement(int iquark, int jquark){
+  return TUtil::GetMadgraphCKMElement(iquark, jquark);
+}
 
 void Mela::setRemoveLeptonMasses(bool MasslessLeptonSwitch){ TUtil::applyLeptonMassCorrection(MasslessLeptonSwitch); }
 void Mela::setRemoveJetMasses(bool MasslessLeptonSwitch){ TUtil::applyJetMassCorrection(MasslessLeptonSwitch); }
@@ -1197,7 +1198,8 @@ void Mela::computeP_selfDspin2(
 }
 void Mela::computeP(
   float& prob,
-  bool useConstant
+  bool useConstant,
+  int nhel
   ){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Mela: Begin computeP" << endl;
   reset_PAux();
@@ -1236,18 +1238,19 @@ void Mela::computeP(
 
       Y_rrv->setConstant(false);
     }
-    else if (myME_ == TVar::MADGRAPH){
-      double prob_madgraph = (double) prob;
-      madMela::computeP(prob_madgraph, -1); //madgraph takes in doubles
-      prob = (float) prob_madgraph;
-    }
-    else if (myME_ == TVar::JHUGen || myME_ == TVar::MCFM){
+    // else if (myME_ == TVar::MADGRAPH){
+    //   double prob_madgraph = (double) prob;
+    //   ZZME->computeXS(prob);
+    //   // madMela::computeP(prob_madgraph, -1); //madgraph takes in doubles
+    //   // prob = (float) prob_madgraph;
+    // }
+    else if (myME_ == TVar::JHUGen || myME_ == TVar::MCFM || myME_ == TVar::MADGRAPH){
       setAZffCouplings();
       if (!(myME_ == TVar::MCFM  && myProduction_ == TVar::ZZINDEPENDENT &&  (myModel_ == TVar::bkgZZ || myModel_ == TVar::bkgWW || myModel_ == TVar::bkgZGamma || myModel_ == TVar::bkgGammaGamma))){
         if (myME_ == TVar::MCFM || myModel_ == TVar::SelfDefine_spin0) setSpinZeroCouplings();
-        else if (myModel_ == TVar::SelfDefine_spin1) setSpinOneCouplings();
-        else if (myModel_ == TVar::SelfDefine_spin2) setSpinTwoCouplings();
-        ZZME->computeXS(prob);
+        else if (myModel_ == TVar::SelfDefine_spin1 && myME_ != TVar::MADGRAPH) setSpinOneCouplings();
+        else if (myModel_ == TVar::SelfDefine_spin2 && myME_ != TVar::MADGRAPH) setSpinTwoCouplings();
+        ZZME->computeXS(prob, nhel);
       }
       else{
         computeDecayAngles(

@@ -21,6 +21,7 @@ MELAOBJDIR = $(MELADIR)/obj
 # Modify MELALIBDIR for the gcc version as needed
 MELALIBDIR = ${MELA_LIB_PATH}
 MADGRAPHLIBDIR = $(MELADIR)/data/MADGRAPH_PROCESSES
+LINKMADGRAPH = Yes
 # _melapkgpath_ should refer to the root compilation path just like MELADIR with an extra '/'.
 # If environment variables need to be inserted without expansion for portability,
 # you can use '.oODOLLAROo..oOOPEN_BRACKETOo.[YOUR_ENV_VARIABLE].oOCLOSE_BRACKETOo.',
@@ -44,13 +45,17 @@ ROOTINC = $(ROOFITINC)
 
 CC = g++
 CPPINC = -I$(MELADIR)/interface $(ROOTINC)
-CPPLOAD = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier -L$(MADGRAPHLIBDIR) -lggF_SMEFTsim $(LIBS)
+CPPLOAD = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier $(LIBS)
+CPPLOADMADGRAPH = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier -L$(MADGRAPHLIBDIR) -lggF_SMEFTsim $(LIBS)
 CPPOPTS =  -fPIC -O2 -ftree-vectorize -fipa-pta -felide-constructors -fvisibility-inlines-hidden -fno-math-errno \
 	--param vect-max-version-for-alias-checks=50 -fmessage-length=0 -fdiagnostics-show-option \
 	-Werror=unused-value \
 	 $(shell root-config --cflags) -D_melapkgpath_=$(MELAPKGPATH)
-CPPFLAGS = $(CPPOPTS) $(CPPINC) $(CPPLOAD)
-
+ifeq ($(LINKMADGRAPH),Yes)
+	CPPFLAGS = $(CPPOPTS) $(CPPINC) $(CPPLOADMADGRAPH)
+else
+	CPPFLAGS = $(CPPOPTS) $(CPPINC) $(CPPLOAD)
+endif
 LINKER = g++
 LINKERFLAGS = -Wl,-rpath=$(MELALIBDIR),-soname,$(LIB) $(CPPLOAD)
 
@@ -66,7 +71,7 @@ DEPS = $(OBJECTS:.o=.d)
 
 all: $(LIBRULE) python/__init__.py $(pyLIBRULE)
 
-nopython: $(LIBRULE) mad_test
+nopython: $(LIBRULE) 
 
 $(MELAOBJDIR)/%.d:	$(MELASRCDIR)/%.c* | alldirs
 	echo "Checking dependencies for $<"; \
@@ -94,9 +99,6 @@ $(pyLIBRULE): $(pyLINKFILE) $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | $(LIBRULE)
 	$(LINKER) $(pyLINKFILE) $(CPPFLAGS) $(LINKERFLAGS) \
 	-O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
 	$(shell python3 -m pybind11 --includes) -o $@
-
-mad_test: test/testME_madgraph.cpp | alldirs
-	@$(LINKER) $(CPPFLAGS) -L$(MELALIBDIR) -lJHUGenMELAMELA test/testME_madgraph.cpp -g -o testME_madgraph
 
 alldirs:
 	mkdir -p $(MELAOBJDIR)

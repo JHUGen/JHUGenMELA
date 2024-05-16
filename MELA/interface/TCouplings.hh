@@ -23,6 +23,7 @@ public:
 
   void SetHVVpCouplings(unsigned int index, double c_real, double c_imag, bool setWWp = false, int whichResonance=1);
   void SetHVpVpCouplings(unsigned int index, double c_real, double c_imag, bool setWpWp = false, int whichResonance=1);
+  void SetSmeftSimCouplings(unsigned int index, double value);
 
   double Hggcoupl[SIZE_HGG][2];
   double Hqqcoupl[SIZE_HQQ][2];
@@ -58,6 +59,8 @@ public:
   double Hzpzpcoupl[SIZE_HVV][2];
   double Hwwpcoupl[SIZE_HVV][2];
   double Hwpwpcoupl[SIZE_HVV][2];
+
+  double SmeftSimcoupl[SIZE_SMEFT];
 
   bool separateWWZZcouplings;
 };

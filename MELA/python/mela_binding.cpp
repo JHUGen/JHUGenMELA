@@ -218,19 +218,6 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
     return collection;
 }
 
-void setInputEvent(Mela& mela, SimpleParticleCollection_t* daughters, SimpleParticleCollection_t* associated, SimpleParticleCollection_t* mothers, bool isgen, bool madMela){
-    if(daughters->size() == 0){
-        daughters = 0;
-    }
-    if (associated->size() == 0){
-        associated = 0;
-    }
-    if (mothers->size() == 0){
-        mothers = 0;
-    }
-    mela.setInputEvent(daughters, associated, mothers, isgen, madMela);
-}
-
 #define MAKE_COUPLING_ARR_SPIN_ZERO(arrayName, size, arrType)\
         .def(#arrayName, [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
@@ -307,17 +294,21 @@ void setInputEvent(Mela& mela, SimpleParticleCollection_t* daughters, SimplePart
                 }, py::keep_alive<0, 1>())\
         )
 
-#define MAKE_COUPLING_MADMELA(couplingName)\
+#define MAKE_COUPLING_MADMELA(couplingName, couplingIndex_1)\
         .def_property(\
             #couplingName, \
             py::cpp_function(\
-                [](Mela& m){\
-                    return m.couplingName;\
+                [](py::object &obj){\
+                    Mela& D = obj.cast<Mela&>();\
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{SIZE_SMEFT}, (const int*) &D.selfDSmeftSimcoupl, obj);\
+                    return array_val.at(couplingIndex_1);\
                 }),\
             py::cpp_function(\
-                [](Mela& m, double val){\
-                    m.couplingName = val;\
-                })\
+                [](py::object &obj, double coupl){\
+                    Mela &D = obj.cast<Mela&>();\
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{SIZE_SMEFT}, (const int*) &D.selfDSmeftSimcoupl, obj);\
+                    array_val.mutable_at(couplingIndex_1) = coupl;\
+                }, py::keep_alive<0, 1>())\
         )
 
 PYBIND11_MAKE_OPAQUE(SimpleParticle_t)
@@ -635,15 +626,17 @@ PYBIND11_MODULE(Mela, m) {
         })
         .def("setProcess", &Mela::setProcess)
         .def("setVerbosity", &Mela::setVerbosity)
-        .def("setInputEvent", &Mela::setInputEvent, py::arg("pDaughters"), py::arg("pAssociated")=nullptr, py::arg("pMothers")=nullptr, py::arg("isGen")=false)
+        .def("setInputEvent", &Mela::setInputEvent, py::arg("pDaughters"), py::arg("pAssociated")=nullptr, py::arg("pMothers")=nullptr, py::arg("isGen")=false, py::arg("madMela")=false)
         .def("setCandidateDecayMode", &Mela::setCandidateDecayMode)
         .def("setMelaHiggsMass", &Mela::setMelaHiggsMass, py::arg("myHiggsMass"), py::arg("index")=0)
         .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth, py::arg("myHiggsWidth")=-1, py::arg("index")=0)
         .def("setMelaHiggsMassWidth", &Mela::setMelaHiggsMassWidth, py::arg("myHiggsMass"), py::arg("myHiggsWidth"), py::arg("index"))
         .def("setRenFacScaleMode", &Mela::setRenFacScaleMode)
+        .def("SetMadgraphCKMElements", &Mela::SetMadgraphCKMElements)
 
         .def("resetInputEvent", &Mela::resetInputEvent)
         .def("resetMass", &Mela::resetMass)
+        .def("resetYukawaMass", &Mela::resetYukawaMass)
         .def("resetWidth", &Mela::resetWidth)
         .def("resetQuarkMasses", &Mela::resetQuarkMasses)
         .def("resetMCFM_EWKParameters", &Mela::resetMCFM_EWKParameters)
@@ -651,6 +644,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("getPrimaryMass", &Mela::getPrimaryMass)
         .def("getPrimaryWidth", &Mela::getPrimaryWidth)
         .def("getHiggsWidthAtPoleMass", &Mela::getHiggsWidthAtPoleMass)
+        .def("GetMadgraphCKMElement", &Mela::GetMadgraphCKMElement)
 
         .def("getIORecord", &Mela::getIORecord)
         .def("getWeightedMEArray", &getWeightedMEArray)
@@ -1428,94 +1422,89 @@ PYBIND11_MODULE(Mela, m) {
 
         MAKE_COUPLING_REAL_IMAGINARY_SPIN_ONETWO(selfDAZffcoupl, clanod, gAZff_dZLH)
 
-        MAKE_COUPLING_MADMELA(mdl_ch)
-        MAKE_COUPLING_MADMELA(mdl_chbox)
-        MAKE_COUPLING_MADMELA(mdl_chdd)
-        MAKE_COUPLING_MADMELA(mdl_chg)
-        MAKE_COUPLING_MADMELA(mdl_chw)
-        MAKE_COUPLING_MADMELA(mdl_chb)
-        MAKE_COUPLING_MADMELA(mdl_chwb)
-        MAKE_COUPLING_MADMELA(mdl_cehre)
-        MAKE_COUPLING_MADMELA(mdl_cuhre)
-        MAKE_COUPLING_MADMELA(mdl_cdhre)
-        MAKE_COUPLING_MADMELA(mdl_cewre)
-        MAKE_COUPLING_MADMELA(mdl_cebre)
-        MAKE_COUPLING_MADMELA(mdl_cugre)
-        MAKE_COUPLING_MADMELA(mdl_cuwre)
-        MAKE_COUPLING_MADMELA(mdl_cubre)
-        MAKE_COUPLING_MADMELA(mdl_cdgre)
-        MAKE_COUPLING_MADMELA(mdl_cdwre)
-        MAKE_COUPLING_MADMELA(mdl_cdbre)
-        MAKE_COUPLING_MADMELA(mdl_chl1)
-        MAKE_COUPLING_MADMELA(mdl_chl3)
-        MAKE_COUPLING_MADMELA(mdl_che)
-        MAKE_COUPLING_MADMELA(mdl_chq1)
-        MAKE_COUPLING_MADMELA(mdl_chq3)
-        MAKE_COUPLING_MADMELA(mdl_chu)
-        MAKE_COUPLING_MADMELA(mdl_chd)
-        MAKE_COUPLING_MADMELA(mdl_chudre)
-        MAKE_COUPLING_MADMELA(mdl_cll)
-        MAKE_COUPLING_MADMELA(mdl_cll1)
-        MAKE_COUPLING_MADMELA(mdl_cqq1)
-        MAKE_COUPLING_MADMELA(mdl_cqq11)
-        MAKE_COUPLING_MADMELA(mdl_cqq3)
-        MAKE_COUPLING_MADMELA(mdl_cqq31)
-        MAKE_COUPLING_MADMELA(mdl_clq1)
-        MAKE_COUPLING_MADMELA(mdl_clq3)
-        MAKE_COUPLING_MADMELA(mdl_cee)
-        MAKE_COUPLING_MADMELA(mdl_cuu)
-        MAKE_COUPLING_MADMELA(mdl_cuu1)
-        MAKE_COUPLING_MADMELA(mdl_cdd)
-        MAKE_COUPLING_MADMELA(mdl_cdd1)
-        MAKE_COUPLING_MADMELA(mdl_ceu)
-        MAKE_COUPLING_MADMELA(mdl_ced)
-        MAKE_COUPLING_MADMELA(mdl_cud1)
-        MAKE_COUPLING_MADMELA(mdl_cud8)
-        MAKE_COUPLING_MADMELA(mdl_cle)
-        MAKE_COUPLING_MADMELA(mdl_clu)
-        MAKE_COUPLING_MADMELA(mdl_cld)
-        MAKE_COUPLING_MADMELA(mdl_cqe)
-        MAKE_COUPLING_MADMELA(mdl_cqu1)
-        MAKE_COUPLING_MADMELA(mdl_cqu8)
-        MAKE_COUPLING_MADMELA(mdl_cqd1)
-        MAKE_COUPLING_MADMELA(mdl_cqd8)
-        MAKE_COUPLING_MADMELA(mdl_cledqre)
-        MAKE_COUPLING_MADMELA(mdl_cquqd1re)
-        MAKE_COUPLING_MADMELA(mdl_cquqd11re)
-        MAKE_COUPLING_MADMELA(mdl_cquqd8re)
-        MAKE_COUPLING_MADMELA(mdl_cquqd81re)
-        MAKE_COUPLING_MADMELA(mdl_clequ1re)
-        MAKE_COUPLING_MADMELA(mdl_clequ3re)
-        MAKE_COUPLING_MADMELA(mdl_cgtil)
-        MAKE_COUPLING_MADMELA(mdl_cwtil)
-        MAKE_COUPLING_MADMELA(mdl_chgtil)
-        MAKE_COUPLING_MADMELA(mdl_chwtil)
-        MAKE_COUPLING_MADMELA(mdl_chbtil)
-        MAKE_COUPLING_MADMELA(mdl_chwbtil)
-        MAKE_COUPLING_MADMELA(mdl_cewim)
-        MAKE_COUPLING_MADMELA(mdl_cebim)
-        MAKE_COUPLING_MADMELA(mdl_cugim)
-        MAKE_COUPLING_MADMELA(mdl_cuwim)
-        MAKE_COUPLING_MADMELA(mdl_cubim)
-        MAKE_COUPLING_MADMELA(mdl_cdgim)
-        MAKE_COUPLING_MADMELA(mdl_cdwim)
-        MAKE_COUPLING_MADMELA(mdl_cdbim)
-        MAKE_COUPLING_MADMELA(mdl_chudim)
-        MAKE_COUPLING_MADMELA(mdl_cehim)
-        MAKE_COUPLING_MADMELA(mdl_cuhim)
-        MAKE_COUPLING_MADMELA(mdl_cdhim)
-        MAKE_COUPLING_MADMELA(mdl_cledqim)
-        MAKE_COUPLING_MADMELA(mdl_cquqd1im)
-        MAKE_COUPLING_MADMELA(mdl_cquqd8im)
-        MAKE_COUPLING_MADMELA(mdl_cquqd11im)
-        MAKE_COUPLING_MADMELA(mdl_cquqd81im)
-        MAKE_COUPLING_MADMELA(mdl_clequ1im)
-        MAKE_COUPLING_MADMELA(mdl_clequ3im)
-
-        MAKE_COUPLING_MADMELA(mdl_ckmlambda)
-        MAKE_COUPLING_MADMELA(mdl_ckma)
-        MAKE_COUPLING_MADMELA(mdl_ckmrho)
-        MAKE_COUPLING_MADMELA(mdl_ckmeta);
+        MAKE_COUPLING_MADMELA(mdl_ch, gMDL_ch)
+        MAKE_COUPLING_MADMELA(mdl_chbox, gMDL_chbox)
+        MAKE_COUPLING_MADMELA(mdl_chdd, gMDL_chdd)
+        MAKE_COUPLING_MADMELA(mdl_chg, gMDL_chg)
+        MAKE_COUPLING_MADMELA(mdl_chw, gMDL_chw)
+        MAKE_COUPLING_MADMELA(mdl_chb, gMDL_chb)
+        MAKE_COUPLING_MADMELA(mdl_chwb, gMDL_chwb)
+        MAKE_COUPLING_MADMELA(mdl_cehre, gMDL_cehre)
+        MAKE_COUPLING_MADMELA(mdl_cuhre, gMDL_cuhre)
+        MAKE_COUPLING_MADMELA(mdl_cdhre, gMDL_cdhre)
+        MAKE_COUPLING_MADMELA(mdl_cewre, gMDL_cewre)
+        MAKE_COUPLING_MADMELA(mdl_cebre, gMDL_cebre)
+        MAKE_COUPLING_MADMELA(mdl_cugre, gMDL_cugre)
+        MAKE_COUPLING_MADMELA(mdl_cuwre, gMDL_cuwre)
+        MAKE_COUPLING_MADMELA(mdl_cubre, gMDL_cubre)
+        MAKE_COUPLING_MADMELA(mdl_cdgre, gMDL_cdgre)
+        MAKE_COUPLING_MADMELA(mdl_cdwre, gMDL_cdwre)
+        MAKE_COUPLING_MADMELA(mdl_cdbre, gMDL_cdbre)
+        MAKE_COUPLING_MADMELA(mdl_chl1, gMDL_chl1)
+        MAKE_COUPLING_MADMELA(mdl_chl3, gMDL_chl3)
+        MAKE_COUPLING_MADMELA(mdl_che, gMDL_che)
+        MAKE_COUPLING_MADMELA(mdl_chq1, gMDL_chq1)
+        MAKE_COUPLING_MADMELA(mdl_chq3, gMDL_chq3)
+        MAKE_COUPLING_MADMELA(mdl_chu, gMDL_chu)
+        MAKE_COUPLING_MADMELA(mdl_chd, gMDL_chd)
+        MAKE_COUPLING_MADMELA(mdl_chudre, gMDL_chudre)
+        MAKE_COUPLING_MADMELA(mdl_cll, gMDL_cll)
+        MAKE_COUPLING_MADMELA(mdl_cll1, gMDL_cll1)
+        MAKE_COUPLING_MADMELA(mdl_cqq1, gMDL_cqq1)
+        MAKE_COUPLING_MADMELA(mdl_cqq11, gMDL_cqq11)
+        MAKE_COUPLING_MADMELA(mdl_cqq3, gMDL_cqq3)
+        MAKE_COUPLING_MADMELA(mdl_cqq31, gMDL_cqq31)
+        MAKE_COUPLING_MADMELA(mdl_clq1, gMDL_clq1)
+        MAKE_COUPLING_MADMELA(mdl_clq3, gMDL_clq3)
+        MAKE_COUPLING_MADMELA(mdl_cee, gMDL_cee)
+        MAKE_COUPLING_MADMELA(mdl_cuu, gMDL_cuu)
+        MAKE_COUPLING_MADMELA(mdl_cuu1, gMDL_cuu1)
+        MAKE_COUPLING_MADMELA(mdl_cdd, gMDL_cdd)
+        MAKE_COUPLING_MADMELA(mdl_cdd1, gMDL_cdd1)
+        MAKE_COUPLING_MADMELA(mdl_ceu, gMDL_ceu)
+        MAKE_COUPLING_MADMELA(mdl_ced, gMDL_ced)
+        MAKE_COUPLING_MADMELA(mdl_cud1, gMDL_cud1)
+        MAKE_COUPLING_MADMELA(mdl_cud8, gMDL_cud8)
+        MAKE_COUPLING_MADMELA(mdl_cle, gMDL_cle)
+        MAKE_COUPLING_MADMELA(mdl_clu, gMDL_clu)
+        MAKE_COUPLING_MADMELA(mdl_cld, gMDL_cld)
+        MAKE_COUPLING_MADMELA(mdl_cqe, gMDL_cqe)
+        MAKE_COUPLING_MADMELA(mdl_cqu1, gMDL_cqu1)
+        MAKE_COUPLING_MADMELA(mdl_cqu8, gMDL_cqu8)
+        MAKE_COUPLING_MADMELA(mdl_cqd1, gMDL_cqd1)
+        MAKE_COUPLING_MADMELA(mdl_cqd8, gMDL_cqd8)
+        MAKE_COUPLING_MADMELA(mdl_cledqre, gMDL_cledqre)
+        MAKE_COUPLING_MADMELA(mdl_cquqd1re, gMDL_cquqd1re)
+        MAKE_COUPLING_MADMELA(mdl_cquqd11re, gMDL_cquqd11re)
+        MAKE_COUPLING_MADMELA(mdl_cquqd8re, gMDL_cquqd8re)
+        MAKE_COUPLING_MADMELA(mdl_cquqd81re, gMDL_cquqd81re)
+        MAKE_COUPLING_MADMELA(mdl_clequ1re, gMDL_clequ1re)
+        MAKE_COUPLING_MADMELA(mdl_clequ3re, gMDL_clequ3re)
+        MAKE_COUPLING_MADMELA(mdl_cgtil, gMDL_cgtil)
+        MAKE_COUPLING_MADMELA(mdl_cwtil, gMDL_cwtil)
+        MAKE_COUPLING_MADMELA(mdl_chgtil, gMDL_chgtil)
+        MAKE_COUPLING_MADMELA(mdl_chwtil, gMDL_chwtil)
+        MAKE_COUPLING_MADMELA(mdl_chbtil, gMDL_chbtil)
+        MAKE_COUPLING_MADMELA(mdl_chwbtil, gMDL_chwbtil)
+        MAKE_COUPLING_MADMELA(mdl_cewim, gMDL_cewim)
+        MAKE_COUPLING_MADMELA(mdl_cebim, gMDL_cebim)
+        MAKE_COUPLING_MADMELA(mdl_cugim, gMDL_cugim)
+        MAKE_COUPLING_MADMELA(mdl_cuwim, gMDL_cuwim)
+        MAKE_COUPLING_MADMELA(mdl_cubim, gMDL_cubim)
+        MAKE_COUPLING_MADMELA(mdl_cdgim, gMDL_cdgim)
+        MAKE_COUPLING_MADMELA(mdl_cdwim, gMDL_cdwim)
+        MAKE_COUPLING_MADMELA(mdl_cdbim, gMDL_cdbim)
+        MAKE_COUPLING_MADMELA(mdl_chudim, gMDL_chudim)
+        MAKE_COUPLING_MADMELA(mdl_cehim, gMDL_cehim)
+        MAKE_COUPLING_MADMELA(mdl_cuhim, gMDL_cuhim)
+        MAKE_COUPLING_MADMELA(mdl_cdhim, gMDL_cdhim)
+        MAKE_COUPLING_MADMELA(mdl_cledqim, gMDL_cledqim)
+        MAKE_COUPLING_MADMELA(mdl_cquqd1im, gMDL_cquqd1im)
+        MAKE_COUPLING_MADMELA(mdl_cquqd8im, gMDL_cquqd8im)
+        MAKE_COUPLING_MADMELA(mdl_cquqd11im, gMDL_cquqd11im)
+        MAKE_COUPLING_MADMELA(mdl_cquqd81im, gMDL_cquqd81im)
+        MAKE_COUPLING_MADMELA(mdl_clequ1im, gMDL_clequ1im)
+        MAKE_COUPLING_MADMELA(mdl_clequ3im, gMDL_clequ3im);
 
     py::enum_<TVar::VerbosityLevel>(m, "VerbosityLevel", py::arithmetic())
         .value("SILENT",TVar::SILENT)

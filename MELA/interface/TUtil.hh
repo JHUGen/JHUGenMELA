@@ -8,6 +8,7 @@
 #define ZZ_COMMON
 #include <string>
 #include <vector>
+#include <complex>
 // MelaIO class
 #include "MelaIO.h"
 // Couplings classes
@@ -207,7 +208,9 @@ namespace TUtil{
   void GetMassWidth(int ipart, double& m, double& ga);
   void GetMassWidth(const MELAParticle* part, double& m, double& ga);
   void SetCKMElements(double* invckm_ud, double* invckm_us, double* invckm_cd, double* invckm_cs, double* invckm_ts, double* invckm_tb, double* invckm_ub=0, double* invckm_cb=0, double* invckm_td=0);
+  void SetMadgraphCKMElements(double ckmlambda=-1, double ckma=-1, double ckmrho=-1, double ckmeta=-1);
   double GetCKMElement(int iquark, int jquark);
+  std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
   double InterpretScaleScheme(const TVar::Production& production, const TVar::MatrixElement& matrixElement, const TVar::EventScaleScheme& scheme, TLorentzVector p[mxpart]);
   void SetAlphaS(double& Q_ren, double& Q_fac, double multiplier_ren, double multiplier_fac, int mynloop, int mynflav, std::string mypartons); // Q_ren/fac -> Q_ren/fac * multiplier_ren/fac
   void GetAlphaS(double* alphas_, double* alphasmz_); // Get last alpha_s value set
@@ -233,6 +236,7 @@ namespace TUtil{
   void ResetAmplitudeIncludes();
 
   // Spin-0 couplings
+  void SetMadgraphSpinZeroCouplings(SpinZeroCouplings const* Hcouplings);
   void SetMCFMSpinZeroCouplings(bool useBSM, SpinZeroCouplings const* Hcouplings, bool forceZZ);
   void SetMCFMaTQGCCouplings(bool useBSM, aTQGCCouplings const* couplings);
   void SetJHUGenSpinZeroVVCouplings(double Hvvcoupl[SIZE_HVV][2], double Hvvpcoupl[SIZE_HVV][2], double Hvpvpcoupl[SIZE_HVV][2], int Hvvcoupl_cqsq[SIZE_HVV_CQSQ], double HvvLambda_qsq[SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ], bool useWWcoupl);
@@ -265,6 +269,13 @@ namespace TUtil{
     const double& EBEAM,
     TVar::VerbosityLevel verbosity
     );
+  double MadgraphMatEl(
+    const TVar::Process& process, const TVar::Production& production, const TVar::MatrixElement& matrixElement,
+    TVar::event_scales_type* event_scales, MelaIO* RcdME,
+    const double& EBEAM,
+    TVar::VerbosityLevel verbosity,
+    int nhel
+  );
   double HJJMatEl(
     const TVar::Process& process, const TVar::Production& production, const TVar::MatrixElement& matrixElement,
     TVar::event_scales_type* event_scales, MelaIO* RcdME,

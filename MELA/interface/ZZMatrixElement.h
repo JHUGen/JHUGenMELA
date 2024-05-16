@@ -20,7 +20,8 @@ public:
   ~ZZMatrixElement();
 
   void computeXS(
-    float &mevalue
+    float &mevalue,
+    int nhel=-1
     );
   void computeProdXS_VVHVV(
     float& mevalue
@@ -97,6 +98,7 @@ public:
     double selfDHwwLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ],
     int selfDHzzCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
     int selfDHwwCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
+    double selfDSmeftSimcoupl[SIZE_SMEFT],
     bool diffHWW = false
     );
   void set_SpinZeroContact(

@@ -8,9 +8,6 @@
 using namespace std;
 
 namespace madMela{
-
-    typedef pair<vector<int>, vector<vector<double>>> madMelaInput;
-
     extern "C"{
         extern struct{
             double mdl_mz,mdl_mw,mdl_mt,mdl_mb,mdl_mh,mdl_mw1,mdl_mz1,mdl_me,mdl_mmu,mdl_mta,mdl_mh1,mdl_ms,mdl_md,mdl_mu,mdl_mc,mdl_mt1;
@@ -51,20 +48,10 @@ namespace madMela{
 
         void smatrixhel_(int pdgs[], int& procid, const int& npdg, double* p, double& alphas, double& scale2, int& nhel, double& ans);
         void update_all_coup_();
+        void change_para_();
     }
     void setDefaultMadgraphValues();
     void initialize_madMELA();
-
-    extern TVar::VerbosityLevel myVerbosity_;
-    const pair<const complex<double>&, const complex<double>&> getCKMMatEl(int i, int j);
-
-    extern madMelaInput* madMelaCandidate;
-    void setInputEvent(SimpleParticleCollection_t* pDaughters, SimpleParticleCollection_t* pAssociated, SimpleParticleCollection_t* pMothers, bool isGen);
-
-    void computeP(double& prob, int nhel=-1);
-
-    void set_mHiggs(double myHiggsMass, int index);
-    void set_wHiggs(double myHiggsWidth, int index);
 }
 
 #endif

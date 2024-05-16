@@ -1,5 +1,6 @@
 #include "MELAStreamHelpers.hh"
 #include "ZZMatrixElement.h"
+#include "MadMela.h"
 #include "TLorentzRotation.h"
 
 
@@ -252,6 +253,7 @@ void ZZMatrixElement::set_SpinZeroCouplings(
   double selfDHwwLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ],
   int selfDHzzCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
   int selfDHwwCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
+  double selfDSmeftSimcoupl[SIZE_SMEFT],
   bool diffHWW
   ){
   Xcal2.AllowSeparateWWCouplings(diffHWW);
@@ -275,6 +277,7 @@ void ZZMatrixElement::set_SpinZeroCouplings(
       selfD_SpinZeroCouplings->SetHVVSignCQ2(ik, selfDHzzCLambda_qsq[jh-1][ik], false, jh);
       selfD_SpinZeroCouplings->SetHVVSignCQ2(ik, selfDHwwCLambda_qsq[jh-1][ik], true, jh);
     }
+    for (int ic=0; ic<SIZE_SMEFT; ic++) selfD_SpinZeroCouplings->SetSmeftSimCouplings(ic, selfDSmeftSimcoupl[ic]);
   }
 }
 void ZZMatrixElement::set_SpinZeroContact(
@@ -345,7 +348,8 @@ void ZZMatrixElement::set_AZffCouplings(
 
 // Higgs + 0 jets dedicated function (with no Higgs decay)
 void ZZMatrixElement::computeXS(
-  float &mevalue
+  float &mevalue,
+  int nhel
   ){
   melaCand = get_CurrentCandidate();
 
@@ -356,7 +360,7 @@ void ZZMatrixElement::computeXS(
     }
     else Xcal2.SetHiggsMass(zzmass, wHiggs[0], -1);
 
-    mevalue = Xcal2.XsecCalc_XVV();
+    mevalue = Xcal2.XsecCalc_XVV(nhel);
   }
 
   resetPerEvent();
