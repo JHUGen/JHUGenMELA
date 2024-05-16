@@ -626,7 +626,7 @@ PYBIND11_MODULE(Mela, m) {
         })
         .def("setProcess", &Mela::setProcess)
         .def("setVerbosity", &Mela::setVerbosity)
-        .def("setInputEvent", &Mela::setInputEvent, py::arg("pDaughters"), py::arg("pAssociated")=nullptr, py::arg("pMothers")=nullptr, py::arg("isGen")=false, py::arg("madMela")=false)
+        .def("setInputEvent", &Mela::setInputEvent, py::arg("pDaughters"), py::arg("pAssociated")=nullptr, py::arg("pMothers")=nullptr, py::arg("isGen")=false)
         .def("setCandidateDecayMode", &Mela::setCandidateDecayMode)
         .def("setMelaHiggsMass", &Mela::setMelaHiggsMass, py::arg("myHiggsMass"), py::arg("index")=0)
         .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth, py::arg("myHiggsWidth")=-1, py::arg("index")=0)
