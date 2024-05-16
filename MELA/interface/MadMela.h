@@ -2,9 +2,6 @@
 #define madMELA
 
 #include <complex>
-#include <map>
-#include <vector>
-#include "TVar.hh"
 using namespace std;
 
 namespace madMela{
