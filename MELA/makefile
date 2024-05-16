@@ -46,7 +46,7 @@ ROOTINC = $(ROOFITINC)
 CC = g++
 CPPINC = -I$(MELADIR)/interface $(ROOTINC)
 CPPLOAD = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier $(LIBS)
-CPPLOADMADGRAPH = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier -L$(MADGRAPHLIBDIR) -lggF_SMEFTsim $(LIBS)
+CPPLOADMADGRAPH = -L$(MELALIBDIR) -lmcfm_709 -ljhugenmela -lcollier -L$(MADGRAPHLIBDIR) -lSMEFTsim $(LIBS)
 CPPOPTS =  -fPIC -O2 -ftree-vectorize -fipa-pta -felide-constructors -fvisibility-inlines-hidden -fno-math-errno \
 	--param vect-max-version-for-alias-checks=50 -fmessage-length=0 -fdiagnostics-show-option \
 	-Werror=unused-value \
