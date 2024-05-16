@@ -325,19 +325,11 @@ void Mela::setInputEvent(
   bool isGen,
   bool madMela
   ){
-    // if(madMela){
-    //   madMela::setInputEvent(
-    //   pDaughters,
-    //   pAssociated,
-    //   pMothers,
-    //   isGen
-    //   );
-    // }
   ZZME->set_InputEvent(
-  pDaughters,
-  pAssociated,
-  pMothers,
-  isGen
+    pDaughters,
+    pAssociated,
+    pMothers,
+    isGen
   );
 }
 void Mela::resetInputEvent(){
