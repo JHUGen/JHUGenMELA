@@ -45,6 +45,10 @@ class SuperMELA;
 #include "TensorPdfFactory_ppHVV.h"
 #include "RooqqZZ_JHU_ZgammaZZ_fast.h"
 
+/**
+ * @anchor CPP_Mela
+ * @brief This is the main Mela object!
+ */
 class Mela{
 
 public:
@@ -965,8 +969,8 @@ public:
   // The first dimension (of size [nSupportedHiggses=2]) supports a second resonance present in MCFM
 
   /**
-   * @defgroup coupl Coupling arrays
-   * @brief Self-define arrays for MELA
+   * @defgroup coupl Defined Coupling Quantities
+   * @brief Self-defined quantities for MELA. These control behavior.
    * @attention The first dimension (of size [TMCFM::nSupportedHiggses=2]) supports a second resonance present in MCFM
    * @{*/
   /** Couplings between the higgs and gluons. */
@@ -975,11 +979,17 @@ public:
   double selfDHg4g4coupl[nSupportedHiggses][SIZE_HGG][2];
   /** Couplings between the Higgs and quarks */
   double selfDHqqcoupl[nSupportedHiggses][SIZE_HQQ][2];
+  /** Couplings between the Higgs and botton quarks */
   double selfDHbbcoupl[nSupportedHiggses][SIZE_HQQ][2];
+  /** Couplings between the Higgs and top quarks */
   double selfDHttcoupl[nSupportedHiggses][SIZE_HQQ][2];
+  /** Couplings between the Higgs and bPrime quarks */
   double selfDHb4b4coupl[nSupportedHiggses][SIZE_HQQ][2];
+  /** Couplings between the Higgs and tPrime quarks */
   double selfDHt4t4coupl[nSupportedHiggses][SIZE_HQQ][2];
+  /** Couplings between the Higgs and the Z Boson */
   double selfDHzzcoupl[nSupportedHiggses][SIZE_HVV][2];
+  /** Couplings between the Higgs and the W Boson */
   double selfDHwwcoupl[nSupportedHiggses][SIZE_HVV][2];
   double selfDHzzLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ];
   double selfDHwwLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ];
@@ -1007,9 +1017,10 @@ public:
   double selfDGvpvpcoupl[SIZE_GVV][2];
   //****aTQGC****//
   double selfDaTQGCcoupl[SIZE_ATQGC][2];
-  //****Anomnalous Zff**//
+  //****Anomalous couplings between the Z and fermions**//
   double selfDAZffcoupl[SIZE_AZff][2];
   // That is a lot of them!
+/** @} */
 
   static void cleanLinkedFiles();
 
