@@ -13,75 +13,160 @@ namespace py = pybind11;
 using namespace std;
 
 /**
- These are functions that are pass by reference!
- They are turned into returnable functions
+ * @defgroup Pychanges Novel Python Functions
+ * @brief These are additions to the MELA code that allow for the Python to operate
+ * 
+ * The changes made provide for a more usable/readable version of the Python bindings. 
+ * They do not change any of the functionality of MELA, but simply provide either compatibility fixes or syntactic sugar.
+ * @{
 */
+
+/**
+ * @defgroup ReferenceGroup Python Functions that are pass-by-reference in C++
+ * @brief These functions are pass-by-reference in C++ and turned into 
+ * functions that return values for usage in Python
+ * @{
+*/
+
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computeP
+/// @param mela Mela object instance (for python function calling using obj.<function>)
+/// @param useConstant Boolean for using a multiplicative constant
+/// @return the result of Mela::computeP
 float computeP(Mela& mela, bool useConstant=true){
     float result;
     mela.computeP(result, useConstant);
     return result;
 }
 
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computeProdP
+/// @param mela Mela object instance (for python function calling using obj.<function>)
+/// @param useConstant Boolean for using a multiplicative constant
+/// @return the result of Mela::computeProdP
 float computeProdP(Mela& mela, bool useConstant=true) {
     float result;
     mela.computeProdP(result, useConstant);
     return result;
 }
 
+/// @ingroup ReferenceGroup
+/// @brief analog of MelThey cover a slew of uses, from converting a::computeProdDecP
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @param useConstant Boolean for using a multiplicative constant 
+/// @return the result of Mela::computeProdDecP
 float computeProdDecP(Mela& mela, bool useConstant=true) {
     float result;
     mela.computeProdDecP(result, useConstant);
     return result;
 }
 
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computeD_CP
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @param myME The Matrix element to be used
+/// @param myType The process to be used in the calculation
+/// @return the result of Mela::computeD_CP
 float computeD_CP(Mela& mela, TVar::MatrixElement myME, TVar::Process myType) {
     float result;
     mela.computeD_CP(myME, myType, result);
     return result;
 }
 
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computeProdP_VH
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @param includeHiggsDecay Whether you would like to include Higgs decay in your calculation
+/// @param useConstant Boolean for using a multiplicative constant 
+/// @return the result of Mela::computePropP_VH
 float computeProdP_VH(Mela& mela, bool includeHiggsDecay, bool useConstant) {
     float result;
     mela.computeProdP_VH(result, includeHiggsDecay, useConstant);
     return result;
 }
 
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computeProdP_ttH
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @param topProcess 
+/// @param topDecay 
+/// @param useConstant Boolean for using a multiplicative constant 
+/// @return the result of Mela::computeProdP_ttH
 float computeProdP_ttH(Mela& mela, int topProcess, int topDecay, bool useConstant) {
     float result;
     mela.computeProdP_ttH(result, topProcess, topDecay, useConstant);
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::compute4FermionWeight
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @return the result of Mela::compute4FermionWeight
 float compute4FermionWeight(Mela& mela) {
     float result;
     mela.compute4FermionWeight(result);
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::getXPropagator
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @param scheme The Propagator scheme you would like to use
+/// @return the result of Mela::getXPropagator
 float getXPropagator(Mela& mela, TVar::ResonancePropagatorScheme scheme) {
     float result;
     mela.getXPropagator(scheme, result);
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computePM4l
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @param syst 
+/// @return the result of Mela::computePM4l
 float computePM4l(Mela& mela, TVar::SuperMelaSyst syst) {
     float result;
     mela.computePM4l(syst, result);
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computeD_gg
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @param myME The matrix element you would like to use
+/// @param myType The process you would like to use
+/// @return the result of Mela::computeD_gg
 float computeD_gg(Mela& mela, TVar::MatrixElement myME, TVar::Process myType) {
     float result;
     mela.computeD_gg(myME, myType, result);
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief the analog of Mela::getConstant
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @return the result of Mela::getConstant
 float getConstant(Mela& mela) {
     float result;
     mela.getConstant(result);
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief the analog of Mela::computeDijetConvBW
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @param useTrueBW 
+/// @return the result of Mela::computeDijetConvBW
 float computeDijetConvBW(Mela& mela, bool useTrueBW) {
     float result;
     mela.computeDijetConvBW(result, useTrueBW);
     return result;
 }
 
+/// @ingroup ReferenceGroup
+/// @brief the analog of MelaIO::getWeightedMEArray
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @return the result of MelaIO::getWeightedMEArray
 py::array getWeightedMEArray(Mela& mela) {
     double resultarray[nmsq][nmsq] = {{0}};
     MelaIO* melaio = mela.getIORecord();
@@ -97,6 +182,11 @@ py::array getWeightedMEArray(Mela& mela) {
     py::array py_result = py::cast(result);
     return py_result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief the analog of MelaIO::getUnweightedMEArray
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @return the result of MelaIO::getUnweightedMEArray
 py::array getUnweightedMEArray(Mela& mela) {
     double resultarray[nmsq][nmsq];
     MelaIO* melaio = mela.getIORecord();
@@ -112,6 +202,11 @@ py::array getUnweightedMEArray(Mela& mela) {
     py::array py_result = py::cast(result);
     return py_result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief the analog of MelaIO::getPartonWeights
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @return the result of MelaIO::getPartonWeights
 py::tuple getPartonWeights(Mela& mela) {
     std::pair<vector<double>, vector<double>> result;
     result.first.resize(nmsq);
@@ -122,11 +217,21 @@ py::tuple getPartonWeights(Mela& mela) {
     return py_result;
 }
 
+/// @ingroup ReferenceGroup
+/// @brief the analog of Mela::getPAux
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @return the result of Mela::getPAux
 float getPAux(Mela& mela) {
     float result;
     mela.getPAux(result);
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief the analog of Mela::computeDecayAngles
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @note The order of the values is mH, m1, m2 (usually Z1 and Z2), cos(theta1), cos(theta2), phi, cos(theta-star), phi1
+/// @return the result of Mela::computeDecayAngles
 array<float, 8> computeDecayAngles(Mela& mela) {
     array<float, 8> result;
     mela.computeDecayAngles(
@@ -141,6 +246,11 @@ array<float, 8> computeDecayAngles(Mela& mela) {
     );
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computeVBFAngles
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @return the result of Mela::computeVBFAngles
 array<float, 7> computeVBFAngles(Mela& mela) {
     array<float, 7> result;
     mela.computeVBFAngles(
@@ -154,6 +264,11 @@ array<float, 7> computeVBFAngles(Mela& mela) {
     );
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computeVBFAngles_ComplexBoost
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @return the result of Mela::computeVBFAngles_ComplexBoost
 array<float, 9> computeVBFAngles_ComplexBoost(Mela& mela) {
     array<float, 9> result;
     mela.computeVBFAngles_ComplexBoost(
@@ -169,6 +284,12 @@ array<float, 9> computeVBFAngles_ComplexBoost(Mela& mela) {
     );
     return result;
 }
+
+/// @ingroup ReferenceGroup
+/// @brief analog of Mela::computeVHAngles
+/// @param mela Mela object instance (for python function calling using obj.<function>) 
+/// @param prod the result of Mela::computeVHAngles
+/// @return 
 array<float, 7> computeVHAngles(Mela& mela, TVar::Production prod) {
     mela.setProcess(TVar::HSMHiggs, TVar::JHUGen, prod);
     array<float, 7> result;
@@ -183,8 +304,25 @@ array<float, 7> computeVHAngles(Mela& mela, TVar::Production prod) {
     );
     return result;
 }
+/** @} */
 
+/**
+ * @defgroup Constructors Functions that construct objects differently than the C++
+ * @brief These functions are factories for datatypes that either need to be created differently
+ * in Python bindings or make it much easier to do so
+ * @{
+*/
 
+/// @ingroup Constructors
+/// @brief This function intializes a single SimpleParticle_t in the Python.
+/// @anchor particle_initializer
+/// @param id The particle PDG ID
+/// @param x Either the pX or the pT of the vector
+/// @param y Either the pY or the Eta of the vector
+/// @param z Either the pZ or the Phi of the Vector
+/// @param e Either the Energy or the Mass of the vector
+/// @param ptEtaPhi if true, interpret the vector using <pT, Eta, Phi, m>. Otherwise, use <pX, pY, pZ, E>
+/// @return A TVar::Simpleparticle_t with the provided id and Lorentz 4-vector.
 SimpleParticle_t particle_initializer(int id, float x, float y, float z, float e, bool ptEtaPhi=false){
     TLorentzVector vec = TLorentzVector();
     if(ptEtaPhi){
@@ -195,6 +333,17 @@ SimpleParticle_t particle_initializer(int id, float x, float y, float z, float e
     return SimpleParticle_t(id, vec);
 }
 
+/// @ingroup Constructors
+/// @anchor collection_initializer_from_column
+/// @brief This function initializes a single SimpleParticleCollection_t (or a list of SimpleParticle_t) in the Python from a series of lists
+/// @note This function is useful for data in columnar form! One can imagine dumping columns of vector quantities into this function.
+/// @param ids a list of PDG ids
+/// @param x A list of either the pX or the pT of the vectors
+/// @param y A list of either the pY or the Eta of the vectors
+/// @param z A list of either the pZ or the Phi of the Vectors
+/// @param e A list of either the Energy or the Mass of the vectors
+/// @param ptEtaPhi if true, interpret the vector using <pT, Eta, Phi, m>. Otherwise, use <pX, pY, pZ, E>
+/// @return A TVar::SimpleParticleCollection_t object
 SimpleParticleCollection_t collection_initializer_from_column(std::vector<int> ids, std::vector<double> x, std::vector<double> y, std::vector<double> z, std::vector<double> e, bool ptEtaPhi=false){
     SimpleParticleCollection_t collection = SimpleParticleCollection_t();
 
@@ -208,6 +357,11 @@ SimpleParticleCollection_t collection_initializer_from_column(std::vector<int> i
     return collection;
 }
 
+/// @ingroup Constructors
+/// @brief This function initializes a single SimpleParticleCollection_t (or a list of SimpleParticle_t) in the Python from a single list
+/// @anchor collection_initializer
+/// @param listOfParticles A list of SimpleParticle_t objects
+/// @return A TVar::SimpleParticleCollection_t object
 SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
 
     SimpleParticleCollection_t collection = SimpleParticleCollection_t();
@@ -217,19 +371,67 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
     }
     return collection;
 }
+/** @} */
 
+/**
+ * @defgroup Macros Coupling definition Macros
+ * @brief These are C++ macros that define named couplings in the Python code
+ * @{
+*/
+
+/** 
+ * @ingroup macros
+ * @param arrayName This is the name of the array containing the coupling
+ * @param size This is the size of the array
+ * @brief Generates the array for spin 0 values in JHUGen and JHUGen-MCFM
+ * @note These coupling entries have both a real and an imaginary component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<arrayName>()[<couplingIndex>][0] = <real>
+ * m.<arrayName>()[<couplingIndex>][1] = <imag>
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_ARR_SPIN_ZERO(arrayName, size, arrType)\
         .def(#arrayName, [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
             return py::array_t<arrType>(std::vector<int>{nSupportedHiggses, size, 2}, (const arrType*) &D.arrayName, obj); \
         })
 
+/** 
+ * @ingroup macros
+ * @param arrayName This is the name of the array containing the coupling
+ * @param size This is the size of the array
+ * @brief Generates the array for spin 1 and spin 2 values in JHUGen
+ * @note These coupling entries have both a real and an imaginary component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<arrayName>()[<couplingIndex>][0] = <real>
+ * m.<arrayName>()[<couplingIndex>][1] = <imag>
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_ARR_SPIN_ONETWO(arrayName, size)\
         .def(#arrayName, [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
             return py::array_t<double>(std::vector<int>{size, 2}, (const double*) &D.arrayName, obj); \
         })
 
+/** 
+ * @ingroup macros
+ * @brief Generates the couplings for spin 0 values in JHUGen and JHUGen-MCFM
+ * @param arrayName This is the name of the array containing the coupling
+ * @param couplingName This is the name of the coupling to set (should be unique for every couplingIndex/higgsIndex combination)
+ * @param couplingIndex This is the index at which the name corresponds to the array
+ * @param higgsIndex This is the index of which Higgs to use (MCFM supports 2 resonances)
+ * @note These coupling entries have both a real and an imaginary component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<couplingName> = [real, imag]
+ * print(m.<couplingName>) #will print a list of [real, imag]
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_REAL_IMAGINARY_SPIN_ZERO(arrayName, couplingName, couplingIndex, higgsIndex)\
         .def_property(\
             #couplingName,\
@@ -245,6 +447,20 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+/** 
+ * @ingroup macros
+ * @brief Generates the couplings for spin 1 and spin 2 values in JHUGen
+ * @param arrayName This is the name of the array containing the coupling
+ * @param couplingName This is the name of the coupling to set (should be unique for every couplingIndex/higgsIndex combination)
+ * @param couplingIndex This is the index at which the name corresponds to the array
+ * @note These coupling entries have both a real and an imaginary component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<couplingName> = [real, imag]
+ * print(m.<couplingName>) #will print a list of [real, imag]
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_REAL_IMAGINARY_SPIN_ONETWO(arrayName, couplingName, couplingIndex)\
         .def_property(\
             #couplingName,\
@@ -260,6 +476,21 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+/** 
+ * @ingroup macros
+ * @brief Generates the couplings for C Lambda values in JHUGen and JHUGen-MCFM
+ * @param arrayName This is the name of the array containing the coupling
+ * @param couplingName This is the name of the coupling to set (should be unique for every couplingIndex/higgsIndex combination)
+ * @param couplingIndex This is the index at which the name corresponds to the array
+ * @param higgsIndex This is the index of which Higgs to use (MCFM supports 2 resonances)
+ * @note These coupling entries only have a real component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<couplingName> = value
+ * print(m.<couplingName>) #will print the value
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_C_LAMBDA(arrayName, couplingName, couplingIndex, higgsIndex)\
         .def_property(\
             #couplingName, \
@@ -277,6 +508,23 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+
+/** 
+ * @ingroup macros
+ * @brief Generates the couplings for Lambda values in JHUGen and JHUGen-MCFM
+ * @param arrayName This is the name of the array containing the coupling
+ * @param couplingName This is the name of the coupling to set (should be unique for every couplingIndex/higgsIndex combination)
+ * @param couplingIndex1 This is the index at which the name corresponds to the array
+ * @param couplingIndex2 This is the index at which the name corresponds to the array
+ * @param higgsIndex This is the index of which Higgs to use (MCFM supports 2 resonances)
+ * @note These coupling entries only have a real component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<couplingName> = value
+ * print(m.<couplingName>) #will print the value
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_LAMBDA(arrayName, couplingName, couplingIndex_1, couplingIndex_2, higgsIndex)\
         .def_property(\
             #couplingName, \
@@ -294,8 +542,15 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+/** @} */
+/** @} */
+
 PYBIND11_MAKE_OPAQUE(SimpleParticle_t)
 PYBIND11_MAKE_OPAQUE(SimpleParticleCollection_t)
+/// @brief The actual binding code for MELA
+/// @anchor PyMELA
+/// @param  
+/// @param  
 PYBIND11_MODULE(Mela, m) {
     py::class_<SimpleParticle_t>(m, "SimpleParticle_t")
         .def(py::init(&particle_initializer), py::arg("id"), py::arg("x"), py::arg("y"), py::arg("z"), py::arg("e"), py::arg("ptEtaPhi") = false)

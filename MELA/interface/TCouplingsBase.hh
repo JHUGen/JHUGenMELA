@@ -50,18 +50,18 @@ namespace{
    * @remark the corresponding pyMela/colloquial coupling name, as well as the value of the enum, on the right
   */
   enum CouplingIndex_HVV{
-    gHIGGS_VV_1, /*!< `ghz1` (Value=0) */
-    gHIGGS_VV_2, /*!< `ghz2` (Value=1) */
-    gHIGGS_VV_3, /*!< `ghz3` (Value=2) */
-    gHIGGS_VV_4, /*!< `ghz4` (Value=3) */
+    gHIGGS_VV_1, /*!< `gh{z,w}1` (Value=0) */
+    gHIGGS_VV_2, /*!< `gh{z,w}2` (Value=1) */
+    gHIGGS_VV_3, /*!< `gh{z,w}3` (Value=2) */
+    gHIGGS_VV_4, /*!< `gh{z,w}4` (Value=3) */
 
     gHIGGS_ZA_2, /*!< `ghzgs2` (Value=4) */
     gHIGGS_ZA_3, /*!< `ghzgs3` (Value=5) */
     gHIGGS_ZA_4, /*!< `ghzgs4` (Value=6) */
 
-    gHIGGS_AA_2, /*!< `ghgsgs2` !> (Value=7) */
-    gHIGGS_AA_3, /*!< `ghgsgs3` !> (Value=8) */
-    gHIGGS_AA_4, /*!< `ghgsgs4` !> (Value=9) */
+    gHIGGS_AA_2, /*!< `ghgsgs2` (Value=7) */
+    gHIGGS_AA_3, /*!< `ghgsgs3` (Value=8) */
+    gHIGGS_AA_4, /*!< `ghgsgs4` (Value=9) */
 
     gHIGGS_VV_1_PRIME,  /*!< `ghz1_prime` (Value=10) */
     gHIGGS_VV_1_PRIME2, /*!< `ghz1_prime2` (Value=11) */
@@ -81,7 +81,7 @@ namespace{
     gHIGGS_VV_3_PRIME4, /*!< `ghz3_prime4` (Value=23) */
     gHIGGS_VV_3_PRIME5, /*!< `ghz3_prime5` (Value=24) */
 
-    gHIGGS_VV_4_PRIME,  /*!< `ghz4_prime` **(Value=25)** */
+    gHIGGS_VV_4_PRIME,  /*!< `ghz4_prime`  (Value=25) */
     gHIGGS_VV_4_PRIME2, /*!< `ghz4_prime2` (Value=26) */
     gHIGGS_VV_4_PRIME3, /*!< `ghz4_prime3` (Value=27) */
     gHIGGS_VV_4_PRIME4, /*!< `ghz4_prime4` (Value=28) */
@@ -98,7 +98,7 @@ namespace{
     gHIGGS_VV_4_PRIME6, /*!< `ghz4_prime6` (Value=37) */
     gHIGGS_VV_4_PRIME7, /*!< `ghz4_prime6` (Value=38) */
 
-    SIZE_HVV /*!<  The size of the array **(Value=39) */
+    SIZE_HVV /*!<  The size of the array   (Value=39) */
   };
 
   /**
