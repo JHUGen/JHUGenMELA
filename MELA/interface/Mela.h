@@ -566,8 +566,12 @@ public:
    * - Y
    * 
    * @remark these angles are defined in Figure 1 of [arXiv:1001.3396](https://arxiv.org/abs/1001.3396) as well as (described more generally) in Figure 1 of [arXiv:1208.4018](https://arxiv.org/abs/1208.4018)
+<<<<<<< HEAD
   */  const TVar::event_scales_type& getRenFacScaleMode() const;
 
+=======
+  */
+>>>>>>> 5157c127c8ab8cdaddaec4deb0c0fb6f4be2c659
   RooSpin::modelMeasurables getMeasurablesRRV();
 
   /**
