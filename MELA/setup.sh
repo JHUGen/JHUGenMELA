@@ -37,7 +37,7 @@ pyBIND11_STATUS=$(checkPYBIND11_INSTALL)
 cd $(dirname ${BASH_SOURCE[0]})
 
 MELADIR="$(readlink -f .)"
-MCFMVERSION=mcfm_709
+MCFMVERSION=mcfm_710
 declare -i doDeps=0
 declare -i doPrintEnv=0
 declare -i doPrintEnvInstr=0
