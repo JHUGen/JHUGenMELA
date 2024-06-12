@@ -32,7 +32,7 @@ checkPYBIND11_INSTALL(){
 }
 
 pyBIND11_STATUS=$(checkPYBIND11_INSTALL)
-
+IgnorePyBind=FALSE
 
 cd $(dirname ${BASH_SOURCE[0]})
 
@@ -52,6 +52,9 @@ for farg in "$@"; do
     doPrintEnv=1
   elif [[ "$fargl" == "envinstr" ]]; then
     doPrintEnvInstr=1
+  elif [[ "$fargl" == "nopython" ]]; then
+    IgnorePyBind=TRUE
+    setupArgs+=( "$farg" ) 
   else
     setupArgs+=( "$farg" ) 
   fi
@@ -65,7 +68,7 @@ nSetupArgs=${#setupArgs[@]}
 mela_arch=$(getMELAARCH)
 mela_lib_path="${MELADIR}/data/${mela_arch}"
 
-if [ "$pyBIND11_STATUS" != 0 ]; then
+if [[ "$pyBIND11_STATUS" != 0 ]] && [[ "$IgnorePyBind" == "FALSE" ]]; then
   echo "Cannot identify the python3 package PYBIND11. Please install the package or enter an area where it is installed."
   exit 1
 fi
@@ -151,6 +154,13 @@ dodeps () {
   tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION
   ${MELADIR}/downloadNNPDF.sh
 }
+
+dodeps_nopy () {
+  ${MELADIR}/COLLIER/setup.sh 
+  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION
+  ${MELADIR}/downloadNNPDF.sh
+}
+
 printenvinstr () {
   echo
   echo "remember to do"
@@ -201,6 +211,16 @@ elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == *"clean"* ]]; then
     exit
 elif [[ "$nSetupArgs" -ge 1 ]] && [[ "$nSetupArgs" -le 2 ]] && [[ "${setupArgs[0]}" == *"-j"* ]]; then
     : ok
+elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == "nopython" ]]; then
+    dodeps_nopy 
+    if [[ $doDeps -eq 1 ]]; then
+    exit
+    fi
+    pushd ${MELADIR}/fortran &> /dev/null
+    make 
+    popd &> /dev/null
+    make nopython
+    exit 
 else
     echo "Unknown arguments:"
     echo "  ${setupArgs[@]}"

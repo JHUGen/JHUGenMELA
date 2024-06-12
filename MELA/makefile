@@ -65,6 +65,8 @@ DEPS = $(OBJECTS:.o=.d)
 
 all: $(LIBRULE) python/__init__.py $(pyLIBRULE)
 
+nopython: $(LIBRULE)
+
 $(MELAOBJDIR)/%.d:	$(MELASRCDIR)/%.c* | alldirs
 	echo "Checking dependencies for $<"; \
 	$(CC) -MM -MT $@ $(CPPFLAGS) $< > $@; \
