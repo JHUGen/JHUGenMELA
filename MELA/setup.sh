@@ -49,6 +49,7 @@ for farg in "$@"; do
   if [[ "$fargl" == "deps" ]]; then
     doDeps=1
   elif [[ "$fargl" == "env" ]]; then
+    IgnorePyBind=TRUE
     doPrintEnv=1
   elif [[ "$fargl" == "envinstr" ]]; then
     doPrintEnvInstr=1
