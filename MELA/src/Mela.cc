@@ -1229,12 +1229,6 @@ void Mela::computeP(
 
       Y_rrv->setConstant(false);
     }
-    // else if (myME_ == TVar::MADGRAPH){
-    //   double prob_madgraph = (double) prob;
-    //   ZZME->computeXS(prob);
-    //   // madMela::computeP(prob_madgraph, -1); //madgraph takes in doubles
-    //   // prob = (float) prob_madgraph;
-    // }
     else if (myME_ == TVar::JHUGen || myME_ == TVar::MCFM || myME_ == TVar::MADGRAPH){
       setAZffCouplings();
       if (!(myME_ == TVar::MCFM  && myProduction_ == TVar::ZZINDEPENDENT &&  (myModel_ == TVar::bkgZZ || myModel_ == TVar::bkgWW || myModel_ == TVar::bkgZGamma || myModel_ == TVar::bkgGammaGamma))){
