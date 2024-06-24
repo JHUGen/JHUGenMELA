@@ -137,6 +137,7 @@ void Mela::cleanLinkedFiles() {
 
 
 void Mela::build(double mh_){
+  if (myVerbosity_>=TVar::DEBUG) MELAout << "Start Mela::build" << endl;
   // madMela::myVerbosity_=myVerbosity_;
   //setRemoveLeptonMasses(false); // Use Run 1 scheme for not removing fermion masses
   setRemoveLeptonMasses(true); // Use Run 2 scheme for removing fermion masses to compute MEs that expect massless fermions properly
