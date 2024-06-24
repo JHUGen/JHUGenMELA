@@ -197,7 +197,7 @@ namespace{
 
     SIZE_AZff
   };
-  enum CouplingIndex_Smeft{
+  enum CouplingIndex_SMEFT{
     gMDL_ch,
     gMDL_chbox,
     gMDL_chdd,

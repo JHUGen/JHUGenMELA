@@ -334,10 +334,6 @@ void madMela::setDefaultMadgraphValues(){
     madMela::params_r_.mdl_cquqd81im = 0;
     madMela::params_r_.mdl_clequ1im = 0;
     madMela::params_r_.mdl_clequ3im = 0;
-
-
-    // delete madMela::madMelaCandidate;
-    // madMela::madMelaCandidate = nullptr;
 }
 
 void madMela::initialize_madMELA(){

@@ -89,7 +89,7 @@ public:
   double getHiggsWidthAtPoleMass(double mass);
 
   void SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta);
-  complex<double> GetMadgraphCKMElement(int iquark, int jquark);
+  std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
 
   MelaIO* getIORecord(); // Full parton-by-parton ME record
   MELACandidate* getCurrentCandidate();
@@ -352,7 +352,7 @@ public:
   //****Anomnalous Zff**//
   double selfDAZffcoupl[SIZE_AZff][2];
   //****SMEFTSIM terms**//
-  double selfDSmeftSimcoupl[SIZE_SMEFT]; //madMela
+  double selfDSMEFTSimcoupl[SIZE_SMEFT]; //madMela
   // That is a lot of them!  
 
 
