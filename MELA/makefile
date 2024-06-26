@@ -92,7 +92,7 @@ $(pyLIBRULE): $(pyLINKFILE) $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | $(LIBRULE)
 	@echo "Making python"; \
 	$(LINKER) $(pyLINKFILE) $(CPPFLAGS) $(LINKERFLAGS) \
 	-O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
-	$(shell python3 -m pybind11 --includes) -o $@
+	$(shell python3 -m pybind11 --includes) -o $@ -fno-var-tracking-assignments
 
 alldirs:
 	mkdir -p $(MELAOBJDIR)

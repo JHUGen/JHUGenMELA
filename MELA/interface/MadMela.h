@@ -1,7 +1,7 @@
 #ifndef madMELA
 #define madMELA
 
-#include <complex>
+#include <array>
 
 namespace madMela{
     extern "C"{
@@ -27,13 +27,13 @@ namespace madMela{
         }params_r_;
 
         extern struct{
-            std::complex<double> mdl_g__exp__3,mdl_complexi,mdl_ceh,mdl_cuh,mdl_cdh,mdl_cew,mdl_ceb,mdl_cug,mdl_cuw,mdl_cub,mdl_cdg,mdl_cdw,mdl_cdb,mdl_chud,mdl_cledq,mdl_cquqd1,mdl_cquqd11,mdl_cquqd8,mdl_cquqd81,mdl_clequ1,mdl_clequ3,
+            std::array<double,2> mdl_g__exp__3,mdl_complexi,mdl_ceh,mdl_cuh,mdl_cdh,mdl_cew,mdl_ceb,mdl_cug,mdl_cuw,mdl_cub,mdl_cdg,mdl_cdw,mdl_cdb,mdl_chud,mdl_cledq,mdl_cquqd1,mdl_cquqd11,mdl_cquqd8,mdl_cquqd81,mdl_clequ1,mdl_clequ3,
             mdl_ckm1x1,mdl_ckm1x2,mdl_ckm1x3,mdl_ckm2x1,mdl_ckm2x2,mdl_ckm2x3,mdl_ckm3x1,mdl_ckm3x2,mdl_ckm3x3,mdl_conjg__ckm1x1,mdl_conjg__ckm1x2,mdl_conjg__ckm1x3,mdl_conjg__ckm2x1,mdl_conjg__ckm2x2,mdl_conjg__ckm2x3,
             mdl_conjg__ckm3x1,mdl_conjg__ckm3x2,mdl_conjg__ckm3x3;
         }params_c_;
 
         extern struct{
-            std::complex<double> gc_225, gc_229, gc_234, gc_238, gc_4, gc_136,
+            std::array<double,2> gc_225, gc_229, gc_234, gc_238, gc_4, gc_136,
             gc_197, gc_269, gc_270, gc_271, gc_272, gc_285, gc_319, gc_320,
             gc_321, gc_322, gc_323, gc_324, gc_325, gc_326, gc_327,
             gc_328, gc_329, gc_330, gc_352, gc_353, gc_364, gc_384, gc_387,

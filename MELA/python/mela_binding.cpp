@@ -300,13 +300,13 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
             py::cpp_function(\
                 [](py::object &obj){\
                     Mela& D = obj.cast<Mela&>();\
-                    py::array_t array_val = py::array_t<int>(std::vector<int>{SIZE_SMEFT}, (const int*) &D.selfDSmeftSimcoupl, obj);\
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{SIZE_SMEFT}, (const int*) &D.selfDSMEFTSimcoupl, obj);\
                     return array_val.at(couplingIndex_1);\
                 }),\
             py::cpp_function(\
                 [](py::object &obj, double coupl){\
                     Mela &D = obj.cast<Mela&>();\
-                    py::array_t array_val = py::array_t<int>(std::vector<int>{SIZE_SMEFT}, (const int*) &D.selfDSmeftSimcoupl, obj);\
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{SIZE_SMEFT}, (const int*) &D.selfDSMEFTSimcoupl, obj);\
                     array_val.mutable_at(couplingIndex_1) = coupl;\
                 }, py::keep_alive<0, 1>())\
         )

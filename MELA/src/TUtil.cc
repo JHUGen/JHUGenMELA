@@ -1550,33 +1550,33 @@ complex<double> TUtil::GetMadgraphCKMElement(int iquark, int jquark){
   switch (iquark){
     case 1:
       if(jquark == 1){
-        return madMela::params_c_.mdl_ckm1x1;
+        return std::complex<double>(madMela::params_c_.mdl_ckm1x1[0], madMela::params_c_.mdl_ckm1x1[1]);
       } else if(jquark == 2){
-        return madMela::params_c_.mdl_ckm1x2;
+        return std::complex<double>(madMela::params_c_.mdl_ckm1x2[0], madMela::params_c_.mdl_ckm1x2[1]);
       } else if(jquark == 3){
-        return madMela::params_c_.mdl_ckm1x3;
+        return std::complex<double>(madMela::params_c_.mdl_ckm1x3[0], madMela::params_c_.mdl_ckm1x3[1]);
       } else{
         MELAerr << "TUtil::GetMadgraphCKMElement: Invalid second index!" << endl;
       }
       break;
     case 2:
       if(jquark == 1){
-        return madMela::params_c_.mdl_ckm2x1;
+        return std::complex<double>(madMela::params_c_.mdl_ckm2x1[0], madMela::params_c_.mdl_ckm2x1[1]);
       } else if(jquark == 2){
-        return madMela::params_c_.mdl_ckm2x2;
+        return std::complex<double>(madMela::params_c_.mdl_ckm2x2[0], madMela::params_c_.mdl_ckm2x2[1]);
       } else if(jquark == 3){
-        return madMela::params_c_.mdl_ckm2x3;
+        return std::complex<double>(madMela::params_c_.mdl_ckm2x3[0], madMela::params_c_.mdl_ckm2x3[1]);
       } else{
         MELAerr << "TUtil::GetMadgraphCKMElement: Invalid second index!" << endl;
       }
       break;
     case 3:
       if(jquark == 1){
-        return madMela::params_c_.mdl_ckm3x1;
+        return std::complex<double>(madMela::params_c_.mdl_ckm3x1[0], madMela::params_c_.mdl_ckm3x1[1]);
       } else if(jquark == 2){
-        return madMela::params_c_.mdl_ckm3x2;
+        return std::complex<double>(madMela::params_c_.mdl_ckm3x2[0], madMela::params_c_.mdl_ckm3x2[1]);
       } else if(jquark == 3){
-        return madMela::params_c_.mdl_ckm3x3;
+        return std::complex<double>(madMela::params_c_.mdl_ckm3x3[0], madMela::params_c_.mdl_ckm3x3[1]);
       } else{
         MELAerr << "TUtil::GetMadgraphCKMElement: Invalid second index!" << endl;
       }
