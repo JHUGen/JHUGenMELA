@@ -339,7 +339,7 @@ void madMela::initialize_madMELA(){
     madMela::params_r_.mdl_ckmlambda = 2.265000e-01;
     madMela::params_r_.mdl_ckma = 7.900000e-01;
     madMela::params_r_.mdl_ckmrho = 1.410000e-01;
-    madMela::params_r_.mdl_ckmeta = 3.570000e-01;
+    madMela::params_r_.mdl_ckmeta = 0;
 
     madMela::params_r_.mdl_lambdasmeft = 1.000000e+03;
     madMela::params_r_.mdl_linearpropcorrections = 0;
