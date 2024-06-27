@@ -45,7 +45,6 @@ namespace madMela{
 
         void smatrixhel_(int pdgs[], int& procid, const int& npdg, double* p, double& alphas, double& scale2, int& nhel, double& ans);
         void update_all_coup_();
-        void change_para_();
     }
     void setDefaultMadgraphValues();
     void initialize_madMELA();

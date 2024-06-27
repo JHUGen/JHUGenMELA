@@ -514,8 +514,9 @@ double Mela::getPrimaryMass(int ipart){ return ZZME->get_PrimaryMass(ipart); }
 double Mela::getPrimaryWidth(int ipart){ return ZZME->get_PrimaryWidth(ipart); }
 double Mela::getHiggsWidthAtPoleMass(double mass){ return ZZME->get_HiggsWidthAtPoleMass(mass); }
 
-void Mela::SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta){
+void Mela::SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta, bool force_refresh){
   TUtil::SetMadgraphCKMElements(ckmlambda, ckma, ckmrho, ckmeta);
+  if(force_refresh){ madMela::update_all_coup_(); }
 }
 std::complex<double> Mela::GetMadgraphCKMElement(int iquark, int jquark){
   return TUtil::GetMadgraphCKMElement(iquark, jquark);

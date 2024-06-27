@@ -16,9 +16,9 @@ using namespace std;
  These are functions that are pass by reference!
  They are turned into returnable functions
 */
-float computeP(Mela& mela, bool useConstant=true){
+float computeP(Mela& mela, bool useConstant=true, int nhel=-1){
     float result;
-    mela.computeP(result, useConstant);
+    mela.computeP(result, useConstant, nhel);
     return result;
 }
 
@@ -632,7 +632,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth, py::arg("myHiggsWidth")=-1, py::arg("index")=0)
         .def("setMelaHiggsMassWidth", &Mela::setMelaHiggsMassWidth, py::arg("myHiggsMass"), py::arg("myHiggsWidth"), py::arg("index"))
         .def("setRenFacScaleMode", &Mela::setRenFacScaleMode)
-        .def("SetMadgraphCKMElements", &Mela::SetMadgraphCKMElements, py::arg("ckmlambda")=0.2265, py::arg("ckma")=0.79, py::arg("ckmrho")=0.141, py::arg("ckmeta")=0.357)
+        .def("SetMadgraphCKMElements", &Mela::SetMadgraphCKMElements, py::arg("ckmlambda")=0.2265, py::arg("ckma")=0.79, py::arg("ckmrho")=0.141, py::arg("ckmeta")=0.357, py::arg("force_refresh")=false)
 
         .def("resetInputEvent", &Mela::resetInputEvent)
         .def("resetMass", &Mela::resetMass)
@@ -644,7 +644,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("getPrimaryMass", &Mela::getPrimaryMass)
         .def("getPrimaryWidth", &Mela::getPrimaryWidth)
         .def("getHiggsWidthAtPoleMass", &Mela::getHiggsWidthAtPoleMass)
-        .def("GetMadgraphCKMElement", &Mela::GetMadgraphCKMElement)
+        .def("GetMadgraphCKMElement", &Mela::GetMadgraphCKMElement, py::arg("iquark"), py::arg("jquark"))
 
         .def("getIORecord", &Mela::getIORecord)
         .def("getWeightedMEArray", &getWeightedMEArray)
@@ -654,7 +654,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("getRenFacScaleMode", &Mela::getRenFacScaleMode)
 
 
-        .def("computeP", &computeP)
+        .def("computeP", &computeP, py::arg("useConstant"), py::arg("nhel")=-1)
         .def("computeProdP", &computeProdP)
         .def("computeProdDecP", &computeProdDecP)
         .def("compute4FermionWeight", &compute4FermionWeight)

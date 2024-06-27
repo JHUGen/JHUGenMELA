@@ -88,7 +88,7 @@ public:
   double getPrimaryWidth(int ipart);
   double getHiggsWidthAtPoleMass(double mass);
 
-  void SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta);
+  void SetMadgraphCKMElements(double ckmlambda=0.2265, double ckma=0.79, double ckmrho=0.141, double ckmeta=0.357, bool force_refresh=false);
   std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
 
   MelaIO* getIORecord(); // Full parton-by-parton ME record
