@@ -60,7 +60,7 @@ void SpinZeroCouplings::reset(){
     }
   }
   for (int ik=0; ik<SIZE_SMEFT; ik++){
-    SmeftSimcoupl[ik] = 0;
+    SMEFTSimcoupl[ik] = 0;
   }
 }
 void SpinZeroCouplings::copy(SpinZeroCouplings const& other){
@@ -271,10 +271,10 @@ void SpinZeroCouplings::SetHVpVpCouplings(unsigned int index, double c_real, dou
   }
 }
 
-void SpinZeroCouplings::SetSmeftSimCouplings(unsigned int index, double value){
+void SpinZeroCouplings::SetSMEFTSimCouplings(unsigned int index, double value){
   if (index>=SIZE_SMEFT){ MELAerr << "Cannot set index " << index << ", out of range for the type requested." << endl; }
   else{
-    SmeftSimcoupl[index] = value;
+    SMEFTSimcoupl[index] = value;
   }
 }
 /********** Spin-1 couplings **********/

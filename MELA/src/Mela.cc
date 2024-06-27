@@ -228,6 +228,8 @@ void Mela::build(double mh_){
   super->SetPathToCards(cardfile.substr(0, cardfile.length()-14).c_str());
   super->SetVerbosity((myVerbosity_>=TVar::DEBUG));
   super->init();
+
+
   /***** SuperDijetMela *****/
   float superDijetSqrts = LHCsqrts;
   if (superDijetSqrts<13.) superDijetSqrts=13.; // Dijet resolution does not exist for 7 or 8 TeV
@@ -235,7 +237,7 @@ void Mela::build(double mh_){
 
   // Initialize the couplings to 0 and end Mela constructor
   reset_SelfDCouplings();
-  if (myVerbosity_>=TVar::DEBUG) MELAout << "Start Mela::build" << endl;
+  if(myVerbosity_>=TVar::DEBUG) MELAout << "Start Mela::build" << endl;
   if(myVerbosity_>=TVar::DEBUG) MELAout << "Running madMela::initialize_madMELA" << endl;
   madMela::initialize_madMELA();
   if (myVerbosity_>=TVar::DEBUG) MELAout << "End Mela::build" << endl;
@@ -289,7 +291,7 @@ void Mela::setProcess(TVar::Process myModel, TVar::MatrixElement myME, TVar::Pro
     else if (myProduction_==TVar::JJQCD_S) myProduction_=TVar::JJQCD;
   }
   myModel_ = myModel;
-  if(myME_==TVar::MADGRAPH && myProduction_ != TVar::ZZGG && myProduction_ != TVar::ZZINDEPENDENT){
+  if (myME_==TVar::MADGRAPH && myProduction_ != TVar::ZZGG && myProduction_ != TVar::ZZINDEPENDENT){
     MELAout << "Production mode " << myProduction_ << " is not currently supported by MADMELA!" << endl;
   }
   if (ZZME!=0) ZZME->set_Process(myModel_, myME_, myProduction_);
@@ -306,15 +308,9 @@ void Mela::setVerbosity(TVar::VerbosityLevel verbosity_){
 TVar::VerbosityLevel Mela::getVerbosity(){ return myVerbosity_; }
 // Should be called per-event
 void Mela::setMelaPrimaryHiggsMass(double myHiggsMass){ ZZME->set_PrimaryHiggsMass(myHiggsMass); }
-void Mela::setMelaHiggsMass(double myHiggsMass, int index){
-  ZZME->set_mHiggs(myHiggsMass, index); 
-}
-void Mela::setMelaHiggsWidth(double myHiggsWidth, int index){
-  ZZME->set_wHiggs(myHiggsWidth, index); 
-}
-void Mela::setMelaHiggsMassWidth(double myHiggsMass, double myHiggsWidth, int index){
-  ZZME->set_mHiggs_wHiggs(myHiggsMass, myHiggsWidth, index); 
-}
+void Mela::setMelaHiggsMass(double myHiggsMass, int index){ZZME->set_mHiggs(myHiggsMass, index); }
+void Mela::setMelaHiggsWidth(double myHiggsWidth, int index){ZZME->set_wHiggs(myHiggsWidth, index); }
+void Mela::setMelaHiggsMassWidth(double myHiggsMass, double myHiggsWidth, int index){ZZME->set_mHiggs_wHiggs(myHiggsMass, myHiggsWidth, index); }
 void Mela::setMelaLeptonInterference(TVar::LeptonInterference myLepInterf){ myLepInterf_=myLepInterf; ZZME->set_LeptonInterference(myLepInterf); }
 void Mela::setCandidateDecayMode(TVar::CandidateDecayMode mode){ ZZME->set_CandidateDecayMode(mode); }
 void Mela::setCurrentCandidateFromIndex(unsigned int icand){ ZZME->set_CurrentCandidateFromIndex(icand); }
@@ -335,7 +331,7 @@ void Mela::setInputEvent(
 void Mela::resetInputEvent(){
   madMela::setDefaultMadgraphValues();
   ZZME->reset_InputEvent();
-  }
+}
 void Mela::setTempCandidate(
   SimpleParticleCollection_t* pDaughters,
   SimpleParticleCollection_t* pAssociated,
@@ -521,7 +517,7 @@ double Mela::getHiggsWidthAtPoleMass(double mass){ return ZZME->get_HiggsWidthAt
 void Mela::SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta){
   TUtil::SetMadgraphCKMElements(ckmlambda, ckma, ckmrho, ckmeta);
 }
-complex<double> Mela::GetMadgraphCKMElement(int iquark, int jquark){
+std::complex<double> Mela::GetMadgraphCKMElement(int iquark, int jquark){
   return TUtil::GetMadgraphCKMElement(iquark, jquark);
 }
 

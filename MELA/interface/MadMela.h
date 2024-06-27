@@ -2,6 +2,7 @@
 #define madMELA
 
 #include <array>
+static_assert(sizeof(std::array<double,2>) == sizeof(double)*2);
 
 namespace madMela{
     extern "C"{

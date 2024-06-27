@@ -208,7 +208,7 @@ namespace TUtil{
   void GetMassWidth(int ipart, double& m, double& ga);
   void GetMassWidth(const MELAParticle* part, double& m, double& ga);
   void SetCKMElements(double* invckm_ud, double* invckm_us, double* invckm_cd, double* invckm_cs, double* invckm_ts, double* invckm_tb, double* invckm_ub=0, double* invckm_cb=0, double* invckm_td=0);
-  void SetMadgraphCKMElements(double ckmlambda=-1, double ckma=-1, double ckmrho=-1, double ckmeta=-1);
+  void SetMadgraphCKMElements(double ckmlambda=0.2265, double ckma=0.79, double ckmrho=0.141, double ckmeta=0.357);
   double GetCKMElement(int iquark, int jquark);
   std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
   double InterpretScaleScheme(const TVar::Production& production, const TVar::MatrixElement& matrixElement, const TVar::EventScaleScheme& scheme, TLorentzVector p[mxpart]);

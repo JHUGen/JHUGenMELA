@@ -632,7 +632,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth, py::arg("myHiggsWidth")=-1, py::arg("index")=0)
         .def("setMelaHiggsMassWidth", &Mela::setMelaHiggsMassWidth, py::arg("myHiggsMass"), py::arg("myHiggsWidth"), py::arg("index"))
         .def("setRenFacScaleMode", &Mela::setRenFacScaleMode)
-        .def("SetMadgraphCKMElements", &Mela::SetMadgraphCKMElements)
+        .def("SetMadgraphCKMElements", &Mela::SetMadgraphCKMElements, py::arg("ckmlambda")=0.2265, py::arg("ckma")=0.79, py::arg("ckmrho")=0.141, py::arg("ckmeta")=0.357)
 
         .def("resetInputEvent", &Mela::resetInputEvent)
         .def("resetMass", &Mela::resetMass)

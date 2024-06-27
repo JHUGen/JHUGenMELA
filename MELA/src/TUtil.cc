@@ -1529,25 +1529,16 @@ void TUtil::SetCKMElements(double* invckm_ud, double* invckm_us, double* invckm_
   // Do not call ckmfill_(), it is called by MCFM_chooser!
 }
 void TUtil::SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta){
-  if(ckmlambda >= 0){
-    madMela::params_r_.mdl_ckmlambda = ckmlambda;
-  }
-  if(ckma >= 0){
-    madMela::params_r_.mdl_ckma = ckma;
-  }
-  if(ckmrho >= 0){
-    madMela::params_r_.mdl_ckmrho = ckmrho;
-  }
-  if(ckmeta >= 0){
-    madMela::params_r_.mdl_ckmeta = ckmeta;
-  }
-  madMela::update_all_coup_();
+  madMela::params_r_.mdl_ckmlambda = ckmlambda;
+  madMela::params_r_.mdl_ckma = ckma;
+  madMela::params_r_.mdl_ckmrho = ckmrho;
+  madMela::params_r_.mdl_ckmeta = ckmeta;
 }
 double TUtil::GetCKMElement(int iquark, int jquark){
   return __modparameters_MOD_ckmbare(&iquark, &jquark);
 }
 complex<double> TUtil::GetMadgraphCKMElement(int iquark, int jquark){
-  switch (iquark){
+  switch(iquark){
     case 1:
       if(jquark == 1){
         return std::complex<double>(madMela::params_c_.mdl_ckm1x1[0], madMela::params_c_.mdl_ckm1x1[1]);
@@ -1585,7 +1576,7 @@ complex<double> TUtil::GetMadgraphCKMElement(int iquark, int jquark){
       MELAerr << "TUtil::GetMadgraphCKMElement: Invalid first index!" << endl;
       break;
   }
-  return complex<double>(0);
+  return std::complex<double>(0);
 }
 
 double TUtil::GetMass(int ipart){
@@ -3421,89 +3412,89 @@ void TUtil::ResetAmplitudeIncludes(){
 }
 void TUtil::SetMadgraphSpinZeroCouplings(SpinZeroCouplings const* Hcouplings){
   madMela::setDefaultMadgraphValues();//reset couplings
-  madMela::params_r_.mdl_ch = Hcouplings->SmeftSimcoupl[gMDL_ch];
-  madMela::params_r_.mdl_chbox = Hcouplings->SmeftSimcoupl[gMDL_chbox];
-  madMela::params_r_.mdl_chdd = Hcouplings->SmeftSimcoupl[gMDL_chdd];
-  madMela::params_r_.mdl_chg = Hcouplings->SmeftSimcoupl[gMDL_chg];
-  madMela::params_r_.mdl_chw = Hcouplings->SmeftSimcoupl[gMDL_chw];
-  madMela::params_r_.mdl_chb = Hcouplings->SmeftSimcoupl[gMDL_chb];
-  madMela::params_r_.mdl_chwb = Hcouplings->SmeftSimcoupl[gMDL_chwb];
-  madMela::params_r_.mdl_cehre = Hcouplings->SmeftSimcoupl[gMDL_cehre];
-  madMela::params_r_.mdl_cuhre = Hcouplings->SmeftSimcoupl[gMDL_cuhre];
-  madMela::params_r_.mdl_cdhre = Hcouplings->SmeftSimcoupl[gMDL_cdhre];
-  madMela::params_r_.mdl_cewre = Hcouplings->SmeftSimcoupl[gMDL_cewre];
-  madMela::params_r_.mdl_cebre = Hcouplings->SmeftSimcoupl[gMDL_cebre];
-  madMela::params_r_.mdl_cugre = Hcouplings->SmeftSimcoupl[gMDL_cugre];
-  madMela::params_r_.mdl_cuwre = Hcouplings->SmeftSimcoupl[gMDL_cuwre];
-  madMela::params_r_.mdl_cubre = Hcouplings->SmeftSimcoupl[gMDL_cubre];
-  madMela::params_r_.mdl_cdgre = Hcouplings->SmeftSimcoupl[gMDL_cdgre];
-  madMela::params_r_.mdl_cdwre = Hcouplings->SmeftSimcoupl[gMDL_cdwre];
-  madMela::params_r_.mdl_cdbre = Hcouplings->SmeftSimcoupl[gMDL_cdbre];
-  madMela::params_r_.mdl_chl1 = Hcouplings->SmeftSimcoupl[gMDL_chl1];
-  madMela::params_r_.mdl_chl3 = Hcouplings->SmeftSimcoupl[gMDL_chl3];
-  madMela::params_r_.mdl_che = Hcouplings->SmeftSimcoupl[gMDL_che];
-  madMela::params_r_.mdl_chq1 = Hcouplings->SmeftSimcoupl[gMDL_chq1];
-  madMela::params_r_.mdl_chq3 = Hcouplings->SmeftSimcoupl[gMDL_chq3];
-  madMela::params_r_.mdl_chu = Hcouplings->SmeftSimcoupl[gMDL_chu];
-  madMela::params_r_.mdl_chd = Hcouplings->SmeftSimcoupl[gMDL_chd];
-  madMela::params_r_.mdl_chudre = Hcouplings->SmeftSimcoupl[gMDL_chudre];
-  madMela::params_r_.mdl_cll = Hcouplings->SmeftSimcoupl[gMDL_cll];
-  madMela::params_r_.mdl_cll1 = Hcouplings->SmeftSimcoupl[gMDL_cll1];
-  madMela::params_r_.mdl_cqq1 = Hcouplings->SmeftSimcoupl[gMDL_cqq1];
-  madMela::params_r_.mdl_cqq11 = Hcouplings->SmeftSimcoupl[gMDL_cqq11];
-  madMela::params_r_.mdl_cqq3 = Hcouplings->SmeftSimcoupl[gMDL_cqq3];
-  madMela::params_r_.mdl_cqq31 = Hcouplings->SmeftSimcoupl[gMDL_cqq31];
-  madMela::params_r_.mdl_clq1 = Hcouplings->SmeftSimcoupl[gMDL_clq1];
-  madMela::params_r_.mdl_clq3 = Hcouplings->SmeftSimcoupl[gMDL_clq3];
-  madMela::params_r_.mdl_cee = Hcouplings->SmeftSimcoupl[gMDL_cee];
-  madMela::params_r_.mdl_cuu = Hcouplings->SmeftSimcoupl[gMDL_cuu];
-  madMela::params_r_.mdl_cuu1 = Hcouplings->SmeftSimcoupl[gMDL_cuu1];
-  madMela::params_r_.mdl_cdd = Hcouplings->SmeftSimcoupl[gMDL_cdd];
-  madMela::params_r_.mdl_cdd1 = Hcouplings->SmeftSimcoupl[gMDL_cdd1];
-  madMela::params_r_.mdl_ceu = Hcouplings->SmeftSimcoupl[gMDL_ceu];
-  madMela::params_r_.mdl_ced = Hcouplings->SmeftSimcoupl[gMDL_ced];
-  madMela::params_r_.mdl_cud1 = Hcouplings->SmeftSimcoupl[gMDL_cud1];
-  madMela::params_r_.mdl_cud8 = Hcouplings->SmeftSimcoupl[gMDL_cud8];
-  madMela::params_r_.mdl_cle = Hcouplings->SmeftSimcoupl[gMDL_cle];
-  madMela::params_r_.mdl_clu = Hcouplings->SmeftSimcoupl[gMDL_clu];
-  madMela::params_r_.mdl_cld = Hcouplings->SmeftSimcoupl[gMDL_cld];
-  madMela::params_r_.mdl_cqe = Hcouplings->SmeftSimcoupl[gMDL_cqe];
-  madMela::params_r_.mdl_cqu1 = Hcouplings->SmeftSimcoupl[gMDL_cqu1];
-  madMela::params_r_.mdl_cqu8 = Hcouplings->SmeftSimcoupl[gMDL_cqu8];
-  madMela::params_r_.mdl_cqd1 = Hcouplings->SmeftSimcoupl[gMDL_cqd1];
-  madMela::params_r_.mdl_cqd8 = Hcouplings->SmeftSimcoupl[gMDL_cqd8];
-  madMela::params_r_.mdl_cledqre = Hcouplings->SmeftSimcoupl[gMDL_cledqre];
-  madMela::params_r_.mdl_cquqd1re = Hcouplings->SmeftSimcoupl[gMDL_cquqd1re];
-  madMela::params_r_.mdl_cquqd11re = Hcouplings->SmeftSimcoupl[gMDL_cquqd11re];
-  madMela::params_r_.mdl_cquqd8re = Hcouplings->SmeftSimcoupl[gMDL_cquqd8re];
-  madMela::params_r_.mdl_cquqd81re = Hcouplings->SmeftSimcoupl[gMDL_cquqd81re];
-  madMela::params_r_.mdl_clequ1re = Hcouplings->SmeftSimcoupl[gMDL_clequ1re];
-  madMela::params_r_.mdl_clequ3re = Hcouplings->SmeftSimcoupl[gMDL_clequ3re];
-  madMela::params_r_.mdl_cgtil = Hcouplings->SmeftSimcoupl[gMDL_cgtil];
-  madMela::params_r_.mdl_cwtil = Hcouplings->SmeftSimcoupl[gMDL_cwtil];
-  madMela::params_r_.mdl_chgtil = Hcouplings->SmeftSimcoupl[gMDL_chgtil];
-  madMela::params_r_.mdl_chwtil = Hcouplings->SmeftSimcoupl[gMDL_chwtil];
-  madMela::params_r_.mdl_chbtil = Hcouplings->SmeftSimcoupl[gMDL_chbtil];
-  madMela::params_r_.mdl_chwbtil = Hcouplings->SmeftSimcoupl[gMDL_chwbtil];
-  madMela::params_r_.mdl_cewim = Hcouplings->SmeftSimcoupl[gMDL_cewim];
-  madMela::params_r_.mdl_cebim = Hcouplings->SmeftSimcoupl[gMDL_cebim];
-  madMela::params_r_.mdl_cugim = Hcouplings->SmeftSimcoupl[gMDL_cugim];
-  madMela::params_r_.mdl_cuwim = Hcouplings->SmeftSimcoupl[gMDL_cuwim];
-  madMela::params_r_.mdl_cubim = Hcouplings->SmeftSimcoupl[gMDL_cubim];
-  madMela::params_r_.mdl_cdgim = Hcouplings->SmeftSimcoupl[gMDL_cdgim];
-  madMela::params_r_.mdl_cdwim = Hcouplings->SmeftSimcoupl[gMDL_cdwim];
-  madMela::params_r_.mdl_cdbim = Hcouplings->SmeftSimcoupl[gMDL_cdbim];
-  madMela::params_r_.mdl_chudim = Hcouplings->SmeftSimcoupl[gMDL_chudim];
-  madMela::params_r_.mdl_cehim = Hcouplings->SmeftSimcoupl[gMDL_cehim];
-  madMela::params_r_.mdl_cuhim = Hcouplings->SmeftSimcoupl[gMDL_cuhim];
-  madMela::params_r_.mdl_cdhim = Hcouplings->SmeftSimcoupl[gMDL_cdhim];
-  madMela::params_r_.mdl_cledqim = Hcouplings->SmeftSimcoupl[gMDL_cledqim];
-  madMela::params_r_.mdl_cquqd1im = Hcouplings->SmeftSimcoupl[gMDL_cquqd1im];
-  madMela::params_r_.mdl_cquqd8im = Hcouplings->SmeftSimcoupl[gMDL_cquqd8im];
-  madMela::params_r_.mdl_cquqd11im = Hcouplings->SmeftSimcoupl[gMDL_cquqd11im];
-  madMela::params_r_.mdl_cquqd81im = Hcouplings->SmeftSimcoupl[gMDL_cquqd81im];
-  madMela::params_r_.mdl_clequ1im = Hcouplings->SmeftSimcoupl[gMDL_clequ1im];
-  madMela::params_r_.mdl_clequ3im = Hcouplings->SmeftSimcoupl[gMDL_clequ3im];
+  madMela::params_r_.mdl_ch = Hcouplings->SMEFTSimcoupl[gMDL_ch];
+  madMela::params_r_.mdl_chbox = Hcouplings->SMEFTSimcoupl[gMDL_chbox];
+  madMela::params_r_.mdl_chdd = Hcouplings->SMEFTSimcoupl[gMDL_chdd];
+  madMela::params_r_.mdl_chg = Hcouplings->SMEFTSimcoupl[gMDL_chg];
+  madMela::params_r_.mdl_chw = Hcouplings->SMEFTSimcoupl[gMDL_chw];
+  madMela::params_r_.mdl_chb = Hcouplings->SMEFTSimcoupl[gMDL_chb];
+  madMela::params_r_.mdl_chwb = Hcouplings->SMEFTSimcoupl[gMDL_chwb];
+  madMela::params_r_.mdl_cehre = Hcouplings->SMEFTSimcoupl[gMDL_cehre];
+  madMela::params_r_.mdl_cuhre = Hcouplings->SMEFTSimcoupl[gMDL_cuhre];
+  madMela::params_r_.mdl_cdhre = Hcouplings->SMEFTSimcoupl[gMDL_cdhre];
+  madMela::params_r_.mdl_cewre = Hcouplings->SMEFTSimcoupl[gMDL_cewre];
+  madMela::params_r_.mdl_cebre = Hcouplings->SMEFTSimcoupl[gMDL_cebre];
+  madMela::params_r_.mdl_cugre = Hcouplings->SMEFTSimcoupl[gMDL_cugre];
+  madMela::params_r_.mdl_cuwre = Hcouplings->SMEFTSimcoupl[gMDL_cuwre];
+  madMela::params_r_.mdl_cubre = Hcouplings->SMEFTSimcoupl[gMDL_cubre];
+  madMela::params_r_.mdl_cdgre = Hcouplings->SMEFTSimcoupl[gMDL_cdgre];
+  madMela::params_r_.mdl_cdwre = Hcouplings->SMEFTSimcoupl[gMDL_cdwre];
+  madMela::params_r_.mdl_cdbre = Hcouplings->SMEFTSimcoupl[gMDL_cdbre];
+  madMela::params_r_.mdl_chl1 = Hcouplings->SMEFTSimcoupl[gMDL_chl1];
+  madMela::params_r_.mdl_chl3 = Hcouplings->SMEFTSimcoupl[gMDL_chl3];
+  madMela::params_r_.mdl_che = Hcouplings->SMEFTSimcoupl[gMDL_che];
+  madMela::params_r_.mdl_chq1 = Hcouplings->SMEFTSimcoupl[gMDL_chq1];
+  madMela::params_r_.mdl_chq3 = Hcouplings->SMEFTSimcoupl[gMDL_chq3];
+  madMela::params_r_.mdl_chu = Hcouplings->SMEFTSimcoupl[gMDL_chu];
+  madMela::params_r_.mdl_chd = Hcouplings->SMEFTSimcoupl[gMDL_chd];
+  madMela::params_r_.mdl_chudre = Hcouplings->SMEFTSimcoupl[gMDL_chudre];
+  madMela::params_r_.mdl_cll = Hcouplings->SMEFTSimcoupl[gMDL_cll];
+  madMela::params_r_.mdl_cll1 = Hcouplings->SMEFTSimcoupl[gMDL_cll1];
+  madMela::params_r_.mdl_cqq1 = Hcouplings->SMEFTSimcoupl[gMDL_cqq1];
+  madMela::params_r_.mdl_cqq11 = Hcouplings->SMEFTSimcoupl[gMDL_cqq11];
+  madMela::params_r_.mdl_cqq3 = Hcouplings->SMEFTSimcoupl[gMDL_cqq3];
+  madMela::params_r_.mdl_cqq31 = Hcouplings->SMEFTSimcoupl[gMDL_cqq31];
+  madMela::params_r_.mdl_clq1 = Hcouplings->SMEFTSimcoupl[gMDL_clq1];
+  madMela::params_r_.mdl_clq3 = Hcouplings->SMEFTSimcoupl[gMDL_clq3];
+  madMela::params_r_.mdl_cee = Hcouplings->SMEFTSimcoupl[gMDL_cee];
+  madMela::params_r_.mdl_cuu = Hcouplings->SMEFTSimcoupl[gMDL_cuu];
+  madMela::params_r_.mdl_cuu1 = Hcouplings->SMEFTSimcoupl[gMDL_cuu1];
+  madMela::params_r_.mdl_cdd = Hcouplings->SMEFTSimcoupl[gMDL_cdd];
+  madMela::params_r_.mdl_cdd1 = Hcouplings->SMEFTSimcoupl[gMDL_cdd1];
+  madMela::params_r_.mdl_ceu = Hcouplings->SMEFTSimcoupl[gMDL_ceu];
+  madMela::params_r_.mdl_ced = Hcouplings->SMEFTSimcoupl[gMDL_ced];
+  madMela::params_r_.mdl_cud1 = Hcouplings->SMEFTSimcoupl[gMDL_cud1];
+  madMela::params_r_.mdl_cud8 = Hcouplings->SMEFTSimcoupl[gMDL_cud8];
+  madMela::params_r_.mdl_cle = Hcouplings->SMEFTSimcoupl[gMDL_cle];
+  madMela::params_r_.mdl_clu = Hcouplings->SMEFTSimcoupl[gMDL_clu];
+  madMela::params_r_.mdl_cld = Hcouplings->SMEFTSimcoupl[gMDL_cld];
+  madMela::params_r_.mdl_cqe = Hcouplings->SMEFTSimcoupl[gMDL_cqe];
+  madMela::params_r_.mdl_cqu1 = Hcouplings->SMEFTSimcoupl[gMDL_cqu1];
+  madMela::params_r_.mdl_cqu8 = Hcouplings->SMEFTSimcoupl[gMDL_cqu8];
+  madMela::params_r_.mdl_cqd1 = Hcouplings->SMEFTSimcoupl[gMDL_cqd1];
+  madMela::params_r_.mdl_cqd8 = Hcouplings->SMEFTSimcoupl[gMDL_cqd8];
+  madMela::params_r_.mdl_cledqre = Hcouplings->SMEFTSimcoupl[gMDL_cledqre];
+  madMela::params_r_.mdl_cquqd1re = Hcouplings->SMEFTSimcoupl[gMDL_cquqd1re];
+  madMela::params_r_.mdl_cquqd11re = Hcouplings->SMEFTSimcoupl[gMDL_cquqd11re];
+  madMela::params_r_.mdl_cquqd8re = Hcouplings->SMEFTSimcoupl[gMDL_cquqd8re];
+  madMela::params_r_.mdl_cquqd81re = Hcouplings->SMEFTSimcoupl[gMDL_cquqd81re];
+  madMela::params_r_.mdl_clequ1re = Hcouplings->SMEFTSimcoupl[gMDL_clequ1re];
+  madMela::params_r_.mdl_clequ3re = Hcouplings->SMEFTSimcoupl[gMDL_clequ3re];
+  madMela::params_r_.mdl_cgtil = Hcouplings->SMEFTSimcoupl[gMDL_cgtil];
+  madMela::params_r_.mdl_cwtil = Hcouplings->SMEFTSimcoupl[gMDL_cwtil];
+  madMela::params_r_.mdl_chgtil = Hcouplings->SMEFTSimcoupl[gMDL_chgtil];
+  madMela::params_r_.mdl_chwtil = Hcouplings->SMEFTSimcoupl[gMDL_chwtil];
+  madMela::params_r_.mdl_chbtil = Hcouplings->SMEFTSimcoupl[gMDL_chbtil];
+  madMela::params_r_.mdl_chwbtil = Hcouplings->SMEFTSimcoupl[gMDL_chwbtil];
+  madMela::params_r_.mdl_cewim = Hcouplings->SMEFTSimcoupl[gMDL_cewim];
+  madMela::params_r_.mdl_cebim = Hcouplings->SMEFTSimcoupl[gMDL_cebim];
+  madMela::params_r_.mdl_cugim = Hcouplings->SMEFTSimcoupl[gMDL_cugim];
+  madMela::params_r_.mdl_cuwim = Hcouplings->SMEFTSimcoupl[gMDL_cuwim];
+  madMela::params_r_.mdl_cubim = Hcouplings->SMEFTSimcoupl[gMDL_cubim];
+  madMela::params_r_.mdl_cdgim = Hcouplings->SMEFTSimcoupl[gMDL_cdgim];
+  madMela::params_r_.mdl_cdwim = Hcouplings->SMEFTSimcoupl[gMDL_cdwim];
+  madMela::params_r_.mdl_cdbim = Hcouplings->SMEFTSimcoupl[gMDL_cdbim];
+  madMela::params_r_.mdl_chudim = Hcouplings->SMEFTSimcoupl[gMDL_chudim];
+  madMela::params_r_.mdl_cehim = Hcouplings->SMEFTSimcoupl[gMDL_cehim];
+  madMela::params_r_.mdl_cuhim = Hcouplings->SMEFTSimcoupl[gMDL_cuhim];
+  madMela::params_r_.mdl_cdhim = Hcouplings->SMEFTSimcoupl[gMDL_cdhim];
+  madMela::params_r_.mdl_cledqim = Hcouplings->SMEFTSimcoupl[gMDL_cledqim];
+  madMela::params_r_.mdl_cquqd1im = Hcouplings->SMEFTSimcoupl[gMDL_cquqd1im];
+  madMela::params_r_.mdl_cquqd8im = Hcouplings->SMEFTSimcoupl[gMDL_cquqd8im];
+  madMela::params_r_.mdl_cquqd11im = Hcouplings->SMEFTSimcoupl[gMDL_cquqd11im];
+  madMela::params_r_.mdl_cquqd81im = Hcouplings->SMEFTSimcoupl[gMDL_cquqd81im];
+  madMela::params_r_.mdl_clequ1im = Hcouplings->SMEFTSimcoupl[gMDL_clequ1im];
+  madMela::params_r_.mdl_clequ3im = Hcouplings->SMEFTSimcoupl[gMDL_clequ3im];
 }
 void TUtil::SetMCFMSpinZeroCouplings(bool useBSM, SpinZeroCouplings const* Hcouplings, bool forceZZ){
   if (!useBSM){
@@ -5005,7 +4996,6 @@ double TUtil::JHUGenMatEl(
       p4[arrindex+2][3] = momTmp->Z()*GeV;
       MomStore[arrindex+2] = *momTmp;
       if (verbosity >= TVar::DEBUG) MELAout << "MYIDUP_tmp[" << arrindex << "(" << ipar << ")" << "]=" << MYIDUP_tmp[arrindex] << endl;
-      MELAout << "Mother" << ipar << " = " << p4[ipar][1] << " " << p4[ipar][2] << " " << p4[ipar][3] << " " << p4[ipar][4] << " " << endl;
     }
   }
   else{
@@ -8702,18 +8692,14 @@ MELACandidate* TUtil::ConvertVectorFormat(
   std::vector<MELAParticle*> daughters;
   std::vector<MELAParticle*> aparticles;
   std::vector<MELAParticle*> mothers;
-  // MELAout << "daughters" << endl;
   for (auto& spart:(*pDaughters)){
-    // MELAout << spart.second.Px() << " " << spart.second.Py() << " " << spart.second.Pz() << " " << spart.second.E() << endl;
     MELAParticle* onePart = new MELAParticle(spart.first, spart.second);
     onePart->setGenStatus(1); // Final state status
     if (particleList) particleList->push_back(onePart);
     daughters.push_back(onePart);
   }
   if (pAssociated){
-    // MELAout << "associated" << endl;
     for (auto& spart:(*pAssociated)){
-      // MELAout << spart.second.Px() << " " << spart.second.Py() << " " << spart.second.Pz() << " " << spart.second.E() << endl;
       MELAParticle* onePart = new MELAParticle(spart.first, spart.second);
       onePart->setGenStatus(1); // Final state status
       if (particleList) particleList->push_back(onePart);
@@ -8721,9 +8707,7 @@ MELACandidate* TUtil::ConvertVectorFormat(
     }
   }
   if (pMothers && pMothers->size()==2){
-    // MELAout << "mothers" << endl;
     for (auto& spart:(*pMothers)){
-      // MELAout << spart.second.Px() << " " << spart.second.Py() << " " << spart.second.Pz() << " " << spart.second.E() << endl;
       MELAParticle* onePart = new MELAParticle(spart.first, spart.second);
       onePart->setGenStatus(-1); // Mother status
       if (particleList) particleList->push_back(onePart);

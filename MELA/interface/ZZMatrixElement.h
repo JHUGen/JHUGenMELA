@@ -98,7 +98,7 @@ public:
     double selfDHwwLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ],
     int selfDHzzCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
     int selfDHwwCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
-    double selfDSmeftSimcoupl[SIZE_SMEFT],
+    double selfDSMEFTSimcoupl[SIZE_SMEFT],
     bool diffHWW = false
     );
   void set_SpinZeroContact(
