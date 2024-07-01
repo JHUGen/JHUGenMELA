@@ -97,9 +97,7 @@ public:
   // Reset the IO record, called at te beginning of each comoputation
   void ResetIORecord();
 
-  double XsecCalc_XVV(
-    int nhel=-1
-  );
+  double XsecCalc_XVV();
 
   double XsecCalc_VVXVV();
 

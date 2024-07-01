@@ -5257,8 +5257,7 @@ double TUtil::MadgraphMatEl(
   const TVar::Process& process, const TVar::Production& production, const TVar::MatrixElement& matrixElement,
   event_scales_type* event_scales, MelaIO* RcdME,
   const double& EBEAM,
-  TVar::VerbosityLevel verbosity,
-  int nhel
+  TVar::VerbosityLevel verbosity
 ){
   double MatElSq = 0;
   if (matrixElement!=TVar::MADGRAPH){ if (verbosity>=TVar::ERROR) MELAerr << "TUtil::MadgraphMatEl: Non-Madgraph MEs are not supported" << endl; return MatElSq; }
@@ -5372,6 +5371,7 @@ double TUtil::MadgraphMatEl(
     }
   }
   madMela::update_all_coup_();
+  int nhel = -1;
   madMela::smatrixhel_(pdgs_for_fortran, procid, nPDG, p_for_fortran, alphasVal, scale2, nhel, MatElSq);
   if(verbosity >= TVar::DEBUG) MELAout << " smatrixhel returns prob of " << MatElSq << endl;
   delete p_for_fortran;

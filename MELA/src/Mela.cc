@@ -1191,8 +1191,7 @@ void Mela::computeP_selfDspin2(
 }
 void Mela::computeP(
   float& prob,
-  bool useConstant,
-  int nhel
+  bool useConstant
   ){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Mela: Begin computeP" << endl;
   reset_PAux();
@@ -1237,7 +1236,7 @@ void Mela::computeP(
         if (myME_ == TVar::MCFM || myModel_ == TVar::SelfDefine_spin0) setSpinZeroCouplings();
         else if (myModel_ == TVar::SelfDefine_spin1 && myME_ != TVar::MADGRAPH) setSpinOneCouplings();
         else if (myModel_ == TVar::SelfDefine_spin2 && myME_ != TVar::MADGRAPH) setSpinTwoCouplings();
-        ZZME->computeXS(prob, nhel);
+        ZZME->computeXS(prob);
       }
       else{
         computeDecayAngles(

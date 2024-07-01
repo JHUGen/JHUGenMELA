@@ -16,9 +16,9 @@ using namespace std;
  These are functions that are pass by reference!
  They are turned into returnable functions
 */
-float computeP(Mela& mela, bool useConstant=true, int nhel=-1){
+float computeP(Mela& mela, bool useConstant=true){
     float result;
-    mela.computeP(result, useConstant, nhel);
+    mela.computeP(result, useConstant);
     return result;
 }
 
@@ -654,7 +654,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("getRenFacScaleMode", &Mela::getRenFacScaleMode)
 
 
-        .def("computeP", &computeP, py::arg("useConstant"), py::arg("nhel")=-1)
+        .def("computeP", &computeP, py::arg("useConstant"))
         .def("computeProdP", &computeProdP)
         .def("computeProdDecP", &computeProdDecP)
         .def("compute4FermionWeight", &compute4FermionWeight)

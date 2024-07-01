@@ -273,9 +273,8 @@ namespace TUtil{
     const TVar::Process& process, const TVar::Production& production, const TVar::MatrixElement& matrixElement,
     TVar::event_scales_type* event_scales, MelaIO* RcdME,
     const double& EBEAM,
-    TVar::VerbosityLevel verbosity,
-    int nhel
-  );
+    TVar::VerbosityLevel verbosity
+    );
   double HJJMatEl(
     const TVar::Process& process, const TVar::Production& production, const TVar::MatrixElement& matrixElement,
     TVar::event_scales_type* event_scales, MelaIO* RcdME,

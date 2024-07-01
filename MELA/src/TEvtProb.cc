@@ -411,7 +411,7 @@ bool TEvtProb::CheckInputPresent(){
 
 // ME functions
 // Cross-section calculations for H + 0 jet
-double TEvtProb::XsecCalc_XVV(int nhel){
+double TEvtProb::XsecCalc_XVV(){
   if (verbosity>=TVar::DEBUG) MELAout << "Begin XsecCalc_XVV" << endl;
   double dXsec=0;
   ResetIORecord();
@@ -724,7 +724,7 @@ double TEvtProb::XsecCalc_XVV(int nhel){
     if (calculateME){
       SetMadgraphSpinZeroCouplings(&selfDSpinZeroCoupl);
       madMela::update_all_coup_(); //calculates all couplings
-      dXsec = TUtil::MadgraphMatEl(process, production, matrixElement, &event_scales, &RcdME, EBEAM, verbosity, nhel);
+      dXsec = TUtil::MadgraphMatEl(process, production, matrixElement, &event_scales, &RcdME, EBEAM, verbosity);
     }
     else if (verbosity>=TVar::INFO) MELAout << "TEvtProb::XsecCalc_XVV: Madgraph_chooser failed to determine the process configuration." << endl;
   }

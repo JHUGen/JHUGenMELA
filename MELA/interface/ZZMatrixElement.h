@@ -20,8 +20,7 @@ public:
   ~ZZMatrixElement();
 
   void computeXS(
-    float &mevalue,
-    int nhel=-1
+    float &mevalue
     );
   void computeProdXS_VVHVV(
     float& mevalue

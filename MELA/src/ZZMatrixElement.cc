@@ -348,8 +348,7 @@ void ZZMatrixElement::set_AZffCouplings(
 
 // Higgs + 0 jets dedicated function (with no Higgs decay)
 void ZZMatrixElement::computeXS(
-  float &mevalue,
-  int nhel
+  float &mevalue
   ){
   melaCand = get_CurrentCandidate();
 
@@ -360,7 +359,7 @@ void ZZMatrixElement::computeXS(
     }
     else Xcal2.SetHiggsMass(zzmass, wHiggs[0], -1);
 
-    mevalue = Xcal2.XsecCalc_XVV(nhel);
+    mevalue = Xcal2.XsecCalc_XVV();
   }
 
   resetPerEvent();

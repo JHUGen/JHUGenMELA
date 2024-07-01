@@ -204,8 +204,7 @@ public:
     );
   void computeP(
     float& prob,
-    bool useConstant=true,
-    int nhel=-1
+    bool useConstant=true
     );
 
   void computeD_CP(
