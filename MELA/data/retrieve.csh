@@ -8,5 +8,5 @@ if (! -e "$LIB") then
   set filedir=`cat download.url`
   set MCFMfilename="$filedir$LIB"
   set Madgraphfilename="$filedir"libSMEFTsim.so
-  wget --no-check-certificate -q "$filename" "$Madgraphfilename"
+  wget --no-check-certificate -q "$MCFMfilename" "$Madgraphfilename"
 endif
