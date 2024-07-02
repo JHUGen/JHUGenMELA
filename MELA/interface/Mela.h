@@ -7,8 +7,10 @@ Please see the ../src/Mela.cc file for the instructions.
 #define MELA_Mela_h
 
 #include <vector>
+#include <complex>
 #include "TLorentzVector.h"
 #include "TRandom3.h"
+#include "MadMela.h"
 
 
 class TFile; 
@@ -78,6 +80,7 @@ public:
   // Function to set EW parameters in MCFM/JHUGen
   void resetMass(double inmass, int ipart);
   void resetWidth(double inwidth, int ipart);
+  void resetYukawaMass(double inmass, int ipart);
   void resetQuarkMasses();
   void resetMCFM_EWKParameters(double ext_Gf, double ext_aemmz, double ext_mW, double ext_mZ, double ext_xW, int ext_ewscheme=3);
   // Function to get current primary EW/QCD parameters from MCFM/JHUGen (notice Higgs mass/width used in the ME could be different)
@@ -85,6 +88,8 @@ public:
   double getPrimaryWidth(int ipart);
   double getHiggsWidthAtPoleMass(double mass);
 
+  void SetMadgraphCKMElements(double ckmlambda=0.2265, double ckma=0.79, double ckmrho=0.141, double ckmeta=0.357, bool force_refresh=false);
+  std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
 
   MelaIO* getIORecord(); // Full parton-by-parton ME record
   MELACandidate* getCurrentCandidate();
@@ -345,7 +350,10 @@ public:
   double selfDaTQGCcoupl[SIZE_ATQGC][2];
   //****Anomnalous Zff**//
   double selfDAZffcoupl[SIZE_AZff][2];
-  // That is a lot of them!
+  //****SMEFTSIM terms**//
+  double selfDSMEFTSimcoupl[SIZE_SMEFT]; //madMela
+  // That is a lot of them!  
+
 
   static void cleanLinkedFiles();
 

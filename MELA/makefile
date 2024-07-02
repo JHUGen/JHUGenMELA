@@ -43,10 +43,10 @@ ROOTINC = $(ROOFITINC)
 
 CC = g++
 CPPINC = -I$(MELADIR)/interface $(ROOTINC)
-CPPLOAD = -L$(MELALIBDIR) -lmcfm_710 -ljhugenmela -lcollier $(LIBS)
+CPPLOAD = -L$(MELALIBDIR) -lmcfm_710 -ljhugenmela -lcollier -lSMEFTsim $(LIBS)
 CPPOPTS =  -fPIC -O2 -ftree-vectorize -fipa-pta -felide-constructors -fvisibility-inlines-hidden -fno-math-errno \
 	--param vect-max-version-for-alias-checks=50 -fmessage-length=0 -fdiagnostics-show-option \
-	-Werror=unused-value \
+	-Werror=unused-value -g \
 	 $(shell root-config --cflags) -D_melapkgpath_=$(MELAPKGPATH)
 CPPFLAGS = $(CPPOPTS) $(CPPINC) $(CPPLOAD)
 
@@ -92,7 +92,7 @@ $(pyLIBRULE): $(pyLINKFILE) $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o | $(LIBRULE)
 	@echo "Making python"; \
 	$(LINKER) $(pyLINKFILE) $(CPPFLAGS) $(LINKERFLAGS) \
 	-O3 -Wall -shared $(OBJECTS) $(MELAOBJDIR)/LinkDef_out.o -std=c++17 -fPIC \
-	$(shell python3 -m pybind11 --includes) -o $@
+	$(shell python3 -m pybind11 --includes) -o $@ -fno-var-tracking-assignments
 
 alldirs:
 	mkdir -p $(MELAOBJDIR)
