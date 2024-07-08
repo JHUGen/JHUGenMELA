@@ -275,6 +275,34 @@ void Mela::printLogo() const{
     iline++;
   }
   MELAout.writeCentered("", '*', maxlinesize+10); MELAout << endl;
+
+  logolines.clear();
+  logolines.push_back("MadGraph5_aMC@NLO");
+  logolines.push_back("");
+  logolines.push_back("Going Beyond");
+  logolines.push_back("");
+  logolines.push_back("http://madgraph.hep.uiuc.edu");
+  logolines.push_back("http://madgraph.phys.ucl.ac.be");
+  logolines.push_back("http://amcatnlo.cern.ch");
+  logolines.push_back("");
+  logolines.push_back("The MadGraph5_aMC@NLO team");
+  logolines.push_back("");
+  logolines.push_back("Utilizing the SMEFTsim Package");
+  logolines.push_back("I. Brivio, Y. Jiang, M. Trott, arXiv: 1709.06492");
+  logolines.push_back("I. Brivio, arXiv: 2012.11343");
+  logolines.push_back("");
+  maxlinesize = 0;
+  for (auto const& l:logolines) maxlinesize = std::max(maxlinesize, l.length());
+  MELAout.writeCentered("", '*', maxlinesize+10); MELAout << endl;
+  iline=0;
+  for (auto const& l:logolines){
+    MELAout << '*';
+    MELAout.writeCentered(l, ' ', maxlinesize+8);
+    MELAout << '*' << endl;
+    if (iline==0){ MELAout.writeCentered("", '*', maxlinesize+10); MELAout << endl; }
+    iline++;
+  }
+  MELAout.writeCentered("", '*', maxlinesize+10); MELAout << endl;
 }
 
 // Set-functions
