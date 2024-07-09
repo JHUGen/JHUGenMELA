@@ -7,6 +7,6 @@ set LIB="lib$2.so"
 if (! -e "$LIB") then
   set filedir=`cat download.url`
   set MCFMfilename="$filedir$LIB"
-  set Madgraphfilename="$filedir"libSMEFTsim.so
+  set Madgraphfilename="$filedir"libMG_SMEFTsim_v1.so
   wget --no-check-certificate -q "$MCFMfilename" "$Madgraphfilename"
 endif
