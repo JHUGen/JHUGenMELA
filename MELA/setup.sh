@@ -38,6 +38,7 @@ cd $(dirname ${BASH_SOURCE[0]})
 
 MELADIR="$(readlink -f .)"
 MCFMVERSION=mcfm_710
+MGVERSION=1
 declare -i doDeps=0
 declare -i doPrintEnv=0
 declare -i doPrintEnvInstr=0
@@ -152,13 +153,13 @@ doenv () {
 }
 dodeps () {
   ${MELADIR}/COLLIER/setup.sh "${setupArgs[@]}"
-  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION
+  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION $MGVERSION
   ${MELADIR}/downloadNNPDF.sh
 }
 
 dodeps_nopy () {
   ${MELADIR}/COLLIER/setup.sh 
-  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION
+  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION $MGVERSION
   ${MELADIR}/downloadNNPDF.sh
 }
 
