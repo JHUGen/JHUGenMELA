@@ -32,12 +32,13 @@ checkPYBIND11_INSTALL(){
 }
 
 pyBIND11_STATUS=$(checkPYBIND11_INSTALL)
-
+IgnorePyBind=FALSE
 
 cd $(dirname ${BASH_SOURCE[0]})
 
 MELADIR="$(readlink -f .)"
-MCFMVERSION=mcfm_709
+MCFMVERSION=mcfm_710
+MGVERSION=1
 declare -i doDeps=0
 declare -i doPrintEnv=0
 declare -i doPrintEnvInstr=0
@@ -49,9 +50,13 @@ for farg in "$@"; do
   if [[ "$fargl" == "deps" ]]; then
     doDeps=1
   elif [[ "$fargl" == "env" ]]; then
+    IgnorePyBind=TRUE
     doPrintEnv=1
   elif [[ "$fargl" == "envinstr" ]]; then
     doPrintEnvInstr=1
+  elif [[ "$fargl" == "nopython" ]]; then
+    IgnorePyBind=TRUE
+    setupArgs+=( "$farg" ) 
   else
     setupArgs+=( "$farg" ) 
   fi
@@ -65,7 +70,7 @@ nSetupArgs=${#setupArgs[@]}
 mela_arch=$(getMELAARCH)
 mela_lib_path="${MELADIR}/data/${mela_arch}"
 
-if [ "$pyBIND11_STATUS" != 0 ]; then
+if [[ "$pyBIND11_STATUS" != 0 ]] && [[ "$IgnorePyBind" == "FALSE" ]]; then
   echo "Cannot identify the python3 package PYBIND11. Please install the package or enter an area where it is installed."
   exit 1
 fi
@@ -148,9 +153,16 @@ doenv () {
 }
 dodeps () {
   ${MELADIR}/COLLIER/setup.sh "${setupArgs[@]}"
-  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION
+  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION $MGVERSION
   ${MELADIR}/downloadNNPDF.sh
 }
+
+dodeps_nopy () {
+  ${MELADIR}/COLLIER/setup.sh 
+  tcsh ${MELADIR}/data/retrieve.csh ${MELA_ARCH} $MCFMVERSION $MGVERSION
+  ${MELADIR}/downloadNNPDF.sh
+}
+
 printenvinstr () {
   echo
   echo "remember to do"
@@ -201,6 +213,16 @@ elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == *"clean"* ]]; then
     exit
 elif [[ "$nSetupArgs" -ge 1 ]] && [[ "$nSetupArgs" -le 2 ]] && [[ "${setupArgs[0]}" == *"-j"* ]]; then
     : ok
+elif [[ "$nSetupArgs" -eq 1 ]] && [[ "${setupArgs[0]}" == "nopython" ]]; then
+    dodeps_nopy 
+    if [[ $doDeps -eq 1 ]]; then
+    exit
+    fi
+    pushd ${MELADIR}/fortran &> /dev/null
+    make 
+    popd &> /dev/null
+    make nopython
+    exit 
 else
     echo "Unknown arguments:"
     echo "  ${setupArgs[@]}"

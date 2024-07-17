@@ -5,7 +5,9 @@
 #include <utility>
 #include <algorithm>
 #include <cassert>
+#include <complex>
 #include "MELAStreamHelpers.hh"
+#include "MadMela.h"
 #include "TJHUGenUtils.hh"
 #include "TUtilHelpers.hh"
 #include "TUtil.hh"
@@ -1451,18 +1453,18 @@ void TUtil::SetMass(double inmass, int ipart){
   // Tprime and bprime masses are not defined in masses.f
   if (ipartabs==8) spinzerohiggs_anomcoupl_.mt_4gen = inmass;
   else if (ipartabs==7) spinzerohiggs_anomcoupl_.mb_4gen = inmass;
-  else if (ipartabs==6){ masses_mcfm_.mt=inmass; runcoupling_mcfm=true; }
-  else if (ipartabs==5){ masses_mcfm_.mb=inmass; masses_mcfm_.mbsq = pow(masses_mcfm_.mb, 2); runcoupling_mcfm=true; }
-  else if (ipartabs==4){ masses_mcfm_.mc=inmass; masses_mcfm_.mcsq = pow(masses_mcfm_.mc, 2); runcoupling_mcfm=true; }
-  else if (ipartabs==3) masses_mcfm_.ms=inmass;
-  else if (ipartabs==2) masses_mcfm_.mu=inmass;
-  else if (ipartabs==1) masses_mcfm_.md=inmass;
-  else if (ipartabs==11) masses_mcfm_.mel=inmass;
-  else if (ipartabs==13) masses_mcfm_.mmu=inmass;
-  else if (ipartabs==15){ masses_mcfm_.mtau=inmass; masses_mcfm_.mtausq = pow(masses_mcfm_.mtau, 2); }
-  else if (ipartabs==23){ masses_mcfm_.zmass=inmass; ewinput_.zmass_inp = inmass; runcoupling_mcfm=true; }
-  else if (ipartabs==24){ masses_mcfm_.wmass=inmass; ewinput_.wmass_inp = inmass; runcoupling_mcfm=true; }
-  else if (ipartabs==25) masses_mcfm_.hmass=inmass;
+  else if (ipartabs==6){ masses_mcfm_.mt=inmass; runcoupling_mcfm=true; madMela::mad_masses_.mdl_mt=inmass; madMela::params_r_.mdl_ymt=inmass; }
+  else if (ipartabs==5){ masses_mcfm_.mb=inmass; masses_mcfm_.mbsq = pow(masses_mcfm_.mb, 2); runcoupling_mcfm=true; madMela::mad_masses_.mdl_mb=inmass; madMela::params_r_.mdl_ymb=inmass; }
+  else if (ipartabs==4){ masses_mcfm_.mc=inmass; masses_mcfm_.mcsq = pow(masses_mcfm_.mc, 2); runcoupling_mcfm=true; madMela::mad_masses_.mdl_mc=inmass; madMela::params_r_.mdl_ymc=inmass; }
+  else if (ipartabs==3){ masses_mcfm_.ms=inmass; madMela::mad_masses_.mdl_ms=inmass; madMela::params_r_.mdl_yms=inmass; }
+  else if (ipartabs==2){ masses_mcfm_.mu=inmass; madMela::mad_masses_.mdl_mu=inmass; madMela::params_r_.mdl_ymup=inmass; }
+  else if (ipartabs==1){ masses_mcfm_.md=inmass; madMela::mad_masses_.mdl_md=inmass; madMela::params_r_.mdl_ymdo=inmass; }
+  else if (ipartabs==11){ masses_mcfm_.mel=inmass; madMela::mad_masses_.mdl_me=inmass; madMela::params_r_.mdl_yme=inmass; }
+  else if (ipartabs==13){ masses_mcfm_.mmu=inmass; madMela::mad_masses_.mdl_mmu=inmass; madMela::params_r_.mdl_ymm=inmass; }
+  else if (ipartabs==15){ masses_mcfm_.mtau=inmass; masses_mcfm_.mtausq = pow(masses_mcfm_.mtau, 2); madMela::mad_masses_.mdl_mta=inmass; madMela::params_r_.mdl_ymtau=inmass; }
+  else if (ipartabs==23){ masses_mcfm_.zmass=inmass; ewinput_.zmass_inp = inmass; runcoupling_mcfm=true; madMela::mad_masses_.mdl_mz=inmass; }
+  else if (ipartabs==24){ masses_mcfm_.wmass=inmass; ewinput_.wmass_inp = inmass; runcoupling_mcfm=true; madMela::mad_masses_.mdl_mw=inmass; }
+  else if (ipartabs==25){ masses_mcfm_.hmass=inmass; madMela::mad_masses_.mdl_mh=inmass; }
 
   // JHUGen masses
   if (
@@ -1486,17 +1488,21 @@ void TUtil::SetMass(double inmass, int ipart){
   }
 
   // Recalculate couplings
-  if (runcoupling_mcfm || runcoupling_jhugen) SetEwkCouplingParameters(ewcouple_.Gf, em_.aemmz, masses_mcfm_.wmass, masses_mcfm_.zmass, ewcouple_.xw, ewscheme_.ewscheme);
+  if (runcoupling_mcfm || runcoupling_jhugen){
+    SetEwkCouplingParameters(ewcouple_.Gf, em_.aemmz, masses_mcfm_.wmass, masses_mcfm_.zmass, ewcouple_.xw, ewscheme_.ewscheme);
+    madMela::params_r_.mdl_gf = ewcouple_.Gf;
+    madMela::params_r_.as = qcdcouple_.as;
+  }
 }
 void TUtil::SetDecayWidth(double inwidth, int ipart){
   const int ipartabs = abs(ipart);
   // No need to recalculate couplings
   // MCFM masses
-  if (ipartabs==6) masses_mcfm_.twidth=inwidth;
+  if (ipartabs==6) { masses_mcfm_.twidth=inwidth; madMela::widths_.mdl_wt=inwidth; }
   else if (ipartabs==15) masses_mcfm_.tauwidth=inwidth;
-  else if (ipartabs==23) masses_mcfm_.zwidth=inwidth;
-  else if (ipartabs==24) masses_mcfm_.wwidth=inwidth;
-  else if (ipartabs==25) masses_mcfm_.hwidth=inwidth;
+  else if (ipartabs==23) { masses_mcfm_.zwidth=inwidth; madMela::widths_.mdl_wz=inwidth; }
+  else if (ipartabs==24) { masses_mcfm_.wwidth=inwidth; madMela::widths_.mdl_ww=inwidth; }
+  else if (ipartabs==25) { masses_mcfm_.hwidth=inwidth; madMela::widths_.mdl_wh=inwidth; }
 
   // JHUGen masses
   const double GeV=1./100.;
@@ -1522,8 +1528,55 @@ void TUtil::SetCKMElements(double* invckm_ud, double* invckm_us, double* invckm_
   cabib_.Vcb = __modparameters_MOD_ckmbare(&i, &j);
   // Do not call ckmfill_(), it is called by MCFM_chooser!
 }
+void TUtil::SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta){
+  madMela::params_r_.mdl_ckmlambda = ckmlambda;
+  madMela::params_r_.mdl_ckma = ckma;
+  madMela::params_r_.mdl_ckmrho = ckmrho;
+  madMela::params_r_.mdl_ckmeta = ckmeta;
+}
 double TUtil::GetCKMElement(int iquark, int jquark){
   return __modparameters_MOD_ckmbare(&iquark, &jquark);
+}
+complex<double> TUtil::GetMadgraphCKMElement(int iquark, int jquark){
+  switch(iquark){
+    case 1:
+      if(jquark == 1){
+        return std::complex<double>(madMela::params_c_.mdl_ckm1x1[0], madMela::params_c_.mdl_ckm1x1[1]);
+      } else if(jquark == 2){
+        return std::complex<double>(madMela::params_c_.mdl_ckm1x2[0], madMela::params_c_.mdl_ckm1x2[1]);
+      } else if(jquark == 3){
+        return std::complex<double>(madMela::params_c_.mdl_ckm1x3[0], madMela::params_c_.mdl_ckm1x3[1]);
+      } else{
+        MELAerr << "TUtil::GetMadgraphCKMElement: Invalid second index!" << endl;
+      }
+      break;
+    case 2:
+      if(jquark == 1){
+        return std::complex<double>(madMela::params_c_.mdl_ckm2x1[0], madMela::params_c_.mdl_ckm2x1[1]);
+      } else if(jquark == 2){
+        return std::complex<double>(madMela::params_c_.mdl_ckm2x2[0], madMela::params_c_.mdl_ckm2x2[1]);
+      } else if(jquark == 3){
+        return std::complex<double>(madMela::params_c_.mdl_ckm2x3[0], madMela::params_c_.mdl_ckm2x3[1]);
+      } else{
+        MELAerr << "TUtil::GetMadgraphCKMElement: Invalid second index!" << endl;
+      }
+      break;
+    case 3:
+      if(jquark == 1){
+        return std::complex<double>(madMela::params_c_.mdl_ckm3x1[0], madMela::params_c_.mdl_ckm3x1[1]);
+      } else if(jquark == 2){
+        return std::complex<double>(madMela::params_c_.mdl_ckm3x2[0], madMela::params_c_.mdl_ckm3x2[1]);
+      } else if(jquark == 3){
+        return std::complex<double>(madMela::params_c_.mdl_ckm3x3[0], madMela::params_c_.mdl_ckm3x3[1]);
+      } else{
+        MELAerr << "TUtil::GetMadgraphCKMElement: Invalid second index!" << endl;
+      }
+      break;
+    default:
+      MELAerr << "TUtil::GetMadgraphCKMElement: Invalid first index!" << endl;
+      break;
+  }
+  return std::complex<double>(0);
 }
 
 double TUtil::GetMass(int ipart){
@@ -1640,7 +1693,7 @@ double TUtil::InterpretScaleScheme(const TVar::Production& production, const TVa
   }
   else if (scheme == TVar::DefaultScaleScheme){
     // Defaults are dynamic scales except in ttH and bbH.
-    if (matrixElement==TVar::JHUGen){
+    if (matrixElement==TVar::JHUGen || matrixElement==TVar::MADGRAPH){
       if (
         production == TVar::JJQCD
         || production == TVar::JJVBF
@@ -3356,6 +3409,92 @@ void TUtil::SetJHUGenDistinguishWWCouplings(bool doAllow){
 }
 void TUtil::ResetAmplitudeIncludes(){
   __modjhugenmela_MOD_resetamplitudeincludes();
+}
+void TUtil::SetMadgraphSpinZeroCouplings(SpinZeroCouplings const* Hcouplings){
+  madMela::setDefaultMadgraphValues();//reset couplings
+  madMela::params_r_.mdl_ch = Hcouplings->SMEFTSimcoupl[gMDL_ch];
+  madMela::params_r_.mdl_chbox = Hcouplings->SMEFTSimcoupl[gMDL_chbox];
+  madMela::params_r_.mdl_chdd = Hcouplings->SMEFTSimcoupl[gMDL_chdd];
+  madMela::params_r_.mdl_chg = Hcouplings->SMEFTSimcoupl[gMDL_chg];
+  madMela::params_r_.mdl_chw = Hcouplings->SMEFTSimcoupl[gMDL_chw];
+  madMela::params_r_.mdl_chb = Hcouplings->SMEFTSimcoupl[gMDL_chb];
+  madMela::params_r_.mdl_chwb = Hcouplings->SMEFTSimcoupl[gMDL_chwb];
+  madMela::params_r_.mdl_cehre = Hcouplings->SMEFTSimcoupl[gMDL_cehre];
+  madMela::params_r_.mdl_cuhre = Hcouplings->SMEFTSimcoupl[gMDL_cuhre];
+  madMela::params_r_.mdl_cdhre = Hcouplings->SMEFTSimcoupl[gMDL_cdhre];
+  madMela::params_r_.mdl_cewre = Hcouplings->SMEFTSimcoupl[gMDL_cewre];
+  madMela::params_r_.mdl_cebre = Hcouplings->SMEFTSimcoupl[gMDL_cebre];
+  madMela::params_r_.mdl_cugre = Hcouplings->SMEFTSimcoupl[gMDL_cugre];
+  madMela::params_r_.mdl_cuwre = Hcouplings->SMEFTSimcoupl[gMDL_cuwre];
+  madMela::params_r_.mdl_cubre = Hcouplings->SMEFTSimcoupl[gMDL_cubre];
+  madMela::params_r_.mdl_cdgre = Hcouplings->SMEFTSimcoupl[gMDL_cdgre];
+  madMela::params_r_.mdl_cdwre = Hcouplings->SMEFTSimcoupl[gMDL_cdwre];
+  madMela::params_r_.mdl_cdbre = Hcouplings->SMEFTSimcoupl[gMDL_cdbre];
+  madMela::params_r_.mdl_chl1 = Hcouplings->SMEFTSimcoupl[gMDL_chl1];
+  madMela::params_r_.mdl_chl3 = Hcouplings->SMEFTSimcoupl[gMDL_chl3];
+  madMela::params_r_.mdl_che = Hcouplings->SMEFTSimcoupl[gMDL_che];
+  madMela::params_r_.mdl_chq1 = Hcouplings->SMEFTSimcoupl[gMDL_chq1];
+  madMela::params_r_.mdl_chq3 = Hcouplings->SMEFTSimcoupl[gMDL_chq3];
+  madMela::params_r_.mdl_chu = Hcouplings->SMEFTSimcoupl[gMDL_chu];
+  madMela::params_r_.mdl_chd = Hcouplings->SMEFTSimcoupl[gMDL_chd];
+  madMela::params_r_.mdl_chudre = Hcouplings->SMEFTSimcoupl[gMDL_chudre];
+  madMela::params_r_.mdl_cll = Hcouplings->SMEFTSimcoupl[gMDL_cll];
+  madMela::params_r_.mdl_cll1 = Hcouplings->SMEFTSimcoupl[gMDL_cll1];
+  madMela::params_r_.mdl_cqq1 = Hcouplings->SMEFTSimcoupl[gMDL_cqq1];
+  madMela::params_r_.mdl_cqq11 = Hcouplings->SMEFTSimcoupl[gMDL_cqq11];
+  madMela::params_r_.mdl_cqq3 = Hcouplings->SMEFTSimcoupl[gMDL_cqq3];
+  madMela::params_r_.mdl_cqq31 = Hcouplings->SMEFTSimcoupl[gMDL_cqq31];
+  madMela::params_r_.mdl_clq1 = Hcouplings->SMEFTSimcoupl[gMDL_clq1];
+  madMela::params_r_.mdl_clq3 = Hcouplings->SMEFTSimcoupl[gMDL_clq3];
+  madMela::params_r_.mdl_cee = Hcouplings->SMEFTSimcoupl[gMDL_cee];
+  madMela::params_r_.mdl_cuu = Hcouplings->SMEFTSimcoupl[gMDL_cuu];
+  madMela::params_r_.mdl_cuu1 = Hcouplings->SMEFTSimcoupl[gMDL_cuu1];
+  madMela::params_r_.mdl_cdd = Hcouplings->SMEFTSimcoupl[gMDL_cdd];
+  madMela::params_r_.mdl_cdd1 = Hcouplings->SMEFTSimcoupl[gMDL_cdd1];
+  madMela::params_r_.mdl_ceu = Hcouplings->SMEFTSimcoupl[gMDL_ceu];
+  madMela::params_r_.mdl_ced = Hcouplings->SMEFTSimcoupl[gMDL_ced];
+  madMela::params_r_.mdl_cud1 = Hcouplings->SMEFTSimcoupl[gMDL_cud1];
+  madMela::params_r_.mdl_cud8 = Hcouplings->SMEFTSimcoupl[gMDL_cud8];
+  madMela::params_r_.mdl_cle = Hcouplings->SMEFTSimcoupl[gMDL_cle];
+  madMela::params_r_.mdl_clu = Hcouplings->SMEFTSimcoupl[gMDL_clu];
+  madMela::params_r_.mdl_cld = Hcouplings->SMEFTSimcoupl[gMDL_cld];
+  madMela::params_r_.mdl_cqe = Hcouplings->SMEFTSimcoupl[gMDL_cqe];
+  madMela::params_r_.mdl_cqu1 = Hcouplings->SMEFTSimcoupl[gMDL_cqu1];
+  madMela::params_r_.mdl_cqu8 = Hcouplings->SMEFTSimcoupl[gMDL_cqu8];
+  madMela::params_r_.mdl_cqd1 = Hcouplings->SMEFTSimcoupl[gMDL_cqd1];
+  madMela::params_r_.mdl_cqd8 = Hcouplings->SMEFTSimcoupl[gMDL_cqd8];
+  madMela::params_r_.mdl_cledqre = Hcouplings->SMEFTSimcoupl[gMDL_cledqre];
+  madMela::params_r_.mdl_cquqd1re = Hcouplings->SMEFTSimcoupl[gMDL_cquqd1re];
+  madMela::params_r_.mdl_cquqd11re = Hcouplings->SMEFTSimcoupl[gMDL_cquqd11re];
+  madMela::params_r_.mdl_cquqd8re = Hcouplings->SMEFTSimcoupl[gMDL_cquqd8re];
+  madMela::params_r_.mdl_cquqd81re = Hcouplings->SMEFTSimcoupl[gMDL_cquqd81re];
+  madMela::params_r_.mdl_clequ1re = Hcouplings->SMEFTSimcoupl[gMDL_clequ1re];
+  madMela::params_r_.mdl_clequ3re = Hcouplings->SMEFTSimcoupl[gMDL_clequ3re];
+  madMela::params_r_.mdl_cgtil = Hcouplings->SMEFTSimcoupl[gMDL_cgtil];
+  madMela::params_r_.mdl_cwtil = Hcouplings->SMEFTSimcoupl[gMDL_cwtil];
+  madMela::params_r_.mdl_chgtil = Hcouplings->SMEFTSimcoupl[gMDL_chgtil];
+  madMela::params_r_.mdl_chwtil = Hcouplings->SMEFTSimcoupl[gMDL_chwtil];
+  madMela::params_r_.mdl_chbtil = Hcouplings->SMEFTSimcoupl[gMDL_chbtil];
+  madMela::params_r_.mdl_chwbtil = Hcouplings->SMEFTSimcoupl[gMDL_chwbtil];
+  madMela::params_r_.mdl_cewim = Hcouplings->SMEFTSimcoupl[gMDL_cewim];
+  madMela::params_r_.mdl_cebim = Hcouplings->SMEFTSimcoupl[gMDL_cebim];
+  madMela::params_r_.mdl_cugim = Hcouplings->SMEFTSimcoupl[gMDL_cugim];
+  madMela::params_r_.mdl_cuwim = Hcouplings->SMEFTSimcoupl[gMDL_cuwim];
+  madMela::params_r_.mdl_cubim = Hcouplings->SMEFTSimcoupl[gMDL_cubim];
+  madMela::params_r_.mdl_cdgim = Hcouplings->SMEFTSimcoupl[gMDL_cdgim];
+  madMela::params_r_.mdl_cdwim = Hcouplings->SMEFTSimcoupl[gMDL_cdwim];
+  madMela::params_r_.mdl_cdbim = Hcouplings->SMEFTSimcoupl[gMDL_cdbim];
+  madMela::params_r_.mdl_chudim = Hcouplings->SMEFTSimcoupl[gMDL_chudim];
+  madMela::params_r_.mdl_cehim = Hcouplings->SMEFTSimcoupl[gMDL_cehim];
+  madMela::params_r_.mdl_cuhim = Hcouplings->SMEFTSimcoupl[gMDL_cuhim];
+  madMela::params_r_.mdl_cdhim = Hcouplings->SMEFTSimcoupl[gMDL_cdhim];
+  madMela::params_r_.mdl_cledqim = Hcouplings->SMEFTSimcoupl[gMDL_cledqim];
+  madMela::params_r_.mdl_cquqd1im = Hcouplings->SMEFTSimcoupl[gMDL_cquqd1im];
+  madMela::params_r_.mdl_cquqd8im = Hcouplings->SMEFTSimcoupl[gMDL_cquqd8im];
+  madMela::params_r_.mdl_cquqd11im = Hcouplings->SMEFTSimcoupl[gMDL_cquqd11im];
+  madMela::params_r_.mdl_cquqd81im = Hcouplings->SMEFTSimcoupl[gMDL_cquqd81im];
+  madMela::params_r_.mdl_clequ1im = Hcouplings->SMEFTSimcoupl[gMDL_clequ1im];
+  madMela::params_r_.mdl_clequ3im = Hcouplings->SMEFTSimcoupl[gMDL_clequ3im];
 }
 void TUtil::SetMCFMSpinZeroCouplings(bool useBSM, SpinZeroCouplings const* Hcouplings, bool forceZZ){
   if (!useBSM){
@@ -5111,6 +5250,131 @@ double TUtil::JHUGenMatEl(
       << "TUtil::JHUGenMatEl: Reset AlphaS result:\n"
       << "\tAfter reset, alphas scale: " << scale_.scale << ", PDF scale: " << facscale_.facscale << ", alphas(Qren): " << alphasVal << ", alphas(MZ): " << alphasmzVal << endl;
   }
+  return MatElSq;
+}
+
+double TUtil::MadgraphMatEl(
+  const TVar::Process& process, const TVar::Production& production, const TVar::MatrixElement& matrixElement,
+  event_scales_type* event_scales, MelaIO* RcdME,
+  const double& EBEAM,
+  TVar::VerbosityLevel verbosity
+){
+  double MatElSq = 0;
+  if (matrixElement!=TVar::MADGRAPH){ if (verbosity>=TVar::ERROR) MELAerr << "TUtil::MadgraphMatEl: Non-Madgraph MEs are not supported" << endl; return MatElSq; }
+  simple_event_record mela_event;
+  int partIncCode=TVar::kNoAssociated; // Do not use associated particles in the pT=0 frame boost
+  mela_event.AssociationCode=partIncCode;
+  GetBoostedParticleVectors(
+    RcdME->melaCand,
+    mela_event,
+    verbosity
+    );
+  
+  const int nPDG = mela_event.pDaughters.size() + mela_event.pAssociated.size() + mela_event.pMothers.size();
+  vector<int> pdgs(nPDG);
+  vector<vector<double>> p(nPDG, vector<double>(4));
+
+  TLorentzVector MomStore[mxpart]; // Mom (in natural units) to compute alphaS
+  for (int i = 0; i < mxpart; i++) MomStore[i].SetXYZT(0, 0, 0, 0);
+  // if(verbosity >= TVar::DEBUG) MELAout << "Boost vector of " << boostVec.Px() << " " << boostVec.Py() << " " << boostVec.Pz() << endl;
+
+  int i = 0;
+  for (SimpleParticle_t particle : mela_event.pMothers){
+    pdgs[i] = particle.first;
+    p[i][0] = particle.second.E();
+    p[i][1] = particle.second.Px();
+    p[i][2] = particle.second.Py();
+    p[i][3] = particle.second.Pz();
+    MomStore[i] = particle.second;
+    i++;
+  }
+
+  bool previously_swapped = false; //stupid madgraph and their ordered id code
+  for (SimpleParticle_t particle : mela_event.pDaughters){
+    bool swap_spaces = false;
+    if((i == 2 || i == 4) && particle.first > 0){ //negatives go first
+      i++;
+      swap_spaces = true;
+      if(verbosity >= TVar::DEBUG) MELAout << "Swapping daughters at index " << i << " and " << i-1 << endl;
+    }
+    pdgs[i] = particle.first;
+    p[i][0] = particle.second.E();
+    p[i][1] = particle.second.Px();
+    p[i][2] = particle.second.Py();
+    p[i][3] = particle.second.Pz();
+    MomStore[i] = particle.second;
+    if(previously_swapped){
+      i += 2;
+      previously_swapped = false;
+    }
+    else if(swap_spaces){
+      i--;
+      previously_swapped = true;
+    } else{
+      i++;
+    }
+  }
+  if(abs(pdgs[2]) > abs(pdgs[4])){ // absolute values of id are sorted
+    swap(pdgs[2], pdgs[4]);
+    swap(p[2], p[4]);
+    swap(pdgs[3], pdgs[5]);
+    swap(p[3], p[5]);
+  }
+  int pdgs_for_fortran[nPDG];
+  double* p_for_fortran = new double[4*nPDG];
+
+  copy(pdgs.begin(), pdgs.end(), pdgs_for_fortran);
+  int counter = 0;
+  for(i = 0; i < nPDG; i++){
+    for(int j = 0; j < 4; j++){
+      p_for_fortran[counter] = p[i][j];
+      counter ++;
+    }
+  }
+  // Set alphas
+  double defaultRenScale = scale_.scale;
+  double defaultFacScale = facscale_.facscale;
+  int defaultNloop = nlooprun_.nlooprun;
+  int defaultNflav = nflav_.nflav;
+  string defaultPdflabel = pdlabel_.pdlabel;
+  double renQ = InterpretScaleScheme(production, matrixElement, event_scales->renomalizationScheme, MomStore);
+  double facQ = InterpretScaleScheme(production, matrixElement, event_scales->factorizationScheme, MomStore);
+  SetAlphaS(renQ, facQ, event_scales->ren_scale_factor, event_scales->fac_scale_factor, 1, 5, "cteq6_l"); // Set AlphaS(|Q|/2, mynloop, mynflav, mypartonPDF)
+  double alphasVal, alphasmzVal;
+  GetAlphaS(&alphasVal, &alphasmzVal);
+  RcdME->setRenormalizationScale(renQ);
+  RcdME->setFactorizationScale(facQ);
+  RcdME->setAlphaS(alphasVal);
+  RcdME->setAlphaSatMZ(alphasmzVal);
+  RcdME->setHiggsMassWidth(masses_mcfm_.hmass, masses_mcfm_.hwidth, 0);
+  RcdME->setHiggsMassWidth(spinzerohiggs_anomcoupl_.h2mass, spinzerohiggs_anomcoupl_.h2width, 1);
+  if (verbosity>=TVar::DEBUG){
+    MELAout
+      << "TUtil::MadgraphMatEl: Set AlphaS:\n"
+      << "\tBefore set, alphas scale: " << defaultRenScale << ", PDF scale: " << defaultFacScale << '\n'
+      << "\trenQ: " << renQ << " ( x " << event_scales->ren_scale_factor << "), facQ: " << facQ << " ( x " << event_scales->fac_scale_factor << ")\n"
+      << "\tAfter set, alphas scale: " << scale_.scale << ", PDF scale: " << facscale_.facscale << ", alphas(Qren): " << alphasVal << ", alphas(MZ): " << alphasmzVal << endl;
+  }
+  int procid = -1;
+  double scale2 = 1; //This is useless for ggH calculations
+  if (verbosity>=TVar::DEBUG_VERBOSE){
+    MELAout << "Input vectors to MADGRAPH function in order as id, px, py, pz, E:" << endl;
+    for(int i = 0; i < nPDG; i++){
+      MELAout << "id of " << pdgs[i] << " & vector of " << p[i][1] << ", " << p[i][2] << ", " << p[i][3] << ", " << p[i][0] << endl;
+    }
+    MELAout << "Raw Input to FORTRAN:" << endl;
+    for(int i = 0; i < nPDG; i++){
+      for(int j = 0; j < 4; j++){
+        MELAout << p_for_fortran[i*4+j] << " ";
+      }
+      MELAout << endl;
+    }
+  }
+  madMela::update_all_coup_();
+  int nhel = -1;
+  madMela::smatrixhel_(pdgs_for_fortran, procid, nPDG, p_for_fortran, alphasVal, scale2, nhel, MatElSq);
+  if(verbosity >= TVar::DEBUG) MELAout << " smatrixhel returns prob of " << MatElSq << endl;
+  delete p_for_fortran;
   return MatElSq;
 }
 

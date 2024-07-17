@@ -55,7 +55,8 @@ namespace TVar{
   enum MatrixElement{
     MCFM = 0,
     JHUGen = 1,
-    ANALYTICAL = 2
+    ANALYTICAL = 2,
+    MADGRAPH = 3
   };
   enum Production{
     ZZGG,

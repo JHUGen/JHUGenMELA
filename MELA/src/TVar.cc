@@ -110,6 +110,7 @@ TString TVar::MatrixElementName(TVar::MatrixElement temp){
   if (temp==TVar::MCFM) return TString("MCFM");
   else if (temp==TVar::JHUGen) return TString("JHUGen");
   else if (temp==TVar::ANALYTICAL) return TString("ANALYTICAL");
+  else if (temp==TVar::MADGRAPH) return TString("MADGRAPH");
 
   else return TString("Unknown");
 }

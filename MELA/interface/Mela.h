@@ -17,8 +17,10 @@ Please see the ../src/Mela.cc file for the instructions.
 #define MELA_Mela_h
 
 #include <vector>
+#include <complex>
 #include "TLorentzVector.h"
 #include "TRandom3.h"
+#include "MadMela.h"
 
 
 class TFile; 
@@ -362,6 +364,7 @@ public:
    * 
   */
   void resetWidth(double inwidth, int ipart);
+  void resetYukawaMass(double inmass, int ipart);
 
   /**
    * @brief Resets the masses of each quark to their original values.
@@ -496,6 +499,8 @@ public:
   */
   double getHiggsWidthAtPoleMass(double mass);
 
+  void SetMadgraphCKMElements(double ckmlambda=0.2265, double ckma=0.79, double ckmrho=0.141, double ckmeta=0.357, bool force_refresh=false);
+  std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
   /**
    * @brief Returns the MELAIO object, and by consequence, the entire parton-by-parton matrix element record
    * @sa wrapper for ZZMatrixElement::get_IORecord, which is a wrapper for TEvtProb::GetIORecord, which is a wrapper for MelaIO::getRef
@@ -1025,7 +1030,10 @@ public:
   double selfDaTQGCcoupl[SIZE_ATQGC][2];
   //****Anomalous couplings between the Z and fermions**//
   double selfDAZffcoupl[SIZE_AZff][2];
-  // That is a lot of them!
+  //****SMEFTSIM terms**//
+  double selfDSMEFTSimcoupl[SIZE_SMEFT]; //madMela
+  // That is a lot of them!  
+
 /** @} */
 
   static void cleanLinkedFiles();

@@ -12,6 +12,7 @@
 
 #include "TEvtProb.hh"
 #include "MELAStreamHelpers.hh"
+#include "MadMela.h"
 
 
 using namespace std;
@@ -235,6 +236,9 @@ void TEvtProb::SetHiggsMass(double mass, double wHiggs, int whichResonance){
     masses_mcfm_.hmass = _hmass;
     masses_mcfm_.hwidth = _hwidth;
 
+    madMela::mad_masses_.mdl_mh = _hmass;
+    madMela::widths_.mdl_wh = _hwidth;
+
     if (_hmass<0.) SetJHUGenHiggsMassWidth(0., _hwidth);
     else SetJHUGenHiggsMassWidth(_hmass, _hwidth);
   }
@@ -412,7 +416,6 @@ double TEvtProb::XsecCalc_XVV(){
   double dXsec=0;
   ResetIORecord();
   if (!CheckInputPresent()) return dXsec;
-
   bool useMCFM = matrixElement == TVar::MCFM;
   bool calculateME=false;
   bool needBSMHiggs=false;
@@ -714,7 +717,17 @@ double TEvtProb::XsecCalc_XVV(){
       << "Process: " << TVar::ProcessName(process) << ", Production: " << TVar::ProductionName(production) << ", and ME: " << TVar::MatrixElementName(matrixElement)
       << endl;
   } // end of JHUGen matrix element calculations
-
+  else if (matrixElement == TVar::MADGRAPH){
+    calculateME = (
+      production == TVar::ZZGG
+    );
+    if (calculateME){
+      SetMadgraphSpinZeroCouplings(&selfDSpinZeroCoupl);
+      madMela::update_all_coup_(); //calculates all couplings
+      dXsec = TUtil::MadgraphMatEl(process, production, matrixElement, &event_scales, &RcdME, EBEAM, verbosity);
+    }
+    else if (verbosity>=TVar::INFO) MELAout << "TEvtProb::XsecCalc_XVV: Madgraph_chooser failed to determine the process configuration." << endl;
+  }
   if (verbosity >= TVar::DEBUG) MELAout << "TEvtProb::XsecCalc_XVV: Process " << TVar::ProcessName(process) << " dXsec=" << dXsec << endl;
 
   if (verbosity>=TVar::DEBUG) MELAout << "TEvtProb::XsecCalc_XVV::Reset couplings" << endl;
