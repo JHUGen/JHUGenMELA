@@ -1,12 +1,14 @@
 # JHUGenMELA          {#mainpage}
 
+MELA is an important tool that was used for the Higgs boson discovery and for precise measurements of its structure and interactions. Please see the [website](https://spin.pha.jhu.edu/) and papers cited there for more details, and kindly cite those papers when using this code.
+
 @authors I. Anderson, S. Bolognesi, F. Caola, J. Davis, Y. Gao, A. V. Gritsan, 
 @authors L. S. Mandacaru Guerra, Z. Guo, L. Kang, S. Kyriacou, C. B. Martin, T. Martini, 
 @authors K. Melnikov, R. Pan, M. Panagiotou, R. Rontsch, J. Roskes, U. Sarica, 
 @authors M. Schulze, M. V. Srivastav, N. V. Tran, A. Whitbeck, M. Xiao, Y. Zhou
 
 This is the documentation for JHUGenMELA, a package that produces Matrix Element Calculations as used in JHUGen and MCFM-JHUGen.
-The main user-interface in C++ can be found at the documentation for the Mela class, while the Python can be found in the @ref PyMela section.
+The main user-interface in C++ can be found at the documentation for the Mela class, while the Python can be found in the @ref PyMela_page "PyMela" section.
 
 Documentation written by Mohit Srivastav in 2024.
 

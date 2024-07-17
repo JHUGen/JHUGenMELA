@@ -157,19 +157,43 @@ One sets the process using `Mela.setProcess(Mela.Process, Mela.MatrixElement, Me
 
 ## Resonance Propagator Scheme {#reso_enum}
 
-`Mela.ResonancePropagatorScheme` controls the scheme that resonances are defined by. This is used to control mass shapes as well as conduct POWHEG high-mass reweighting. This is originally defined in TVar::ResonancePropagatorScheme. **`Mela.ResonancePropagatorScheme.FixexWidth` is set by default**.
+`Mela.ResonancePropagatorScheme` controls the scheme that resonances are defined by. This is used to control mass shapes as well as conduct POWHEG high-mass reweighting. This is originally defined in TVar::ResonancePropagatorScheme. **`Mela.ResonancePropagatorScheme.FixedWidth` is set by default**.
 The values are tabulated below:
 
 | Name | Value | Summary |
 | ---- | ----- | ------- |
 | NoPropagator | 0 | No propagator is applied to the resonance |
-| RunningWidth | 0 | A running width scheme is applied to the resonance |
-| FixedWidth | 0 | A fixed width scheme is applied to the resonance |
-| CPS | 0 | A Complex-Pole scheme is applied to the resonance |
-| AltRunningWidth | 0 | An S-Wave Breit-Wigner is applied to the resonance |
+| RunningWidth | 1 | A running width scheme is applied to the resonance |
+| FixedWidth | 2 | A fixed width scheme is applied to the resonance |
+| CPS | 3 | A Complex-Pole scheme is applied to the resonance |
+| AltRunningWidth | 4 | An S-Wave Breit-Wigner is applied to the resonance |
 
 These are provided as inputs to `Mela.getXPropagator(Mela.ResonancePropagatorScheme)` to get a value for mass shape reweighting.
 
-## EventScaleScheme {scale_enum}
+## EventScaleScheme {#scale_enum}
 
+`Mela.EventScaleScheme` controls the scaling scheme of the event. You can set it with `Mela.setRenFacScaleMode` (originally defined in Mela::setRenFacScaleMode), and get the value from `Mela.getRenFacScaleMode` (originally defined in Mela::getRenFacScaleMode).
 
+| Name | Value | Summary |
+| ---- | ----- | ------- |
+| DefaultScaleScheme | 0 | The default scale factor scheme for the process/production. |
+| Fixed_mH | 1 | A scale based off of the pole mass of \f$m_H\f$ |
+| Fixed_mW | 2 | A scale based off of the pole mass of \f$m_Z\f$ |
+| Fixed_mZ | 3 | A scale based off of the pole mass of \f$m_W\f$ |
+| Fixed_mWPlusmH | 4 | A scale based off of the pole value \f$m_W + m_H\f$ |
+| Fixed_mZPlusmH | 5 | A scale based off of the pole value \f$m_Z + m_H\f$ |
+| Fixed_TwomtPlusmH | 6 | A scale based off of the pole value \f$2m_t + m_H\f$|
+| Fixed_mtPlusmH | 7 | A scale based off of the pole value \f$m_t + m_H\f$ |
+| Dynamic_qH | 8 | A scale based off of the \f$q^2\f$ of the Higgs |
+| Dynamic_qJJH | 9 | A scale based off of the \f$q^2\f$ of H+2 jets |
+| Dynamic_qJJ_qH | 10 | **IDK** |
+| Dynamic_qJ_qJ_qH | 11 | **IDK** |
+| Dynamic_HT | 12 | **IDK** |
+| Dynamic_Leading_pTJ | 13 | **IDK** |
+| Dynamic_Softest_pTJ | 14 | **IDK** |
+| Dynamic_RandomUniform_Constrained | 15 | **IDK** |
+| nEventScaleSchemes | 16 | The number of event scale schemes available to you |
+
+## CandidateDecayMode {#decmode_enum}
+
+`Mela.CandidateDecayMode` quantifies the decay mode of the candidate in MELA. This can be a range of things 

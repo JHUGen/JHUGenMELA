@@ -10,8 +10,20 @@ There are three groups of functions that are implemented:
 The first two categories of functions are detailed in the @ref Pychanges section. These changes vary, but generally exist for
 compatibility or ease-of-use cases.
 
-The following classes in Mela are encompassed by the PyBind11 module, and are documented in the following subpages:
+## Other Classes Encompassed
+
+The following classes in the C++ implementation are encompassed by the PyBind11 module, and are documented in the following subpages:
 
 - @subpage SimpleParticle_t "Mela.SimpleParticle_t"
 - @subpage SimpleParticleCollection_t "Mela.SimpleParticleCollection_t"
+- @subpage event_scales_type "Mela.event_scales_type"
+- @subpage MELAParticle "Mela.MELAParticle"
+- @subpage MELAThreeBodyDecayCandidate "Mela.MELAThreeBodyDecayCandidate"
+- @subpage MELACandidate "Mela.MELACandidate"
 - @subpage py_enums "Enumerations"
+
+These classes serve to help the functionality of MELA such as providing an avenue to input vectors, index values through enumerations, etc.
+
+## MELA itself {#PyMela_doc}
+
+MELA in Python is a (quite large!) class within the PyBind11 module stated at the top of the page. All the functions are either defined at @ref Pychanges "the top of the file", or is taken directly from the header, Mela.h. They are defined in the @subpage MELA_python "following subpage".
