@@ -8,6 +8,8 @@
 #include "TMCFM.hh"
 using MELAStreamHelpers::MELAout;
 using MELAStreamHelpers::MELAerr;
+using namespace madMela;
+std::map<std::pair<TVar::Process, TVar::Production>, MG_process_double>* madMela::updateMap;
 
 /**
 ######################################################################
@@ -246,140 +248,192 @@ Block QNUMBERS 9000008  # h1
 */
 void madMela::setDefaultMadgraphValues(){
     //Now WIPE all the couplings!!!
-    madMela::params_r_.mdl_cg = 0;
-    madMela::params_r_.mdl_cw = 0;
-    madMela::params_r_.mdl_ch = 0;
-    madMela::params_r_.mdl_chbox = 0;
-    madMela::params_r_.mdl_chdd = 0;
-    madMela::params_r_.mdl_chg = 0;
-    madMela::params_r_.mdl_chw = 0;
-    madMela::params_r_.mdl_chb = 0;
-    madMela::params_r_.mdl_chwb = 0;
-    madMela::params_r_.mdl_cehre = 0;
-    madMela::params_r_.mdl_cuhre = 0;
-    madMela::params_r_.mdl_cdhre = 0;
-    madMela::params_r_.mdl_cewre = 0;
-    madMela::params_r_.mdl_cebre = 0;
-    madMela::params_r_.mdl_cugre = 0;
-    madMela::params_r_.mdl_cuwre = 0;
-    madMela::params_r_.mdl_cubre = 0;
-    madMela::params_r_.mdl_cdgre = 0;
-    madMela::params_r_.mdl_cdwre = 0;
-    madMela::params_r_.mdl_cdbre = 0;
-    madMela::params_r_.mdl_chl1 = 0;
-    madMela::params_r_.mdl_chl3 = 0;
-    madMela::params_r_.mdl_che = 0;
-    madMela::params_r_.mdl_chq1 = 0;
-    madMela::params_r_.mdl_chq3 = 0;
-    madMela::params_r_.mdl_chu = 0;
-    madMela::params_r_.mdl_chd = 0;
-    madMela::params_r_.mdl_chudre = 0;
-    madMela::params_r_.mdl_cll = 0;
-    madMela::params_r_.mdl_cll1 = 0;
-    madMela::params_r_.mdl_cqq1 = 0;
-    madMela::params_r_.mdl_cqq11 = 0;
-    madMela::params_r_.mdl_cqq3 = 0;
-    madMela::params_r_.mdl_cqq31 = 0;
-    madMela::params_r_.mdl_clq1 = 0;
-    madMela::params_r_.mdl_clq3 = 0;
-    madMela::params_r_.mdl_cee = 0;
-    madMela::params_r_.mdl_cuu = 0;
-    madMela::params_r_.mdl_cuu1 = 0;
-    madMela::params_r_.mdl_cdd = 0;
-    madMela::params_r_.mdl_cdd1 = 0;
-    madMela::params_r_.mdl_ceu = 0;
-    madMela::params_r_.mdl_ced = 0;
-    madMela::params_r_.mdl_cud1 = 0;
-    madMela::params_r_.mdl_cud8 = 0;
-    madMela::params_r_.mdl_cle = 0;
-    madMela::params_r_.mdl_clu = 0;
-    madMela::params_r_.mdl_cld = 0;
-    madMela::params_r_.mdl_cqe = 0;
-    madMela::params_r_.mdl_cqu1 = 0;
-    madMela::params_r_.mdl_cqu8 = 0;
-    madMela::params_r_.mdl_cqd1 = 0;
-    madMela::params_r_.mdl_cqd8 = 0;
-    madMela::params_r_.mdl_cledqre = 0;
-    madMela::params_r_.mdl_cquqd1re = 0;
-    madMela::params_r_.mdl_cquqd11re = 0;
-    madMela::params_r_.mdl_cquqd8re = 0;
-    madMela::params_r_.mdl_cquqd81re = 0;
-    madMela::params_r_.mdl_clequ1re = 0;
-    madMela::params_r_.mdl_clequ3re = 0;
+    params_r_.mdl_cg = 0;
+    params_r_.mdl_cw = 0;
+    params_r_.mdl_ch = 0;
+    params_r_.mdl_chbox = 0;
+    params_r_.mdl_chdd = 0;
+    params_r_.mdl_chg = 0;
+    params_r_.mdl_chw = 0;
+    params_r_.mdl_chb = 0;
+    params_r_.mdl_chwb = 0;
+    params_r_.mdl_cehre = 0;
+    params_r_.mdl_cuhre = 0;
+    params_r_.mdl_cdhre = 0;
+    params_r_.mdl_cewre = 0;
+    params_r_.mdl_cebre = 0;
+    params_r_.mdl_cugre = 0;
+    params_r_.mdl_cuwre = 0;
+    params_r_.mdl_cubre = 0;
+    params_r_.mdl_cdgre = 0;
+    params_r_.mdl_cdwre = 0;
+    params_r_.mdl_cdbre = 0;
+    params_r_.mdl_chl1 = 0;
+    params_r_.mdl_chl3 = 0;
+    params_r_.mdl_che = 0;
+    params_r_.mdl_chq1 = 0;
+    params_r_.mdl_chq3 = 0;
+    params_r_.mdl_chu = 0;
+    params_r_.mdl_chd = 0;
+    params_r_.mdl_chudre = 0;
+    params_r_.mdl_cll = 0;
+    params_r_.mdl_cll1 = 0;
+    params_r_.mdl_cqq1 = 0;
+    params_r_.mdl_cqq11 = 0;
+    params_r_.mdl_cqq3 = 0;
+    params_r_.mdl_cqq31 = 0;
+    params_r_.mdl_clq1 = 0;
+    params_r_.mdl_clq3 = 0;
+    params_r_.mdl_cee = 0;
+    params_r_.mdl_cuu = 0;
+    params_r_.mdl_cuu1 = 0;
+    params_r_.mdl_cdd = 0;
+    params_r_.mdl_cdd1 = 0;
+    params_r_.mdl_ceu = 0;
+    params_r_.mdl_ced = 0;
+    params_r_.mdl_cud1 = 0;
+    params_r_.mdl_cud8 = 0;
+    params_r_.mdl_cle = 0;
+    params_r_.mdl_clu = 0;
+    params_r_.mdl_cld = 0;
+    params_r_.mdl_cqe = 0;
+    params_r_.mdl_cqu1 = 0;
+    params_r_.mdl_cqu8 = 0;
+    params_r_.mdl_cqd1 = 0;
+    params_r_.mdl_cqd8 = 0;
+    params_r_.mdl_cledqre = 0;
+    params_r_.mdl_cquqd1re = 0;
+    params_r_.mdl_cquqd11re = 0;
+    params_r_.mdl_cquqd8re = 0;
+    params_r_.mdl_cquqd81re = 0;
+    params_r_.mdl_clequ1re = 0;
+    params_r_.mdl_clequ3re = 0;
 
-    madMela::params_r_.mdl_cgtil = 0;
-    madMela::params_r_.mdl_cwtil = 0;
-    madMela::params_r_.mdl_chgtil = 0;
-    madMela::params_r_.mdl_chwtil = 0;
-    madMela::params_r_.mdl_chbtil = 0;
-    madMela::params_r_.mdl_chwbtil = 0;
-    madMela::params_r_.mdl_cewim = 0;
-    madMela::params_r_.mdl_cebim = 0;
-    madMela::params_r_.mdl_cugim = 0;
-    madMela::params_r_.mdl_cuwim = 0;
-    madMela::params_r_.mdl_cubim = 0;
-    madMela::params_r_.mdl_cdgim = 0;
-    madMela::params_r_.mdl_cdwim = 0;
-    madMela::params_r_.mdl_cdbim = 0;
-    madMela::params_r_.mdl_chudim = 0;
-    madMela::params_r_.mdl_cehim = 0;
-    madMela::params_r_.mdl_cuhim = 0;
-    madMela::params_r_.mdl_cdhim = 0;
-    madMela::params_r_.mdl_cledqim = 0;
-    madMela::params_r_.mdl_cquqd1im = 0;
-    madMela::params_r_.mdl_cquqd8im = 0;
-    madMela::params_r_.mdl_cquqd11im = 0;
-    madMela::params_r_.mdl_cquqd81im = 0;
-    madMela::params_r_.mdl_clequ1im = 0;
-    madMela::params_r_.mdl_clequ3im = 0;
+    params_r_.mdl_cgtil = 0;
+    params_r_.mdl_cwtil = 0;
+    params_r_.mdl_chgtil = 0;
+    params_r_.mdl_chwtil = 0;
+    params_r_.mdl_chbtil = 0;
+    params_r_.mdl_chwbtil = 0;
+    params_r_.mdl_cewim = 0;
+    params_r_.mdl_cebim = 0;
+    params_r_.mdl_cugim = 0;
+    params_r_.mdl_cuwim = 0;
+    params_r_.mdl_cubim = 0;
+    params_r_.mdl_cdgim = 0;
+    params_r_.mdl_cdwim = 0;
+    params_r_.mdl_cdbim = 0;
+    params_r_.mdl_chudim = 0;
+    params_r_.mdl_cehim = 0;
+    params_r_.mdl_cuhim = 0;
+    params_r_.mdl_cdhim = 0;
+    params_r_.mdl_cledqim = 0;
+    params_r_.mdl_cquqd1im = 0;
+    params_r_.mdl_cquqd8im = 0;
+    params_r_.mdl_cquqd11im = 0;
+    params_r_.mdl_cquqd81im = 0;
+    params_r_.mdl_clequ1im = 0;
+    params_r_.mdl_clequ3im = 0;
 }
 
 void madMela::initialize_madMELA(){
 
-    madMela::params_r_.mdl_ckmlambda = 2.265000e-01;
-    madMela::params_r_.mdl_ckma = 7.900000e-01;
-    madMela::params_r_.mdl_ckmrho = 1.410000e-01;
-    madMela::params_r_.mdl_ckmeta = 0;
+    params_r_.mdl_ckmlambda = 2.265000e-01;
+    params_r_.mdl_ckma = 7.900000e-01;
+    params_r_.mdl_ckmrho = 1.410000e-01;
+    params_r_.mdl_ckmeta = 0;
 
-    madMela::params_r_.mdl_lambdasmeft = 1.000000e+03;
-    madMela::params_r_.mdl_linearpropcorrections = 0;
+    params_r_.mdl_lambdasmeft = 1.000000e+03;
+    params_r_.mdl_linearpropcorrections = 0;
 
     //Trying to set all the masses the same as the rest of MELA!
-    madMela::mad_masses_.mdl_md =  TUtil::GetMass(1); //4.670000e-03;
-    madMela::mad_masses_.mdl_mu =  TUtil::GetMass(2); //2.160000e-03;
-    madMela::mad_masses_.mdl_ms =  TUtil::GetMass(3); //9.300000e-02;
-    madMela::mad_masses_.mdl_mc =  TUtil::GetMass(4); //1.270000e+00;
-    madMela::mad_masses_.mdl_mb =  TUtil::GetMass(5); //4.180000e+00;
-    madMela::mad_masses_.mdl_mt =  TUtil::GetMass(6); //1.727600e+02;
+    mad_masses_.mdl_md =  TUtil::GetMass(1); //4.670000e-03;
+    mad_masses_.mdl_mu =  TUtil::GetMass(2); //2.160000e-03;
+    mad_masses_.mdl_ms =  TUtil::GetMass(3); //9.300000e-02;
+    mad_masses_.mdl_mc =  TUtil::GetMass(4); //1.270000e+00;
+    mad_masses_.mdl_mb =  TUtil::GetMass(5); //4.180000e+00;
+    mad_masses_.mdl_mt =  TUtil::GetMass(6); //1.727600e+02;
 
-    madMela::mad_masses_.mdl_me =  TUtil::GetMass(11);  //5.110000e-04;
-    madMela::mad_masses_.mdl_mmu = TUtil::GetMass(13);  //1.056600e-01;
-    madMela::mad_masses_.mdl_mta = TUtil::GetMass(15);  //1.777000e+00;
+    mad_masses_.mdl_me =  TUtil::GetMass(11);  //5.110000e-04;
+    mad_masses_.mdl_mmu = TUtil::GetMass(13);  //1.056600e-01;
+    mad_masses_.mdl_mta = TUtil::GetMass(15);  //1.777000e+00;
 
-    madMela::mad_masses_.mdl_mz =  TUtil::GetMass(23);  //9.118760e+01;
-    madMela::mad_masses_.mdl_mw =  TUtil::GetMass(24);  //7.983133e+01;
-    madMela::mad_masses_.mdl_mh =  TUtil::GetMass(25);  //1.250900e+02;
+    mad_masses_.mdl_mz =  TUtil::GetMass(23);  //9.118760e+01;
+    mad_masses_.mdl_mw =  TUtil::GetMass(24);  //7.983133e+01;
+    mad_masses_.mdl_mh =  TUtil::GetMass(25);  //1.250900e+02;
 
-    madMela::widths_.mdl_wt = TUtil::GetDecayWidth(6);
-    madMela::widths_.mdl_wz = TUtil::GetDecayWidth(23);
-    madMela::widths_.mdl_ww = TUtil::GetDecayWidth(24);
-    madMela::widths_.mdl_wh = TUtil::GetDecayWidth(25);
+    widths_.mdl_wt = TUtil::GetDecayWidth(6);
+    widths_.mdl_wz = TUtil::GetDecayWidth(23);
+    widths_.mdl_ww = TUtil::GetDecayWidth(24);
+    widths_.mdl_wh = TUtil::GetDecayWidth(25);
 
-    madMela::params_r_.mdl_ymdo = TUtil::GetMass(1);
-    madMela::params_r_.mdl_ymup = TUtil::GetMass(2);
-    madMela::params_r_.mdl_yms =  TUtil::GetMass(3);
-    madMela::params_r_.mdl_ymc =  TUtil::GetMass(4);
-    madMela::params_r_.mdl_ymb =  TUtil::GetMass(5);
-    madMela::params_r_.mdl_ymt =  TUtil::GetMass(6);
+    params_r_.mdl_ymdo = TUtil::GetMass(1);
+    params_r_.mdl_ymup = TUtil::GetMass(2);
+    params_r_.mdl_yms =  TUtil::GetMass(3);
+    params_r_.mdl_ymc =  TUtil::GetMass(4);
+    params_r_.mdl_ymb =  TUtil::GetMass(5);
+    params_r_.mdl_ymt =  TUtil::GetMass(6);
     
-    madMela::params_r_.mdl_yme =   TUtil::GetMass(11);
-    madMela::params_r_.mdl_ymm =   TUtil::GetMass(13);
-    madMela::params_r_.mdl_ymtau = TUtil::GetMass(15);
+    params_r_.mdl_yme =   TUtil::GetMass(11);
+    params_r_.mdl_ymm =   TUtil::GetMass(13);
+    params_r_.mdl_ymtau = TUtil::GetMass(15);
 
-    madMela::params_r_.mdl_aew = 7.815553e-03;
-    madMela::params_r_.mdl_gf = 1.166379e-05;
-    madMela::params_r_.as = qcdcouple_.as; //1.179000e-01;
+    params_r_.mdl_aew = 7.815553e-03;
+    params_r_.mdl_gf = 1.166379e-05;
+    params_r_.as = qcdcouple_.as; //1.179000e-01;
 
-    madMela::setDefaultMadgraphValues();
-    madMela::update_all_coup_();
+    setDefaultMadgraphValues();
+
+    updateMap = new std::map<std::pair<TVar::Process, TVar::Production>, MG_process_double>;
+
+    MG_process_double ggFSIG = {
+        ggFSIG_smatrixhel_,
+        ggFSIG_update_all_coup_,
+    };
+    (*updateMap)[std::make_pair(TVar::Madgraph_sig, TVar::ZZGG)] = ggFSIG;
+
+    MG_process_double qq4lSIG = {
+        qq4lSIG_smatrixhel_,
+        qq4lSIG_update_all_coup_,
+    };
+    (*updateMap)[std::make_pair(TVar::Madgraph_sig, TVar::qqH)] = qq4lSIG;
+
+    MG_process_double qq4lBKG = {
+        qq4lBKG_smatrixhel_,
+        qq4lBKG_update_all_coup_,
+    };
+    (*updateMap)[std::make_pair(TVar::Madgraph_bkg, TVar::qqH)] = qq4lBKG;
+
+    MG_process_double qq4lBSI = {
+        qq4lBSI_smatrixhel_,
+        qq4lBSI_update_all_coup_,
+    };
+    (*updateMap)[std::make_pair(TVar::Madgraph_bsi, TVar::qqH)] = qq4lBSI;
+}
+
+void madMela::update_all_coup(const TVar::Process& process, const TVar::Production& production){
+    std::pair<TVar::Process, TVar::Production> key = std::make_pair(process, production);
+    if ((*updateMap).find(key) == (*updateMap).end()){
+        MELAerr << "madMela::update_all_coup: Incorrect key used!"
+            " The keys provided were " << process << ", " << production << std::endl;
+        return;
+    }
+    auto updateFunc = (*updateMap)[key].updateFunc;
+    updateFunc();
+}
+
+void madMela::smatrixhel(
+    const TVar::Process& process, const TVar::Production& production,
+    int pdgs[], int& procid, const int& npdg, double* p, double& alphas, 
+    double& scale2, int& nhel, double& ans
+    ){
+    std::pair<TVar::Process, TVar::Production> key = std::make_pair(process, production);
+    if ((*updateMap).find(key) == (*updateMap).end()){
+        MELAerr << "madMela::smatrixhel: Incorrect key used!"
+            " The keys provided were " << process << ", " << production << std::endl;
+        ans = 0;
+        return;
+    }
+    auto computeFunc = (*updateMap)[std::make_pair(process, production)].computeFunc;
+    computeFunc(pdgs, procid, npdg, p, alphas, scale2, nhel, ans);
 }

@@ -66,7 +66,6 @@ namespace TVar{
 
     ttH, // ttH
     bbH, // bbH
-
     JQCD, // ? + 1 jet
 
     JJQCD, // SBF
@@ -102,6 +101,7 @@ namespace TVar{
 
     GammaH, // gammaH, stable A (could implement S and TU in the future
     //
+    qqH,
     nProductions
   };
   enum LeptonInterference{
@@ -182,6 +182,10 @@ namespace TVar{
     SelfDefine_spin1,
     SelfDefine_spin2,
 
+    /** Madgraph Signal, Background, BSI **/
+    Madgraph_sig,
+    Madgraph_bkg,
+    Madgraph_bsi,
     nProcesses
   };
   enum SuperMelaSyst{

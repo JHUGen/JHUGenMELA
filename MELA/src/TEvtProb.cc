@@ -719,11 +719,12 @@ double TEvtProb::XsecCalc_XVV(){
   } // end of JHUGen matrix element calculations
   else if (matrixElement == TVar::MADGRAPH){
     calculateME = (
-      production == TVar::ZZGG
+      production == TVar::ZZGG ||
+      production == TVar::qqH
     );
     if (calculateME){
       SetMadgraphSpinZeroCouplings(&selfDSpinZeroCoupl);
-      madMela::update_all_coup_(); //calculates all couplings
+      // madMela::ggFSIG_update_all_coup_(); //calculates all couplings
       dXsec = TUtil::MadgraphMatEl(process, production, matrixElement, &event_scales, &RcdME, EBEAM, verbosity);
     }
     else if (verbosity>=TVar::INFO) MELAout << "TEvtProb::XsecCalc_XVV: Madgraph_chooser failed to determine the process configuration." << endl;
