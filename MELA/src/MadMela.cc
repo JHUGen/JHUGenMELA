@@ -415,7 +415,9 @@ void madMela::update_all_coup(const TVar::Process& process, const TVar::Producti
     std::pair<TVar::Process, TVar::Production> key = std::make_pair(process, production);
     if ((*updateMap).find(key) == (*updateMap).end()){
         MELAerr << "madMela::update_all_coup: Incorrect key used!"
-            " The keys provided were " << process << ", " << production << std::endl;
+            " The keys provided were process=" << TVar::ProcessName(process) << 
+            ", production=" << TVar::ProductionName(production) << 
+            std::endl;
         return;
     }
     auto updateFunc = (*updateMap)[key].updateFunc;
