@@ -420,7 +420,7 @@ void madMela::update_all_coup(const TVar::Process& process, const TVar::Producti
             std::endl;
         return;
     }
-    auto updateFunc = (*updateMap)[key].updateFunc;
+    auto updateFunc = (*updateMap)[key].second;
     updateFunc();
 }
 
@@ -436,6 +436,6 @@ void madMela::smatrixhel(
         ans = 0;
         return;
     }
-    auto computeFunc = (*updateMap)[std::make_pair(process, production)].computeFunc;
+    auto computeFunc = (*updateMap)[std::make_pair(process, production)].first;
     computeFunc(pdgs, procid, npdg, p, alphas, scale2, nhel, ans);
 }

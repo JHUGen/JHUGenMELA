@@ -38,7 +38,7 @@ cd $(dirname ${BASH_SOURCE[0]})
 
 MELADIR="$(readlink -f .)"
 MCFMVERSION=mcfm_710
-MGVERSION=1
+MGVERSION=2
 declare -i doDeps=0
 declare -i doPrintEnv=0
 declare -i doPrintEnvInstr=0
