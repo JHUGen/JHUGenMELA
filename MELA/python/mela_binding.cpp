@@ -221,13 +221,13 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
 #define MAKE_COUPLING_ARR_SPIN_ZERO(arrayName, size, arrType)\
         .def(#arrayName, [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
-            return py::array_t<arrType>(std::vector<int>{nSupportedHiggses, size, 2}, (const arrType*) &D.arrayName, obj); \
+            return py::array_t<arrType>(std::vector<arrType>{nSupportedHiggses, size, 2}, (const arrType*) &D.arrayName, obj); \
         })
 
 #define MAKE_COUPLING_ARR_SPIN_ONETWO(arrayName, size)\
         .def(#arrayName, [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
-            return py::array_t<double>(std::vector<int>{size, 2}, (const double*) &D.arrayName, obj); \
+            return py::array_t<double>(std::vector<double>{size, 2}, (const double*) &D.arrayName, obj); \
         })
 
 #define MAKE_COUPLING_REAL_IMAGINARY_SPIN_ZERO(arrayName, couplingName, couplingIndex, higgsIndex)\
@@ -236,7 +236,7 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
             py::cpp_function(\
                 [](py::object &obj){\
                     Mela &D = obj.cast<Mela&>();\
-                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.arrayName[higgsIndex][couplingIndex], obj);\
+                    return py::array_t<double>(std::vector<double>{2}, (const double*) &D.arrayName[higgsIndex][couplingIndex], obj);\
                 }, py::keep_alive<0, 1>()),\
             py::cpp_function(\
                 [](Mela &D, std::array<double, 2> coupl){\
@@ -251,7 +251,7 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
             py::cpp_function(\
                 [](py::object &obj){\
                     Mela &D = obj.cast<Mela&>();\
-                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.arrayName[couplingIndex], obj);\
+                    return py::array_t<double>(std::vector<double>{2}, (const double*) &D.arrayName[couplingIndex], obj);\
                 }, py::keep_alive<0, 1>()),\
             py::cpp_function(\
                 [](Mela &D, std::array<double, 2> coupl){\
@@ -283,13 +283,13 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
             py::cpp_function(\
                 [](py::object &obj){\
                     Mela& D = obj.cast<Mela&>();\
-                    py::array_t array_val = py::array_t<int>(std::vector<int>{nSupportedHiggses,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const int*) &D.arrayName, obj);\
+                    py::array_t array_val = py::array_t<double>(std::vector<double>{nSupportedHiggses,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.arrayName, obj);\
                     return array_val.at(higgsIndex,couplingIndex_1, couplingIndex_2);\
                 }),\
             py::cpp_function(\
                 [](py::object &obj, double coupl){\
                     Mela &D = obj.cast<Mela&>();\
-                    py::array_t array_val = py::array_t<int>(std::vector<int>{nSupportedHiggses,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const int*) &D.arrayName, obj);\
+                    py::array_t array_val = py::array_t<double>(std::vector<double>{nSupportedHiggses,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.arrayName, obj);\
                     array_val.mutable_at(higgsIndex,couplingIndex_1, couplingIndex_2) = coupl;\
                 }, py::keep_alive<0, 1>())\
         )
@@ -343,6 +343,20 @@ PYBIND11_MODULE(Mela, m) {
         .def("toList", [](SimpleParticleCollection_t &C){
             py::list list_type = py::cast(C);
             return list_type;
+        })
+        .def("Sum", [](SimpleParticleCollection_t &C){
+            TLorentzVector sum = TLorentzVector(0,0,0,0);
+            for(SimpleParticle_t P : C){
+                sum += P.second;
+            }
+            return py::make_tuple(sum.Px(), sum.Py(), sum.Pz(), sum.E());
+        })
+        .def("MTotal", [](SimpleParticleCollection_t &C){
+            TLorentzVector sum = TLorentzVector(0,0,0,0);
+            for(SimpleParticle_t P : C){
+                sum += P.second;
+            }
+            return sum.M();
         })
         .def(py::pickle(
             [](const SimpleParticleCollection_t& C){
@@ -691,10 +705,22 @@ PYBIND11_MODULE(Mela, m) {
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHt4t4coupl,SIZE_HQQ,double)
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHzzcoupl,SIZE_HVV,double)
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHwwcoupl,SIZE_HVV,double)
-        MAKE_COUPLING_ARR_SPIN_ZERO(selfDHzzLambda_qsq,SIZE_HVV_CQSQ,double)
-        MAKE_COUPLING_ARR_SPIN_ZERO(selfDHwwLambda_qsq,SIZE_HVV_CQSQ,double)
-        MAKE_COUPLING_ARR_SPIN_ZERO(selfDHzzCLambda_qsq,SIZE_HVV_CQSQ,int)
-        MAKE_COUPLING_ARR_SPIN_ZERO(selfDHwwCLambda_qsq,SIZE_HVV_CQSQ,int)
+        .def("selfDHzzLambda_qsq", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<double>(std::vector<double>{nSupportedHiggses, SIZE_HVV_LAMBDAQSQ, SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj); \
+        })
+        .def("selfDHwwLambda_qsq", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<double>(std::vector<double>{nSupportedHiggses, SIZE_HVV_LAMBDAQSQ, SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj); \
+        })
+        .def("selfDHzzCLambda_qsq", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<int>(std::vector<int>{nSupportedHiggses, SIZE_HVV_CQSQ}, (const int*) &D.selfDHzzCLambda_qsq, obj); \
+        })
+        .def("selfDHwwCLambda_qsq", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<int>(std::vector<int>{nSupportedHiggses, SIZE_HVV_CQSQ}, (const int*) &D.selfDHwwCLambda_qsq, obj); \
+        })
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDHzzpcoupl,SIZE_HVV)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDHzpzpcoupl,SIZE_HVV)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDZpffcoupl,SIZE_Vpff)
@@ -710,7 +736,10 @@ PYBIND11_MODULE(Mela, m) {
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDGvpvpcoupl,SIZE_GVV)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDaTQGCcoupl,SIZE_ATQGC)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDAZffcoupl,SIZE_AZff)
-
+        .def("selfDSMEFTSimcoupl", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<double>(std::vector<double>{SIZE_SMEFT}, (const double*) &D.selfDSMEFTSimcoupl, obj); \
+        })
         .def_readwrite("M_Zprime", &Mela::selfDM_Zprime)
         .def_readwrite("Ga_Zprime", &Mela::selfDGa_Zprime)
         .def_readwrite("M_Wprime", &Mela::selfDM_Wprime)
@@ -1654,6 +1683,17 @@ PYBIND11_MODULE(Mela, m) {
         .value("SMSyst_ResUp", TVar::SMSyst_ResUp)
         .value("SMSyst_ResDown", TVar::SMSyst_ResDown);
 
+    py::enum_<TVar::LeptonInterference>(m, "LeptonInterference")
+        .value("DefaultLeptonInterf", TVar::DefaultLeptonInterf)
+        .value("InterfOn", TVar::InterfOn)
+        .value("InterfOff", TVar::InterfOff);
+
+    py::enum_<TVar::FermionMassRemoval>(m, "FermionMassRemoval")
+        .value("NoRemoval", TVar::NoRemoval)
+        .value("ConserveDifermionMass", TVar::ConserveDifermionMass)
+        .value("MomentumToEnergy", TVar::MomentumToEnergy)
+        .value("nFermionMassRemovalSchemes", TVar::nFermionMassRemovalSchemes);
+
     py::enum_<CouplingIndex_HQQ>(m, "CouplingIndex_HQQ")
         .value("gHIGGS_KAPPA", gHIGGS_KAPPA)
         .value("gHIGGS_KAPPA_TILDE", gHIGGS_KAPPA_TILDE)
@@ -1720,7 +1760,7 @@ PYBIND11_MODULE(Mela, m) {
         .value("cLambdaHIGGS_VV_QSQ12", cLambdaHIGGS_VV_QSQ12)
         .value("SIZE_HVV_CQSQ", SIZE_HVV_CQSQ);
 
-    py::enum_<CouplingIndex_Vpff>(m, "Vpff_indices")
+    py::enum_<CouplingIndex_Vpff>(m, "CouplingIndex_Vpff")
         .value("gHIGGS_Vp_El_left", gHIGGS_Vp_El_left)
         .value("gHIGGS_Vp_El_right", gHIGGS_Vp_El_right)
         .value("gHIGGS_Vp_Mu_left", gHIGGS_Vp_Mu_left)
