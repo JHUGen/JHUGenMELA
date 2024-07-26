@@ -1584,7 +1584,6 @@ PYBIND11_MODULE(Mela, m) {
         .value("Lep_ZH_TU",TVar::Lep_ZH_TU)
         .value("Lep_WH_TU",TVar::Lep_WH_TU)
         .value("GammaH",TVar::GammaH) // gammaH, stable A (could implement S and TU in the future
-        .value("qqH",TVar::qqH)
         .value("nProductions",TVar::nProductions);
 
     py::enum_<TVar::Process>(m, "Process")

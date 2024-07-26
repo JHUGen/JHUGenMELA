@@ -100,8 +100,6 @@ namespace TVar{
     Lep_WH_TU,
 
     GammaH, // gammaH, stable A (could implement S and TU in the future
-    //
-    qqH,
     nProductions
   };
   enum LeptonInterference{

@@ -107,8 +107,6 @@ TString TVar::ProductionName(TVar::Production temp){
 
   else if (temp==TVar::GammaH) return TString("GammaH");
 
-  else if (temp==TVar::qqH) return TString("qqH");
-
   else return TString("Unknown");
 }
 

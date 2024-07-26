@@ -321,7 +321,7 @@ void Mela::setProcess(TVar::Process myModel, TVar::MatrixElement myME, TVar::Pro
   myModel_ = myModel;
   if (myME_==TVar::MADGRAPH && 
     myProduction_ != TVar::ZZGG && 
-    myProduction_ != TVar::qqH
+    myProduction_ != TVar::ZZQQB
   ){
     MELAout << "Production mode " << myProduction_ << " is not currently supported by MADMELA!" << endl;
   }

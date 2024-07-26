@@ -1716,7 +1716,7 @@ double TUtil::InterpretScaleScheme(const TVar::Production& production, const TVa
         ||
         production == TVar::bbH
         ||
-        production == TVar::qqH
+        production == TVar::ZZQQB
         ) Q = (2.*masses_mcfm_.mt+masses_mcfm_.hmass);
     }
     else if (matrixElement==TVar::MCFM){

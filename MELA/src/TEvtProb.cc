@@ -720,7 +720,7 @@ double TEvtProb::XsecCalc_XVV(){
   else if (matrixElement == TVar::MADGRAPH){
     calculateME = (
       production == TVar::ZZGG ||
-      production == TVar::qqH
+      production == TVar::ZZQQB
     );
     if (calculateME){
       SetMadgraphSpinZeroCouplings(&selfDSpinZeroCoupl);
