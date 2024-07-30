@@ -316,14 +316,21 @@ PYBIND11_MAKE_OPAQUE(SimpleParticleCollection_t)
 PYBIND11_MODULE(Mela, m) {
     py::class_<SimpleParticle_t>(m, "SimpleParticle_t")
         .def(py::init(&particle_initializer), py::arg("id"), py::arg("x"), py::arg("y"), py::arg("z"), py::arg("e"), py::arg("ptEtaPhi") = false)
-        .def_property_readonly("id", [](SimpleParticle_t& P){
+        .def_property("id", 
+        [](SimpleParticle_t& P){
             return P.first;
+        },
+        [](SimpleParticle_t& P, int id){
+            P.first = id;
         })
         .def_property_readonly("PxPyPzE_vector", [](SimpleParticle_t& P){
             return py::make_tuple(P.second.Px(), P.second.Py(), P.second.Pz(), P.second.E());
         })
         .def_property_readonly("PtEtaPhiM_vector", [](SimpleParticle_t& P){
             return py::make_tuple(P.second.Pt(), P.second.Eta(), P.second.Phi(), P.second.M());
+        })
+        .def("setVector", [](SimpleParticle_t& P, double Px, double Py, double Pz, double E){
+            P.second = TLorentzVector(Px, Py, Pz, E);
         })
         .def("__repr__",[](SimpleParticle_t& P){
             return "SimpleParticle(id=" + std::to_string(P.first) + ",P4=<" + std::to_string(P.second.Px()) + ", " + std::to_string(P.second.Py()) + ", " + std::to_string(P.second.Pz()) + ", " + std::to_string(P.second.E()) + ">)";
@@ -343,6 +350,12 @@ PYBIND11_MODULE(Mela, m) {
         .def("toList", [](SimpleParticleCollection_t &C){
             py::list list_type = py::cast(C);
             return list_type;
+        })
+        .def("__getitem__", [](SimpleParticleCollection_t &C, int idx){
+            return &(C.at(idx));
+        })
+        .def("__setitem__", [](SimpleParticleCollection_t &C, int idx, SimpleParticle_t &P){
+            C.at(idx) = P;
         })
         .def("Sum", [](SimpleParticleCollection_t &C){
             TLorentzVector sum = TLorentzVector(0,0,0,0);
@@ -645,6 +658,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("setMelaHiggsMass", &Mela::setMelaHiggsMass, py::arg("myHiggsMass"), py::arg("index")=0)
         .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth, py::arg("myHiggsWidth")=-1, py::arg("index")=0)
         .def("setMelaHiggsMassWidth", &Mela::setMelaHiggsMassWidth, py::arg("myHiggsMass"), py::arg("myHiggsWidth"), py::arg("index"))
+        .def("setMelaLeptonInterference", &Mela::setMelaLeptonInterference)
         .def("setRenFacScaleMode", &Mela::setRenFacScaleMode)
         .def("SetMadgraphCKMElements", &Mela::SetMadgraphCKMElements, py::arg("ckmlambda")=0.2265, py::arg("ckma")=0.79, py::arg("ckmrho")=0.141, py::arg("ckmeta")=0.357, py::arg("force_refresh")=false)
 
