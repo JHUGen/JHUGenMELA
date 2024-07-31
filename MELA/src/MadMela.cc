@@ -390,25 +390,25 @@ void madMela::initialize_madMELA(){
         ggFSIG_smatrixhel_,
         ggFSIG_update_all_coup_,
     };
-    (*updateMap)[std::make_pair(TVar::Madgraph_sig, TVar::ZZGG)] = ggFSIG;
+    (*updateMap)[std::make_pair(TVar::HSMHiggs, TVar::ZZGG)] = ggFSIG;
 
     MG_process_double qq4lSIG = {
         qq4lSIG_smatrixhel_,
         qq4lSIG_update_all_coup_,
     };
-    (*updateMap)[std::make_pair(TVar::Madgraph_sig, TVar::ZZQQB)] = qq4lSIG;
+    (*updateMap)[std::make_pair(TVar::HSMHiggs, TVar::ZZQQB)] = qq4lSIG;
 
     MG_process_double qq4lBKG = {
         qq4lBKG_smatrixhel_,
         qq4lBKG_update_all_coup_,
     };
-    (*updateMap)[std::make_pair(TVar::Madgraph_bkg, TVar::ZZQQB)] = qq4lBKG;
+    (*updateMap)[std::make_pair(TVar::bkgZZ, TVar::ZZQQB)] = qq4lBKG;
 
     MG_process_double qq4lBSI = {
         qq4lBSI_smatrixhel_,
         qq4lBSI_update_all_coup_,
     };
-    (*updateMap)[std::make_pair(TVar::Madgraph_bsi, TVar::ZZQQB)] = qq4lBSI;
+    (*updateMap)[std::make_pair(TVar::bkgZZ_SMHiggs, TVar::ZZQQB)] = qq4lBSI;
 }
 
 void madMela::update_all_coup(const TVar::Process& process, const TVar::Production& production){

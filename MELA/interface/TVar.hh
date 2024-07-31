@@ -180,10 +180,6 @@ namespace TVar{
     SelfDefine_spin1,
     SelfDefine_spin2,
 
-    /** Madgraph Signal, Background, BSI **/
-    Madgraph_sig,
-    Madgraph_bkg,
-    Madgraph_bsi,
     nProcesses
   };
   enum SuperMelaSyst{

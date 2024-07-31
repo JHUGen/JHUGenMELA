@@ -1648,9 +1648,6 @@ PYBIND11_MODULE(Mela, m) {
         .value("SelfDefine_spin0",TVar::SelfDefine_spin0)
         .value("SelfDefine_spin1",TVar::SelfDefine_spin1)
         .value("SelfDefine_spin2",TVar::SelfDefine_spin2)
-        .value("Madgraph_sig", TVar::Madgraph_sig)
-        .value("Madgraph_bkg", TVar::Madgraph_bkg)
-        .value("Madgraph_bsi", TVar::Madgraph_bsi)
         .value("nProcesses",TVar::nProcesses);
 
     py::enum_<TVar::ResonancePropagatorScheme>(m, "ResonancePropagatorScheme")

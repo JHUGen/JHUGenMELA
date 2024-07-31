@@ -58,10 +58,6 @@ TString TVar::ProcessName(TVar::Process temp){
   else if (temp==TVar::SelfDefine_spin1) return TString("SelfDefine_spin1");
   else if (temp==TVar::SelfDefine_spin2) return TString("SelfDefine_spin2");
 
-  else if (temp==TVar::Madgraph_sig) return TString("Madgraph_sig");
-  else if (temp==TVar::Madgraph_bkg) return TString("Madgraph_bkg");
-  else if (temp==TVar::Madgraph_bsi) return TString("Madgraph_bsi");
-
   else return TString("Unknown");
 }
 
