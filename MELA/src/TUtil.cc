@@ -1715,6 +1715,8 @@ double TUtil::InterpretScaleScheme(const TVar::Production& production, const TVa
         production == TVar::ttH
         ||
         production == TVar::bbH
+        ||
+        production == TVar::ZZQQB
         ) Q = (2.*masses_mcfm_.mt+masses_mcfm_.hmass);
     }
     else if (matrixElement==TVar::MCFM){
@@ -5271,20 +5273,22 @@ double TUtil::MadgraphMatEl(
     );
   
   const int nPDG = mela_event.pDaughters.size() + mela_event.pAssociated.size() + mela_event.pMothers.size();
-  vector<int> pdgs(nPDG);
-  vector<vector<double>> p(nPDG, vector<double>(4));
-
   TLorentzVector MomStore[mxpart]; // Mom (in natural units) to compute alphaS
   for (int i = 0; i < mxpart; i++) MomStore[i].SetXYZT(0, 0, 0, 0);
-  // if(verbosity >= TVar::DEBUG) MELAout << "Boost vector of " << boostVec.Px() << " " << boostVec.Py() << " " << boostVec.Pz() << endl;
+
+  // vector<int> pdgs(nPDG);
+  // vector<vector<double>> p(nPDG, vector<double>(4));
+  
+  int pdgs[nPDG];
+  double* p = new double[4*nPDG];
 
   int i = 0;
   for (SimpleParticle_t particle : mela_event.pMothers){
     pdgs[i] = particle.first;
-    p[i][0] = particle.second.E();
-    p[i][1] = particle.second.Px();
-    p[i][2] = particle.second.Py();
-    p[i][3] = particle.second.Pz();
+    p[i*4+0] = particle.second.E();
+    p[i*4+1] = particle.second.Px();
+    p[i*4+2] = particle.second.Py();
+    p[i*4+3] = particle.second.Pz();
     MomStore[i] = particle.second;
     i++;
   }
@@ -5298,10 +5302,10 @@ double TUtil::MadgraphMatEl(
       if(verbosity >= TVar::DEBUG) MELAout << "Swapping daughters at index " << i << " and " << i-1 << endl;
     }
     pdgs[i] = particle.first;
-    p[i][0] = particle.second.E();
-    p[i][1] = particle.second.Px();
-    p[i][2] = particle.second.Py();
-    p[i][3] = particle.second.Pz();
+    p[i*4+0] = particle.second.E();
+    p[i*4+1] = particle.second.Px();
+    p[i*4+2] = particle.second.Py();
+    p[i*4+3] = particle.second.Pz();
     MomStore[i] = particle.second;
     if(previously_swapped){
       i += 2;
@@ -5316,19 +5320,10 @@ double TUtil::MadgraphMatEl(
   }
   if(abs(pdgs[2]) > abs(pdgs[4])){ // absolute values of id are sorted
     swap(pdgs[2], pdgs[4]);
-    swap(p[2], p[4]);
     swap(pdgs[3], pdgs[5]);
-    swap(p[3], p[5]);
-  }
-  int pdgs_for_fortran[nPDG];
-  double* p_for_fortran = new double[4*nPDG];
-
-  copy(pdgs.begin(), pdgs.end(), pdgs_for_fortran);
-  int counter = 0;
-  for(i = 0; i < nPDG; i++){
-    for(int j = 0; j < 4; j++){
-      p_for_fortran[counter] = p[i][j];
-      counter ++;
+    for(i=0; i<4; i++){
+      swap(p[2*4+i], p[4*4+i]);
+      swap(p[3*4+i], p[5*4+i]);
     }
   }
   // Set alphas
@@ -5355,26 +5350,32 @@ double TUtil::MadgraphMatEl(
       << "\trenQ: " << renQ << " ( x " << event_scales->ren_scale_factor << "), facQ: " << facQ << " ( x " << event_scales->fac_scale_factor << ")\n"
       << "\tAfter set, alphas scale: " << scale_.scale << ", PDF scale: " << facscale_.facscale << ", alphas(Qren): " << alphasVal << ", alphas(MZ): " << alphasmzVal << endl;
   }
-  int procid = -1;
-  double scale2 = 1; //This is useless for ggH calculations
+  int procid = -1; //always set to -1 just cause
+  double scale2 = 1; //This is useless for calculations
   if (verbosity>=TVar::DEBUG_VERBOSE){
-    MELAout << "Input vectors to MADGRAPH function in order as id, px, py, pz, E:" << endl;
-    for(int i = 0; i < nPDG; i++){
-      MELAout << "id of " << pdgs[i] << " & vector of " << p[i][1] << ", " << p[i][2] << ", " << p[i][3] << ", " << p[i][0] << endl;
-    }
+    // MELAout << "Input vectors to MADGRAPH function in order as id, px, py, pz, E:" << endl;
+    // for(int i = 0; i < nPDG; i++){
+    //   MELAout << "id of " << pdgs[i] << " & vector of " << p[i][1] << ", " << p[i][2] << ", " << p[i][3] << ", " << p[i][0] << endl;
+    // }
     MELAout << "Raw Input to FORTRAN:" << endl;
     for(int i = 0; i < nPDG; i++){
       for(int j = 0; j < 4; j++){
-        MELAout << p_for_fortran[i*4+j] << " ";
+        MELAout << p[i*4+j] << " ";
       }
       MELAout << endl;
     }
   }
-  madMela::update_all_coup_();
+  madMela::update_all_coup(process, production);
   int nhel = -1;
-  madMela::smatrixhel_(pdgs_for_fortran, procid, nPDG, p_for_fortran, alphasVal, scale2, nhel, MatElSq);
+  madMela::smatrixhel(
+    process, production, 
+    pdgs, procid, nPDG, p, 
+    alphasVal, scale2, nhel, MatElSq
+  );
+
   if(verbosity >= TVar::DEBUG) MELAout << " smatrixhel returns prob of " << MatElSq << endl;
-  delete p_for_fortran;
+  delete p;
+  p = nullptr;
   return MatElSq;
 }
 
