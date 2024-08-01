@@ -395,7 +395,7 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
 #define MAKE_COUPLING_ARR_SPIN_ZERO(arrayName, size, arrType)\
         .def(#arrayName, [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
-            return py::array_t<arrType>(std::vector<int>{nSupportedHiggses, size, 2}, (const arrType*) &D.arrayName, obj); \
+            return py::array_t<arrType>(std::vector<arrType>{nSupportedHiggses, size, 2}, (const arrType*) &D.arrayName, obj); \
         })
 
 /** 
@@ -414,7 +414,7 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
 #define MAKE_COUPLING_ARR_SPIN_ONETWO(arrayName, size)\
         .def(#arrayName, [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
-            return py::array_t<double>(std::vector<int>{size, 2}, (const double*) &D.arrayName, obj); \
+            return py::array_t<double>(std::vector<double>{size, 2}, (const double*) &D.arrayName, obj); \
         })
 
 /** 
@@ -438,7 +438,7 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
             py::cpp_function(\
                 [](py::object &obj){\
                     Mela &D = obj.cast<Mela&>();\
-                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.arrayName[higgsIndex][couplingIndex], obj);\
+                    return py::array_t<double>(std::vector<double>{2}, (const double*) &D.arrayName[higgsIndex][couplingIndex], obj);\
                 }, py::keep_alive<0, 1>()),\
             py::cpp_function(\
                 [](Mela &D, std::array<double, 2> coupl){\
@@ -467,7 +467,7 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
             py::cpp_function(\
                 [](py::object &obj){\
                     Mela &D = obj.cast<Mela&>();\
-                    return py::array_t<double>(std::vector<int>{2}, (const double*) &D.arrayName[couplingIndex], obj);\
+                    return py::array_t<double>(std::vector<double>{2}, (const double*) &D.arrayName[couplingIndex], obj);\
                 }, py::keep_alive<0, 1>()),\
             py::cpp_function(\
                 [](Mela &D, std::array<double, 2> coupl){\
@@ -531,13 +531,13 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
             py::cpp_function(\
                 [](py::object &obj){\
                     Mela& D = obj.cast<Mela&>();\
-                    py::array_t array_val = py::array_t<int>(std::vector<int>{nSupportedHiggses,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const int*) &D.arrayName, obj);\
+                    py::array_t array_val = py::array_t<double>(std::vector<double>{nSupportedHiggses,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.arrayName, obj);\
                     return array_val.at(higgsIndex,couplingIndex_1, couplingIndex_2);\
                 }),\
             py::cpp_function(\
                 [](py::object &obj, double coupl){\
                     Mela &D = obj.cast<Mela&>();\
-                    py::array_t array_val = py::array_t<int>(std::vector<int>{nSupportedHiggses,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const int*) &D.arrayName, obj);\
+                    py::array_t array_val = py::array_t<double>(std::vector<double>{nSupportedHiggses,SIZE_HVV_LAMBDAQSQ,SIZE_HVV_CQSQ}, (const double*) &D.arrayName, obj);\
                     array_val.mutable_at(higgsIndex,couplingIndex_1, couplingIndex_2) = coupl;\
                 }, py::keep_alive<0, 1>())\
         )
@@ -568,14 +568,21 @@ PYBIND11_MAKE_OPAQUE(SimpleParticleCollection_t)
 PYBIND11_MODULE(Mela, m) {
     py::class_<SimpleParticle_t>(m, "SimpleParticle_t")
         .def(py::init(&particle_initializer), py::arg("id"), py::arg("x"), py::arg("y"), py::arg("z"), py::arg("e"), py::arg("ptEtaPhi") = false)
-        .def_property_readonly("id", [](SimpleParticle_t& P){
+        .def_property("id", 
+        [](SimpleParticle_t& P){
             return P.first;
+        },
+        [](SimpleParticle_t& P, int id){
+            P.first = id;
         })
         .def_property_readonly("PxPyPzE_vector", [](SimpleParticle_t& P){
             return py::make_tuple(P.second.Px(), P.second.Py(), P.second.Pz(), P.second.E());
         })
         .def_property_readonly("PtEtaPhiM_vector", [](SimpleParticle_t& P){
             return py::make_tuple(P.second.Pt(), P.second.Eta(), P.second.Phi(), P.second.M());
+        })
+        .def("setVector", [](SimpleParticle_t& P, double Px, double Py, double Pz, double E){
+            P.second = TLorentzVector(Px, Py, Pz, E);
         })
         .def("__repr__",[](SimpleParticle_t& P){
             return "SimpleParticle(id=" + std::to_string(P.first) + ",P4=<" + std::to_string(P.second.Px()) + ", " + std::to_string(P.second.Py()) + ", " + std::to_string(P.second.Pz()) + ", " + std::to_string(P.second.E()) + ">)";
@@ -595,6 +602,26 @@ PYBIND11_MODULE(Mela, m) {
         .def("toList", [](SimpleParticleCollection_t &C){
             py::list list_type = py::cast(C);
             return list_type;
+        })
+        .def("__getitem__", [](SimpleParticleCollection_t &C, int idx){
+            return &(C.at(idx));
+        })
+        .def("__setitem__", [](SimpleParticleCollection_t &C, int idx, SimpleParticle_t &P){
+            C.at(idx) = P;
+        })
+        .def("Sum", [](SimpleParticleCollection_t &C){
+            TLorentzVector sum = TLorentzVector(0,0,0,0);
+            for(SimpleParticle_t P : C){
+                sum += P.second;
+            }
+            return py::make_tuple(sum.Px(), sum.Py(), sum.Pz(), sum.E());
+        })
+        .def("MTotal", [](SimpleParticleCollection_t &C){
+            TLorentzVector sum = TLorentzVector(0,0,0,0);
+            for(SimpleParticle_t P : C){
+                sum += P.second;
+            }
+            return sum.M();
         })
         .def(py::pickle(
             [](const SimpleParticleCollection_t& C){
@@ -883,6 +910,7 @@ PYBIND11_MODULE(Mela, m) {
         .def("setMelaHiggsMass", &Mela::setMelaHiggsMass, py::arg("myHiggsMass"), py::arg("index")=0)
         .def("setMelaHiggsWidth", &Mela::setMelaHiggsWidth, py::arg("myHiggsWidth")=-1, py::arg("index")=0)
         .def("setMelaHiggsMassWidth", &Mela::setMelaHiggsMassWidth, py::arg("myHiggsMass"), py::arg("myHiggsWidth"), py::arg("index"))
+        .def("setMelaLeptonInterference", &Mela::setMelaLeptonInterference)
         .def("setRenFacScaleMode", &Mela::setRenFacScaleMode)
         .def("SetMadgraphCKMElements", &Mela::SetMadgraphCKMElements, py::arg("ckmlambda")=0.2265, py::arg("ckma")=0.79, py::arg("ckmrho")=0.141, py::arg("ckmeta")=0.357, py::arg("force_refresh")=false)
 
@@ -943,10 +971,22 @@ PYBIND11_MODULE(Mela, m) {
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHt4t4coupl,SIZE_HQQ,double)
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHzzcoupl,SIZE_HVV,double)
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHwwcoupl,SIZE_HVV,double)
-        MAKE_COUPLING_ARR_SPIN_ZERO(selfDHzzLambda_qsq,SIZE_HVV_CQSQ,double)
-        MAKE_COUPLING_ARR_SPIN_ZERO(selfDHwwLambda_qsq,SIZE_HVV_CQSQ,double)
-        MAKE_COUPLING_ARR_SPIN_ZERO(selfDHzzCLambda_qsq,SIZE_HVV_CQSQ,int)
-        MAKE_COUPLING_ARR_SPIN_ZERO(selfDHwwCLambda_qsq,SIZE_HVV_CQSQ,int)
+        .def("selfDHzzLambda_qsq", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<double>(std::vector<double>{nSupportedHiggses, SIZE_HVV_LAMBDAQSQ, SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj); \
+        })
+        .def("selfDHwwLambda_qsq", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<double>(std::vector<double>{nSupportedHiggses, SIZE_HVV_LAMBDAQSQ, SIZE_HVV_CQSQ}, (const double*) &D.selfDHwwLambda_qsq, obj); \
+        })
+        .def("selfDHzzCLambda_qsq", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<int>(std::vector<int>{nSupportedHiggses, SIZE_HVV_CQSQ}, (const int*) &D.selfDHzzCLambda_qsq, obj); \
+        })
+        .def("selfDHwwCLambda_qsq", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<int>(std::vector<int>{nSupportedHiggses, SIZE_HVV_CQSQ}, (const int*) &D.selfDHwwCLambda_qsq, obj); \
+        })
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDHzzpcoupl,SIZE_HVV)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDHzpzpcoupl,SIZE_HVV)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDZpffcoupl,SIZE_Vpff)
@@ -962,7 +1002,10 @@ PYBIND11_MODULE(Mela, m) {
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDGvpvpcoupl,SIZE_GVV)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDaTQGCcoupl,SIZE_ATQGC)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDAZffcoupl,SIZE_AZff)
-
+        .def("selfDSMEFTSimcoupl", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<double>(std::vector<double>{SIZE_SMEFT}, (const double*) &D.selfDSMEFTSimcoupl, obj); \
+        })
         .def_readwrite("M_Zprime", &Mela::selfDM_Zprime)
         .def_readwrite("Ga_Zprime", &Mela::selfDGa_Zprime)
         .def_readwrite("M_Wprime", &Mela::selfDM_Wprime)
@@ -1902,6 +1945,17 @@ PYBIND11_MODULE(Mela, m) {
         .value("SMSyst_ResUp", TVar::SMSyst_ResUp)
         .value("SMSyst_ResDown", TVar::SMSyst_ResDown);
 
+    py::enum_<TVar::LeptonInterference>(m, "LeptonInterference")
+        .value("DefaultLeptonInterf", TVar::DefaultLeptonInterf)
+        .value("InterfOn", TVar::InterfOn)
+        .value("InterfOff", TVar::InterfOff);
+
+    py::enum_<TVar::FermionMassRemoval>(m, "FermionMassRemoval")
+        .value("NoRemoval", TVar::NoRemoval)
+        .value("ConserveDifermionMass", TVar::ConserveDifermionMass)
+        .value("MomentumToEnergy", TVar::MomentumToEnergy)
+        .value("nFermionMassRemovalSchemes", TVar::nFermionMassRemovalSchemes);
+
     py::enum_<CouplingIndex_HQQ>(m, "CouplingIndex_HQQ")
         .value("gHIGGS_KAPPA", gHIGGS_KAPPA)
         .value("gHIGGS_KAPPA_TILDE", gHIGGS_KAPPA_TILDE)
@@ -1968,7 +2022,7 @@ PYBIND11_MODULE(Mela, m) {
         .value("cLambdaHIGGS_VV_QSQ12", cLambdaHIGGS_VV_QSQ12)
         .value("SIZE_HVV_CQSQ", SIZE_HVV_CQSQ);
 
-    py::enum_<CouplingIndex_Vpff>(m, "Vpff_indices")
+    py::enum_<CouplingIndex_Vpff>(m, "CouplingIndex_Vpff")
         .value("gHIGGS_Vp_El_left", gHIGGS_Vp_El_left)
         .value("gHIGGS_Vp_El_right", gHIGGS_Vp_El_right)
         .value("gHIGGS_Vp_Mu_left", gHIGGS_Vp_Mu_left)
@@ -2065,4 +2119,90 @@ PYBIND11_MODULE(Mela, m) {
         .value("gAZff_dZRH", gAZff_dZRH)
         .value("gAZff_dZLH", gAZff_dZLH)
         .value("SIZE_AZff", SIZE_AZff);
+
+    py::enum_<CouplingIndex_SMEFT>(m, "CouplingIndex_SMEFT")
+        .value("gMDL_ch", gMDL_ch)
+        .value("gMDL_chbox", gMDL_chbox)
+        .value("gMDL_chdd", gMDL_chdd)
+        .value("gMDL_chg", gMDL_chg)
+        .value("gMDL_chw", gMDL_chw)
+        .value("gMDL_chb", gMDL_chb)
+        .value("gMDL_chwb", gMDL_chwb)
+        .value("gMDL_cehre", gMDL_cehre)
+        .value("gMDL_cuhre", gMDL_cuhre)
+        .value("gMDL_cdhre", gMDL_cdhre)
+        .value("gMDL_cewre", gMDL_cewre)
+        .value("gMDL_cebre", gMDL_cebre)
+        .value("gMDL_cugre", gMDL_cugre)
+        .value("gMDL_cuwre", gMDL_cuwre)
+        .value("gMDL_cubre", gMDL_cubre)
+        .value("gMDL_cdgre", gMDL_cdgre)
+        .value("gMDL_cdwre", gMDL_cdwre)
+        .value("gMDL_cdbre", gMDL_cdbre)
+        .value("gMDL_chl1", gMDL_chl1)
+        .value("gMDL_chl3", gMDL_chl3)
+        .value("gMDL_che", gMDL_che)
+        .value("gMDL_chq1", gMDL_chq1)
+        .value("gMDL_chq3", gMDL_chq3)
+        .value("gMDL_chu", gMDL_chu)
+        .value("gMDL_chd", gMDL_chd)
+        .value("gMDL_chudre", gMDL_chudre)
+        .value("gMDL_cll", gMDL_cll)
+        .value("gMDL_cll1", gMDL_cll1)
+        .value("gMDL_cqq1", gMDL_cqq1)
+        .value("gMDL_cqq11", gMDL_cqq11)
+        .value("gMDL_cqq3", gMDL_cqq3)
+        .value("gMDL_cqq31", gMDL_cqq31)
+        .value("gMDL_clq1", gMDL_clq1)
+        .value("gMDL_clq3", gMDL_clq3)
+        .value("gMDL_cee", gMDL_cee)
+        .value("gMDL_cuu", gMDL_cuu)
+        .value("gMDL_cuu1", gMDL_cuu1)
+        .value("gMDL_cdd", gMDL_cdd)
+        .value("gMDL_cdd1", gMDL_cdd1)
+        .value("gMDL_ceu", gMDL_ceu)
+        .value("gMDL_ced", gMDL_ced)
+        .value("gMDL_cud1", gMDL_cud1)
+        .value("gMDL_cud8", gMDL_cud8)
+        .value("gMDL_cle", gMDL_cle)
+        .value("gMDL_clu", gMDL_clu)
+        .value("gMDL_cld", gMDL_cld)
+        .value("gMDL_cqe", gMDL_cqe)
+        .value("gMDL_cqu1", gMDL_cqu1)
+        .value("gMDL_cqu8", gMDL_cqu8)
+        .value("gMDL_cqd1", gMDL_cqd1)
+        .value("gMDL_cqd8", gMDL_cqd8)
+        .value("gMDL_cledqre", gMDL_cledqre)
+        .value("gMDL_cquqd1re", gMDL_cquqd1re)
+        .value("gMDL_cquqd11re", gMDL_cquqd11re)
+        .value("gMDL_cquqd8re", gMDL_cquqd8re)
+        .value("gMDL_cquqd81re", gMDL_cquqd81re)
+        .value("gMDL_clequ1re", gMDL_clequ1re)
+        .value("gMDL_clequ3re", gMDL_clequ3re)
+        .value("gMDL_cgtil", gMDL_cgtil)
+        .value("gMDL_cwtil", gMDL_cwtil)
+        .value("gMDL_chgtil", gMDL_chgtil)
+        .value("gMDL_chwtil", gMDL_chwtil)
+        .value("gMDL_chbtil", gMDL_chbtil)
+        .value("gMDL_chwbtil", gMDL_chwbtil)
+        .value("gMDL_cewim", gMDL_cewim)
+        .value("gMDL_cebim", gMDL_cebim)
+        .value("gMDL_cugim", gMDL_cugim)
+        .value("gMDL_cuwim", gMDL_cuwim)
+        .value("gMDL_cubim", gMDL_cubim)
+        .value("gMDL_cdgim", gMDL_cdgim)
+        .value("gMDL_cdwim", gMDL_cdwim)
+        .value("gMDL_cdbim", gMDL_cdbim)
+        .value("gMDL_chudim", gMDL_chudim)
+        .value("gMDL_cehim", gMDL_cehim)
+        .value("gMDL_cuhim", gMDL_cuhim)
+        .value("gMDL_cdhim", gMDL_cdhim)
+        .value("gMDL_cledqim", gMDL_cledqim)
+        .value("gMDL_cquqd1im", gMDL_cquqd1im)
+        .value("gMDL_cquqd8im", gMDL_cquqd8im)
+        .value("gMDL_cquqd11im", gMDL_cquqd11im)
+        .value("gMDL_cquqd81im", gMDL_cquqd81im)
+        .value("gMDL_clequ1im", gMDL_clequ1im)
+        .value("gMDL_clequ3im", gMDL_clequ3im)
+        .value("SIZE_SMEFT", SIZE_SMEFT);
 }

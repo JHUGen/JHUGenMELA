@@ -82,9 +82,9 @@ Mela::~Mela(){
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Begin Mela destructor" << endl;
 
   if(myVerbosity_>=TVar::DEBUG) MELAout << "Mela destructor: Destroying madMELA variables" << endl;
-  // delete madMela::madMelaCandidate;
-  // madMela::madMelaCandidate = nullptr;
   madMela::setDefaultMadgraphValues();
+  delete madMela::updateMap;
+  madMela::updateMap = nullptr;
 
   //setRemoveLeptonMasses(false); // Use Run 1 scheme for not removing lepton masses. Notice the switch itself is defined as an extern, so it has to be set to default value at the destructor!
   setRemoveLeptonMasses(true); // Use Run 2 scheme for removing lepton masses. Notice the switch itself is defined as an extern, so it has to be set to default value at the destructor!
@@ -319,7 +319,10 @@ void Mela::setProcess(TVar::Process myModel, TVar::MatrixElement myME, TVar::Pro
     else if (myProduction_==TVar::JJQCD_S) myProduction_=TVar::JJQCD;
   }
   myModel_ = myModel;
-  if (myME_==TVar::MADGRAPH && myProduction_ != TVar::ZZGG && myProduction_ != TVar::ZZINDEPENDENT){
+  if (myME_==TVar::MADGRAPH && 
+    myProduction_ != TVar::ZZGG && 
+    myProduction_ != TVar::ZZQQB
+  ){
     MELAout << "Production mode " << myProduction_ << " is not currently supported by MADMELA!" << endl;
   }
   if (ZZME!=0) ZZME->set_Process(myModel_, myME_, myProduction_);
@@ -544,7 +547,7 @@ double Mela::getHiggsWidthAtPoleMass(double mass){ return ZZME->get_HiggsWidthAt
 
 void Mela::SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta, bool force_refresh){
   TUtil::SetMadgraphCKMElements(ckmlambda, ckma, ckmrho, ckmeta);
-  if(force_refresh){ madMela::update_all_coup_(); }
+  // if(force_refresh){ madMela::ggFSIG_update_all_coup_(); }
 }
 std::complex<double> Mela::GetMadgraphCKMElement(int iquark, int jquark){
   return TUtil::GetMadgraphCKMElement(iquark, jquark);
@@ -1261,7 +1264,7 @@ void Mela::computeP(
     else if (myME_ == TVar::JHUGen || myME_ == TVar::MCFM || myME_ == TVar::MADGRAPH){
       setAZffCouplings();
       if (!(myME_ == TVar::MCFM  && myProduction_ == TVar::ZZINDEPENDENT &&  (myModel_ == TVar::bkgZZ || myModel_ == TVar::bkgWW || myModel_ == TVar::bkgZGamma || myModel_ == TVar::bkgGammaGamma))){
-        if (myME_ == TVar::MCFM || myModel_ == TVar::SelfDefine_spin0) setSpinZeroCouplings();
+        if (myME_ == TVar::MCFM || myME_ == TVar::MADGRAPH || myModel_ == TVar::SelfDefine_spin0) setSpinZeroCouplings();
         else if (myModel_ == TVar::SelfDefine_spin1 && myME_ != TVar::MADGRAPH) setSpinOneCouplings();
         else if (myModel_ == TVar::SelfDefine_spin2 && myME_ != TVar::MADGRAPH) setSpinTwoCouplings();
         ZZME->computeXS(prob);
