@@ -264,10 +264,13 @@ public:
    * 
    * @warning
    * It is not recommended to use this function to edit the mass of the Higgs in MCFM. Please use either setMelaHiggsMass or setMelaHiggsMassWidth for that.
+   * @warning
+   * This function changes BOTH the Yukawa mass as well as the nominal mass in Madgraph!
+   * If you would like to decouple the Yukawa mass from the nominal mass please use Mela::resetYukawaMass.
    * 
    * @attention You can input negative ids to edit antiparticles (i.e. 24 -> W+, -24 -> W-)
-   * @attention In MCFM both the particle and its antiparticle's mass are changed at the same time. In JHUGen this is not the case - they are separate entries.
-   * @attention The particles that you can change when using the MCFM matrix element are as as follow:
+   * @attention In MCFM/Madgraph both the particle and its antiparticle's mass are changed at the same time. In JHUGen this is not the case - they are separate entries.
+   * @attention The particles that you can change when using the MCFM and Madgraph matrix elements are as as follow:
    * absolute value of ipart | Particle Name
    * :---------: | :-----------:
    * 8 | t Prime quark (4th generation)
