@@ -401,6 +401,9 @@ void Mela::setSpinZeroCouplings(){
     selfDM_Wprime,
     selfDGa_Wprime
   );
+  ZZME->set_SpinZeroSelfCouplings(
+    selfDHHHcoupl
+  );
 }
 void Mela::setSpinOneCouplings(){
   ZZME->set_SpinOneCouplings(selfDZqqcoupl, selfDZvvcoupl);
@@ -469,6 +472,10 @@ void Mela::reset_SelfDCouplings(){
       selfDHwwpcoupl[ic][im] = 0;
       selfDHwpwpcoupl[ic][im] = 0;
     }
+  }
+  // Spin-0 self coupling terms
+  for (int ic=0; ic<SIZE_HHH; ic++){
+    selfDHHHcoupl[ic] = 0;
   }
   // Spin-0 SMEFTsim terms
   for (int ic=0; ic<SIZE_SMEFT; ic++){

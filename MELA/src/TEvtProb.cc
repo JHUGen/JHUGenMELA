@@ -422,7 +422,7 @@ double TEvtProb::XsecCalc_XVV(){
   bool needAZff=CheckSelfDCouplings_AZff();
   if (useMCFM){
     if (verbosity>=TVar::DEBUG) MELAout << "TEvtProb::XsecCalc_XVV: Try MCFM" << endl;
-    needBSMHiggs = CheckSelfDCouplings_Hgg() || CheckSelfDCouplings_Htt() || CheckSelfDCouplings_Hbb() || CheckSelfDCouplings_HVV();
+    needBSMHiggs = CheckSelfDCouplings_Hgg() || CheckSelfDCouplings_Htt() || CheckSelfDCouplings_Hbb() || CheckSelfDCouplings_HVV() || CheckSelfDCouplings_HHH();
     if (needBSMHiggs || needAZff) SetLeptonInterf(TVar::InterfOn); // All anomalous coupling computations have to use lepton interference
 
     calculateME = (
@@ -1152,6 +1152,17 @@ bool TEvtProb::CheckSelfDCouplings_HVV(){
     } // No need to check c_q**2. If these are 0, z_q**2 do not have any effect.
   }
   return false;
+}
+boot TEvtProb::CheckSelfDCouplings_HHH(){
+  if (_hmass>=0. && _hwidth>0.){
+    for (int vv = 0; vv < SIZE_HHH; vv++){
+      if (
+        (selfDSpinZeroCoupl.HHHcoupl)[vv] != 0
+        ){
+        return true;
+      }
+    } 
+  }
 }
 bool TEvtProb::CheckSelfDCouplings_aTQGC(){
   for (int vv = 0; vv < SIZE_ATQGC; vv++){

@@ -3778,6 +3778,20 @@ void TUtil::SetMCFMSpinZeroCouplings(bool useBSM, SpinZeroCouplings const* Hcoup
     spinzerohiggs_anomcoupl_.Lambda_z30 = (Hcouplings->HzzLambda_qsq)[LambdaHIGGS_QSQ_VV_3][cLambdaHIGGS_VV_QSQ12];
     spinzerohiggs_anomcoupl_.Lambda_z40 = (Hcouplings->HzzLambda_qsq)[LambdaHIGGS_QSQ_VV_4][cLambdaHIGGS_VV_QSQ12];
     //
+    /* Set Spin Zero Self Couplings */
+    spinzerohiggs_anomcoupl_.c6 = (Hcouplings->HHHcoupl)[gHiggs_HH_c6];
+    spinzerohiggs_anomcoupl_.t1 = (Hcouplings->HHHcoupl)[gHiggs_HH_t1];
+    spinzerohiggs_anomcoupl_.t2 = (Hcouplings->HHHcoupl)[gHiggs_HH_t2];
+    spinzerohiggs_anomcoupl_.t3 = (Hcouplings->HHHcoupl)[gHiggs_HH_t3];
+    spinzerohiggs_anomcoupl_.t4 = (Hcouplings->HHHcoupl)[gHiggs_HH_t4];
+    spinzerohiggs_anomcoupl_.t5 = (Hcouplings->HHHcoupl)[gHiggs_HH_t5];
+    spinzerohiggs_anomcoupl_.t6 = (Hcouplings->HHHcoupl)[gHiggs_HH_t6];
+    spinzerohiggs_anomcoupl_.w1 = (Hcouplings->HHHcoupl)[gHiggs_HH_w1];
+    spinzerohiggs_anomcoupl_.w2 = (Hcouplings->HHHcoupl)[gHiggs_HH_w2];
+    spinzerohiggs_anomcoupl_.w3 = (Hcouplings->HHHcoupl)[gHiggs_HH_w3];
+    spinzerohiggs_anomcoupl_.w4 = (Hcouplings->HHHcoupl)[gHiggs_HH_w4];
+    spinzerohiggs_anomcoupl_.w5 = (Hcouplings->HHHcoupl)[gHiggs_HH_w5];
+    //
     for (int im=0; im<2; im++){
       spinzerohiggs_anomcoupl_.kappa_top[im] = (Hcouplings->Httcoupl)[gHIGGS_KAPPA][im];
       spinzerohiggs_anomcoupl_.kappa_bot[im] = (Hcouplings->Hbbcoupl)[gHIGGS_KAPPA][im];
