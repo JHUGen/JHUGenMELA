@@ -66,7 +66,6 @@ namespace TVar{
 
     ttH, // ttH
     bbH, // bbH
-
     JQCD, // ? + 1 jet
 
     JJQCD, // SBF
@@ -101,7 +100,6 @@ namespace TVar{
     Lep_WH_TU,
 
     GammaH, // gammaH, stable A (could implement S and TU in the future
-    //
     nProductions
   };
   enum LeptonInterference{
