@@ -1154,7 +1154,7 @@ bool TEvtProb::CheckSelfDCouplings_HVV(){
   }
   return false;
 }
-boot TEvtProb::CheckSelfDCouplings_HHH(){
+bool TEvtProb::CheckSelfDCouplings_HHH(){
   if (_hmass>=0. && _hwidth>0.){
     for (int vv = 0; vv < SIZE_HHH; vv++){
       if (
@@ -1164,6 +1164,7 @@ boot TEvtProb::CheckSelfDCouplings_HHH(){
       }
     } 
   }
+  return false;
 }
 bool TEvtProb::CheckSelfDCouplings_aTQGC(){
   for (int vv = 0; vv < SIZE_ATQGC; vv++){

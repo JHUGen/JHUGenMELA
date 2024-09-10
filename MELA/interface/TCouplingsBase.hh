@@ -197,6 +197,22 @@ namespace{
 
     SIZE_AZff
   };
+  enum CouplingIndex_HHH{
+    gHiggs_HH_c6,
+    gHiggs_HH_t1,
+    gHiggs_HH_t2,
+    gHiggs_HH_t3,
+    gHiggs_HH_t4,
+    gHiggs_HH_t5,
+    gHiggs_HH_t6,
+    gHiggs_HH_w1,
+    gHiggs_HH_w2,
+    gHiggs_HH_w3,
+    gHiggs_HH_w4,
+    gHiggs_HH_w5,
+
+    SIZE_HHH
+  };
   enum CouplingIndex_SMEFT{
     gMDL_ch,
     gMDL_chbox,

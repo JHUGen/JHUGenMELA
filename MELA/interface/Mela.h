@@ -217,6 +217,7 @@ public:
   void computeProdDecP(
     double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
     double selfDHwwcoupl_input[nSupportedHiggses][SIZE_HVV][2],
+    double selfDHHHcoupl_input[SIZE_HHH],
     double selfDaTQGCcoupl_input[SIZE_ATQGC][2],
     double selfDAZffcoupl_input[SIZE_AZff][2],
     float& prob,
@@ -350,6 +351,8 @@ public:
   double selfDaTQGCcoupl[SIZE_ATQGC][2];
   //****Anomnalous Zff**//
   double selfDAZffcoupl[SIZE_AZff][2];
+  //****Higgs Self Couplings *//
+  double selfDHHHcoupl[SIZE_HHH];
   //****SMEFTSIM terms**//
   double selfDSMEFTSimcoupl[SIZE_SMEFT]; //madMela
   // That is a lot of them!  
@@ -447,6 +450,7 @@ protected:
   void setSpinTwoCouplings();
   void setATQGCCouplings();
   void setAZffCouplings();
+  void setSpinZeroSelfCouplings();
 
   bool configureAnalyticalPDFs();
   void reset_SelfDCouplings();

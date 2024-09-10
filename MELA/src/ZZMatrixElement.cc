@@ -249,6 +249,7 @@ void ZZMatrixElement::set_SpinZeroCouplings(
   double selfDHt4t4coupl[nSupportedHiggses][SIZE_HQQ][2],
   double selfDHzzcoupl[nSupportedHiggses][SIZE_HVV][2],
   double selfDHwwcoupl[nSupportedHiggses][SIZE_HVV][2],
+  double selfDHHHcoupl[SIZE_HHH],
   double selfDHzzLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ],
   double selfDHwwLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ],
   int selfDHzzCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
@@ -278,8 +279,10 @@ void ZZMatrixElement::set_SpinZeroCouplings(
       selfD_SpinZeroCouplings->SetHVVSignCQ2(ik, selfDHwwCLambda_qsq[jh-1][ik], true, jh);
     }
     for (int ic=0; ic<SIZE_SMEFT; ic++) selfD_SpinZeroCouplings->SetSMEFTSimCouplings(ic, selfDSMEFTSimcoupl[ic]);
+    for (int ic=0; ic<SIZE_HHH; ic++) selfD_SpinZeroCouplings->SetHHHCouplings(ic, selfDHHHcoupl[ic]);
   }
 }
+
 void ZZMatrixElement::set_SpinZeroContact(
   double selfDHzzpcoupl[SIZE_HVV][2],
   double selfDHzpzpcoupl[SIZE_HVV][2],

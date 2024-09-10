@@ -62,6 +62,9 @@ void SpinZeroCouplings::reset(){
   for (int ik=0; ik<SIZE_SMEFT; ik++){
     SMEFTSimcoupl[ik] = 0;
   }
+  for (int ik=0; ik<SIZE_HHH; ik++){
+    HHHcoupl[ik] = 0;
+  }
 }
 void SpinZeroCouplings::copy(SpinZeroCouplings const& other){
   allow_WWZZSeparation(other.separateWWZZcouplings);
@@ -270,7 +273,13 @@ void SpinZeroCouplings::SetHVpVpCouplings(unsigned int index, double c_real, dou
     }
   }
 }
-
+void SpinZeroCouplings::SetHHHCouplings(unsigned int index, double value, int whichResonance){
+  if (whichResonance!=1) { MELAerr << "Higgs Self Couplings are only for the first resonance" << endl; }
+  else if (index>=SIZE_HHH){ MELAerr << "Cannot set index " << index << ", out of range for the type requested." << endl; }
+  else{
+    HHHcoupl[index] = value;
+  }
+}
 void SpinZeroCouplings::SetSMEFTSimCouplings(unsigned int index, double value){
   if (index>=SIZE_SMEFT){ MELAerr << "Cannot set index " << index << ", out of range for the type requested." << endl; }
   else{

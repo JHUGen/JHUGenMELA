@@ -93,6 +93,7 @@ public:
     double selfDHt4t4coupl[nSupportedHiggses][SIZE_HQQ][2],
     double selfDHzzcoupl[nSupportedHiggses][SIZE_HVV][2],
     double selfDHwwcoupl[nSupportedHiggses][SIZE_HVV][2],
+    double selfDHHHcoupl[SIZE_HHH],
     double selfDHzzLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ],
     double selfDHwwLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ],
     int selfDHzzCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],

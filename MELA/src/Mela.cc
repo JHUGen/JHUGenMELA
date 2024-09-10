@@ -383,6 +383,7 @@ void Mela::setSpinZeroCouplings(){
     selfDHt4t4coupl,
     selfDHzzcoupl,
     selfDHwwcoupl,
+    selfDHHHcoupl,
     selfDHzzLambda_qsq,
     selfDHwwLambda_qsq,
     selfDHzzCLambda_qsq,
@@ -404,9 +405,9 @@ void Mela::setSpinZeroCouplings(){
     selfDM_Wprime,
     selfDGa_Wprime
   );
-  ZZME->set_SpinZeroSelfCouplings(
-    selfDHHHcoupl
-  );
+//  ZZME->set_SpinZeroSelfCouplings(
+//    selfDHHHcoupl
+//  );
 }
 void Mela::setSpinOneCouplings(){
   ZZME->set_SpinOneCouplings(selfDZqqcoupl, selfDZvvcoupl);
@@ -1476,6 +1477,7 @@ void Mela::computeD_CP(
 void Mela::computeProdDecP(
   double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
   double selfDHwwcoupl_input[nSupportedHiggses][SIZE_HVV][2],
+  double selfDHHHcoupl_input[SIZE_HHH],
   double selfDaTQGCcoupl_input[SIZE_ATQGC][2],
   double selfDAZffcoupl_input[SIZE_AZff][2],
   float& prob,
