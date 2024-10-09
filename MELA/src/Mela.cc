@@ -388,6 +388,8 @@ void Mela::setSpinZeroCouplings(){
     selfDHwwLambda_qsq,
     selfDHzzCLambda_qsq,
     selfDHwwCLambda_qsq,
+    selfDHvvLambda_ff,
+    selfDHvvn_ff,
     selfDSMEFTSimcoupl,
     differentiate_HWW_HZZ
   );
@@ -405,9 +407,6 @@ void Mela::setSpinZeroCouplings(){
     selfDM_Wprime,
     selfDGa_Wprime
   );
-//  ZZME->set_SpinZeroSelfCouplings(
-//    selfDHHHcoupl
-//  );
 }
 void Mela::setSpinOneCouplings(){
   ZZME->set_SpinOneCouplings(selfDZqqcoupl, selfDZvvcoupl);
@@ -466,6 +465,10 @@ void Mela::reset_SelfDCouplings(){
         selfDHzzLambda_qsq[jh][ic][ik] = 100.;
         selfDHwwLambda_qsq[jh][ic][ik] = 100.;
       }
+    }
+    for (int ic = 0; ic<SIZE_HVV_LAMBDAFF; ic++){ // We expect each lambda to have a matching N. Lamba<N> <-> n<N> 
+      selfDHvvLambda_ff[jh][ic] = 1000; // Default values do not matter if n = 0
+      selfDHvvn_ff[jh][ic] = 0;
     }
   }
   // Spin-0 contact terms
@@ -1477,7 +1480,6 @@ void Mela::computeD_CP(
 void Mela::computeProdDecP(
   double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
   double selfDHwwcoupl_input[nSupportedHiggses][SIZE_HVV][2],
-  double selfDHHHcoupl_input[SIZE_HHH],
   double selfDaTQGCcoupl_input[SIZE_ATQGC][2],
   double selfDAZffcoupl_input[SIZE_AZff][2],
   float& prob,

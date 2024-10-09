@@ -217,7 +217,6 @@ public:
   void computeProdDecP(
     double selfDHvvcoupl_input[nSupportedHiggses][SIZE_HVV][2],
     double selfDHwwcoupl_input[nSupportedHiggses][SIZE_HVV][2],
-    double selfDHHHcoupl_input[SIZE_HHH],
     double selfDaTQGCcoupl_input[SIZE_ATQGC][2],
     double selfDAZffcoupl_input[SIZE_AZff][2],
     float& prob,
@@ -353,6 +352,9 @@ public:
   double selfDAZffcoupl[SIZE_AZff][2];
   //****Higgs Self Couplings *//
   double selfDHHHcoupl[SIZE_HHH];
+  //****Prop Form Factors ****/
+  double selfDHvvLambda_ff[nSupportedHiggses][SIZE_HVV_LAMBDAFF];
+  int selfDHvvn_ff[nSupportedHiggses][SIZE_HVV_NFF];
   //****SMEFTSIM terms**//
   double selfDSMEFTSimcoupl[SIZE_SMEFT]; //madMela
   // That is a lot of them!  

@@ -98,6 +98,8 @@ public:
     double selfDHwwLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ],
     int selfDHzzCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
     int selfDHwwCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
+    double selfDHvvLambda_ff[nSupportedHiggses][SIZE_HVV_LAMBDAFF],
+    int selfDHvvn_ff[nSupportedHiggses][SIZE_HVV_NFF],
     double selfDSMEFTSimcoupl[SIZE_SMEFT],
     bool diffHWW = false
     );

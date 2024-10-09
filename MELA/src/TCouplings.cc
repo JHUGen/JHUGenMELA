@@ -59,6 +59,12 @@ void SpinZeroCouplings::reset(){
       H2wwLambda_qsq[ic][ik] = 100.;
     }
   }
+  for (int ik=0; ik<SIZE_HVV_LAMBDAFF;ik++){
+    HvvLambda_ff[ik]=1000.;
+    H2vvLambda_ff[ik]=1000.;
+    Hvvn_ff[ik]=0;
+    H2vvn_ff[ik]=0;
+  }
   for (int ik=0; ik<SIZE_SMEFT; ik++){
     SMEFTSimcoupl[ik] = 0;
   }
@@ -163,6 +169,30 @@ void SpinZeroCouplings::SetHVVSignCQ2(unsigned int index, int csign, bool setWW,
     else{
       if (setWW) H2wwCLambda_qsq[index] = csign;
       else H2zzCLambda_qsq[index] = csign;
+    }
+  }
+}
+void SpinZeroCouplings::SetHVVLambdaFF(unsigned int index, double c_real, int whichResonance){
+  if (index>=SIZE_HVV_LAMBDAFF){MELAerr << "Cannot set index " << index << ", out of range for the type requested." << endl; }
+  else if (whichResonance<=0 || whichResonance>2){MELAerr << "Resonance " << whichResonance << " is not supported. Set it to 1 for the regular Higgs and 2 for the high-mass resonance." << endl;}
+  else{
+    if (whichResonance==1){
+      HvvLambda_ff[index] = c_real;
+    }
+    else{
+      H2vvLambda_ff[index] = c_real;
+    }
+  }
+}
+void SpinZeroCouplings::SetHVVLambdaN(unsigned int index, int c_int, int whichResonance){
+  if (index>=SIZE_HVV_LAMBDAFF){MELAerr << "Cannot set index " << index << ", out of range for the type requested." << endl; }
+  else if (whichResonance<=0 || whichResonance>2){MELAerr << "Resonance " << whichResonance << " is not supported. Set it to 1 for the regular Higgs and 2 for the high-mass resonance." << endl;}
+  else{
+    if (whichResonance==1){
+      Hvvn_ff[index] = c_int;
+    }
+    else{
+      H2vvn_ff[index] = c_int;
     }
   }
 }

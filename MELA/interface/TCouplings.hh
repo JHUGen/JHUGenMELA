@@ -18,6 +18,8 @@ public:
   void SetHVVCouplings(unsigned int index, double c_real, double c_imag, bool setWW = false, int whichResonance=1);
   void SetHVVLambdaQ2(unsigned int gType, unsigned int index, double lambda, bool setWW = false, int whichResonance=1);
   void SetHVVSignCQ2(unsigned int index, int csign, bool setWW = false, int whichResonance=1);
+  void SetHVVLambdaFF(unsigned int index, double c_real, int whichResonance=1);
+  void SetHVVLambdaN(unsigned int index, int c_int, int whichResonance=1);
   void SetHGGCouplings(unsigned int index, double c_real, double c_imag, int whichLoop=1, int whichResonance=1);
   void SetHQQCouplings(unsigned int index, double c_real, double c_imag, int qid=0, int whichResonance=1);
   void SetHHHCouplings(unsigned int index, double value, int whichResonance=1);
@@ -41,6 +43,9 @@ public:
   int HzzCLambda_qsq[SIZE_HVV_CQSQ];
   int HwwCLambda_qsq[SIZE_HVV_CQSQ];
 
+  double HvvLambda_ff[SIZE_HVV_LAMBDAFF];
+  int Hvvn_ff[SIZE_HVV_NFF];
+
   double H2ggcoupl[SIZE_HGG][2];
   double H2qqcoupl[SIZE_HQQ][2];
   double H2ttcoupl[SIZE_HQQ][2];
@@ -55,6 +60,9 @@ public:
   double H2wwLambda_qsq[SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ];
   int H2zzCLambda_qsq[SIZE_HVV_CQSQ];
   int H2wwCLambda_qsq[SIZE_HVV_CQSQ];
+
+  double H2vvLambda_ff[SIZE_HVV_LAMBDAFF];
+  int H2vvn_ff[SIZE_HVV_NFF];
 
   double Hzzpcoupl[SIZE_HVV][2];
   double Hzpzpcoupl[SIZE_HVV][2];

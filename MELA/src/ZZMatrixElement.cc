@@ -254,6 +254,8 @@ void ZZMatrixElement::set_SpinZeroCouplings(
   double selfDHwwLambda_qsq[nSupportedHiggses][SIZE_HVV_LAMBDAQSQ][SIZE_HVV_CQSQ],
   int selfDHzzCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
   int selfDHwwCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ],
+  double selfDHvvLambda_ff[nSupportedHiggses][SIZE_HVV_LAMBDAFF],
+  int selfDHvvn_ff[nSupportedHiggses][SIZE_HVV_NFF],
   double selfDSMEFTSimcoupl[SIZE_SMEFT],
   bool diffHWW
   ){
@@ -278,6 +280,10 @@ void ZZMatrixElement::set_SpinZeroCouplings(
       selfD_SpinZeroCouplings->SetHVVSignCQ2(ik, selfDHzzCLambda_qsq[jh-1][ik], false, jh);
       selfD_SpinZeroCouplings->SetHVVSignCQ2(ik, selfDHwwCLambda_qsq[jh-1][ik], true, jh);
     }
+    for (int ic=0; ic<SIZE_HVV_LAMBDAFF; ic++){
+      selfD_SpinZeroCouplings->SetHVVLambdaFF(ic,selfDHvvLambda_ff[jh-1][ic],jh);
+      selfD_SpinZeroCouplings->SetHVVLambdaN(ic,selfDHvvn_ff[jh-1][ic],jh);
+    } 
     for (int ic=0; ic<SIZE_SMEFT; ic++) selfD_SpinZeroCouplings->SetSMEFTSimCouplings(ic, selfDSMEFTSimcoupl[ic]);
     for (int ic=0; ic<SIZE_HHH; ic++) selfD_SpinZeroCouplings->SetHHHCouplings(ic, selfDHHHcoupl[ic]);
   }

@@ -422,7 +422,7 @@ double TEvtProb::XsecCalc_XVV(){
   bool needAZff=CheckSelfDCouplings_AZff();
   if (useMCFM){
     if (verbosity>=TVar::DEBUG) MELAout << "TEvtProb::XsecCalc_XVV: Try MCFM" << endl;
-    needBSMHiggs = CheckSelfDCouplings_Hgg() || CheckSelfDCouplings_Htt() || CheckSelfDCouplings_Hbb() || CheckSelfDCouplings_HVV() || CheckSelfDCouplings_HHH();
+    needBSMHiggs = CheckSelfDCouplings_Hgg() || CheckSelfDCouplings_Htt() || CheckSelfDCouplings_Hbb() || CheckSelfDCouplings_HVV() || CheckSelfDCouplings_HHH() || CheckSelfDCouplings_LAMBDAFF();
     if (needBSMHiggs || needAZff) SetLeptonInterf(TVar::InterfOn); // All anomalous coupling computations have to use lepton interference
 
     calculateME = (
@@ -1151,6 +1151,25 @@ bool TEvtProb::CheckSelfDCouplings_HVV(){
         return true;
       }
     } // No need to check c_q**2. If these are 0, z_q**2 do not have any effect.
+  }
+  return false;
+}
+bool TEvtProb::CheckSelfDCouplings_LAMBDAFF(){
+  if (_hmass>=0. && _hwidth>0.){
+    for (int vv = 0; vv < SIZE_HVV_NFF; vv++){
+      if (selfDSpinZeroCoupl.Hvvn_ff[vv] !=0
+      ){ 
+        return true;
+      }
+    }
+  }
+  if (_h2mass>=0. && _h2width>0.){
+    for (int vv = 0; vv < SIZE_HVV_NFF; vv++){
+      if (selfDSpinZeroCoupl.H2vvn_ff[vv] !=0
+      ){ 
+        return true;
+      }
+    }
   }
   return false;
 }

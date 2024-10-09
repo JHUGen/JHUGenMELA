@@ -85,6 +85,21 @@ namespace{
 
     SIZE_HVV_CQSQ = 3
   };
+
+  enum CouplingIndex_HVV_LAMBDAFF{
+    LambdaHIGGS_VV_FF1,
+    LambdaHIGGS_VV_FF2,
+
+    SIZE_HVV_LAMBDAFF
+  };
+
+  enum CouplingIndex_HVV_NFF{
+    nHIGGS_VV_FF1,
+    nHIGGS_VV_FF2,
+
+    SIZE_HVV_NFF
+  };
+
   enum CouplingIndex_Vpff{
     gHIGGS_Vp_El_left,
     gHIGGS_Vp_El_right,
@@ -198,18 +213,18 @@ namespace{
     SIZE_AZff
   };
   enum CouplingIndex_HHH{
-    gHiggs_HH_c6,
-    gHiggs_HH_t1,
-    gHiggs_HH_t2,
-    gHiggs_HH_t3,
-    gHiggs_HH_t4,
-    gHiggs_HH_t5,
-    gHiggs_HH_t6,
-    gHiggs_HH_w1,
-    gHiggs_HH_w2,
-    gHiggs_HH_w3,
-    gHiggs_HH_w4,
-    gHiggs_HH_w5,
+    gHIGGS_HH_c6,
+    gHIGGS_HH_t1,
+    gHIGGS_HH_t2,
+    gHIGGS_HH_t3,
+    gHIGGS_HH_t4,
+    gHIGGS_HH_t5,
+    gHIGGS_HH_t6,
+    gHIGGS_HH_w1,
+    gHIGGS_HH_w2,
+    gHIGGS_HH_w3,
+    gHIGGS_HH_w4,
+    gHIGGS_HH_w5,
 
     SIZE_HHH
   };
