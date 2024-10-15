@@ -17,7 +17,9 @@ using namespace std;
  * @brief These are additions to the MELA code that allow for the Python to operate
  * 
  * The changes made provide for a more usable/readable version of the Python bindings. 
- * They do not change any of the functionality of MELA, but simply provide either compatibility fixes or syntactic sugar.
+ * They do not change any of the functionality of MELA, 
+ * but simply provide either compatibility fixes or syntactic sugar.
+ * For all other PyMELA related things, refer to the subpage @PyMela_page "here".
  * @{
 */
 
@@ -375,6 +377,7 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
 
 /**
  * @defgroup Macros Coupling definition Macros
+ * @anchor py_macros
  * @brief These are C++ macros that define named couplings in the Python code
  * @{
 */
@@ -383,6 +386,7 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
  * @ingroup macros
  * @param arrayName This is the name of the array containing the coupling
  * @param size This is the size of the array
+ * @param arrType The data type of the array
  * @brief Generates the array for spin 0 values in JHUGen and JHUGen-MCFM
  * @note These coupling entries have both a real and an imaginary component. You can set them via:
  * ~~~~~~~~~~~~~{.py}
@@ -514,8 +518,8 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
  * @brief Generates the couplings for Lambda values in JHUGen and JHUGen-MCFM
  * @param arrayName This is the name of the array containing the coupling
  * @param couplingName This is the name of the coupling to set (should be unique for every couplingIndex/higgsIndex combination)
- * @param couplingIndex1 This is the index at which the name corresponds to the array
- * @param couplingIndex2 This is the index at which the name corresponds to the array
+ * @param couplingIndex_1 This is the index at which the name corresponds to the array
+ * @param couplingIndex_2 This is the index at which the name corresponds to the array
  * @param higgsIndex This is the index of which Higgs to use (MCFM supports 2 resonances)
  * @note These coupling entries only have a real component. You can set them via:
  * ~~~~~~~~~~~~~{.py}
@@ -542,6 +546,19 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+/** 
+ * @ingroup macros
+ * @brief Generates the couplings for SMEFTSim Wilson Coefficients in MadMELA
+ * @param couplingName This is the name of the Wilson Coefficient to set
+ * @param couplingIndex_1 This is the index at which the name corresponds to the array
+ * @note These coupling entries only have a real component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<couplingName> = value
+ * print(m.<couplingName>) #will print the value
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_MADMELA(couplingName, couplingIndex_1)\
         .def_property(\
             #couplingName, \
@@ -563,8 +580,6 @@ PYBIND11_MAKE_OPAQUE(SimpleParticle_t)
 PYBIND11_MAKE_OPAQUE(SimpleParticleCollection_t)
 /// @brief The actual binding code for MELA
 /// @anchor PyMELA
-/// @param  
-/// @param  
 PYBIND11_MODULE(Mela, m) {
     py::class_<SimpleParticle_t>(m, "SimpleParticle_t")
         .def(py::init(&particle_initializer), py::arg("id"), py::arg("x"), py::arg("y"), py::arg("z"), py::arg("e"), py::arg("ptEtaPhi") = false)

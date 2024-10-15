@@ -115,3 +115,43 @@ for n, particle in enumerate(gluon_Collection):
      print(f"particle {n} has an id of {particle.id}")
      print(f"with P_x, P_y, P_z, E = {particle.vector}")
 ~~~~~~~~~~~~~
+
+### Indexing {#simpleparticlecollection_indexing}
+
+One can also index the underlying vector for the
+`simpleParticleCollection_t` class. Indexing works as normal.
+
+~~~~~~~~~~~~~{.py}
+import Mela
+gluon_Collection = Mela.SimpleParticleCollection_t()
+gluon_Collection.add_particle(Mela.SimpleParticle_t(21, 0, 0, 12, 12))
+gluon_Collection[0] = Mela.SimpleParticle_t(21, 0, 0, -12, 12)
+print(gluon_Collection[0].PxPyPzE_vector)
+~~~~~~~~~~~~~
+
+### Sum {#simpleparticelcollection_sum}
+
+This method returns the 4-vector that is the sum
+of all the 4-vectors stored inside the class. It returns
+them as a tuple of 4 values: 
+\f$P_x\f$, \f$P_y\f$, \f$P_z\f$, \f$E\f$.
+
+~~~~~~~~~~~~~{.py}
+import Mela
+gluon_Collection = Mela.SimpleParticleCollection_t()
+gluon_Collection.add_particle(Mela.SimpleParticle_t(21, 0, 0, 12, 12))
+gluon_Collection.add_particle(Mela.SimpleParticle_t(21, 0, 0, -12, 12))
+print(gluon_Collection.Sum()) #should print (0,0,0,0)
+~~~~~~~~~~~~~
+
+### MTotal {#simpleparticlecollection_mtotal} 
+
+This function is just like `SimpleParticleCollection_t.Sum`, however
+it returns the total mass of the resultant 4-vector.
+
+## Pickling Support
+
+Should you desire to pickle a `SimpleParticleCollection_t` object,
+this is supported through the Python MELA bindings. This support
+for pickling also means that `SimpleParticleCollection_t`
+supports the python `multiprocessing` package.

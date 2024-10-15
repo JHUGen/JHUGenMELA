@@ -1,6 +1,6 @@
 # TVar Enumerations {#tvar_enums}
 
-These are the enumerated values set in TVar.hh. They are used to set up the settings in MELA.
+These are the enumerated values set in `TVar.hh`. They are used to set up the settings in MELA.
 
 ## Verbosity Level {#verbosity_enum}
 
@@ -28,6 +28,7 @@ The values are tabulated below:
 | `Mela.MatrixElement.MCFM` | 0 | Evaluates via JHUGen-MCFM |
 | `Mela.MatrixElement.JHUGen` | 1 | Evaluates via pure JHUGen |
 | `Mela.MatrixElement.ANALYTICAL` | 2 | Evaluates via analytic methods |
+| `Mela.MatrixElement.MADGRAPH` | 3 | Evaluates via the Madgraph matrix element |
 
 One sets the matrix element using `Mela.setProcess(Mela.Process, Mela.MatrixElement, Mela.Production)`, which is originally defined in Mela::setProcess.
 
@@ -45,7 +46,7 @@ The values are tabulated below:
 | `Mela.Production.ttH` | 4 | Explicitly only \f$ t \bar{t} \f$ production |
 | `Mela.Production.bbH` | 5 | Explicitly only \f$ b \bar{b} \f$ production |
 | `Mela.Production.JQCD` | 6 | Single-Jet QCD production |
-| `Mela.Production.JJQCD` | 7 | **IDK** |
+| `Mela.Production.JJQCD` | 7 | Double-Jet QCD production |
 | `Mela.Production.JJVBF` | 8 | Double-Jet VBF production (ZZ/WW Fusion) |
 | `Mela.Production.JJEW` | 9 | Combination of VBF and ZH/WH production |
 | `Mela.Production.JJEWQCD` | 10 | Combination of JJEW and JJQCD |
@@ -53,25 +54,25 @@ The values are tabulated below:
 | `Mela.Production.Had_WH` | 12 | Hadronic WH production |
 | `Mela.Production.Lep_ZH` | 13 | Leptonic ZH production (i.e. \f$ e^+ e^- \f$ collisions) |
 | `Mela.Production.Lep_WH` | 14 | Leptonic WH production |
-| `Mela.Production.ZZQQB_S` | 15 | **IDK** |
-| `Mela.Production.JJQCD_S` | 16 | **IDK** |
-| `Mela.Production.JJVBF_S` | 17 | **IDK** |
-| `Mela.Production.JJEW_S` | 18 | **IDK** |
-| `Mela.Production.JJEWQCD_S` | 19 | **IDK** |
-| `Mela.Production.Had_ZH_S` | 20 | **IDK** |
-| `Mela.Production.Had_WH_S` | 21 | **IDK** |
-| `Mela.Production.Lep_ZH_S` | 22 | **IDK** |
-| `Mela.Production.Lep_WH_S` | 23 | **IDK** |
-| `Mela.Production.ZZQQB_TU` | 24 | **IDK** |
-| `Mela.Production.JJQCD_TU` | 25 | **IDK** |
-| `Mela.Production.JJVBF_TU` | 26 | **IDK** |
-| `Mela.Production.JJEW_TU` | 27 | **IDK** |
-| `Mela.Production.JJEWQCD_TU` | 28 | **IDK** |
-| `Mela.Production.Had_ZH_TU` | 29 | **IDK** |
-| `Mela.Production.Had_WH_TU` | 30 | **IDK** |
-| `Mela.Production.Lep_ZH_TU` | 31 | **IDK** |
-| `Mela.Production.Lep_WH_TU` | 32 | **IDK** |
-| `Mela.Production.GammaH` | 33 | **IDK** |
+| `Mela.Production.ZZQQB_S` | 15 | Quark-Antiquark production (S-channel only) |
+| `Mela.Production.JJQCD_S` | 16 | Double-Jet QCD production (S-channel only) |
+| `Mela.Production.JJVBF_S` | 17 | Double-Jet VBF production (ZZ/WW Fusion) (S-channel only) |
+| `Mela.Production.JJEW_S` | 18 | Double-Jet EW production (VBF/VH) (S-channel only) |
+| `Mela.Production.JJEWQCD_S` | 19 | Combination of JJEW and JJQCD (S-channel only) |
+| `Mela.Production.Had_ZH_S` | 20 | Hadronic ZH production (S-channel only) |
+| `Mela.Production.Had_WH_S` | 21 | Hadronic WH production (S-channel only) |
+| `Mela.Production.Lep_ZH_S` | 22 | Leptonic ZH production (S-channel only) |
+| `Mela.Production.Lep_WH_S` | 23 | Hadronic WH production (S-channel only) |
+| `Mela.Production.ZZQQB_TU` | 24 | Quark-Antiquark production (T/U-channel only) |
+| `Mela.Production.JJQCD_TU` | 25 | Double-Jet QCD production (T/U-channel only) |
+| `Mela.Production.JJVBF_TU` | 26 | Double-Jet VBF production (ZZ/WW Fusion) (T/U-channel only) |
+| `Mela.Production.JJEW_TU` | 27 | Double-Jet EW production (VBF/VH) (T/U-channel only) |
+| `Mela.Production.JJEWQCD_TU` | 28 | Combination of JJEW and JJQCD (T/U-channel only) |
+| `Mela.Production.Had_ZH_TU` | 29 | Hadronic ZH production (T/U-channel only) |
+| `Mela.Production.Had_WH_TU` | 30 | Hadronic WH production (T/U-channel only) |
+| `Mela.Production.Lep_ZH_TU` | 31 | Leptonic ZH production (T/U-channel only) |
+| `Mela.Production.Lep_WH_TU` | 32 | Hadronic WH production (T/U-channel only) |
+| `Mela.Production.GammaH` | 33 | Photon production of the Higgs |
 | `Mela.Production.nProductions` | 34 | This is the total number of production modes that exist within MELA |
 
 One sets the production mode using `Mela.setProcess(Mela.Process, Mela.MatrixElement, Mela.Production)`, which is originally defined in Mela::setProcess.
@@ -104,54 +105,54 @@ The "minimal basis" for the processes are as follow.
 
 | Name | Value | Matrix Element | Summary |
 | ---- | ----- | ------- | ------ |
-| `HSMHiggs` | 0 | MCFM |  |
-| `H0_g1prime2` | 0 | JHUGen |  |
-| `H0hplus` | 0 | JHUGen |  |
-| `H0minus` | 0 | JHUGen |  |
-| `H0_Zgsg1prime2` | 0 | JHUGen |  |
-| `H0_Zgs` | 0 | JHUGen |  |
-| `H0_Zgs_PS` | 0 | JHUGen |  |
-| `H0_gsgs` | 0 | JHUGen |  |
-| `H0_gsgs_PS` | 0 | JHUGen |  |
-| `D_g1g1prime2` | 0 | JHUGen |  |
-| `D_g1g2` | 0 | JHUGen |  |
-| `D_g1g2_pi_2` | 0 | JHUGen |  |
-| `D_g1g4` | 0 | JHUGen |  |
-| `D_g1g4_pi_2` | 0 | JHUGen |  |
-| `D_zzzg` | 0 | JHUGen |  |
-| `D_zzgg` | 0 | JHUGen |  |
-| `D_zzzg_PS` | 0 | JHUGen |  |
-| `D_zzgg_PS` | 0 | JHUGen |  |
-| `D_zzzg_g1prime2` | 0 | JHUGen |  |
-| `D_zzzg_g1prime2_pi_2` | 0 | JHUGen |  |
-| `H1minus` | 0 | JHUGen |  |
-| `H1plus` | 0 | JHUGen |  |
-| `H2_g1` | 0 | JHUGen |  |
-| `H2_g2` | 0 | JHUGen |  |
-| `H2_g3` | 0 | JHUGen |  |
-| `H2_g4` | 0 | JHUGen |  |
-| `H2_g5` | 0 | JHUGen |  |
-| `H2_g1g5` | 0 | JHUGen |  |
-| `H2_g6` | 0 | JHUGen |  |
-| `H2_g7` | 0 | JHUGen |  |
-| `H2_g8` | 0 | JHUGen |  |
-| `H2_g9` | 0 | JHUGen |  |
-| `H2_g10` | 0 | JHUGen |  |
-| `bkgGammaGamma` | 0 | MCFM |  |
-| `bkgZGamma` | 0 | MCFM |  |
-| `bkgZJets` | 0 | MCFM |  |
-| `bkgZZ` | 0 | MCFM |  |
-| `bkgWW` | 0 | MCFM |  |
-| `bkgWWZZ` | 0 | MCFM |  |
-| `bkgZZ_SMHiggs` | 0 | MCFM |  |
-| `bkgWW_SMHiggs` | 0 | MCFM |  |
-| `bkgWWZZ_SMHiggs` | 0 | MCFM |  |
-| `HSMHiggs_WWZZ` | 0 | MCFM |  |
-| `D_gg10` | 0 | JHUGen |  |
-| `SelfDefine_spin0` | 0 | JHUGen |  |
-| `SelfDefine_spin1` | 0 | JHUGen |  |
-| `SelfDefine_spin2` | 0 | JHUGen |  |
-| `nProcesses` | 0 |  | The total number of processes available to you |
+| `Mela.Process.HSMHiggs` | 0 | MCFM |  |
+| `Mela.Process.H0_g1prime2` | 0 | JHUGen |  |
+| `Mela.Process.H0hplus` | 0 | JHUGen |  |
+| `Mela.Process.H0minus` | 0 | JHUGen |  |
+| `Mela.Process.H0_Zgsg1prime2` | 0 | JHUGen |  |
+| `Mela.Process.H0_Zgs` | 0 | JHUGen |  |
+| `Mela.Process.H0_Zgs_PS` | 0 | JHUGen |  |
+| `Mela.Process.H0_gsgs` | 0 | JHUGen |  |
+| `Mela.Process.H0_gsgs_PS` | 0 | JHUGen |  |
+| `Mela.Process.D_g1g1prime2` | 0 | JHUGen |  |
+| `Mela.Process.D_g1g2` | 0 | JHUGen |  |
+| `Mela.Process.D_g1g2_pi_2` | 0 | JHUGen |  |
+| `Mela.Process.D_g1g4` | 0 | JHUGen |  |
+| `Mela.Process.D_g1g4_pi_2` | 0 | JHUGen |  |
+| `Mela.Process.D_zzzg` | 0 | JHUGen |  |
+| `Mela.Process.D_zzgg` | 0 | JHUGen |  |
+| `Mela.Process.D_zzzg_PS` | 0 | JHUGen |  |
+| `Mela.Process.D_zzgg_PS` | 0 | JHUGen |  |
+| `Mela.Process.D_zzzg_g1prime2` | 0 | JHUGen |  |
+| `Mela.Process.D_zzzg_g1prime2_pi_2` | 0 | JHUGen |  |
+| `Mela.Process.H1minus` | 0 | JHUGen |  |
+| `Mela.Process.H1plus` | 0 | JHUGen |  |
+| `Mela.Process.H2_g1` | 0 | JHUGen |  |
+| `Mela.Process.H2_g2` | 0 | JHUGen |  |
+| `Mela.Process.H2_g3` | 0 | JHUGen |  |
+| `Mela.Process.H2_g4` | 0 | JHUGen |  |
+| `Mela.Process.H2_g5` | 0 | JHUGen |  |
+| `Mela.Process.H2_g1g5` | 0 | JHUGen |  |
+| `Mela.Process.H2_g6` | 0 | JHUGen |  |
+| `Mela.Process.H2_g7` | 0 | JHUGen |  |
+| `Mela.Process.H2_g8` | 0 | JHUGen |  |
+| `Mela.Process.H2_g9` | 0 | JHUGen |  |
+| `Mela.Process.H2_g10` | 0 | JHUGen |  |
+| `Mela.Process.bkgGammaGamma` | 0 | MCFM |  |
+| `Mela.Process.bkgZGamma` | 0 | MCFM |  |
+| `Mela.Process.bkgZJets` | 0 | MCFM |  |
+| `Mela.Process.bkgZZ` | 0 | MCFM |  |
+| `Mela.Process.bkgWW` | 0 | MCFM |  |
+| `Mela.Process.bkgWWZZ` | 0 | MCFM |  |
+| `Mela.Process.bkgZZ_SMHiggs` | 0 | MCFM |  |
+| `Mela.Process.bkgWW_SMHiggs` | 0 | MCFM |  |
+| `Mela.Process.bkgWWZZ_SMHiggs` | 0 | MCFM |  |
+| `Mela.Process.HSMHiggs_WWZZ` | 0 | MCFM |  |
+| `Mela.Process.D_gg10` | 0 | JHUGen |  |
+| `Mela.Process.SelfDefine_spin0` | 0 | JHUGen |  |
+| `Mela.Process.SelfDefine_spin1` | 0 | JHUGen |  |
+| `Mela.Process.SelfDefine_spin2` | 0 | JHUGen |  |
+| `Mela.Process.nProcesses` | 0 |  | The total number of processes available to you |
 
 One sets the process using `Mela.setProcess(Mela.Process, Mela.MatrixElement, Mela.Production)`, which is originally defined in Mela::setProcess.
 
@@ -162,11 +163,11 @@ The values are tabulated below:
 
 | Name | Value | Summary |
 | ---- | ----- | ------- |
-| NoPropagator | 0 | No propagator is applied to the resonance |
-| RunningWidth | 1 | A running width scheme is applied to the resonance |
-| FixedWidth | 2 | A fixed width scheme is applied to the resonance |
-| CPS | 3 | A Complex-Pole scheme is applied to the resonance |
-| AltRunningWidth | 4 | An S-Wave Breit-Wigner is applied to the resonance |
+| `Mela.ResonancePropagatorScheme.NoPropagator` | 0 | No propagator is applied to the resonance |
+| `Mela.ResonancePropagatorScheme.RunningWidth` | 1 | A running width scheme is applied to the resonance |
+| `Mela.ResonancePropagatorScheme.FixedWidth` | 2 | A fixed width scheme is applied to the resonance |
+| `Mela.ResonancePropagatorScheme.CPS` | 3 | A Complex-Pole scheme is applied to the resonance |
+| `Mela.ResonancePropagatorScheme.AltRunningWidth` | 4 | An S-Wave Breit-Wigner is applied to the resonance |
 
 These are provided as inputs to `Mela.getXPropagator(Mela.ResonancePropagatorScheme)` to get a value for mass shape reweighting.
 
@@ -176,24 +177,36 @@ These are provided as inputs to `Mela.getXPropagator(Mela.ResonancePropagatorSch
 
 | Name | Value | Summary |
 | ---- | ----- | ------- |
-| DefaultScaleScheme | 0 | The default scale factor scheme for the process/production. |
-| Fixed_mH | 1 | A scale based off of the pole mass of \f$m_H\f$ |
-| Fixed_mW | 2 | A scale based off of the pole mass of \f$m_Z\f$ |
-| Fixed_mZ | 3 | A scale based off of the pole mass of \f$m_W\f$ |
-| Fixed_mWPlusmH | 4 | A scale based off of the pole value \f$m_W + m_H\f$ |
-| Fixed_mZPlusmH | 5 | A scale based off of the pole value \f$m_Z + m_H\f$ |
-| Fixed_TwomtPlusmH | 6 | A scale based off of the pole value \f$2m_t + m_H\f$|
-| Fixed_mtPlusmH | 7 | A scale based off of the pole value \f$m_t + m_H\f$ |
-| Dynamic_qH | 8 | A scale based off of the \f$q^2\f$ of the Higgs |
-| Dynamic_qJJH | 9 | A scale based off of the \f$q^2\f$ of H+2 jets |
-| Dynamic_qJJ_qH | 10 | **IDK** |
-| Dynamic_qJ_qJ_qH | 11 | **IDK** |
-| Dynamic_HT | 12 | **IDK** |
-| Dynamic_Leading_pTJ | 13 | **IDK** |
-| Dynamic_Softest_pTJ | 14 | **IDK** |
-| Dynamic_RandomUniform_Constrained | 15 | **IDK** |
-| nEventScaleSchemes | 16 | The number of event scale schemes available to you |
+| `Mela.EventScaleScheme.DefaultScaleScheme` | 0 | The default scale factor scheme for the process/production. |
+| `Mela.EventScaleScheme.Fixed_mH` | 1 | A scale based off of the pole mass of \f$m_H\f$ |
+| `Mela.EventScaleScheme.Fixed_mW` | 2 | A scale based off of the pole mass of \f$m_Z\f$ |
+| `Mela.EventScaleScheme.Fixed_mZ` | 3 | A scale based off of the pole mass of \f$m_W\f$ |
+| `Mela.EventScaleScheme.Fixed_mWPlusmH` | 4 | A scale based off of the pole value \f$m_W + m_H\f$ |
+| `Mela.EventScaleScheme.Fixed_mZPlusmH` | 5 | A scale based off of the pole value \f$m_Z + m_H\f$ |
+| `Mela.EventScaleScheme.Fixed_TwomtPlusmH` | 6 | A scale based off of the pole value \f$2m_t + m_H\f$|
+| `Mela.EventScaleScheme.Fixed_mtPlusmH` | 7 | A scale based off of the pole value \f$m_t + m_H\f$ |
+| `Mela.EventScaleScheme.Dynamic_qH` | 8 | A scale based off of the \f$q^2\f$ of the Higgs |
+| `Mela.EventScaleScheme.Dynamic_qJJH` | 9 | A scale based off of the \f$q^2\f$ of H+2 jets |
+| `Mela.EventScaleScheme.Dynamic_qJJ_qH` | 10 | **IDK** |
+| `Mela.EventScaleScheme.Dynamic_qJ_qJ_qH` | 11 | **IDK** |
+| `Mela.EventScaleScheme.Dynamic_HT` | 12 | **IDK** |
+| `Mela.EventScaleScheme.Dynamic_Leading_pTJ` | 13 | **IDK** |
+| `Mela.EventScaleScheme.Dynamic_Softest_pTJ` | 14 | **IDK** |
+| `Mela.EventScaleScheme.Dynamic_RandomUniform_Constrained` | 15 | **IDK** |
+| `Mela.EventScaleScheme.nEventScaleSchemes` | 16 | The number of event scale schemes available to you |
 
 ## CandidateDecayMode {#decmode_enum}
 
-`Mela.CandidateDecayMode` quantifies the decay mode of the candidate in MELA. This can be a range of things 
+`Mela.CandidateDecayMode` quantifies the decay mode of the candidate in MELA. 
+This can be a range of things. All the possibilities are listed below:
+
+| Name | Value | Summary |
+| ---- | ----- | ------- |
+| `Mela.CandidateDecayMode.CandidateDecay_Stable` | 0 | The reconstructed candidate does not decay |
+| `Mela.CandidateDecayMode.CandidateDecay_ff` | 1 | The reconstructed candidate decays to fermions |
+| `Mela.CandidateDecayMode.CandidateDecay_WW` | 2 | The reconstructed candidate decays to 2 W Bosons |
+| `Mela.CandidateDecayMode.CandidateDecay_ZZ` | 3 | The reconstructed candidate decays to 2 Z Bosons |
+| `Mela.CandidateDecayMode.CandidateDecay_ZW` | 4 | The reconstructed candidate decays to a Z and a W (**Warning - Untested**)|
+| `Mela.CandidateDecayMode.CandidateDecay_ZG` | 5 | The reconstructed candidate decays to a Z and a gluon |
+| `Mela.CandidateDecayMode.CandidateDecay_WG` | 6 | The reconstructed candidate decays to a W and a gluon |
+| `Mela.CandidateDecayMode.CandidateDecay_GG` | 7 | The reconstructed candidate decays to 2 gluons |
