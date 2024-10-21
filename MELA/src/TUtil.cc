@@ -3537,6 +3537,11 @@ void TUtil::SetMCFMSpinZeroCouplings(bool useBSM, SpinZeroCouplings const* Hcoup
     spinzerohiggs_anomcoupl_.Lambda_w30 = 100;
     spinzerohiggs_anomcoupl_.Lambda_w40 = 100;
     //
+    /* Form Factors (Lambdas must be non-zero)*/
+    spinzerohiggs_anomcoupl_.Lambda_ff1 = 1000;
+    spinzerohiggs_anomcoupl_.Lambda_ff2 = 1000;
+    spinzerohiggs_anomcoupl_.n_ff1 = 0;
+    spinzerohiggs_anomcoupl_.n_ff2 = 0;
     // Just in case, not really needed to set to the default value
     spinzerohiggs_anomcoupl_.kappa_top[0] = 1; spinzerohiggs_anomcoupl_.kappa_top[1] = 0;
     spinzerohiggs_anomcoupl_.kappa_bot[0] = 1; spinzerohiggs_anomcoupl_.kappa_bot[1] = 0;
@@ -3665,6 +3670,11 @@ void TUtil::SetMCFMSpinZeroCouplings(bool useBSM, SpinZeroCouplings const* Hcoup
     spinzerohiggs_anomcoupl_.Lambda2_w30 = 100;
     spinzerohiggs_anomcoupl_.Lambda2_w40 = 100;
     //
+    /* Form Factors (Lambdas must be non-zero)*/
+    spinzerohiggs_anomcoupl_.Lambda2_ff1 = 1000;
+    spinzerohiggs_anomcoupl_.Lambda2_ff2 = 1000;
+    spinzerohiggs_anomcoupl_.n2_ff1 = 0;
+    spinzerohiggs_anomcoupl_.n2_ff2 = 0;
     // AllowAnomalousCouplings==0, so these are still treated as 1 when h2mass>=0
     spinzerohiggs_anomcoupl_.kappa2_top[0] = 0; spinzerohiggs_anomcoupl_.kappa2_top[1] = 0;
     spinzerohiggs_anomcoupl_.kappa2_bot[0] = 0; spinzerohiggs_anomcoupl_.kappa2_bot[1] = 0;
@@ -3779,6 +3789,26 @@ void TUtil::SetMCFMSpinZeroCouplings(bool useBSM, SpinZeroCouplings const* Hcoup
     spinzerohiggs_anomcoupl_.Lambda_z20 = (Hcouplings->HzzLambda_qsq)[LambdaHIGGS_QSQ_VV_2][cLambdaHIGGS_VV_QSQ12];
     spinzerohiggs_anomcoupl_.Lambda_z30 = (Hcouplings->HzzLambda_qsq)[LambdaHIGGS_QSQ_VV_3][cLambdaHIGGS_VV_QSQ12];
     spinzerohiggs_anomcoupl_.Lambda_z40 = (Hcouplings->HzzLambda_qsq)[LambdaHIGGS_QSQ_VV_4][cLambdaHIGGS_VV_QSQ12];
+    //
+    /* Form Factors */
+    spinzerohiggs_anomcoupl_.Lambda_ff1 = (Hcouplings->HvvLambda_ff)[LambdaHIGGS_VV_FF1];
+    spinzerohiggs_anomcoupl_.Lambda_ff2 = (Hcouplings->HvvLambda_ff)[LambdaHIGGS_VV_FF2];
+    spinzerohiggs_anomcoupl_.n_ff1 = (Hcouplings->Hvvn_ff)[nHIGGS_VV_FF1];
+    spinzerohiggs_anomcoupl_.n_ff2 = (Hcouplings->Hvvn_ff)[nHIGGS_VV_FF2];
+    //    
+    /* Set Spin Zero Self Couplings */
+    spinzerohiggs_anomcoupl_.c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_c6];
+    spinzerohiggs_anomcoupl_.t1_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t1];
+    spinzerohiggs_anomcoupl_.t2_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t2];
+    spinzerohiggs_anomcoupl_.t3_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t3];
+    spinzerohiggs_anomcoupl_.t4_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t4];
+    spinzerohiggs_anomcoupl_.t5_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t5];
+    spinzerohiggs_anomcoupl_.t6_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t6];
+    spinzerohiggs_anomcoupl_.w1_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_w1];
+    spinzerohiggs_anomcoupl_.w2_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_w2];
+    spinzerohiggs_anomcoupl_.w3_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_w3];
+    spinzerohiggs_anomcoupl_.w4_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_w4];
+    spinzerohiggs_anomcoupl_.w5_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_w5];
     //
     for (int im=0; im<2; im++){
       spinzerohiggs_anomcoupl_.kappa_top[im] = (Hcouplings->Httcoupl)[gHIGGS_KAPPA][im];
@@ -3963,6 +3993,12 @@ void TUtil::SetMCFMSpinZeroCouplings(bool useBSM, SpinZeroCouplings const* Hcoup
     spinzerohiggs_anomcoupl_.Lambda2_z20 = (Hcouplings->H2zzLambda_qsq)[LambdaHIGGS_QSQ_VV_2][cLambdaHIGGS_VV_QSQ12];
     spinzerohiggs_anomcoupl_.Lambda2_z30 = (Hcouplings->H2zzLambda_qsq)[LambdaHIGGS_QSQ_VV_3][cLambdaHIGGS_VV_QSQ12];
     spinzerohiggs_anomcoupl_.Lambda2_z40 = (Hcouplings->H2zzLambda_qsq)[LambdaHIGGS_QSQ_VV_4][cLambdaHIGGS_VV_QSQ12];
+    //
+    /* Form Factors*/
+    spinzerohiggs_anomcoupl_.Lambda2_ff1 = (Hcouplings->HvvLambda_ff)[LambdaHIGGS_VV_FF1];
+    spinzerohiggs_anomcoupl_.Lambda2_ff2 = (Hcouplings->HvvLambda_ff)[LambdaHIGGS_VV_FF2];
+    spinzerohiggs_anomcoupl_.n2_ff1 = (Hcouplings->Hvvn_ff)[nHIGGS_VV_FF1];
+    spinzerohiggs_anomcoupl_.n2_ff2 = (Hcouplings->Hvvn_ff)[nHIGGS_VV_FF2];
     //
     for (int im=0; im<2; im++){
       spinzerohiggs_anomcoupl_.kappa2_top[im] = (Hcouplings->H2ttcoupl)[gHIGGS_KAPPA][im];

@@ -181,6 +181,8 @@ protected:
   bool CheckSelfDCouplings_Htt();
   bool CheckSelfDCouplings_Hbb();
   bool CheckSelfDCouplings_HVV();
+  bool CheckSelfDCouplings_LAMBDAFF();
+  bool CheckSelfDCouplings_HHH();
   bool CheckSelfDCouplings_aTQGC();
   bool CheckSelfDCouplings_AZff();
 

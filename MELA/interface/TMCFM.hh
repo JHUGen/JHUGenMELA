@@ -155,6 +155,13 @@ extern "C" {
     int c2z_q1sq, c2z_q2sq, c2z_q12sq;
     int c2w_q1sq, c2w_q2sq, c2w_q12sq;
 
+    int n_ff1,n_ff2;
+    int n2_ff1,n2_ff2;
+
+    double c6;
+    double t1_c6,t2_c6,t3_c6,t4_c6,t5_c6,t6_c6; 
+    double w1_c6,w2_c6,w3_c6,w4_c6,w5_c6;
+
     double mb_4gen, mt_4gen;
 
     double LambdaBSM, Lambda_Q;
@@ -168,6 +175,8 @@ extern "C" {
     double Lambda_w12, Lambda_w22, Lambda_w32, Lambda_w42;
     double Lambda_w10, Lambda_w20, Lambda_w30, Lambda_w40;
 
+    double Lambda_ff1,Lambda_ff2;
+
     double h2mass, h2width;
 
     double Lambda2BSM, Lambda2_Q;
@@ -180,6 +189,8 @@ extern "C" {
     double Lambda2_w11, Lambda2_w21, Lambda2_w31, Lambda2_w41;
     double Lambda2_w12, Lambda2_w22, Lambda2_w32, Lambda2_w42;
     double Lambda2_w10, Lambda2_w20, Lambda2_w30, Lambda2_w40;
+
+    double Lambda2_ff1,Lambda2_ff2;
 
     double kappa_top[2]; double kappa_tilde_top[2];
     double kappa_bot[2]; double kappa_tilde_bot[2];
@@ -208,7 +219,6 @@ extern "C" {
     double ghw1_prime5[2]; double ghw2_prime5[2]; double ghw3_prime5[2]; double ghw4_prime5[2]; // q1**4 + q2**4
     double ghw1_prime6[2]; double ghw2_prime6[2]; double ghw3_prime6[2]; double ghw4_prime6[2]; // q1**4 - q2**4
     double ghw1_prime7[2]; double ghw2_prime7[2]; double ghw3_prime7[2]; double ghw4_prime7[2]; // |q1**2| * |q2**2|
-
 
     double kappa2_top[2]; double kappa2_tilde_top[2];
     double kappa2_bot[2]; double kappa2_tilde_bot[2];

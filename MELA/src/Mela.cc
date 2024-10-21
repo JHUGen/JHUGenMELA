@@ -383,10 +383,13 @@ void Mela::setSpinZeroCouplings(){
     selfDHt4t4coupl,
     selfDHzzcoupl,
     selfDHwwcoupl,
+    selfDHHHcoupl,
     selfDHzzLambda_qsq,
     selfDHwwLambda_qsq,
     selfDHzzCLambda_qsq,
     selfDHwwCLambda_qsq,
+    selfDHvvLambda_ff,
+    selfDHvvn_ff,
     selfDSMEFTSimcoupl,
     differentiate_HWW_HZZ
   );
@@ -463,6 +466,10 @@ void Mela::reset_SelfDCouplings(){
         selfDHwwLambda_qsq[jh][ic][ik] = 100.;
       }
     }
+    for (int ic = 0; ic<SIZE_HVV_LAMBDAFF; ic++){ // We expect each lambda to have a matching N. Lamba<N> <-> n<N> 
+      selfDHvvLambda_ff[jh][ic] = 1000; // Default values do not matter if n = 0
+      selfDHvvn_ff[jh][ic] = 0;
+    }
   }
   // Spin-0 contact terms
   for (int im=0; im<2; im++){
@@ -472,6 +479,10 @@ void Mela::reset_SelfDCouplings(){
       selfDHwwpcoupl[ic][im] = 0;
       selfDHwpwpcoupl[ic][im] = 0;
     }
+  }
+  // Spin-0 self coupling terms
+  for (int ic=0; ic<SIZE_HHH; ic++){
+    selfDHHHcoupl[ic] = 0;
   }
   // Spin-0 SMEFTsim terms
   for (int ic=0; ic<SIZE_SMEFT; ic++){
