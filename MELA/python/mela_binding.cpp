@@ -1162,7 +1162,6 @@ PYBIND11_MODULE(Mela, m) {
         MAKE_COUPLING_LAMBDA(selfDHwwLambda_qsq, Lambda_w04,  LambdaHIGGS_QSQ_VV_4,  cLambdaHIGGS_VV_QSQ12, 0)
         MAKE_COUPLING_LAMBDA(selfDHwwLambda_qsq, Lambda_w04_h2,  LambdaHIGGS_QSQ_VV_4,  cLambdaHIGGS_VV_QSQ12, 1)
         
-        /* REUSE COUPLING_C_LAMBDA for Lambda FF N since it is also an integer array */
         MAKE_COUPLING_N_FF(n_ff1,  nHIGGS_VV_FF1, 0)
         MAKE_COUPLING_N_FF(n2_ff1,  nHIGGS_VV_FF1, 1)
         
