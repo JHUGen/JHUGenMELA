@@ -451,6 +451,21 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+/** 
+ * @ingroup macros
+ * @brief Generates the couplings for real-valued spin 0 values in JHUGen and JHUGen-MCFM
+ * @param arrayName This is the name of the array containing the coupling
+ * @param couplingName This is the name of the coupling to set (should be unique for every couplingIndex/higgsIndex combination)
+ * @param couplingIndex This is the index at which the name corresponds to the array
+ * @param higgsIndex This is the index of which Higgs to use (MCFM supports 2 resonances)
+ * @note These coupling entries have a real component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<couplingName> = real
+ * print(m.<couplingName>) #will print a real value
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_REAL_SPIN_ZERO(arrayName, couplingName, couplingIndex, higgsIndex)\
         .def_property(\
             #couplingName,\
@@ -589,6 +604,19 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+/** 
+ * @ingroup macros
+ * @brief Generates the couplings for gluon fusion Higgs self-coupling
+ * @param couplingName This is the name of the self-coupling coefficient to set
+ * @param couplingIndex This is the index at which the name corresponds to the array
+ * @note These coupling entries only have a real component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<couplingName> = value
+ * print(m.<couplingName>) #will print the value
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_HHH(couplingName, couplingIndex)\
         .def_property(\
             #couplingName, \
@@ -606,6 +634,19 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+/** 
+ * @ingroup macros
+ * @brief Generates the form factors for the Higgs
+ * @param couplingName This is the name of the form factor to set
+ * @param couplingIndex This is the index at which the name corresponds to the array
+ * @note These coupling entries only have a real component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<couplingName> = value
+ * print(m.<couplingName>) #will print the value
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_LAMBDA_FF(couplingName, couplingIndex, higgsIndex)\
         .def_property(\
             #couplingName, \
@@ -623,6 +664,19 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+/** 
+ * @ingroup macros
+ * @brief Generates the form factors for the Higgs
+ * @param couplingName This is the name of the form factor to set
+ * @param couplingIndex This is the index at which the name corresponds to the array
+ * @note These coupling entries only have a real component. You can set them via:
+ * ~~~~~~~~~~~~~{.py}
+ * import Mela
+ * m = Mela.Mela()
+ * m.<couplingName> = value
+ * print(m.<couplingName>) #will print the value
+ * ~~~~~~~~~~~~~
+ */
 #define MAKE_COUPLING_N_FF(couplingName, couplingIndex, higgsIndex)\
         .def_property(\
             #couplingName, \
