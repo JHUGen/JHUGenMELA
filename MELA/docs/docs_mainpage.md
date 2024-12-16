@@ -62,10 +62,10 @@ On a more general note - the steps to begin re-weighting events with MELA are as
 1. Set the process, production, and matrix element. These values are defined
 for both @ref tvar_enums "Python" and in the `C++` in the TVar namespace.
 Use Mela::SetProcess to do this step.
-1. Set the input event using Mela::SetInputEvent.
-2. Set coupling values for MELA (examples for Python are available
+2. Set the input event using Mela::SetInputEvent.
+3. Set coupling values for MELA (examples for Python are available
 in documentation found @ref MELA_python "here")
-1. Call a compute function of some kind. This is either:
+4. Call a compute function of some kind. This is either:
     * Mela::computeP
     * Mela::computeProdP
     * Mela::computeProdDecP
