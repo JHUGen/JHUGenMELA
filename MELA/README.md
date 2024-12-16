@@ -1,8 +1,10 @@
-# Instruction for using JHUGenMELA/MELA
+# JHUGenMELA
 
-Compile using
+## Instruction for using JHUGenMELA/MELA
 
-```
+Compile MELA using
+
+``` bash
 ./setup.sh -j N # (N being the number of cores to compile, or blank for max. allowed)
 ```
 
@@ -12,6 +14,13 @@ Compile using
 
 Once you compile, make sure to follow the on-screen instructions to set up all extra environment variables, i.e., run
 
-```
+``` bash
 eval $(./setup.sh env) # or equivalents in non-bash shells
 ```
+
+## Previous Tutorials
+
+There are a few tutorials lying around for MELA. They are listed below:
+
+* [LPC EFT Workshop Notre Dame](https://indico.cern.ch/event/1378665/timetable/?view=standard#30-mela-tools)
+* [LPC Offshell Workshop at Fermilab](https://indico.cern.ch/event/1375252/timetable/#8-mc-generators-2-mela-tools)

@@ -237,6 +237,7 @@ if [[ $doDeps -eq 1 ]]; then
 fi
 
 pushd ${MELADIR}/fortran &> /dev/null
+echo Using args "${setupArgs[@]}"
 make "${setupArgs[@]}"
 popd &> /dev/null
 

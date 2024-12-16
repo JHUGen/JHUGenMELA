@@ -51,3 +51,6 @@ MELA/test/*.a
 MELA/test/*.so
 MELA/test/*.d
 MELA/test/*.pcm
+
+MELA/docs/docs_output/*
+!MELA/docs/docs_output/.gittouch
