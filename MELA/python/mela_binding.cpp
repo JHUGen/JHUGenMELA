@@ -451,6 +451,19 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                 }, py::keep_alive<0, 1>())\
         )
 
+#define MAKE_COUPLING_REAL_SPIN_ZERO(arrayName, couplingName, couplingIndex, higgsIndex)\
+        .def_property(\
+            #couplingName,\
+            py::cpp_function(\
+                [](py::object &obj){\
+                    Mela &D = obj.cast<Mela&>();\
+                    return py::array_t<double>(std::vector<double>{2}, (const double*) &D.arrayName[higgsIndex][couplingIndex], obj);\
+                }, py::keep_alive<0, 1>()),\
+            py::cpp_function(\
+                [](Mela &D, double coupl){\
+                    D.arrayName[higgsIndex][couplingIndex] = coupl;\
+                }, py::keep_alive<0, 1>())\
+        )
 /** 
  * @ingroup macros
  * @brief Generates the couplings for spin 1 and spin 2 values in JHUGen
@@ -573,6 +586,57 @@ SimpleParticleCollection_t collection_initializer(py::list listOfParticles){
                     Mela &D = obj.cast<Mela&>();\
                     py::array_t array_val = py::array_t<double>(std::vector<double>{SIZE_SMEFT}, (const double*) &D.selfDSMEFTSimcoupl, obj);\
                     array_val.mutable_at(couplingIndex_1) = coupl;\
+                }, py::keep_alive<0, 1>())\
+        )
+
+#define MAKE_COUPLING_HHH(couplingName, couplingIndex)\
+        .def_property(\
+            #couplingName, \
+            py::cpp_function(\
+                [](py::object &obj){\
+                    Mela& D = obj.cast<Mela&>();\
+                    py::array_t array_val = py::array_t<double>(std::vector<double>{SIZE_HHH}, (const double*) &D.selfDHHHcoupl, obj);\
+                    return array_val.at(couplingIndex);\
+                }),\
+            py::cpp_function(\
+                [](py::object &obj, double coupl){\
+                    Mela &D = obj.cast<Mela&>();\
+                    py::array_t array_val = py::array_t<double>(std::vector<double>{SIZE_HHH}, (const double*) &D.selfDHHHcoupl, obj);\
+                    array_val.mutable_at(couplingIndex) = coupl;\
+                }, py::keep_alive<0, 1>())\
+        )
+
+#define MAKE_COUPLING_LAMBDA_FF(couplingName, couplingIndex, higgsIndex)\
+        .def_property(\
+            #couplingName, \
+            py::cpp_function(\
+                [](py::object &obj){\
+                    Mela& D = obj.cast<Mela&>();\
+                    py::array_t array_val = py::array_t<double>(std::vector<double>{nSupportedHiggses,SIZE_HVV_LAMBDAFF}, (const double*) &D.selfDHvvLambda_ff, obj);\
+                    return array_val.at(higgsIndex,couplingIndex);\
+                }),\
+            py::cpp_function(\
+                [](py::object &obj, double coupl){\
+                    Mela &D = obj.cast<Mela&>();\
+                    py::array_t array_val = py::array_t<double>(std::vector<double>{nSupportedHiggses,SIZE_HVV_LAMBDAFF}, (const double*) &D.selfDHvvLambda_ff, obj);\
+                    array_val.mutable_at(higgsIndex,couplingIndex) = coupl;\
+                }, py::keep_alive<0, 1>())\
+        )
+
+#define MAKE_COUPLING_N_FF(couplingName, couplingIndex, higgsIndex)\
+        .def_property(\
+            #couplingName, \
+            py::cpp_function(\
+                [](py::object &obj){\
+                    Mela& D = obj.cast<Mela&>();\
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{nSupportedHiggses,SIZE_HVV_NFF}, (const int*) &D.selfDHvvn_ff, obj);\
+                    return array_val.at(higgsIndex,couplingIndex);\
+                }),\
+            py::cpp_function(\
+                [](py::object &obj, int coupl){\
+                    Mela &D = obj.cast<Mela&>();\
+                    py::array_t array_val = py::array_t<int>(std::vector<int>{nSupportedHiggses,SIZE_HVV_NFF}, (const int*) &D.selfDHvvn_ff, obj);\
+                    array_val.mutable_at(higgsIndex,couplingIndex) = coupl;\
                 }, py::keep_alive<0, 1>())\
         )
 
@@ -986,6 +1050,10 @@ PYBIND11_MODULE(Mela, m) {
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHt4t4coupl,SIZE_HQQ,double)
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHzzcoupl,SIZE_HVV,double)
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHwwcoupl,SIZE_HVV,double)
+        .def("selfDHHHcoupl", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<double>(std::vector<double>{SIZE_HHH}, (const double*) &D.selfDHHHcoupl, obj); \
+        })
         .def("selfDHzzLambda_qsq", [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
             return py::array_t<double>(std::vector<double>{nSupportedHiggses, SIZE_HVV_LAMBDAQSQ, SIZE_HVV_CQSQ}, (const double*) &D.selfDHzzLambda_qsq, obj); \
@@ -1001,6 +1069,14 @@ PYBIND11_MODULE(Mela, m) {
         .def("selfDHwwCLambda_qsq", [](py::object &obj){ \
             Mela &D = obj.cast<Mela&>(); \
             return py::array_t<int>(std::vector<int>{nSupportedHiggses, SIZE_HVV_CQSQ}, (const int*) &D.selfDHwwCLambda_qsq, obj); \
+        })
+        .def("selfDHvvLambda_ff", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<double>(std::vector<double>{nSupportedHiggses, SIZE_HVV_LAMBDAFF}, (const double*) &D.selfDHvvLambda_ff, obj); \
+        })
+        .def("selfDHvvn_ff", [](py::object &obj){ \
+            Mela &D = obj.cast<Mela&>(); \
+            return py::array_t<int>(std::vector<int>{nSupportedHiggses, SIZE_HVV_NFF}, (const int*) &D.selfDHvvn_ff, obj); \
         })
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDHzzpcoupl,SIZE_HVV)
         MAKE_COUPLING_ARR_SPIN_ONETWO(selfDHzpzpcoupl,SIZE_HVV)
@@ -1295,6 +1371,19 @@ PYBIND11_MODULE(Mela, m) {
         MAKE_COUPLING_REAL_IMAGINARY_SPIN_ZERO(selfDHwwcoupl, ghw4_prime7, gHIGGS_VV_3_PRIME7, 0)
         MAKE_COUPLING_REAL_IMAGINARY_SPIN_ZERO(selfDHwwcoupl, gh2w4_prime7, gHIGGS_VV_3_PRIME7, 1)
 
+        MAKE_COUPLING_HHH(c6, gHIGGS_HH_c6)
+        MAKE_COUPLING_HHH(t1, gHIGGS_HH_t1)
+        MAKE_COUPLING_HHH(t2, gHIGGS_HH_t2)
+        MAKE_COUPLING_HHH(t3, gHIGGS_HH_t3)
+        MAKE_COUPLING_HHH(t4, gHIGGS_HH_t4)
+        MAKE_COUPLING_HHH(t5, gHIGGS_HH_t5)
+        MAKE_COUPLING_HHH(t6, gHIGGS_HH_t6)
+        MAKE_COUPLING_HHH(w1, gHIGGS_HH_w1)
+        MAKE_COUPLING_HHH(w2, gHIGGS_HH_w2)
+        MAKE_COUPLING_HHH(w3, gHIGGS_HH_w3)
+        MAKE_COUPLING_HHH(w4, gHIGGS_HH_w4)
+        MAKE_COUPLING_HHH(w5, gHIGGS_HH_w5)
+
         MAKE_COUPLING_C_LAMBDA(selfDHwwCLambda_qsq, cw_q1sq,  cLambdaHIGGS_VV_QSQ1, 0)
         MAKE_COUPLING_C_LAMBDA(selfDHwwCLambda_qsq, cw_q1sq_h2,  cLambdaHIGGS_VV_QSQ1, 1)
 
@@ -1339,6 +1428,18 @@ PYBIND11_MODULE(Mela, m) {
 
         MAKE_COUPLING_LAMBDA(selfDHwwLambda_qsq, Lambda_w04,  LambdaHIGGS_QSQ_VV_4,  cLambdaHIGGS_VV_QSQ12, 0)
         MAKE_COUPLING_LAMBDA(selfDHwwLambda_qsq, Lambda_w04_h2,  LambdaHIGGS_QSQ_VV_4,  cLambdaHIGGS_VV_QSQ12, 1)
+        
+        MAKE_COUPLING_N_FF(n_ff1,  nHIGGS_VV_FF1, 0)
+        MAKE_COUPLING_N_FF(n2_ff1,  nHIGGS_VV_FF1, 1)
+        
+        MAKE_COUPLING_N_FF(n_ff2,  nHIGGS_VV_FF2, 0)
+        MAKE_COUPLING_N_FF(n2_ff2,  nHIGGS_VV_FF2, 1)
+
+        MAKE_COUPLING_LAMBDA_FF(Lambda_ff1, LambdaHIGGS_VV_FF1, 0)
+        MAKE_COUPLING_LAMBDA_FF(Lambda2_ff1, LambdaHIGGS_VV_FF1, 1)
+
+        MAKE_COUPLING_LAMBDA_FF(Lambda_ff2, LambdaHIGGS_VV_FF2, 0)
+        MAKE_COUPLING_LAMBDA_FF(Lambda2_ff2, LambdaHIGGS_VV_FF2, 1)
 
         MAKE_COUPLING_REAL_IMAGINARY_SPIN_ZERO(selfDHqqcoupl, kappa, gHIGGS_KAPPA, 0)
         MAKE_COUPLING_REAL_IMAGINARY_SPIN_ZERO(selfDHqqcoupl, kappa_h2, gHIGGS_KAPPA, 1)

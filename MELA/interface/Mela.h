@@ -1095,6 +1095,11 @@ public:
   double selfDaTQGCcoupl[SIZE_ATQGC][2];
   //****Anomalous couplings between the Z and fermions**//
   double selfDAZffcoupl[SIZE_AZff][2];
+  //****Higgs Self Couplings *//
+  double selfDHHHcoupl[SIZE_HHH];
+  //****Prop Form Factors ****/
+  double selfDHvvLambda_ff[nSupportedHiggses][SIZE_HVV_LAMBDAFF];
+  int selfDHvvn_ff[nSupportedHiggses][SIZE_HVV_NFF];
   //****SMEFTSIM terms**//
   /** Wilson Coefficients from SMEFTsim used in madMELA */
   double selfDSMEFTSimcoupl[SIZE_SMEFT]; //madMela
@@ -1194,6 +1199,7 @@ protected:
   void setSpinTwoCouplings();
   void setATQGCCouplings();
   void setAZffCouplings();
+  void setSpinZeroSelfCouplings();
 
   bool configureAnalyticalPDFs();
   void reset_SelfDCouplings();
