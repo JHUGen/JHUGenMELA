@@ -133,7 +133,7 @@ print(gluon_Collection[0].PxPyPzE_vector)
 
 This method returns the 4-vector that is the sum
 of all the 4-vectors stored inside the class. It returns
-them as a tuple of 4 values: 
+them as a tuple of 4 values:
 \f$P_x\f$, \f$P_y\f$, \f$P_z\f$, \f$E\f$.
 
 ~~~~~~~~~~~~~{.py}
@@ -144,7 +144,7 @@ gluon_Collection.add_particle(Mela.SimpleParticle_t(21, 0, 0, -12, 12))
 print(gluon_Collection.Sum()) #should print (0,0,0,0)
 ~~~~~~~~~~~~~
 
-### MTotal {#simpleparticlecollection_mtotal} 
+### MTotal {#simpleparticlecollection_mtotal}
 
 This function is just like `SimpleParticleCollection_t.Sum`, however
 it returns the total mass of the resultant 4-vector.

@@ -165,6 +165,9 @@ MCFM-JHUGen is built off of MCFM, and its printout is shown below:
 *  Special thanks from JHUGen Team               *
 *  to Oscar Eboli for anomalous Zqq couplings    *
 *  in ggZZ process                               *
+*  and to Ulrich Haisch and Gabriël Koole        *
+*  for Higgs self-coupling in the ggH process    *
+*  arXiv:2111.12589 (Higgs self-coupling)        *
 **************************************************
 ```
 
@@ -197,7 +200,7 @@ There are certain processes that are use matrix elements generated with Madgraph
 Madgraph matrix elements are currently used to reweight processes
 that were generated via Madgraph, colloquially
 referred to as "MadMELA", (which
-will be the preferred nomenclature moving 
+will be the preferred nomenclature moving
 forward). The Madgraph matrix elements
 that we provide are generated using the `SMEFTsim` package.
 
