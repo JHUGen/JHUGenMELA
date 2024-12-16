@@ -731,7 +731,8 @@ Double_t RooqqZZ_JHU::integratePartonicXS_Dh1Dh2Dph_3(double m1_c, double m2_c, 
     std::cout << "hs = " << hs << "; " << std::endl;
     std::cout << "phi = " << phi << "; " << std::endl;
     std::cout << "Phi1 = " << Phi1 << "; " << std::endl;
-    //*/
+    //
+    */
     
     // extra definitions needed
     double shs = Sqrt(1-hs*hs); // sin Theta
@@ -771,7 +772,8 @@ Double_t RooqqZZ_JHU::integratePartonicXS_Dh1Dh2Dph_3(double m1_c, double m2_c, 
     std::cout << "gR = " << gR << "; " << std::endl;
     std::cout << "gqL = " << gqL << "; " << std::endl;
     std::cout << "gqR = " << gqR << "; " << std::endl;    
-    //*/
+    //
+    */
     
     const int nterms = 18;
     double term[nterms];
