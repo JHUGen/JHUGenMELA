@@ -3804,6 +3804,7 @@ void TUtil::SetMCFMSpinZeroCouplings(bool useBSM, SpinZeroCouplings const* Hcoup
     spinzerohiggs_anomcoupl_.t4_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t4];
     spinzerohiggs_anomcoupl_.t5_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t5];
     spinzerohiggs_anomcoupl_.t6_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t6];
+    spinzerohiggs_anomcoupl_.t7_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_t7];
     spinzerohiggs_anomcoupl_.w1_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_w1];
     spinzerohiggs_anomcoupl_.w2_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_w2];
     spinzerohiggs_anomcoupl_.w3_c6 = (Hcouplings->HHHcoupl)[gHIGGS_HH_w3];

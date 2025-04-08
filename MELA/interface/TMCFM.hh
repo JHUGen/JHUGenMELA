@@ -159,7 +159,7 @@ extern "C" {
     int n2_ff1,n2_ff2;
 
     double c6;
-    double t1_c6,t2_c6,t3_c6,t4_c6,t5_c6,t6_c6; 
+    double t1_c6,t2_c6,t3_c6,t4_c6,t5_c6,t6_c6,t7_c6; 
     double w1_c6,w2_c6,w3_c6,w4_c6,w5_c6;
 
     double mb_4gen, mt_4gen;
