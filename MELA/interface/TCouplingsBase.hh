@@ -257,6 +257,7 @@ namespace{
     gHIGGS_HH_t4,
     gHIGGS_HH_t5,
     gHIGGS_HH_t6,
+    gHIGGS_HH_t7,
     gHIGGS_HH_w1,
     gHIGGS_HH_w2,
     gHIGGS_HH_w3,
