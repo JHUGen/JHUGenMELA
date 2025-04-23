@@ -35,8 +35,9 @@ void SuperDijetMela::Build(){
 void SuperDijetMela::SetupResolutionModel(TVar::Production prod){
   // Setup file path
   const string MELAPKGPATH = TVar::GetMELAPath();
+  double intpart;
   TString path = TString(MELAPKGPATH.c_str()) + "data/resolution_mJJ_recoVStrue_";
-  TString prodName;
+  TString prodName, floatFlag;
   switch (prod){
   case TVar::Had_ZH:
     prodName = "ZH";
@@ -48,12 +49,12 @@ void SuperDijetMela::SetupResolutionModel(TVar::Production prod){
     MELAout << "SuperDijetMela::SetupResolutionModel: Production " << TVar::ProductionName(prod) << " is unknown." << endl;
     return;
   }
-  sqrts = floor(sqrts); // interim solution until 13.6 TeV production is ready
+  if (modf(sqrts, &intpart) == 0.0) floatflag = "%.0f"; else floatflag = "%.1f";
   
   path += prodName;
-  path += Form("_%.0fTeV%s", sqrts, ".root");
+  path += Form("_"+floatflag+"TeV%s", sqrts, ".root");
 
-  TString appendName = Form("mJJReso_%.0fTeV", sqrts);
+  TString appendName = Form("mJJReso_"+floatflag+"TeV", sqrts);
   MELADifermionResolutionModel* model = new MELADifermionResolutionModel(prod, sqrts, path, appendName);
   if (model->isValid()){
     int iprod = (int)prod;
