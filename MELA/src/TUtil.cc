@@ -5450,7 +5450,7 @@ double TUtil::HJJMatEl(
     mela_event,
     verbosity
     );
-  if (mela_event.pAssociated.size()==0){ if (verbosity>=TVar::ERROR) MELAerr << "TUtil::HJJMatEl: Number of associated particles is 0!" << endl; return sum_msqjk; }
+  if (mela_event.pAssociated.size()==0){ if (verbosity>=TVar::INFO) MELAerr << "TUtil::HJJMatEl: Number of associated particles is 0!" << endl; return sum_msqjk; }
 
   int MYIDUP_tmp[4]={ 0 }; // "Incoming" partons 1, 2, "outgoing" partons 3, 4
   double p4[5][4]={ { 0 } };
@@ -6929,7 +6929,7 @@ double TUtil::VHiggsMatEl(
     verbosity
     );
   if ((mela_event.pAssociated.size()<(unsigned int)(nRequested_AssociatedJets+nRequested_AssociatedLeptons) && production!=TVar::GammaH) || (mela_event.pAssociated.size()<(unsigned int)nRequested_AssociatedPhotons && production == TVar::GammaH)){
-    if (verbosity>=TVar::ERROR){
+    if (verbosity>=TVar::INFO){
       MELAerr << "TUtil::VHiggsMatEl: Number of associated particles (" << mela_event.pAssociated.size() << ") is less than ";
       if (production!=TVar::GammaH) MELAerr << (nRequested_AssociatedJets+nRequested_AssociatedLeptons);
       else MELAerr << nRequested_AssociatedPhotons;
