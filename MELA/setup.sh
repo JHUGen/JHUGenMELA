@@ -20,7 +20,7 @@ getMELAARCH(){
     echo el9_amd64_gcc12
   else
   #elif [[ "$GCCVERSION" == "9"* ]]; then
-    echo slc7_amd64_gcc920
+    echo el9_amd64_gcc12
   #else
   fi
 }

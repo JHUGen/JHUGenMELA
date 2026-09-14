@@ -370,30 +370,30 @@ public:
   */
   void resetWidth(double inwidth, int ipart);
 
-  /**
-   * @brief Resets the Yukawa coupling (or "Yukawa mass") for a specific particle.
-   * Does not change its "intrinsic" mass.
-   * @sa Resets the values `mdl_ym{b,c,s,up,%do,e,m,%tau}` in the `params_r_` common block
-   * for Madgraph
-   *
-   * @attention The particles whose Yukawa mass you can change are as follow:
-   *
-   * ipart | Particle Name 
-   * :---------: | :-----------: 
-   * 1  | Down Quark
-   * 2  | Up Quark
-   * 3  | Strange Quark
-   * 4  | Charm Quark
-   * 5  | Bottom Quark
-   * 6  | Top Quark
-   * 11 | Electron
-   * 13 | Muon
-   * 15 | Tau
-   *
-   * @param[in] inmass the Yukawa mass you want in GeV
-   * @param[in] ipart the particle whose Yukawa mass you wish to change
-   */
-  void resetYukawaMass(double inmass, int ipart);
+  // /**
+  //  * @brief Resets the Yukawa coupling (or "Yukawa mass") for a specific particle.
+  //  * Does not change its "intrinsic" mass.
+  //  * @sa Resets the values `mdl_ym{b,c,s,up,%do,e,m,%tau}` in the `params_r_` common block
+  //  * for Madgraph
+  //  *
+  //  * @attention The particles whose Yukawa mass you can change are as follow:
+  //  *
+  //  * ipart | Particle Name 
+  //  * :---------: | :-----------: 
+  //  * 1  | Down Quark
+  //  * 2  | Up Quark
+  //  * 3  | Strange Quark
+  //  * 4  | Charm Quark
+  //  * 5  | Bottom Quark
+  //  * 6  | Top Quark
+  //  * 11 | Electron
+  //  * 13 | Muon
+  //  * 15 | Tau
+  //  *
+  //  * @param[in] inmass the Yukawa mass you want in GeV
+  //  * @param[in] ipart the particle whose Yukawa mass you wish to change
+  //  */
+  // void resetYukawaMass(double inmass, int ipart);
 
   /**
    * @brief Resets the masses of each quark to their original values.
@@ -528,8 +528,8 @@ public:
   */
   double getHiggsWidthAtPoleMass(double mass);
 
-  void SetMadgraphCKMElements(double ckmlambda=0.2265, double ckma=0.79, double ckmrho=0.141, double ckmeta=0.357, bool force_refresh=false);
-  std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
+  // void SetMadgraphCKMElements(double ckmlambda=0.2265, double ckma=0.79, double ckmrho=0.141, double ckmeta=0.357, bool force_refresh=false);
+  // std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
   /**
    * @brief Returns the MELAIO object, and by consequence, the entire parton-by-parton matrix element record
    * @sa wrapper for ZZMatrixElement::get_IORecord, which is a wrapper for TEvtProb::GetIORecord, which is a wrapper for MelaIO::getRef

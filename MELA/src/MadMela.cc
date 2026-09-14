@@ -248,7 +248,8 @@ Block QNUMBERS 9000008  # h1
 */
 void madMela::setDefaultMadgraphValues(){
     //Now WIPE all the couplings!!!
-    params_r_.mdl_cg = 0;
+    // params_r_.mdl_cg = 0;
+    
     params_r_.mdl_cw = 0;
     params_r_.mdl_ch = 0;
     params_r_.mdl_chbox = 0;
@@ -257,106 +258,108 @@ void madMela::setDefaultMadgraphValues(){
     params_r_.mdl_chw = 0;
     params_r_.mdl_chb = 0;
     params_r_.mdl_chwb = 0;
-    params_r_.mdl_cehre = 0;
-    params_r_.mdl_cuhre = 0;
-    params_r_.mdl_cdhre = 0;
-    params_r_.mdl_cewre = 0;
-    params_r_.mdl_cebre = 0;
-    params_r_.mdl_cugre = 0;
-    params_r_.mdl_cuwre = 0;
-    params_r_.mdl_cubre = 0;
-    params_r_.mdl_cdgre = 0;
-    params_r_.mdl_cdwre = 0;
-    params_r_.mdl_cdbre = 0;
-    params_r_.mdl_chl1 = 0;
-    params_r_.mdl_chl3 = 0;
-    params_r_.mdl_che = 0;
-    params_r_.mdl_chq1 = 0;
-    params_r_.mdl_chq3 = 0;
-    params_r_.mdl_chu = 0;
-    params_r_.mdl_chd = 0;
-    params_r_.mdl_chudre = 0;
-    params_r_.mdl_cll = 0;
-    params_r_.mdl_cll1 = 0;
-    params_r_.mdl_cqq1 = 0;
-    params_r_.mdl_cqq11 = 0;
-    params_r_.mdl_cqq3 = 0;
-    params_r_.mdl_cqq31 = 0;
-    params_r_.mdl_clq1 = 0;
-    params_r_.mdl_clq3 = 0;
-    params_r_.mdl_cee = 0;
-    params_r_.mdl_cuu = 0;
-    params_r_.mdl_cuu1 = 0;
-    params_r_.mdl_cdd = 0;
-    params_r_.mdl_cdd1 = 0;
-    params_r_.mdl_ceu = 0;
-    params_r_.mdl_ced = 0;
-    params_r_.mdl_cud1 = 0;
-    params_r_.mdl_cud8 = 0;
-    params_r_.mdl_cle = 0;
-    params_r_.mdl_clu = 0;
-    params_r_.mdl_cld = 0;
-    params_r_.mdl_cqe = 0;
-    params_r_.mdl_cqu1 = 0;
-    params_r_.mdl_cqu8 = 0;
-    params_r_.mdl_cqd1 = 0;
-    params_r_.mdl_cqd8 = 0;
-    params_r_.mdl_cledqre = 0;
-    params_r_.mdl_cquqd1re = 0;
-    params_r_.mdl_cquqd11re = 0;
-    params_r_.mdl_cquqd8re = 0;
-    params_r_.mdl_cquqd81re = 0;
-    params_r_.mdl_clequ1re = 0;
-    params_r_.mdl_clequ3re = 0;
 
-    params_r_.mdl_cgtil = 0;
     params_r_.mdl_cwtil = 0;
-    params_r_.mdl_chgtil = 0;
     params_r_.mdl_chwtil = 0;
     params_r_.mdl_chbtil = 0;
     params_r_.mdl_chwbtil = 0;
-    params_r_.mdl_cewim = 0;
-    params_r_.mdl_cebim = 0;
-    params_r_.mdl_cugim = 0;
-    params_r_.mdl_cuwim = 0;
-    params_r_.mdl_cubim = 0;
-    params_r_.mdl_cdgim = 0;
-    params_r_.mdl_cdwim = 0;
-    params_r_.mdl_cdbim = 0;
-    params_r_.mdl_chudim = 0;
-    params_r_.mdl_cehim = 0;
-    params_r_.mdl_cuhim = 0;
-    params_r_.mdl_cdhim = 0;
-    params_r_.mdl_cledqim = 0;
-    params_r_.mdl_cquqd1im = 0;
-    params_r_.mdl_cquqd8im = 0;
-    params_r_.mdl_cquqd11im = 0;
-    params_r_.mdl_cquqd81im = 0;
-    params_r_.mdl_clequ1im = 0;
-    params_r_.mdl_clequ3im = 0;
+
+    // params_r_.mdl_cehre = 0;
+    // params_r_.mdl_cuhre = 0;
+    // params_r_.mdl_cdhre = 0;
+    // params_r_.mdl_cewre = 0;
+    // params_r_.mdl_cebre = 0;
+    // params_r_.mdl_cugre = 0;
+    // params_r_.mdl_cuwre = 0;
+    // params_r_.mdl_cubre = 0;
+    // params_r_.mdl_cdgre = 0;
+    // params_r_.mdl_cdwre = 0;
+    // params_r_.mdl_cdbre = 0;
+    // params_r_.mdl_chl1 = 0;
+    // params_r_.mdl_chl3 = 0;
+    // params_r_.mdl_che = 0;
+    // params_r_.mdl_chq1 = 0;
+    // params_r_.mdl_chq3 = 0;
+    // params_r_.mdl_chu = 0;
+    // params_r_.mdl_chd = 0;
+    // params_r_.mdl_chudre = 0;
+    // params_r_.mdl_cll = 0;
+    // params_r_.mdl_cll1 = 0;
+    // params_r_.mdl_cqq1 = 0;
+    // params_r_.mdl_cqq11 = 0;
+    // params_r_.mdl_cqq3 = 0;
+    // params_r_.mdl_cqq31 = 0;
+    // params_r_.mdl_clq1 = 0;
+    // params_r_.mdl_clq3 = 0;
+    // params_r_.mdl_cee = 0;
+    // params_r_.mdl_cuu = 0;
+    // params_r_.mdl_cuu1 = 0;
+    // params_r_.mdl_cdd = 0;
+    // params_r_.mdl_cdd1 = 0;
+    // params_r_.mdl_ceu = 0;
+    // params_r_.mdl_ced = 0;
+    // params_r_.mdl_cud1 = 0;
+    // params_r_.mdl_cud8 = 0;
+    // params_r_.mdl_cle = 0;
+    // params_r_.mdl_clu = 0;
+    // params_r_.mdl_cld = 0;
+    // params_r_.mdl_cqe = 0;
+    // params_r_.mdl_cqu1 = 0;
+    // params_r_.mdl_cqu8 = 0;
+    // params_r_.mdl_cqd1 = 0;
+    // params_r_.mdl_cqd8 = 0;
+    // params_r_.mdl_cledqre = 0;
+    // params_r_.mdl_cquqd1re = 0;
+    // params_r_.mdl_cquqd11re = 0;
+    // params_r_.mdl_cquqd8re = 0;
+    // params_r_.mdl_cquqd81re = 0;
+    // params_r_.mdl_clequ1re = 0;
+    // params_r_.mdl_clequ3re = 0;
+
+    // params_r_.mdl_cgtil = 0;
+    // params_r_.mdl_chgtil = 0;
+    // params_r_.mdl_cewim = 0;
+    // params_r_.mdl_cebim = 0;
+    // params_r_.mdl_cugim = 0;
+    // params_r_.mdl_cuwim = 0;
+    // params_r_.mdl_cubim = 0;
+    // params_r_.mdl_cdgim = 0;
+    // params_r_.mdl_cdwim = 0;
+    // params_r_.mdl_cdbim = 0;
+    // params_r_.mdl_chudim = 0;
+    // params_r_.mdl_cehim = 0;
+    // params_r_.mdl_cuhim = 0;
+    // params_r_.mdl_cdhim = 0;
+    // params_r_.mdl_cledqim = 0;
+    // params_r_.mdl_cquqd1im = 0;
+    // params_r_.mdl_cquqd8im = 0;
+    // params_r_.mdl_cquqd11im = 0;
+    // params_r_.mdl_cquqd81im = 0;
+    // params_r_.mdl_clequ1im = 0;
+    // params_r_.mdl_clequ3im = 0;
 }
 
 void madMela::initialize_madMELA(){
 
-    params_r_.mdl_ckmlambda = 2.265000e-01;
-    params_r_.mdl_ckma = 7.900000e-01;
-    params_r_.mdl_ckmrho = 1.410000e-01;
-    params_r_.mdl_ckmeta = 0;
+    // params_r_.mdl_lamws = 2.253000e-01;
+    // params_r_.mdl_aws = 8.080000e-01;
+    // params_r_.mdl_rhows = 1.320000e-01;
+    // params_r_.mdl_etaws = 3.410000e-01;
 
     params_r_.mdl_lambdasmeft = 1.000000e+03;
-    params_r_.mdl_linearpropcorrections = 0;
+    // params_r_.mdl_linearpropcorrections = 0;
 
     //Trying to set all the masses the same as the rest of MELA!
-    mad_masses_.mdl_md =  TUtil::GetMass(1); //4.670000e-03;
-    mad_masses_.mdl_mu =  TUtil::GetMass(2); //2.160000e-03;
-    mad_masses_.mdl_ms =  TUtil::GetMass(3); //9.300000e-02;
-    mad_masses_.mdl_mc =  TUtil::GetMass(4); //1.270000e+00;
-    mad_masses_.mdl_mb =  TUtil::GetMass(5); //4.180000e+00;
+    // mad_masses_.mdl_md =  TUtil::GetMass(1); //4.670000e-03;
+    // mad_masses_.mdl_mu =  TUtil::GetMass(2); //2.160000e-03;
+    // mad_masses_.mdl_ms =  TUtil::GetMass(3); //9.300000e-02;
+    // mad_masses_.mdl_mc =  TUtil::GetMass(4); //1.270000e+00;
+    // mad_masses_.mdl_mb =  TUtil::GetMass(5); //4.180000e+00;
     mad_masses_.mdl_mt =  TUtil::GetMass(6); //1.727600e+02;
 
-    mad_masses_.mdl_me =  TUtil::GetMass(11);  //5.110000e-04;
-    mad_masses_.mdl_mmu = TUtil::GetMass(13);  //1.056600e-01;
-    mad_masses_.mdl_mta = TUtil::GetMass(15);  //1.777000e+00;
+    // mad_masses_.mdl_me =  TUtil::GetMass(11);  //5.110000e-04;
+    // mad_masses_.mdl_mmu = TUtil::GetMass(13);  //1.056600e-01;
+    // mad_masses_.mdl_mta = TUtil::GetMass(15);  //1.777000e+00;
 
     mad_masses_.mdl_mz =  TUtil::GetMass(23);  //9.118760e+01;
     mad_masses_.mdl_mw =  TUtil::GetMass(24);  //7.983133e+01;
@@ -367,16 +370,16 @@ void madMela::initialize_madMELA(){
     widths_.mdl_ww = TUtil::GetDecayWidth(24);
     widths_.mdl_wh = TUtil::GetDecayWidth(25);
 
-    params_r_.mdl_ymdo = TUtil::GetMass(1);
-    params_r_.mdl_ymup = TUtil::GetMass(2);
-    params_r_.mdl_yms =  TUtil::GetMass(3);
-    params_r_.mdl_ymc =  TUtil::GetMass(4);
-    params_r_.mdl_ymb =  TUtil::GetMass(5);
-    params_r_.mdl_ymt =  TUtil::GetMass(6);
-    
-    params_r_.mdl_yme =   TUtil::GetMass(11);
-    params_r_.mdl_ymm =   TUtil::GetMass(13);
-    params_r_.mdl_ymtau = TUtil::GetMass(15);
+    // params_r_.mdl_ymdo = TUtil::GetMass(1);
+    // params_r_.mdl_ymup = TUtil::GetMass(2);
+    // params_r_.mdl_yms =  TUtil::GetMass(3);
+    // params_r_.mdl_ymc =  TUtil::GetMass(4);
+    // params_r_.mdl_ymb =  TUtil::GetMass(5);
+    // params_r_.mdl_ymt =  TUtil::GetMass(6);
+
+    // params_r_.mdl_yme =   TUtil::GetMass(11);
+    // params_r_.mdl_ymm =   TUtil::GetMass(13);
+    // params_r_.mdl_ymtau = TUtil::GetMass(15);
 
     params_r_.mdl_aew = 7.815553e-03;
     params_r_.mdl_gf = 1.166379e-05;
@@ -384,31 +387,59 @@ void madMela::initialize_madMELA(){
 
     setDefaultMadgraphValues();
 
-    updateMap = new std::map<std::pair<TVar::Process, TVar::Production>, MG_process_double>;
+    // MG_process_double ggFSIG = {
+    //     ggFSIG_smatrixhel_,
+    //     ggFSIG_update_all_coup_,
+    // };
+    // // (*updateMap)[std::make_pair(TVar::HSMHiggs, TVar::ZZGG)] = ggFSIG;
+    // // (*nProcMap)[std::make_pair(TVar::HSMHiggs, TVar::ZZGG)] = std::make_pair(6, 3);
 
-    MG_process_double ggFSIG = {
-        ggFSIG_smatrixhel_,
-        ggFSIG_update_all_coup_,
-    };
-    (*updateMap)[std::make_pair(TVar::HSMHiggs, TVar::ZZGG)] = ggFSIG;
+    // MG_process_double qq4lSIG = {
+    //     qq4lSIG_smatrixhel_,
+    //     qq4lSIG_update_all_coup_,
+    // };
+    // // (*updateMap)[std::make_pair(TVar::HSMHiggs, TVar::ZZQQB)] = qq4lSIG;
+    // // (*nProcMap)[std::make_pair(TVar::HSMHiggs, TVar::ZZQQB)] = std::make_pair(6, 12);
 
-    MG_process_double qq4lSIG = {
-        qq4lSIG_smatrixhel_,
-        qq4lSIG_update_all_coup_,
-    };
-    (*updateMap)[std::make_pair(TVar::HSMHiggs, TVar::ZZQQB)] = qq4lSIG;
+    // MG_process_double qq4lBKG = {
+    //     qq4lBKG_smatrixhel_,
+    //     qq4lBKG_update_all_coup_,
+    // };
+    // // (*updateMap)[std::make_pair(TVar::bkgZZ, TVar::ZZQQB)] = qq4lBKG;
+    // // (*nProcMap)[std::make_pair(TVar::bkgZZ, TVar::ZZQQB)] = std::make_pair(6, 12);
 
-    MG_process_double qq4lBKG = {
-        qq4lBKG_smatrixhel_,
-        qq4lBKG_update_all_coup_,
+    // MG_process_double qq4lBSI = {
+    //     qq4lBSI_smatrixhel_,
+    //     qq4lBSI_update_all_coup_,
+    // };
+    // (*updateMap)[std::make_pair(TVar::bkgZZ_SMHiggs, TVar::ZZQQB)] = qq4lBSI;
+    // (*nProcMap)[std::make_pair(TVar::bkgZZ_SMHiggs, TVar::ZZQQB)] = std::make_pair(6, 12);
+    MG_process_double vbsSIG = {
+        VBSSIG_smatrixhel_,
+        VBSSIG_update_all_coup_,
     };
-    (*updateMap)[std::make_pair(TVar::bkgZZ, TVar::ZZQQB)] = qq4lBKG;
+    // (*updateMap)[std::make_pair(TVar::HSMHiggs, TVar::JJEW)] = vbsSIG;
+    // (*nProcMap)[std::make_pair(TVar::HSMHiggs, TVar::JJEW)] = std::make_pair(8, 360);
 
-    MG_process_double qq4lBSI = {
-        qq4lBSI_smatrixhel_,
-        qq4lBSI_update_all_coup_,
+    MG_process_double vbsBKG = {
+        VBSBKG_smatrixhel_,
+        VBSBKG_update_all_coup_
     };
-    (*updateMap)[std::make_pair(TVar::bkgZZ_SMHiggs, TVar::ZZQQB)] = qq4lBSI;
+
+    MG_process_double vbsBSI = {
+        VBSBSI_smatrixhel_,
+        VBSBSI_update_all_coup_
+    };
+
+    updateMap = new std::map<std::pair<TVar::Process, TVar::Production>, MG_process_double> {
+        // {std::make_pair(TVar::HSMHiggs, TVar::ZZGG), ggFSIG},
+        // {std::make_pair(TVar::HSMHiggs, TVar::ZZQQB), qq4lSIG},
+        // {std::make_pair(TVar::bkgZZ, TVar::ZZQQB), qq4lBKG},
+        // {std::make_pair(TVar::bkgZZ_SMHiggs, TVar::ZZQQB), qq4lBSI},
+        {std::make_pair(TVar::HSMHiggs, TVar::JJEW), vbsSIG},
+        {std::make_pair(TVar::bkgZZ, TVar::JJEW), vbsBKG},
+        {std::make_pair(TVar::bkgZZ_SMHiggs, TVar::JJEW), vbsBSI}
+    };
 }
 
 void madMela::update_all_coup(const TVar::Process& process, const TVar::Production& production){
@@ -438,4 +469,60 @@ void madMela::smatrixhel(
     }
     auto computeFunc = (*updateMap)[std::make_pair(process, production)].first;
     computeFunc(pdgs, procid, npdg, p, alphas, scale2, nhel, ans);
+}
+
+std::vector<std::vector<int>> madMela::get_pdg_order(
+    const TVar::Process& process, const TVar::Production& production
+    ){
+    int rows;
+    int columns;
+
+    std::vector<std::vector<int>> pdg_vector;
+
+
+    // if(production == TVar::ZZGG){
+    //     rows = 6;
+    //     columns = 3;
+    //     int pdg[6][3];
+    //     int allproc[3];
+    //     ggFSIG_get_pdg_order_(pdg, allproc);
+    //     for(int i = 0; i < rows; i++){
+    //         std::vector<int> row;
+    //         for(int j = 0; j < columns; j++){
+    //             row.push_back(pdg[i][j]);
+    //         }
+    //         pdg_vector.push_back(row);
+    //     }
+
+    // } else if(production == TVar::ZZQQB){
+    //     rows = 6;
+    //     columns = 30;
+    //     int pdg[6][30];
+    //     int allproc[30];
+    //     qq4lSIG_get_pdg_order_(pdg, allproc);
+
+    //     for(int i = 0; i < rows; i++){
+    //         std::vector<int> row;
+    //         for(int j = 0; j < columns; j++){
+    //             row.push_back(pdg[i][j]);
+    //         }
+    //         pdg_vector.push_back(row);
+    //     }
+    // } else 
+    if(production == TVar::JJEW){
+        rows = 8;
+        columns = 261;
+        int pdg[8][261];
+        int allproc[261];
+        VBSBSI_get_pdg_order_(pdg, allproc);
+
+        for(int i = 0; i < rows; i++){
+            std::vector<int> row;
+            for(int j = 0; j < columns; j++){
+                row.push_back(pdg[i][j]);
+            }
+            pdg_vector.push_back(row);
+        }
+    }
+    return pdg_vector;
 }

@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <complex>
+#include <optional>
 // MelaIO class
 #include "MelaIO.h"
 // Couplings classes
@@ -208,13 +209,14 @@ namespace TUtil{
   void GetMassWidth(int ipart, double& m, double& ga);
   void GetMassWidth(const MELAParticle* part, double& m, double& ga);
   void SetCKMElements(double* invckm_ud, double* invckm_us, double* invckm_cd, double* invckm_cs, double* invckm_ts, double* invckm_tb, double* invckm_ub=0, double* invckm_cb=0, double* invckm_td=0);
-  void SetMadgraphCKMElements(double ckmlambda=0.2265, double ckma=0.79, double ckmrho=0.141, double ckmeta=0);
+  // void SetMadgraphCKMElements(double ckmlambda=0.2265, double ckma=0.79, double ckmrho=0.141, double ckmeta=0);
   double GetCKMElement(int iquark, int jquark);
-  std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
+  // std::complex<double> GetMadgraphCKMElement(int iquark, int jquark);
   double InterpretScaleScheme(const TVar::Production& production, const TVar::MatrixElement& matrixElement, const TVar::EventScaleScheme& scheme, TLorentzVector p[mxpart]);
   void SetAlphaS(double& Q_ren, double& Q_fac, double multiplier_ren, double multiplier_fac, int mynloop, int mynflav, std::string mypartons); // Q_ren/fac -> Q_ren/fac * multiplier_ren/fac
   void GetAlphaS(double* alphas_, double* alphasmz_); // Get last alpha_s value set
  
+  std::optional<TVar::simple_event_record> Madgraph_chooser(const TVar::Process& process, const TVar::Production& production, const TVar::VerbosityLevel& verbosity, const TVar::simple_event_record& mela_event, const int& nPDG);
   // chooser.f split into 3 different functions
   bool MCFM_chooser(
     const TVar::Process& process, const TVar::Production& production, const TVar::LeptonInterference& leptonInterf,

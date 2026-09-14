@@ -739,8 +739,9 @@ double TEvtProb::XsecCalc_XVV(){
   } // end of JHUGen matrix element calculations
   else if (matrixElement == TVar::MADGRAPH){
     calculateME = (
-      production == TVar::ZZGG ||
-      production == TVar::ZZQQB
+      production == TVar::ZZGG  ||
+      production == TVar::ZZQQB ||
+      production == TVar::JJEW
     );
     if (calculateME){
       SetMadgraphSpinZeroCouplings(&selfDSpinZeroCoupl);
@@ -1217,12 +1218,18 @@ bool TEvtProb::CheckSelfDCouplings_HHH(){
 }
 bool TEvtProb::CheckSelfDCouplings_aTQGC(){
   for (int vv = 0; vv < SIZE_ATQGC; vv++){
-    if (
+    if (vv == gAlpha_SMEW){
+      if ((selfDaTQGCCoupl.aTQGCcoupl)[vv][1] != 0 || (selfDaTQGCCoupl.aTQGCcoupl)[vv][0] != 1){
+        return true;
+      }
+    }
+    else if (
       (selfDaTQGCCoupl.aTQGCcoupl)[vv][1] != 0 || (selfDaTQGCCoupl.aTQGCcoupl)[vv][0] != 0
       ){
       return true;
     }
   }
+
   return false;
 }
 bool TEvtProb::CheckSelfDCouplings_AZff(){

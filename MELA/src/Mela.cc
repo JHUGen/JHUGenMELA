@@ -320,8 +320,9 @@ void Mela::setProcess(TVar::Process myModel, TVar::MatrixElement myME, TVar::Pro
   }
   myModel_ = myModel;
   if (myME_==TVar::MADGRAPH && 
-    myProduction_ != TVar::ZZGG && 
-    myProduction_ != TVar::ZZQQB
+    // myProduction_ != TVar::ZZGG && 
+    // myProduction_ != TVar::ZZQQB &&
+    myProduction_ != TVar::JJEW
   ){
     MELAout << "Production mode " << myProduction_ << " is not currently supported by MADMELA!" << endl;
   }
@@ -537,6 +538,7 @@ void Mela::reset_SelfDCouplings(){
   for (int im=0; im<2; im++){
     for (int ic=0; ic<SIZE_ATQGC; ic++) selfDaTQGCcoupl[ic][im] = 0;
   }
+  selfDaTQGCcoupl[gAlpha_SMEW][0] = 1; //set alpha_SMEW to be 1!
 
   // AZff couplings
   for (int im=0; im<2; im++){
@@ -547,21 +549,21 @@ void Mela::reset_SelfDCouplings(){
 }
 void Mela::resetMass(double inmass, int ipart){ ZZME->reset_Mass(inmass, ipart); }
 void Mela::resetWidth(double inwidth, int ipart){ ZZME->reset_Width(inwidth, ipart); }
-void Mela::resetYukawaMass(double inmass, int ipart){
-  const int ipartabs = abs(ipart);
-  if (ipartabs==6){ madMela::params_r_.mdl_ymt=inmass; }
-  else if (ipartabs==5){ madMela::params_r_.mdl_ymb=inmass; }
-  else if (ipartabs==4){ madMela::params_r_.mdl_ymc=inmass; }
-  else if (ipartabs==3){ madMela::params_r_.mdl_yms=inmass; }
-  else if (ipartabs==2){ madMela::params_r_.mdl_ymup=inmass; }
-  else if (ipartabs==1){ madMela::params_r_.mdl_ymdo=inmass; }
-  else if (ipartabs==11){ madMela::params_r_.mdl_yme=inmass; }
-  else if (ipartabs==13){ madMela::params_r_.mdl_ymm=inmass; }
-  else if (ipartabs==15){ madMela::params_r_.mdl_ymtau=inmass; }
-  else{
-    MELAerr << "Particle with id " << ipart << " does not have supported Yukawa Couplings!" << endl;
-  }
-}
+// void Mela::resetYukawaMass(double inmass, int ipart){
+//   const int ipartabs = abs(ipart);
+//   if (ipartabs==6){ madMela::params_r_.mdl_yt=inmass; }
+//   else if (ipartabs==5){ madMela::params_r_.mdl_yb=inmass; }
+//   // else if (ipartabs==4){ madMela::params_r_.mdl_ymc=inmass; }
+//   // else if (ipartabs==3){ madMela::params_r_.mdl_yms=inmass; }
+//   // else if (ipartabs==2){ madMela::params_r_.mdl_ymup=inmass; }
+//   // else if (ipartabs==1){ madMela::params_r_.mdl_ymdo=inmass; }
+//   // else if (ipartabs==11){ madMela::params_r_.mdl_yme=inmass; }
+//   // else if (ipartabs==13){ madMela::params_r_.mdl_ymm=inmass; }
+//   // else if (ipartabs==15){ madMela::params_r_.mdl_ymtau=inmass; }
+//   // else{
+//   //   MELAerr << "Particle with id " << ipart << " does not have supported Yukawa Couplings!" << endl;
+//   // }
+// }
 void Mela::resetQuarkMasses(){ ZZME->reset_QuarkMasses(); }
 void Mela::resetMCFM_EWKParameters(double ext_Gf, double ext_aemmz, double ext_mW, double ext_mZ, double ext_xW, int ext_ewscheme){
   ZZME->reset_MCFM_EWKParameters(ext_Gf, ext_aemmz, ext_mW, ext_mZ, ext_xW, ext_ewscheme);
@@ -571,13 +573,13 @@ double Mela::getPrimaryMass(int ipart){ return ZZME->get_PrimaryMass(ipart); }
 double Mela::getPrimaryWidth(int ipart){ return ZZME->get_PrimaryWidth(ipart); }
 double Mela::getHiggsWidthAtPoleMass(double mass){ return ZZME->get_HiggsWidthAtPoleMass(mass); }
 
-void Mela::SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta, bool force_refresh){
-  TUtil::SetMadgraphCKMElements(ckmlambda, ckma, ckmrho, ckmeta);
+// void Mela::SetMadgraphCKMElements(double ckmlambda, double ckma, double ckmrho, double ckmeta, bool force_refresh){
+  // TUtil::SetMadgraphCKMElements(ckmlambda, ckma, ckmrho, ckmeta);
   // if(force_refresh){ madMela::ggFSIG_update_all_coup_(); }
-}
-std::complex<double> Mela::GetMadgraphCKMElement(int iquark, int jquark){
-  return TUtil::GetMadgraphCKMElement(iquark, jquark);
-}
+// }
+// std::complex<double> Mela::GetMadgraphCKMElement(int iquark, int jquark){
+  // return TUtil::GetMadgraphCKMElement(iquark, jquark);
+// }
 
 void Mela::setRemoveLeptonMasses(bool MasslessLeptonSwitch){ TUtil::applyLeptonMassCorrection(MasslessLeptonSwitch); }
 void Mela::setRemoveJetMasses(bool MasslessLeptonSwitch){ TUtil::applyJetMassCorrection(MasslessLeptonSwitch); }

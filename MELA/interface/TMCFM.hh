@@ -251,6 +251,7 @@ extern "C" {
     double dV_A[2]; double dP_A[2]; double dM_A[2]; double dFour_A[2];
     double dV_Z[2]; double dP_Z[2]; double dM_Z[2]; double dFour_Z[2];
     double dZZWpWm[2]; double dZAWpWm[2]; double dAAWpWm[2];
+    double alpha_SMEW[2]; double cW[2];
 
   } spinzerohiggs_anomcoupl_;
 
