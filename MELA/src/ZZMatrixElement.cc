@@ -197,10 +197,13 @@ void ZZMatrixElement::set_mHiggs_wHiggs(double mh_, double gah_, int index){
   else MELAerr << "ZZMatrixElement::set_mHiggs_wHiggs: Only resonances 0 (regular) and 1 (additional, possibly high-mass) are supported" << endl;
 }
 
-// reset_MCFM_EWKParameters resets the MCFM EW parameters to those specified. This function is a wrapper around the TEvtProb version.
+void ZZMatrixElement::set_MCFMProdDec(int prod, int dec) { 
+  Xcal2.SetMCFMProdDec(prod, dec);
+};
 void ZZMatrixElement::reset_Mass(double inmass, int ipart){ Xcal2.ResetMass(inmass, ipart); }
 void ZZMatrixElement::reset_Width(double inwidth, int ipart){ Xcal2.ResetWidth(inwidth, ipart); }
 void ZZMatrixElement::reset_QuarkMasses(){ Xcal2.ResetQuarkMasses(); }
+// reset_MCFM_EWKParameters resets the MCFM EW parameters to those specified. This function is a wrapper around the TEvtProb version.
 void ZZMatrixElement::reset_MCFM_EWKParameters(double ext_Gf, double ext_aemmz, double ext_mW, double ext_mZ, double ext_xW, int ext_ewscheme){
   Xcal2.ResetMCFM_EWKParameters(ext_Gf, ext_aemmz, ext_mW, ext_mZ, ext_xW, ext_ewscheme);
 }
@@ -270,11 +273,13 @@ void ZZMatrixElement::set_SpinZeroCouplings(
   double selfHvvPLcoupl,
   double selfHvvfPerpcoupl,
   bool diffHWW,
+  bool ZZH_prod_MCFM,
   int calc_fL,
   bool sethMassWidth
   ){
   setHMassWidth = sethMassWidth;
   Xcal2.AllowSeparateWWCouplings(diffHWW);
+  Xcal2.SetZzhProductionFlag(ZZH_prod_MCFM);
   /*polarization study*/
     for (int ic=0; ic<SIZE_as_HVV; ic++){
     selfD_SpinZeroCouplings->SetHVV_Polarization_Couplings(ic, selfDHvv_as_coupl[ic][0], selfDHvv_as_coupl[ic][1], selfHvvPLcoupl, selfHvvfPerpcoupl, calc_fL);}

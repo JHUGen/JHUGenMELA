@@ -68,6 +68,8 @@ public:
   void SetCurrentCandidate(MELACandidate* cand);
 
   void AllowSeparateWWCouplings(bool doAllow=false);
+  void SetZzhProductionFlag(bool flag=true);
+  void SetMCFMProdDec(int prod, int dec);
   void ResetMass(double inmass, int ipart);
   void ResetWidth(double inwidth, int ipart);
   void SetZprimeMassWidth(double inmass, double inwidth);

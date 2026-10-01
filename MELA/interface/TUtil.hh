@@ -200,6 +200,7 @@ namespace TUtil{
 
   // Parameter settings
   void SetEwkCouplingParameters(double ext_Gf, double ext_aemmz, double ext_mW, double ext_mZ, double ext_xW, int ext_ewscheme);
+  // void setWWHProdFlag(bool flag);
   void SetMass(double inmass, int ipart);
   void SetDecayWidth(double inwidth, int ipart);
   double GetMass(int ipart);

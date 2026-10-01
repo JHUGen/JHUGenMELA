@@ -76,6 +76,7 @@ public:
   //
 
   // Reset-functions
+  void set_MCFMProdDec(int prod, int dec);
   void reset_Mass(double inmass, int ipart);
   void reset_Width(double inmass, int ipart);
   void reset_QuarkMasses();
@@ -105,6 +106,7 @@ public:
     double selfHvvPLcoupl,
     double selfHvvfPerpcoupl,
     bool diffHWW = false,
+    bool ZZH_prod_MCFM=true,
     int calc_fL = 0,
     bool sethMassWidth = false
     );

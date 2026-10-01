@@ -140,6 +140,12 @@ void TEvtProb::InitializeMCFM(){
 
   if (verbosity>=TVar::DEBUG) MELAout << "End TEvtProb::InitializeMCFM" << endl;
 }
+
+void TEvtProb::SetMCFMProdDec(int prod, int dec){
+  spinzerohiggs_anomcoupl_.AnomalCouplPR=prod;
+  spinzerohiggs_anomcoupl_.AnomalCouplDK=dec;
+}
+
 void TEvtProb::InitializeJHUGen(const char* pathtoPDFSet, int PDFMember){
   if (verbosity>=TVar::DEBUG) MELAout << "Begin TEvtProb::InitializeJHUGen" << endl;
 
@@ -217,6 +223,7 @@ const TVar::event_scales_type& TEvtProb::GetRenFacScaleMode() const{
   return this->event_scales;
 }
 void TEvtProb::AllowSeparateWWCouplings(bool doAllow){ SetJHUGenDistinguishWWCouplings(doAllow); selfDSpinZeroCoupl.allow_WWZZSeparation(doAllow); }
+void TEvtProb::SetZzhProductionFlag(bool flag){ spinzerohiggs_anomcoupl_.EW_ZZH_prod_flag = flag; }
 void TEvtProb::SetPrimaryHiggsMass(double mass){ PrimaryHMass=mass; SetHiggsMass(PrimaryHMass, -1., -1); }
 void TEvtProb::SetHiggsMass(double mass, double wHiggs, int whichResonance){
   // Regular, first resonance
@@ -340,6 +347,7 @@ void TEvtProb::ResetCouplings(){
   selfDaTQGCCoupl.reset();
   selfDAZffCoupl.reset();
   AllowSeparateWWCouplings(false);
+  SetZzhProductionFlag(true);
   ResetAmplitudeIncludes();
 }
 void TEvtProb::ResetInputEvent(){

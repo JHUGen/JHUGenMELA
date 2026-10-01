@@ -1049,7 +1049,6 @@ PYBIND11_MODULE(Mela, m) {
 
         .def("resetInputEvent", &Mela::resetInputEvent)
         .def("resetMass", &Mela::resetMass)
-        // .def("resetYukawaMass", &Mela::resetYukawaMass)
         .def("resetWidth", &Mela::resetWidth)
         .def("resetQuarkMasses", &Mela::resetQuarkMasses)
         .def("resetMCFM_EWKParameters", &Mela::resetMCFM_EWKParameters)
@@ -1098,6 +1097,7 @@ PYBIND11_MODULE(Mela, m) {
         .def_readwrite("calc_fAmp", &Mela::calc_fAmp)
         .def_readwrite("setHMassWidth", &Mela::sethMassWidth)
         .def_readwrite("differentiate_HWW_HZZ", &Mela::differentiate_HWW_HZZ)
+        .def_readwrite("ZZH_prod_MCFM", &Mela::ZZH_prod_MCFM)
 
         //Raw coupling arrays
         MAKE_COUPLING_ARR_SPIN_ZERO(selfDHggcoupl,SIZE_HGG,double)

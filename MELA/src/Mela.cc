@@ -396,6 +396,7 @@ void Mela::setSpinZeroCouplings(){
     selfHvvPLcoupl,
     selfHvvfPerpcoupl,
     differentiate_HWW_HZZ,
+    ZZH_prod_MCFM,
     calc_fL,
     sethMassWidth
   );
@@ -448,6 +449,7 @@ void Mela::reset_SelfDCouplings(){
 
   //****Spin-0****//
   differentiate_HWW_HZZ=false;
+  ZZH_prod_MCFM=true;
   // Loop over the number of supported resonances
   for (int jh=0; jh<(int)nSupportedHiggses; jh++){
     for (int im=0; im<2; im++){
@@ -1289,6 +1291,27 @@ void Mela::computeP(
 
       Y_rrv->setConstant(false);
     }
+    else if (
+      (myME_ == TVar::MCFM) 
+      && 
+      (
+        myProduction_==TVar::Had_WH || myProduction_==TVar::Had_ZH
+        || myProduction_==TVar::Had_WH_S || myProduction_==TVar::Had_ZH_S
+        || myProduction_==TVar::Had_WH_TU || myProduction_==TVar::Had_ZH_TU
+        || myProduction_==TVar::Lep_ZH || myProduction_==TVar::Lep_WH
+        || myProduction_==TVar::Lep_ZH_S || myProduction_==TVar::Lep_WH_S
+        || myProduction_==TVar::Lep_ZH_TU || myProduction_==TVar::Lep_WH_TU
+        || myProduction_==TVar::JJVBF || myProduction_==TVar::JJEW || myProduction_==TVar::JJEWQCD || myProduction_==TVar::JJQCD
+        || myProduction_==TVar::JJVBF_S || myProduction_==TVar::JJEW_S || myProduction_==TVar::JJEWQCD_S || myProduction_==TVar::JJQCD_S
+        || myProduction_==TVar::JJVBF_TU || myProduction_==TVar::JJEW_TU || myProduction_==TVar::JJEWQCD_TU || myProduction_==TVar::JJQCD_TU
+      )
+    ){
+      ZZME->set_MCFMProdDec(-1,1);
+      setSpinZeroCouplings();
+      setATQGCCouplings();
+      ZZME->computeProdXS_VVHVV(prob);
+      if (useConstant) computeConstant(prob);
+    }
     else if (myME_ == TVar::JHUGen || myME_ == TVar::MCFM || myME_ == TVar::MADGRAPH){
       setAZffCouplings();
       if (!(myME_ == TVar::MCFM  && myProduction_ == TVar::ZZINDEPENDENT &&  (myModel_ == TVar::bkgZZ || myModel_ == TVar::bkgWW || myModel_ == TVar::bkgZGamma || myModel_ == TVar::bkgGammaGamma))){
@@ -1553,6 +1576,7 @@ void Mela::computeProdDecP(
   if (!melaCand) hasFailed=true;
   if (hasFailed) prob=0;
   else{
+    ZZME->set_MCFMProdDec(1,1);
     setSpinZeroCouplings();
     setATQGCCouplings();
     ZZME->computeProdXS_VVHVV(prob);
@@ -1593,6 +1617,36 @@ void Mela::computeProdP(
   if (myVerbosity_>=TVar::DEBUG) MELAout << "Mela: Begin computeProdP" << endl;
   if (myProduction_ == TVar::ttH || myProduction_ == TVar::bbH) computeProdP_ttH(prob, 2, 0, useConstant);
   else if (myProduction_ == TVar::Lep_ZH || myProduction_ == TVar::Lep_WH || myProduction_ == TVar::Had_ZH || myProduction_ == TVar::Had_WH || myProduction_ == TVar::GammaH) computeProdP_VH(prob, false, useConstant);
+  else if (myME_ == TVar::MCFM){
+    bool hasFailed = false;
+    if (
+      !(
+      myProduction_==TVar::Had_WH || myProduction_==TVar::Had_ZH
+      || myProduction_==TVar::Had_WH_S || myProduction_==TVar::Had_ZH_S
+      || myProduction_==TVar::Had_WH_TU || myProduction_==TVar::Had_ZH_TU
+      || myProduction_==TVar::Lep_ZH || myProduction_==TVar::Lep_WH
+      || myProduction_==TVar::Lep_ZH_S || myProduction_==TVar::Lep_WH_S
+      || myProduction_==TVar::Lep_ZH_TU || myProduction_==TVar::Lep_WH_TU
+      || myProduction_==TVar::JJVBF || myProduction_==TVar::JJEW || myProduction_==TVar::JJEWQCD || myProduction_==TVar::JJQCD
+      || myProduction_==TVar::JJVBF_S || myProduction_==TVar::JJEW_S || myProduction_==TVar::JJEWQCD_S || myProduction_==TVar::JJQCD_S
+      || myProduction_==TVar::JJVBF_TU || myProduction_==TVar::JJEW_TU || myProduction_==TVar::JJEWQCD_TU || myProduction_==TVar::JJQCD_TU
+      )
+      ){
+      MELAout << "Mela::computeProdDecP production mode is not supported for production " << myProduction_ << endl;
+      hasFailed = true;
+    }
+    reset_PAux();
+    melaCand = getCurrentCandidate();
+    if (!melaCand) hasFailed=true;
+    if (hasFailed) prob=0;
+    else{
+      ZZME->set_MCFMProdDec(1,-1);
+      setSpinZeroCouplings();
+      setATQGCCouplings();
+      ZZME->computeProdXS_VVHVV(prob);
+      if (useConstant) computeConstant(prob);
+    }
+  }
   else{
     reset_PAux();
 

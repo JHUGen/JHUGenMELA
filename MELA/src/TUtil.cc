@@ -1446,6 +1446,9 @@ void TUtil::SetEwkCouplingParameters(double ext_Gf, double ext_aemmz, double ext
   ewinput_.xw_inp=0.22264585341299625;
   */
 }
+// void TUtil::setWWHProdFlag(bool flag){
+//   spinzerohiggs_anomcoupl_.wwHProdOnly = flag;
+// }
 void TUtil::SetMass(double inmass, int ipart){
   const int ipartabs = abs(ipart);
   bool runcoupling_mcfm=false;

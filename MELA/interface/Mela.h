@@ -1077,6 +1077,7 @@ public:
   int selfDHzzCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ];
   int selfDHwwCLambda_qsq[nSupportedHiggses][SIZE_HVV_CQSQ];
   bool differentiate_HWW_HZZ;
+  bool ZZH_prod_MCFM;
   /** Couplings between the Higgs and the Z/Z-Prime Boson */
   double selfDHzzpcoupl[SIZE_HVV][2];
   /** Couplings between the Higgs and the Z-Prime Boson */
@@ -1211,7 +1212,6 @@ protected:
   void setSpinTwoCouplings();
   void setATQGCCouplings();
   void setAZffCouplings();
-  void setSpinZeroSelfCouplings();
 
   bool configureAnalyticalPDFs();
   void reset_SelfDCouplings();
